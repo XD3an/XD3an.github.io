@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="XD3an" content="All-In-One" />
+        <meta name="description" content="" />
+        <meta name="author" content="XD3an" />
+        <meta name="keywords" content="XD3an, github.io, All-In-One">
+        <title> All-In-One </title>
+        <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('../assets/img/post5/post5-background.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>不會吧！又來？反分析到底在反甚麼？</h1>
+                            <h2 class="subheading">APT Research：Anti Analysis Techniques</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">XD3an</a>
+                                on December 4, 2023
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h2 class="section-heading">Anti-Debugging</h2>
+                        <hr>
+                        <p>防止或困難化軟體被調試（debug）和逆向工程。</p>
+                        <h3>Debug Flag</h3>
+                        <p>
+                            利用現有機制對相關特徵進行檢查。<br><br>
+                            Windows 下可以使用相關的 API 檢查，或是手動利用 Process 當中存有的相關資料結構，例如 PEB，透過檢查其與 Debugging 相關的特徵，進而獲得其狀態，從而做到相對應反分析措施，大幅增加分析時所需的成本。
+                        </p>
+                        <ul>
+                            <li>
+                                Win32 API
+                                <ul>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/IsDebuggerPresent-cdb87743d0cc4ae78f859217b4995980?pvs=4">IsDebuggerPresent()</a></li>
+                                    <blockquote>
+                                        透過 kernel32!IsDebuggerPresent() 讀取 PEB→BeingDebugged 的值，從而判斷是否為 debugging 狀態。
+                                        
+                                    </blockquote>
+                                    <script src="https://gist.github.com/XD3an/d0006b3f28a9973a1b611bde390d0c68.js"></script>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/CheckRemoteDebuggerPresent-2c153fcb75c34aff97387570458bd9d1?pvs=4">CheckRemoteDebuggerPresent()</a></li>
+                                    <blockquote>透過 kernel32!CheckRemoteDebuggerPresent()，該函式會檢查是否 debugger attach 上指定的 Process。</blockquote>
+                                    <script src="https://gist.github.com/XD3an/6f3788c6818d8ff6eed6048e85edc0df.js"></script>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/NtQueryInformationProcess-cc177ef22c9d47d595e953651c05e8f9?pvs=4">NtQueryInformationProcess()</a></li>
+                                    <blockquote>透過 ntdll!NtQueryInformationProcess() 獲取 _PROCESSINFOCLASS 的指定內容（例如 ProcessDebugObjectHandle（0x1E）、ProcessDebugFlags（0x1F）等），從而檢查是否滿足 debugging 狀態條件。</blockquote>
+                                    <script src="https://gist.github.com/XD3an/e9884e32c2091224ffe3c76e8c9d7e90.js"></script>
+                                </ul>
+                            </li>
+                            <li>
+                                Manual checks
+                                <ul>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/PEB-BeingDebugging-097bfcff47e547a689d6ee13033e639f?pvs=4">PEB!BeingDebugging</a></li>
+                                    <blockquote>手動攀爬 PEB 並執行 IsDebuggerPresent() 操作。</blockquote>
+                                    <script src="https://gist.github.com/XD3an/6594b4c6c4e09ff5efc4ab202aad3488.js"></script>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/PEB-NtGlobalFlag-d05ad1a959fa44de9a94afbcabb33214?pvs=4">PEB!NtGlobalFlag</a></li>
+                                    <blockquote>
+                                        透過讀取 PEB 中 NtGlobalFlag 這個 Flag 的值（+0x68 offset on 32-Bit and +0xBC on 64-bit ），檢查是否有以下 Flag 條件，若是則為 debugging 狀態；反之則不是。
+                                    <ul>
+                                        <li>FLG_HEAP_ENABLE_TAIL_CHECK (0x10)</li>
+                                        <li>FLG_HEAP_ENABLE_FREE_CHECK (0x20)</li>
+                                        <li>FLG_HEAP_VALIDATE_PARAMETERS (0x40)</li>
+                                    </ul> 
+                                    結果是以 & 將該值合併所以應為 0x10&0x20&0x40=0x70，只要檢查是否為 0x70 即可。
+                                    </blockquote>
+                                    <script src="https://gist.github.com/XD3an/73680df019d0ffcee05226164aa563d4.js"></script>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/Heap-Flags-Flags-ForceFlags-b862fe28acab467a9dc01065e0b929b7?pvs=4">Heap Flags（Flags, ForceFlags）</a></li>
+                                    <blockquote>
+                                        透過檢查 ProcessHeap（PEB+0x30） 的 Flags 與 ForceFlags 兩個 DWORD 大小位址內容的值，當滿足特定條件則代表為 debugging 狀態。
+正常情況下， Flags 和 ForceFlags 的值分別設定為 HEAP_GROWABLE(2) 和 0。
+                                    </blockquote>
+                                    <script src="https://gist.github.com/XD3an/af5aa73d7e01a9ada81b9fc6c0429718.js"></script>
+                                    <li><a href="https://quiet-hardboard-563.notion.site/Heap-Protection-f1fbdf089a684e5e91778d7e65956b55?pvs=4">Heap Protection</a></li>
+                                    <blockquote>透過檢查 Heap Protection 的特定機制，從而判斷是否為 debugging 狀態。</blockquote>
+                                    <script src="https://gist.github.com/XD3an/dc7215c9dd74426bc82556debe7beb19.js"></script>
+                                    <li><a href="">Check KUSER_SHARED_DATA structure</a></li>
+                                    <blockquote>來源：<a href="https://github.com/mrexodia/TitanHide/issues/18">Kernel debugger presence leakage through KUSER_SHARED_DATA</a></blockquote>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>關於緩解方法，此方法下個別的技術大部分都有對應的解決手段。</p>
+                        <h3>Exceptions</h3>
+                        <p>透過故意引發異常，進而驗證進一步的行為是否與 debugging 狀態相符。</p>
+                        <ul>
+                            <li><a href="https://quiet-hardboard-563.notion.site/UnhandledExceptionFilter-a4df585e619648668e2d77c83cef2a9d?pvs=4">UnhandledExceptionFilter()</a></li>
+                            <blockquote>透過 kernel32!UnhandledExceptionFilter() 自建 UnhandledExceptionFilter，並創建一個軟體中斷 INT3的狀況，以欺騙 debugger，從而判斷是否正在 debugging。</blockquote>
+                        </ul>
+                        <p>在基於 Exceptions 的 Anti Debugging 技術下，通常都需要在對應的檢查位址填充為 NOP，才能繞過相對應的技術。</p><br>
+                        <h3>Hardware Breakpoint</h3>
+                        <p>透過檢查硬體斷點相關資訊，進而判斷是否在 debugging 狀態中。</p>
+                        <ul>
+                            <li><a href="https://quiet-hardboard-563.notion.site/Check-DebugRegister-7c89b7d5ce0947b2b69026017bdf766e?pvs=4">Check DebugRegister</a></li>
+                            <blockquote>在 x86 架構中，透過檢查 Debug Register，以檢查是否存在硬體中斷，進而判斷是否在 debugging 狀態。</blockquote>
+                        </ul>
+                        <p>若要繞過利用 Hardware Breakpoint 所實現的 Anti-Debugging 技術，通常需要 Hook kernel32!GetThreadContext() ，並且更改 Debug Register 的值（皆改為 0）。</p>
+                        <h3>Software Breakpoint</h3>
+                        <p>透過檢查軟體斷點相關資訊，進而判斷是否在 debugging 狀態中。</p>
+                        <ul>
+                            <li><a href="https://quiet-hardboard-563.notion.site/Check-Software-Breakpoint-4475876e554248a3917acbe9befc7cda?pvs=4">Check Software Breakpoint</a></li>
+                            <blockquote>檢查軟體斷點判斷是否在 debuggign 狀態。</blockquote>
+                        </ul>
+                        <p>利用 Software Breakpoing 所實現的 Anti-Debugging 技術，較難以繞過，因為該技術通常是透過直接存取記憶體位址的內容進行判斷。</p>
+                        
+                        <h2 class="section-heading">Timing</h2>
+                        <hr>
+                        <p>當 debugging 時，通常會存在一定的延遲，所以可以透過比較延遲與實際延遲，進而判斷是否正在被分析。</p>
+                        <ul>
+                            <li>
+                                <a href="https://anti-debug.checkpoint.com/techniques/timing.html">https://anti-debug.checkpoint.com/techniques/timing.html</a>
+                                <ul>
+                                    <li>RDPMC/RDTSC</li>
+                                    <li>GetLocalTime()</li>
+                                    <li>GetSystemTime()</li>
+                                    <li>GetTickCount()</li>
+                                    <li>ZwGetTickCount() / KiGetTickCount()</li>
+                                    <li>QueryPerformanceCounter()</li>
+                                    <li>timeGetTime()</li>
+                                </ul>
+                            </li>
+                            <br>
+                            <li><a href="https://github.com/LordNoteworthy/al-khaser#timing-attacks-anti-sandbox">https://github.com/LordNoteworthy/al-khaser#timing-attacks-anti-sandbox</a></li>
+                        </ul>
+                        <blockquote>Timing Attack 會因為機器運作問題所以有所誤差，而且相對其他方法而言，此方法並非如此好。</blockquote>
+                        
+                        <h2 class="section-heading">Anti-Dumping</h2>
+                        <hr>
+                        <p>透過修改記憶體的內容，進而誤導分析者，從而讓分析者無法輕易 dummping 相關內容。</p>
+                        <ul>
+                            <li>
+                                <a href="https://github.com/LordNoteworthy/al-khaser#anti-dumping">https://github.com/LordNoteworthy/al-khaser#anti-dumping</a>
+                                <ul>
+                                    <li>
+                                        Erase PE header from memory
+                                        <blockquote>刪除 PE header 的內容，從而誤導 Dumping 。</blockquote>
+                                    </li>
+                                    <li>
+                                        SizeOfImage
+                                        <blockquote>修改 OptionalHeader→SizeOfImage，從而誤導 Dumping 。</blockquote>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                其他
+                                <ul>
+                                    <li>嘗試修改其他會須要在 Dumping 時所參考的內容。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h2 class="section-heading">Anti-Virtualization / Full-System Emulation</h2>
+                        <hr>
+                        <p>防止應用程式、軟體或系統在虛擬化環境中執行，或者是檢測虛擬化環境的存在。</p>
+                        <ul>
+                            <li><a href="https://github.com/LordNoteworthy/al-khaser#anti-virtualization--full-system-emulation">https://github.com/LordNoteworthy/al-khaser#anti-virtualization--full-system-emulation</a></li>
+                        </ul>
+
+                        <h2 class="section-heading">Anti-Disassembly</h2>
+                        <hr>
+                        <p>防止或困難化軟體逆向工程中的組合語言程式碼的分析和解析，例如程式碼混淆（Code Obfuscation）。</p>
+                        <ul>
+                            <li><a href="https://quiet-hardboard-563.notion.site/E8-junk-code-72f532a7059e456e931d18800ea75d6f?pvs=4">E8 junk code</a></li>
+                            <blockquote>透過 `E8` 機器指令對程式混淆。</blockquote>
+                        </ul>
+                        <h2 class="section-heading">Others</h2>
+                        <hr>
+                        <ul>
+                            <li>
+                                <p>Process Memory <br>
+                                    <a href="https://anti-debug.checkpoint.com/techniques/process-memory.html">https://anti-debug.checkpoint.com/techniques/process-memory.html</a>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Assembly Instructions <br>
+                                    <a href="https://anti-debug.checkpoint.com/techniques/assembly.html">https://anti-debug.checkpoint.com/techniques/assembly.html</a>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Object Handles <br>
+                                    <a href="https://anti-debug.checkpoint.com/techniques/object-handles.html">https://anti-debug.checkpoint.com/techniques/object-handles.html</a>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    Misc <br>
+                                    <a href="https://anti-debug.checkpoint.com/techniques/misc.html">https://anti-debug.checkpoint.com/techniques/misc.html</a>
+                                </p>
+                            </li>
+                        </ul>
+                        <h2 class="section-heading"> References </h2>
+                        <hr>
+                        <ol>
+                            <li><a href="https://github.com/LordNoteworthy/al-khaser">https://github.com/LordNoteworthy/al-khaser</a></li>
+                            <li><a href="https://anti-debug.checkpoint.com/">https://anti-debug.checkpoint.com/</a></li>
+                            <li><a href="https://nnnewb.github.io/blog/p/learning-packer-06/">https://nnnewb.github.io/blog/p/learning-packer-06/</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+                    
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/d3an_x">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/XD3an">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
