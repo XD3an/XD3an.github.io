@@ -44,7 +44,7 @@
     </nav>
 
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url('../assets/img/post3-background.jpg')">
+    <header class="masthead" style="background-image: url('../assets/img/post3/post3-background.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -79,21 +79,11 @@
                             <li><b>威脅（Threat）</b>：透過攻擊的受害目標，達到相關目的。</li>
                         </ul>
                     </p>
-                    <p>
-                        <b>常見的手段有以下：</b>
-                        <ul>
-                            <li><b>惡意/釣魚郵件（Malicious/Phishing Email）</b>：透過社交工持手法，發送合理且誘人的惡意郵件，試圖誘騙使用者點擊或開啟，從而在其電腦中植入惡意程式或後門。</li>
-                            <li><b>水坑式攻擊（Watering Hole）</b>：透過在目標使用者常用的網站植入惡意程式，等待使用者訪問時，利用瀏覽器或其他漏洞，從而執行惡意程式、竊取使用者資料亦或是控制其電腦。</li>
-                            <li><b>漏洞利用（Vulnerability Exploit）</b>：透過利用目標網路或軟體中存在的漏洞，從而達到目的。</li>
-                        </ul>
-                    </p>
-                    
-                    
                     <b>過去知名的 APT 事件：</b>
                     <ul>
                         <li>
                             <p>2000-2009 年間</p>
-                            <p>2000-2009 年間，APT 攻擊的手法和目標主要是針對政治、軍事、科技等領域，利用電子郵件、網路漏洞、惡意軟體等方式，滲透和竊取受害者的網路系統和資料。</p>
+                            <p>APT 攻擊的手法和目標主要是針對政治、軍事、科技等領域，利用電子郵件、網路漏洞、惡意軟體等方式，滲透和竊取受害者的網路系統和資料。</p>
                             <ul>
                                 <li>
                                     <a href="https://zh.wikipedia.org/zh-tw/%E9%AA%A4%E9%9B%A8%E8%AE%A1%E5%88%92">2003年驟雨計劃</a>
@@ -111,7 +101,7 @@
                         </li>
                         <li>
                             <p>2010-2019 年間</p>
-                            <p>2010-2019 年間，APT 攻擊的數量和複雜度都有顯著的增長，涉及多個行業、地區和目標。</p>
+                            <p>APT 攻擊的數量和複雜度都有顯著的增長，涉及多個行業、地區和目標。</p>
                             <ul>
                                 <li>
                                     <a href="https://zh.wikipedia.org/zh-tw/%E9%9C%87%E7%BD%91">2010年7月Stuxnet USB蠕蟲病毒攻擊西門子系統</a>
@@ -145,7 +135,7 @@
                         </li>
                         <li>
                             <p>2020 ~ 至今（收錄至 2021）</p>
-                            <p>2020 年至今，APT 攻擊的規模和頻率持續增加，受到全球疫情、地緣政治、網路技術等因素的影響，APT 攻擊者不斷採用新的技術和手法，利用各種漏洞和弱點，進行隱蔽和持續的攻擊。</p>
+                            <p>APT 攻擊的規模和頻率持續增加，受到全球疫情、地緣政治、網路技術等因素的影響，APT 攻擊者不斷採用新的技術和手法，利用各種漏洞和弱點，進行隱蔽和持續的攻擊。</p>
                             <ul>
                                 <li>
                                     <a href="https://www.ithome.com.tw/article/141943">SolarWinds供應鏈攻擊事件</a>
@@ -162,10 +152,9 @@
                             </ul>
                         </li>
                     </ul>
-                    
                     <br>
                     <h3 class="header">網路攻擊鏈（The Cyber Kill Chain）</h3>
-                    <blockquote class="blockquote">了解攻擊者，才能做更好的防禦與應變。</blockquote>
+                    <p>是過去在  <a href="https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf">Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and  Intrusion Kill Chains </a> 這篇研究所提出來的。該論文提出了一種用於描述網路攻擊過程的框架、將攻擊分為以下七個階段，幫助防禦者識別攻擊者的執行步驟。</p>
                     <ol>
                         <li><b>Reconnaissance</b>：蒐集情報、辨識弱點、選擇目標。</li>
                         <li><b>Weaponization</b>：根據相關情報，進而準備武器，例如：惡意程式、釣魚連結等。</li>
@@ -175,10 +164,59 @@
                         <li><b>Control</b>：目標受攻擊者控制，並潛伏於環境中進行橫向移動，進而獲取更高權限。</li>
                         <li><b>Action</b>：攻擊者達成目標，此階段可能已獲取較高或最高權限。</li>
                     </ol>
-                    <img class="img-fluid" src="/assets/img/post2/post2-image1.png" alt="The Cyber Kill Chain figure">
+                    <img class="img-fluid" src="/assets/img/post3/post3-image1.png" alt="The Cyber Kill Chain figure">
                     <span class="caption text-muted">ref: https://topgallant-partners.com/the-mitre-attck-framework-and-kill-chain-explained/</span>
                     <br>
+                    <h3 class="header">入侵分析之鑽石模型（Diamond Model of Intrusion Analysis）</h3>
+                    <p>是過去在<a href="https://www.activeresponse.org/wp-content/uploads/2013/07/diamond.pdf">The Diamond Modelof Intrusion Analysis</a>所提出來的。主要用於識別特定的攻擊者，了解其使用的攻擊戰術、手法（TTPs，這部分後續會說明）。</p>
+                    <ul>
+                        <li>
+                            Adversary
+                            <ul>
+                                <li>
+                                    參考攻擊者所使用的
+                                    <ul>
+                                        <li>語言（Languages）</li>
+                                        <li>工具（Tools）</li>
+                                        <li>時區（ Time zone）</li>
+                                        <li>...</li>
+                                    </ul>
+                                </li>
 
+                            </ul>
+                        </li>                                
+                            <li>
+                                Capability
+                                    <ul>
+                                        <li>Capability Capacity</li>
+                                        <li>
+                                            Adversary Arsenal
+                                            <ul>
+                                                <li>Step: Deliverary → Exploit (for malware) → Malware</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Infrasturucture
+                                    <ul>
+                                        <li>C2 Server</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Target
+                                    <ul>
+                                        <li>Targeted Industry</li>
+                                        <li>Targeted Region</li>
+                                        <li>Targeted Company</li>
+                                        <li>Targeted Individual</li>
+                                    </ul>
+                                </li>
+                    </ul>
+                    <img class="img-fluid" src="/assets/img/post3/post3-image4-diamond_model.png" alt="The Diamond Model for Intrusion Analysis">
+                    <span class="caption text-muted">ref: The Diamond Model of IntrusionAnalysis</span>
+
+                    <br>
                     <h3 class="header">MITRE ATT&CK®</h3>
                     <p><b>MITRE</b> 是 1958 年成立的非營利機構源自於麻省理工，專注於國防領域的相關計畫。</p>
                     <p><b>MITRE ATT&CK® （Adversarial Tactics, Techniques, and Common Knowledge）</b>是由 MITRE 所創立，並由 <b>NIST（National Institute of Standards and Technology）</b>資助開啟。此外，NIST 也資助其他資訊安全相關研發計畫，例如以下</p>
@@ -201,7 +239,7 @@
                     <ul>
                         <li><a href="https://attack.mitre.org/groups/">MITRE | ATT&CK - Groups</a></li>
                     </ul>
-                    <img class="img-fluid" src="/assets/img/post2/post2-image2.png" alt="MITRE | ATT&CK - Groups figure">
+                    <img class="img-fluid" src="/assets/img/post3/post3-image2.png" alt="MITRE | ATT&CK - Groups figure">
                     <span class="caption text-muted">ref: https://attack.mitre.org/groups/</span>
                     <br>
 
@@ -213,7 +251,7 @@
                         <li>P（Procedures）：技術實現的過程。</li>
                     </ul>
                     <b>Matrix</b>
-                    <img class="img-fluid" src="/assets/img/post2/post2-image3.png" alt="MITRE | ATT&CK - Matrix figure">
+                    <img class="img-fluid" src="/assets/img/post3/post3-image3.png" alt="MITRE | ATT&CK - Matrix figure">
                     <span class="caption text-muted">ref: https://attack.mitre.org/matrices/</span>
                     
                     <blockquote class="blockquote">
@@ -307,7 +345,7 @@
                     <hr>
                     <ul>
                         <li>Cyber Threat Intelligence：<a href="/post/post4-apt-research-cyber-threat-intelligence.html">威脅情資到底是什麼...？</a></li>
-                        <li>Anti Analysis Techniques：<a href="/post/post5-apt-research_anti-analysis-tehniques.html">不會吧！又來，造反啦，？反分析到底在反甚麼？</a></li>
+                        <li>Anti Analysis Techniques：<a href="/post/pos5-apt-research_anti-analysis-techniques.html">不會吧！又來，造反啦，？反分析到底在反甚麼？</a></li>
                     </ul>
 
                     <h2 class="section-heading">References</h2>
