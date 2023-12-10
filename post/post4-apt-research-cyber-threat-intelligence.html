@@ -64,7 +64,7 @@
                         <hr>
                         <p>威脅情資（Threat Intelligence）是指透過收集、轉換、分析、解釋等網路攻擊相關的資訊，以利提供資安防護相關的基礎。威脅情資的內容收集來源包括社群媒體、論壇、部落格、出版或商業等開放資料。</p>
                         
-                        <h3>TTPs (Tactics, Techniques and Procedures)</h3>
+                        <h3 class="header">TTPs (Tactics, Techniques and Procedures)</h3>
                         <p>用於指攻擊者所使用的戰術、技術與程序（Tactics, Techniques and Procedures）。</p>
                         <ul>
                             <li>戰術（Tactics）</li>
@@ -72,9 +72,9 @@
                             <li>程序（Procedures）</li>
                         </ul>
                         <p>獲得 TTPs ，可以更加了解攻擊者的手法，進而實施預防措施。</p>
-                        <h3>IOC (Indicator of Compromise)</h3>
+                        <h3 class="header">IOC (Indicator of Compromise)</h3>
                         <p>是指用於識別和檢測潛在安全威脅的特定資料或資訊。</p>
-                        <h3>The Pyramid of Pain</h3>
+                        <h3 class="header">The Pyramid of Pain</h3>
                         <p>2014年由 <a href="https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html?m=1">DavidJBianco 提出的 The Pyramid of Pain</a> ，將 IoC 整理並描述成層級的關係。</p>
                         <img class="img-fluid" src="/assets/img/post4/The-Pyramid-of-Pain.png" alt="The Pyramid of Pain">
                         <span class="caption text-center">ref: <a href="https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html?m=1">https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html?m=1</a></span>
@@ -92,7 +92,7 @@
                             <li>社區參與：參與網路論壇、社交群組和專業社區，獲得相關資訊。</li>
                         </ul>
                         <br>
-                        <h3>工作流程（Work Flow）</h3>
+                        <h3 class="header">工作流程（Work Flow）</h3>
                         <p>OSINT（開源情報）的工作流程主要分成三個部分：
                             <ol>
                                 <li>收集（Collection）：確定可用的開源情報資源，並使用各種工具和技術從收集的資源中獲取，進行相關資訊收集。</li>
@@ -100,32 +100,31 @@
                                 <li>知識提取（Knowledge Extraction）：使用分析工具進行資料可視化，，並利用情報分析方法來提取有用的資訊。</li>
                             </ol>
                         </p>
-                        <h3>工具（Tools）</h3>
+                        <h3 class="header">工具（Tools）</h3>
                         <ul>
                             <li><a href="https://osintframework.com/">OSINT Framework</a>：提供了各種用於資料收集和情報收集的工具和技術。</li>
                             <li><a href="https://www.shodan.io/">Shodan</a>：專門用於收集和搜尋連接到網際網路的設備和服務的訊息。</li>
                             <li><a href="https://www.maltego.com/">Maltego</a>：是一個開源的情報和犯罪情報收集工具，它可以通過分析和視覺化數據來揭示目標實體之間的關聯性。</li>
                             <li><a href="https://github.com/laramies/theHarvester">theHarvester</a>：是一個用於收集電子郵件、domain、IP 等資料的開源工具。</li>
                             <li><a href="https://github.com/jivoi/awesome-osint">awesome-osint</a></li>
-                            <li><a href="https://github.com/sherlock-project/sherlock">shelock</a></li>
                             <li>...</li>
                         </ul>
 
                         <h2 class="section-heading">框架（Framework）</h2>
                         <hr>
                         <br>
-                        <h3>STIX & TAXII</h3>
+                        <h3 class="header">STIX & TAXII</h3>
                         <p>STIX & TAXII [6] 基於XML格式協助組織之間達到共享情報資源的一種標準化語言。</p>
                         <ul>
                             <li><b>STIX：</b>威脅情資的結構化語言</li>
                             <li><b>TAXII：</b>威脅情資的傳輸機制</li>
                         </ul>
                         <br>
-                        <h3>MITRE ATT&CK®</h3>
+                        <h3 class="header">MITRE ATT&CK®</h3>
                         <p>關於這部分的內容在 <b><a href="/post/post3-apt-research_overview.html"></b>關於 APT，事情是這樣的...</a>中已經有提到，這裡就不再贅述了喔。</p>
                         <p>這邊再多談一個 MBC。</p>
                         <br>
-                        <h3>MBC (Malware Behavior Catalog)</h3>
+                        <h3 class="header">MBC (Malware Behavior Catalog)</h3>
                         <p>Malware 目標與行為列表。</p>
                         <ul>
                             <li><a href="https://github.com/MBCProject/mbc-markdown">MBC Project</a></li>
@@ -134,10 +133,10 @@
 
                         <h2 class="section-heading">威脅情資來源</h2>
                         <hr><br>
-                        <h3>外部來源</h3>
+                        <h3 class="header">外部來源</h3>
                         <ul>
                             <li>
-                                APT
+                                <b>APT</b>
                                 <ul>
                                     <li>
                                         Twitter (x)
@@ -165,8 +164,9 @@
                                     </li>
                                 </ul>
                             </li>
+                            <br>
                             <li>
-                                Security Research Blog
+                                <b>Security Research Blog</b>
                                 <ul>
                                     <li><a href="https://www.trendmicro.com/en_us/research.html">Trend Micro Research, News and Perspectives</a></li>
                                     <li><a href="https://securelist.com/">Kaspersky</a></li>
@@ -176,16 +176,23 @@
                                     <li><a href="https://research.cycraft.ai/">Cycraft Research Blog</a></li>
                                 </ul>
                             </li>
+                            <br>
                             <li>
-                                OSINT
+                                <b>OSINT</b>
                                 <ul>
                                     <li><a href="https://osintframework.com/">OSINT Framework</a></li>
-                                    <li>Google Hacking</li>
+                                    <li>
+                                        Google Hacking
+                                        <ul>
+                                            <li><a href="https://www.exploit-db.com/google-hacking-database">https://www.exploit-db.com/google-hacking-database</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
+                            <br>
                         </ul>
 
-                        <h3>內部來源</h3>
+                        <h3 class="header">內部來源</h3>
                         <ul>
                             <li>SIEM</li>
                             <li>Incident Response</li>
@@ -200,7 +207,7 @@
                         <hr>
                         <ul>
                             <li>
-                                知識與重點
+                                <b>分析重點</b>
                                 <ol>
                                     <li>動機、目的、方法</li>
                                     <li>收集、分析、傳播</li>
@@ -208,7 +215,7 @@
                                 </ol>
                             </li><br>
                             <li>
-                                威脅情資分析生命週期
+                                <b>威脅情資分析生命週期</b>
                                 <ol>
                                     <li>
                                         Planning & Deirection
@@ -268,9 +275,9 @@
                                 </ol>
                             </li>
                         </ul>
-                        <h3>5W1H</h3>
-                        <ul><li><p></p>Who、Why、How、What、Where、When</p></li></ul><br>
-                        <h3 class="header">網路攻擊鏈（The Cyber Kill Chain）</h3>
+                    <h3 class="header">5W1H</h3>
+                    <ul><li><p></p>Who、Why、How、What、Where、When</p></li></ul><br>
+                    <h3 class="header">網路攻擊鏈（The Cyber Kill Chain）</h3>
                     <p>是過去在  <a href="https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf">Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and  Intrusion Kill Chains </a> 這篇研究所提出來的。該論文提出了一種用於描述網路攻擊過程的框架、將攻擊分為以下七個階段，幫助防禦者識別攻擊者的執行步驟。</p>
                     <ol>
                         <li><b>Reconnaissance</b>：蒐集情報、辨識弱點、選擇目標。</li>
@@ -288,8 +295,8 @@
                     <p>是過去在<a href="https://www.activeresponse.org/wp-content/uploads/2013/07/diamond.pdf">The Diamond Modelof Intrusion Analysis</a>所提出來的。主要用於識別特定的攻擊者，了解其使用的攻擊戰術、手法（TTPs）。</p>
                     <ul>
                         <li>
-                            Adversary
-                            <ul>
+                        Adversary
+                        <ul>
                                 <li>
                                     參考攻擊者所使用的
                                     <ul>
@@ -299,42 +306,42 @@
                                         <li>...</li>
                                     </ul>
                                 </li>
-
+                        </ul>
+                        </li>
+                        <br>                                
+                        <li>
+                            Capability
+                            <ul>
+                                <li>Capability Capacity</li>
+                                <li>
+                                    Adversary Arsenal
+                                    <ul>
+                                        <li>Step: Deliverary → Exploit (for malware) → Malware</li>
+                                    </ul>
+                                </li>
                             </ul>
-                        </li>                                
-                            <li>
-                                Capability
-                                    <ul>
-                                        <li>Capability Capacity</li>
-                                        <li>
-                                            Adversary Arsenal
-                                            <ul>
-                                                <li>Step: Deliverary → Exploit (for malware) → Malware</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Infrasturucture
-                                    <ul>
-                                        <li>C2 Server</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Target
-                                    <ul>
-                                        <li>Targeted Industry</li>
-                                        <li>Targeted Region</li>
-                                        <li>Targeted Company</li>
-                                        <li>Targeted Individual</li>
-                                    </ul>
-                                </li>
+                        </li>
+                        <br>
+                        <li>
+                            Infrasturucture
+                            <ul>
+                                <li>C2 Server</li>
+                            </ul>
+                        </li>
+                        <br>
+                        <li>
+                            Target
+                            <ul>
+                                <li>Targeted Industry</li>
+                                <li>Targeted Region</li>
+                                <li>Targeted Company</li>
+                                <li>Targeted Individual</li>
+                            </ul>
+                        </li>
+                        <br>
                     </ul>
-                    <img class="img-fluid" src="/assets/img/post3/post3-image4-diamond_model.png" alt="The Diamond Model for Intrusion Analysis">
-                    <span class="caption text-muted">ref: The Diamond Model of IntrusionAnalysis</span>
-
-
-
+                        <img class="img-fluid" src="/assets/img/post3/post3-image4-diamond_model.png" alt="The Diamond Model for Intrusion Analysis">
+                        <span class="caption text-muted">ref: The Diamond Model of IntrusionAnalysis</span>
                         <p>在 TeamT5 的 <a href="https://teamt5.org/tw/posts/what-is-cyber-threat-intelligence-cti/">什麼是威脅情資？對企業的重要性是什麼？</a>[1]文章中，他們把威脅情資分為三大層次</p>
                         <ul>
                             <li><b>戰略型威脅情資（Strategic Threat Intelligence）： </b>無技術細節，由 CXO 層級使用；用於辨別誰會想攻擊？為何想攻擊？</li>
