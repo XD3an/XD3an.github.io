@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="XD3an" content="All-In-One" />
+        <meta name="description" content="" />
+        <meta name="author" content="XD3an" />
+        <meta name="keywords" content="XD3an, github.io, All-In-One">
+        <title> All-In-One </title>
+        <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('../assets/img/post6/post6-background.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>shellcode 甚麼？ 殼的程式碼？</h1>
+                            <h2 class="subheading">Introduction to Shellcode</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">XD3an</a>
+                                on March, 10, 2024
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <p>shellcode 是一個用於利用軟體漏洞的程式碼，通常是透過 16 進制的機器碼經過精心構造編寫而成，進而觸發漏洞導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。</p>
+                        <p>在傳統的駭客攻擊中，通常是指軟體面的漏洞利用，而不像現今越來越偏向 Web 面的滲透，過去的服務通常都是一個 binary 的執行檔運行，因此大多都是利用 binary 的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。</p>
+                        <p>在現今， shellcode不僅用於獲取shell，還可被用於下載惡意程式、啟動後門程式等攻擊行為。透過精心構造來繞過防護機制，並根據不同的系統架構、處理器和作業系統進行定制。編寫高質量的shellcode需要對底層系統有深入的理解。</p>
+                        <p>現今環境下編寫 shellcode 已經不像過去如此困難，有很多生成的方法，甚至不需要自己動手編寫，並且很多人也會將自己所編寫的 shellcode 公開，以下是 shellcode 的相關資料與原始碼：</p>
+                        <!-- list -->
+                        <ul>
+                            <li>
+                                手動編寫
+                                <ul>
+                                    <li>使用組合語言編寫</li>
+                                </ul>
+                            </li>
+                            <li>
+                                工具生成
+                                <ul>
+                                    <li>
+                                        <a href="https://docs.pwntools.com/en/stable/shellcraft.html">Python - pwntools</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.metasploit.com/">Metasploit</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/TheWover/donut">https://github.com/TheWover/donut</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                線上資源
+                                <ul>
+                                    <li>
+                                        <a href="https://shell-storm.org/shellcode/index.html">https://shell-storm.org/shellcode/index.html</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.exploit-db.com/shellcodes">https://www.exploit-db.com/shellcodes</a>
+                                    </li>
+                                    <li>
+                                        <del><a href="https://github.com/XD3an/tiny-shellcode">https://github.com/XD3an/tiny-shellcode</a></del>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                    
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/d3an_x">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/XD3an">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
