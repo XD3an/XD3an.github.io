@@ -61,15 +61,15 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p>
-                            Shellcode 常被作為惡意程式的實現部分， shellcode 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。
+                            Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。
                         </p>
                         <h2>殼程式碼 - Shellcode</h2>
                         <hr>
                         <div>
                         <p>
-                            shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，透過漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
+                            shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
                         <br>
-                        在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得越來越偏向 Web 面的滲透，而在過去的服務通常都是一個 binary 的執行檔運行，因此大多都是利用 binary 的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
+                        在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得攻擊面相越來越偏向 Web 面的滲透，而在過去的服務通常都是一個二進制的執行檔運行，因此大多都是利用二進制層面的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
                         <br>                            
                         在現今， shellcode 不僅用於獲取shell，還被用於下載惡意程式、啟動後門程式等攻擊行為。透過精心構造來繞過防護機制，並根據不同的系統架構、處理器進行量身定制。編寫高品質的 shellcode 需要對底層系統有深入的理解。
                         <br>
@@ -114,14 +114,12 @@
                             <img class="img-fluid" src="/assets/img/MD-part2/msfvenom.png" alt="msfvenom">
                         </div>
                         <p>現在有了 shellcode，但問題來了，要怎麼使用呢？🤔</p>
- 
-                        </div>
-                        <br>
 
+                        </div>
                         <h2>奔跑吧 shellcode</h2>
                         <hr>
                         <div>
-                            <q>以下先從 x86 架構開始探討，實驗皆是以 Windows 系統作為目標，並以 C/C++ 及 Windows API 實現。</q>
+                            <b>以下先從 x86 架構開始探討，實驗皆是以 Windows 系統作為目標，並以 C/C++ 及 Windows API 實現。</b>
                         <p>
                             以下是一個使用 Windows API 的簡易 Shellcode 執行程式碼，基本上直接執行是可以的。
                         </p>
@@ -160,7 +158,9 @@
                         <br>
 
                         <h4>Obfuscation: XOR shellcode</h4>
-                        <br>
+                        <p>
+                            因為防毒軟體在對惡意程式進行匹配時，很可能會將程式中的機器碼進行比對，因此 shellcode 的樣式很容易就會被發現了。因此我們可以將 shellcode 透過 XOR 加密，使其混淆，如此一來就有有機會規避機器碼樣式的匹配了。
+                        </p>
                         <script src="https://gist.github.com/XD3an/f1a11ffeed36840558c26c3232017114.js"></script>
                         <p>
                             解密後再執行一樣可以達到相同效果
@@ -173,9 +173,8 @@
                             <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
                         </div>
                         <p>
-                            可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上不太可能只會出現如此單純的混淆手段。
+                            可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
                         </p>
-                        <br>
 
                         <h4>x86 tricks: Run Code without Call</h4>
                         <p>
@@ -248,15 +247,21 @@
                         <h2>Conclusion</h2>
                         <hr>
                         <p>
-                            了解了 shellcode 是什麼？如何生成？如何利用？
-                            <br>
-                            再來探討幾個混淆或增加分析成本的小技巧與手段，來幫助我們更加完善我們的惡意程式，在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
-                            <ul>
-                                <li>Shellcode Loader</li>
-                                <li>Obfuscation: XOR shellcode</li>
-                                <li>x64 tricks: Run Code without Calling</li>
-                            </ul>
-                            以下是 VirusTotal 對於簡易 Shellcode 執行器的 Behavior 分析結果，其利用 MITRE ATT&CK & MBC 來作行為匹配。
+                            <div>
+                                透過本篇我們了解了 shellcode 是什麼？如何生成？如何利用？
+                                <br>
+                                再來探討幾個混淆或增加分析成本的小技巧與手段，來幫助我們更加完善我們的惡意程式。
+                                <ul>
+                                    <li>Shellcode Loader</li>
+                                    <li>Obfuscation: XOR shellcode</li>
+                                    <li>x64 tricks: Run Code without Calling</li>
+                                </ul>
+                            </div>
+                            <div>
+                                在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
+                                <br>
+                                以下是 VirusTotal 對於簡易 Shellcode 執行器的 Behavior 分析結果，其利用 MITRE ATT&CK & MBC 來作行為匹配。
+                            </div>
                         </p>
                         <div style="text-align: center;">
                             <img class="img-fluid" src="/assets/img/MD-part2/virustotal_behavior_report.png" alt="virustotal_behavior_report">
