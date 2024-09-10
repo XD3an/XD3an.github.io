@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="XD3an" content="All-In-One" />
+        <meta name="description" content="" />
+        <meta name="author" content="XD3an" />
+        <meta name="keywords" content="XD3an, github.io, All-In-One">
+        <title> All-In-One </title>
+        <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </head>
+    <body style="font-size: var(--bs-font-size-base);">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/MD-part1/background.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>從刮痕開始的惡意程式開發- Part 1: Overview</h1>
+                            <h2 class="subheading">Overview</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">XD3an</a>
+                                on September 10, 2024
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h2> Introduction to Malware </h2>
+                            <hr>
+                            <br>
+                            <div>
+                            <h4>1940s-1970s</h4>
+                            <p>
+                                惡意程式（Malware）的歷史可以追溯到 1940 年代。在 1949 年，著名數學家兼物理學家 John von Neumann 首次提出自我複製程式（self-replicating program）的概念，這一概念成為了後來惡意程式開發的基礎。該想法在其學生的協助下取得進一步的發展，並在他去世後於 1996 年發表《<i>Theory of Self-Reproducing Automata</i>》，探討機器可以建立自己複製品的可能性。
+                                在 1971 年，Bob Thomas 創建了被認為是最早的惡意程式 Creeper，是為 ARPANET 的安全測試而設計的，用於測試自我複製程式的可能性。
+                            </p>
+                            
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part1/CreeperWorm.jpg" alt="CreeperWorm" />
+                                <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:CreeperWorm.jpg</span>
+                            </div>
+                            
+                            <p>
+                                在 1986 年，來自 Pakistan 的 Alvi 兄弟編寫了第一個專門針對個人電腦的惡意程式 Brain，其通過磁碟傳播，目標是自我複製，最終導致系統性能下降甚至崩潰。
+                            </p>
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part1/Brain-virus.jpg" alt="Brain-virus" />
+                                <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:Brain-virus.jpg</span>
+                            </div> 
+                            <br>
+
+                            <h4>1980s-1990s</h4>
+                            <p>
+                                在 1988 年，Cornell University 的 Robert Morris 創建了第一個網路蠕蟲，意外地感染了約 6000 台電腦設備，甚至引發美國法律界對於惡意程式及網路威脅的關注。
+                            </p>
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part1/330px-Morris_Worm.jpg" alt="Morris_Worm" />
+                                <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:Morris_Worm.jpg</span>
+                            </div>
+
+                            <p>在 1990 年代，惡意程式的數量與種類大幅增加，舉凡以下：
+                                <ul>
+                                    <li>1995年，Concept 出現，開始利用 Microsoft Word 的 Macro 漏洞。</li>
+                                    <li>…</li>
+                                </ul>
+                            </p>
+                            <h4>2000s-</h4>
+                            <p>
+                                2000 年代初期出現一系列基於電子郵件的蠕蟲病毒：
+                                <ul>
+                                    <li>2000 年，ILOVEYOU 蠕蟲在全球範圍內造成數十億美元的損失。</li>
+                                    <li>2001 年，Code Red 蠕蟲利用 Microsoft IIS 漏洞進行傳播。</li>
+                                    <li>…</li>
+                                </ul>
+                            </p>
+                            <p>
+                                2000 年代中後期，惡意程式逐漸開始被利用在牟取財利：
+                            </p>
+                            <ul>
+                                <li>2005 年，GpCode作為早期勒索軟體的代表出現，加密使用者文件並要求支付贖金。</li>
+                                <li>2007 年，Storm僵屍網路（Botnet）出現，用於控制受感染的電腦進行進一步的惡意行為。</li>
+                            </ul>
+                            <p>太多了列不完，以下是維基百科整理的，有興趣的可以參考以下。</p>
+                            <p><a href="https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表">https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表</a></p>
+
+
+                            </div>
+                    <div>
+                            <h2> Malware Lifecycle and Architecture </h2>
+                        <hr>
+                        <br>
+                            <h4>Lifecycle</h4>
+                            <p>
+                                惡意軟體的生命週期可分為四個時期：
+                                    <ul>
+                                        <li><strong>感染（Infection）：</strong>透過軟體漏洞或社交工程技術感染目標設備。</li>
+                                        <li><strong>隱藏（Concealment）：</strong>試圖保持隱蔽性並維持對受害目標的控制。</li>
+                                        <li><strong>通訊（Communication）：</strong>資訊交換與進一步攻擊過程的通訊。</li>
+                                        <li><strong>破壞與濫用行為（Damage and abuse behavior）：</strong>實現惡意竊取或破壞系等統的惡意行為。</li>
+                                    </ul>
+                            </p>
+                            <h4>Architecture</h4>
+                                    <br>
+                                    <ul>
+                                <li><strong>入侵向量（Intrution Vector）</strong>
+                                    <ul>
+                                        <li>實現進入目標系統</li>
+                                    </ul>
+                                </li>
+                                <li><strong>惡意程式主體（Malware Body）</strong>
+                                    <ul>
+                                        <li>實現主要惡意目的</li>
+                                    </ul>
+                                </li>
+                                <li><strong>保護機制（Protection Mechanism）</strong>
+                                    <ul>
+                                        <li>防止攔截（Anti-Interception）</li>
+                                        <li>防止偵測（Anti-Detection）</li>
+                                        <li>…</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part1/malArch.png" alt="malArch" />
+                            </div> 
+                            <br>
+                    </div>    
+                    
+                    <div>
+                        <h2> References </h2>
+                        <hr>
+                        <div>
+                                <ul>
+                                    <li><a href="https://hackforums.net/showthread.php?tid=6243986">https://hackforums.net/showthread.php?tid=6243986
+    </a></li>
+                                    <li><a href="https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表">https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表
+    </a></li>
+                                    <li>奇幻熊在網路釣魚：為何網際網路如此脆弱？駭客如何利用人性竊取機密，以及我們如何更安全</li>
+                                </ul>  
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                    
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/d3an_x">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/XD3an">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
