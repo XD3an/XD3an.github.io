@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="XD3an" content="All-In-One" />
+        <meta name="description" content="" />
+        <meta name="author" content="XD3an" />
+        <meta name="keywords" content="XD3an, github.io, All-In-One">
+        <title> All-In-One </title>
+        <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </head>
+    <body style="font-size: var(--bs-font-size-base);">
+
+        <!-- Magic -->
+        <canvas id="magic-canvas"></canvas>
+        <script src="/js/magic.js"></script>
+
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/MD-part3/background.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>從刮痕開始的惡意程式開發 - Part 3: Process Injection</h1>
+                            <h2 class="subheading">Prcoess 注入</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">XD3an</a>
+                                on September 18, 2024
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div>
+                            <P>如果一隻程式執行了非預期行為，導致系統出現異狀…</P>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part3/4f6d56065ed469437006767dcf8e17ee.png" alt="meme1">
+                            </div>
+                            <p>為了要更好了解程式在運行過程中的行為，我們要先知道程式到底是怎麼執行起來的？作業系統又是如何管控這些程式實現交互，幫助我們完成電腦上面的任務的？</p>
+                            <p><b>程式是如何在電腦中執行的？</b></p>
+                            <p>程式可以視為指令與資料的集合。在一般情況下（此處僅討論編譯型程式語言），當程式設計完成後，必須通過編譯器將其轉換為對應系統的可執行檔案格式。一旦完成轉換，當使用者啟動該檔案時，程式便開始執行。此時，作業系統會根據一系列指令的流程，協助建立程式執行所需的環境，並將程式所需的內容映射到記憶體中。在經過初始化後，程式將從進入點（Entry Point）開始執行。</p>
+                        </div>
+
+                        <div>
+                            <div>
+                                <h2>Something about Process in Windows</h2>
+                            <hr>
+                            <br>
+                            <h4>Process, Thread, and Handle</h4>
+                            
+                                在 Windows 系統下，程式的執行涉及到三個重要概念：<b>行程（Process）、執行緒（Thread）、句柄（Handle）</b>。
+                                
+                                <br><br>
+                            <div>
+
+                                <h5>Process</h5>
+                                <b>是一包含執行程式所需資源的執行容器。</b><br>
+                                一個 Windows process 是由下列部分所構成（抽象角度）：
+                                <ul>
+                                    <li><b>一組 private virtual address space</b>，即 process 可以使用的虛擬記憶體位址空間</li>
+                                    <li><b>一個可以執行的程式</b>，定義最初映射到虛擬記憶體位址空間內的程式與資料。</li>
+                                    <li><b>各種系統資源的 handles</b>，例如：通訊埠、檔案等，process 內的所有 threads 都能共享這些資源。</li>
+                                    <li><b>一組安全環境（security context）</b>，稱為 access token，描述 process 的使用者身分、安全群組、權限等以及與執行程式的使用者帳戶有關的有限資訊。</li>
+                                    <li><b>一個唯一的識別碼，稱為 PID（Process ID）。</b></li>
+                                    <li><b>至少一個可執行的 thread（Main Thread）。</b></li>
+                                </ul>
+                                <p>
+                                    在 Windows 系統中，行程優先權（Process Priority）決定作業系統中分配 CPU 資源的優先程式，不同的優先級別會影響獲得 CPU 時間的頻率，從而影響其執行速度與作業系統整體效能。
+                                </p>
+                                <div style="text-align: center;" >
+                                    <img class="img-fluid" src="/assets/img/MD-part3/proc_exp.png" alt="process-explorer">
+                                </div> 
+                                <br>
+                                <div>
+                                    <b>Windows 行程優先級類別</b>
+                                    <ul>
+                                        <li><b>Idle</b>：只在系統閒置、沒有其他行程需要執行時才會獲得 CPU 資源，常見於後台執行、對性能要求不高的任務。</li>
+                                        <li><b>Below Normal</b>：適用於對即時性要求不高的應用程式。在有可用資源時執行，而不太會影響其他行程。</li>
+                                        <li><b>Normal</b>：預設優先權，適用於大部分應用程式。在資源分配上與其他優先級的行程公平競爭。</li>
+                                        <li><b>Above Normal</b>：用於需要比普通應用程式更快反應的行程，例如多媒體應用或需要及時處理的程式。</li>
+                                        <li><b>High</b>：會比大多數應用獲得更多的 CPU 時間，常用於更加需要即時反應的任務，如音頻處理或即時資料處理。</li>
+                                        <li><b>Realtime</b>：最高優先級，適用於極端情況下需要及時處理的任務，例如硬體相關的行程。使用時須謹慎小心，因為其可以壓制其他行程，甚至系統關鍵行程，導致整個系統不穩定。</li>
+                                    </ul>
+                                </div>
+                                <p>
+                                    <a href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager">https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager</a>
+                                    <a href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753">https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753</a>
+                                </p>
+                                <b>該如何檢視行程？</b>
+                                <ul>
+                                    <li>工作管理員</li>
+                                    <li>tasklist</li>
+                                    <img class="img-fluid" src="/assets/img/MD-part3/tasklist.png" alt="tasklist">
+                                    <li><a href="https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer">Process Explorer</a></li>
+                                </ul>
+                                
+                                </div>
+                                <div>
+                            </div>
+                                <h5>Thread</h5>
+                                <b>作業系統中的基本執行單位，由 Process 所創建的子任務。每個 Process 包含至少一個 Thread。</b>
+                                一個 Thread 是由下列部分所構成（基本元件）：
+                                <ul>
+                                    <li>一組 CPU 暫存內容，代表處理器的狀態。</li>
+                                    <li>兩組 Stack，一組給 kernel mode 執行時使用；另一組 user mode 執行時使用。</li>
+                                    <li>一組私有儲存空間，稱為 Thread-Local Storage（TLS），讓子系統、執行時期函式庫、DLLs 使用。</li>
+                                    <li>一組唯一識別碼，即 thread ID（process IDs 與 thread IDs 是從同一個命名空間產生的，所以兩者不會重複）。</li>
+                                    <li>Thread 有時擁有自己的安全環境，讓 multithreaded 的伺服器程式可以獨立管控各個客戶端的安全層級。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5>Handle</h5>
+                                <b>是一個指向物件的參考，用來存取物件的資訊。</b>
+                                在 Windows 系統中，用於標識某個資源的結構體，應用程式之間可以透過 Handle 進行交互。
+                                <p><a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers">https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers</a></p>
+                            </div>
+                            <div>
+                                <h5>Application Process, Windows Process, 與 Background Process</h5>
+                                在 Windows 中，行程大可以致分類為以下：
+                                    <ul>
+                                        <li><b>若有一個可視的視窗 → Application Process</b>：是指由一個使用者啟動的應用程式，通常有可視的使用者介面（UI），並且可能提供交互功能。</li>
+                                        <li><b>若被標記為 Critical → Windows Process</b>：是指由 Windows 作業系統啟動或管理的核心行程，負責執行系統級的操作，例如：管理硬體資源、提供系統服務。被標記為 Critical 是表示系統穩定運行所需的行程，一旦被終止，系統可能因此崩潰。</li>
+                                        <li><b>其餘則為 → Background Process</b>：是指不需要與使用者直接交互的行程，通常在後台執行，提供應用程式或系統的支持功能。</li>
+                                    </ul>
+                                <p><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606</a></p>
+                            </div>
+                            <div>
+                                <h4>Windows API</h4>
+                                Windows API（Windows Application Programming Interface）是 Microsoft 提供的一套函數與工具，允許使用者與 Windows 作業系統進行互動。
+                                依照功能可以劃分為幾個類別：
+                                    <ul>
+                                        <li>User interface</li>
+                                        <li>Windows environment (Shell)</li>
+                                        <li>User input and messaging</li>
+                                        <li>Data access and storage</li>
+                                        <li>Diagnostics</li>
+                                        <li>Graphics and multimedia</li>
+                                        <li>Devices</li>
+                                        <li>System services</li>
+                                        <li>Security and identity</li>
+                                        <li>Application installation and servicing</li>
+                                        <li>System admin and management</li>
+                                        <li>Networking and internet</li>
+                                        <li>…</li>
+                                    </ul>
+                                <p><a href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list">https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list</a></p>
+                                
+                                <p>
+                                    惡意程式常見 API 可以參考以下：
+                                    <br>
+                                    <a href="https://malapi.io/">https://malapi.io/</a>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part3/malapi.png" alt="malapi">
+                                    </div>
+                                </p>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div>
+                            <h2>Introduction to Process Injection</h2>
+                            <hr>
+                            Process Injection 是一種惡意程式常使用的技術，是指濫用合法手段在目標行程或其他行程內部的記憶體空間執行任意程式碼的功能，從而達到隱藏行為、繞過防禦機制或獲得目標行程的權限等目的。
+                            <p>MITRE ATT&CK 是這樣描述的
+                            <br>
+                            <a href="https://attack.mitre.org/techniques/T1055/#ProcedureExamples">https://attack.mitre.org/techniques/T1055/#ProcedureExamples</a>
+                            </p>
+                            <blockquote class="blockquote" style="font-size: 1.0em;">
+                                Adversaries may inject code into processes in order to evade process-based defenses as well as possibly elevate privileges. Process injection is a method of executing arbitrary code in the address space of a separate live process. Running code in the context of another process may allow access to the process's memory, system/network resources, and possibly elevated privileges. Execution via process injection may also evade detection from security products since the execution is masked under a legitimate process.
+                            </blockquote>
+                            <p>
+                                實現 Process Injection 方法有很多種，其被歸類在 MITRE ATT&CK Process Injection 的 Sub-Techinques，以下是幾個常見的手法
+                                <ul>
+                                    <li> T1055.001 - Dynamic-link Library Injection</li>
+                                    <li> T1055.003 -  Thread Execution Hijacking</li>
+                                    <li> T1055.004 - Asynchronous Procedure Call</li>
+                                    <li> T1055.012 - Process Hollowing</li>
+                                    <li> …</li>
+                                </ul>
+                                以下會嘗試理解及實現這些常見的注入技術。<br>
+                                本篇從此處開始關於建立 shellcode 的方式就不再做贅述了，不了解的可以至上篇（從刮痕開始的惡意程式開發 - Part 2）。
+                            </p>
+                        </div>
+
+                        <!-- CreateRemoteThread Shellcode Injection -->
+                        <div>
+                            <h2>CreateRemoteThread Shellcode Injection</h2>
+                            <hr>
+                            Shellcode Injection 是指將 shellcode 注入到目標行程（Process）的技術，再通過開啟新的 Thread 呼叫 shellcode，從而達到目標操作，例如：reverse shell、提權等。
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part3/shellcode_injection.png" alt="shellcode_injection">
+                            </div>
+                            <p>
+                                在實現之前，我們可能會需要知道一些會使用到的 Windows API
+                                <li><b>OpenProcess：</b>開啟現有的本機行程物件。</li>
+                                <script src="https://gist.github.com/XD3an/d206d4396cffeb43505b85f9e69b6b0c.js"></script>
+                                <br>
+                                <li><b>VirtualAllocEx</b>：保留、認可或變更指定行程虛擬位址空間記憶體區域的狀態。</li>
+                                <script src="https://gist.github.com/XD3an/074a16538b918d7a61606e8a3ee229e9.js"></script>
+                                <br>
+                                <li><b>WriteProcessMemory：</b>將資料寫入指定行程中的記憶體區域。</li>
+                                <script src="https://gist.github.com/XD3an/25c3180d269efb2f43e6860954e8dbf6.js"></script>
+                                <br>
+                                <li><b>CreateRemoteThread：</b>建立在另一個行程的虛擬位址空間中執行的執行緒。</li>
+                                <script src="https://gist.github.com/XD3an/771897306f924fca705feff4b111066d.js"></script>
+                                <br>
+                                <li><b>CloseHandle：</b>關閉開啟的物件句柄。</li>
+                                <script src="https://gist.github.com/XD3an/f4d791ed74f4953736dd4b7677b98e2f.js"></script>
+                                <br>
+                            </p>
+                            <div>
+                                <h4>Local Thread Injection</h4>
+                                <p>
+                                    Local Thread Injection 是指透過注入至同一行程（自身）實現。
+                                    <script src="https://gist.github.com/XD3an/8a9f007d35a16c01eaa47171e6a55fc8.js"></script>
+                                    <!-- <br>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part3/ltinjection_demo.gif" alt="ltinjection_demo">
+                                    </div> -->
+                                </p>
+                            </div>
+                            <div>
+                                <h4>Remote Thread Injection</h4>
+                                <p>
+                                    Remote Thread Injection 是指將 shellcode 注入到另一個行程當中實現。
+                                    <script src="https://gist.github.com/XD3an/73876d696567c262a68079d58741e234.js"></script>
+                                    <br>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part3/rtinjection_demo.gif" alt="rtinjection_demo">
+                                    </div>
+                                    我們現在已經可以對指定的行程注入並執行 shellcode 了。
+                                </p>
+                            </div>
+                            <br>
+                        </div>
+
+                        <!-- Dynamic-Link Library Injection -->
+                        <div>
+                            <h2>Dynamic-Link Library Injection</h2>
+                            <hr>
+                            是指通過手段將 Dynamic-Link Library  (DLL) 注入至正在運行的行程（Process）中，以此執行特定行為，從而達成目標。在軟體開發過程中，當需要實現跨不同程式或模組的相同功能時，「重造輪子」（即每個程式獨立開發相同的功能）顯然是低效且容易出錯的方式。
+                            <br>
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part3/dll_injection.png" alt="dll_injection">
+                            </div>
+                            <p>那該怎麼做呢？</p>
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="/assets/img/MD-part3/meme2.jpg" alt="meme2">
+                            </div>
+                            <br>
+                            <h4>Dynamic-Link Library</h4>
+                            <p>動態連結函式庫（Dynamic-Link Library，DLL）是微軟公司在 Windows 系統中實現共享函數函式庫概念的一種實作方式。</p>
+                            <p>簡單來說，就是可以定義共享函式的函式庫，通過動態連結的機制，當執行檔呼叫到DLL檔內的函式時，Windows作業系統才會把DLL檔載入記憶體內。</p>
+                            <p><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library#dll-development">https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library#dll-development</a></p>
+                            <li>The DLL entry point</li>
+                            <script src="https://gist.github.com/XD3an/796046780a6fb0ec739380e75a35926c.js"></script>
+                            <p>
+                                接下來，我們可以先嘗試建立一個簡單的 DLL 檔
+                                <ol>
+                                    <li>
+                                        首先，通過 Microsoft Visual Studio 開啟一個新的專案
+                                    </li>
+                                    <!-- <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part3/create_dll1.png" alt="create_dll1">
+                                        <img class="img-fluid" src="/assets/img/MD-part3/create_dll2.png" alt="create_dll2">
+                                    </div> -->
+                                    <li>
+                                        轉換組態類型為動態程式庫（.dll）
+                                    </li>
+                                    <li>
+                                        編寫 DLL 檔程式內容（malicious.dll）
+                                    </li>
+                                </ol>
+                                <script src="https://gist.github.com/XD3an/fd3051295323d5ea3252796510f667a6.js"></script>
+                            </p>
+
+                            <div>
+                                <h4>Run a DLL</h4>
+                                <p>rundll32：用於執行 32 位動態連結程式庫 （DLL）的工具。（仍可執行 64位元 DLL）</p>
+                                <p>語法：rundll32.exe <DLL名稱>,<入口點> <參數></p>
+                                <div style="text-align: center;">
+                                    <img class="img-fluid" src="/assets/img/MD-part3/rundll32.png" alt="rundll32">
+                                </div>
+                                <br><br>
+                            </div>
+
+                            <div>
+                                <h4>DLL Injector</h4>
+                                <p>再來就可以嘗試實作 DLL Injector 了。</p>
+                                <p>
+                                    首先，還是要先了解一下會使用到的 Windows API。
+                                    <li>
+                                        <b>kernel32.dll：</b>是 Windows 作業系統中的一個核心動態鏈接庫（DLL），負責提供許多基本的系統函數。
+                                        <br>
+                                        <a href="https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm">https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm</a>
+                                    </li>
+                                </p>
+                                <p>
+                                    以下是常見 kernel32.dll 中用於 DLL Injection 的 API
+                                    <li><b>LoadLibraryA：</b>將指定的模組載入呼叫行程的位址空間。 指定的模組可能會導致其他模組載入。</li>
+                                    <script src="https://gist.github.com/XD3an/4b9ae2d564646b969a103b24da30913d.js"></script>
+                                    <br>
+                                    <li><b>GetProcAddress：</b>從指定的動態連結庫 (DLL) 擷取匯出函式 (也稱為程式) 或變數。</li>
+                                    <script src="https://gist.github.com/XD3an/5f50b8e803587dae860072275ad95a8f.js"></script>
+                                </p>
+                                <h6>DLL Injector</h6>
+                                <script src="https://gist.github.com/XD3an/195063cbb6be7650cd688e210e43c9c8.js"></script>
+                                <p>現在嘗試注入 DLL 至指定行程</p>
+                                <div style="text-align: center;">
+                                    <img class="img-fluid" src="/assets/img/MD-part3/dllInejction_demo.gif" alt="dllInejction_demo">
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div>
+                            <h2>Conclusion</h2>
+                            <hr>
+                            本篇探討了 Process Injection 的手法，並嘗試時做了 Shellcode Injection 及 DLL Injection，這些方法都是野外非常常見的惡意程式利用手法。
+                            透過這些技術，惡意程式可以在目標行程中執行任意程式碼，從而達到隱藏行為、繞過防禦機制或獲得目標行程的權限等目的。
+                            <br><br>
+                        </div>
+
+                        <div>
+                            <h2>References</h2>
+                            <hr>
+                            <ul>
+                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">Raymond Chen How does Task Manager categorize processes as App, Backgroun…</a></li>
+                                <li><a href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager">wikiHow How to Change Process Priorities in Windows Task Manager: 10…</a></li>
+                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753">Raymond Chen When you set a 100% CPU program to real-time priority, you g…</a></li>
+                                <li><a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers">Karl-Bridge-Microsoft Process Handles and Identifiers - Win32 apps</a></li>
+                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">Raymond Chen How does Task Manager categorize processes as App, Backgroun…</a></li>
+                                <li><a href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list">GrantMeStrength Windows API index - Win32 apps</a></li>
+                                <li><a href="https://malapi.io/">MalAPI.io</a></li>
+                                <li><a href="https://attack.mitre.org/techniques/T1055/#ProcedureExamples">Process Injection, Technique T1055 - Enterprise | MITRE ATT&…</a></li>
+                                <li><a href="https://whiteknightlabs.com/2024/02/09/a-technical-deep-dive-comparing-anti-cheat-bypass-and-edr-bypass/">Mark Lester Dampios A Technical Deep Dive: Comparing Anti-Cheat Bypass and EDR B…</a></li>
+                                <li><a href="https://www.crow.rip/crows-nest/mal/dev/inject">Process Injection | Crow's Nest</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/d3an_x">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/XD3an">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
