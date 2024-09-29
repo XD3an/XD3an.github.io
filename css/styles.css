@@ -302,7 +302,7 @@ img,
 svg {
   vertical-align: middle;
   border-radius: 5px; /* 更柔和的圓角 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0); /* 添加陰影 */
 }
 
 table {
@@ -310,7 +310,7 @@ table {
   border-collapse: collapse;
   border-radius: 12px; /* 表格也使用圓角 */
   overflow: hidden; /* 確保圓角顯示 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0); /* 添加陰影 */
 }
 
 caption {

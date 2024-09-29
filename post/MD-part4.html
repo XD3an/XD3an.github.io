@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="XD3an" content="All-In-One" />
+        <meta name="description" content="" />
+        <meta name="author" content="XD3an" />
+        <meta name="keywords" content="XD3an, github.io, All-In-One">
+        <title> All-In-One </title>
+        <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </head>
+
+    <body style="font-size: var(--bs-font-size-base);">
+        <!-- Magic -->
+        <canvas id="magic-canvas"></canvas>
+        <script src="/js/magic.js"></script>
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/assets/img/MD-part4/MD-part4-background.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>從刮痕開始的惡意程式開發 - Part 4: Hooking techniques</h1>
+                            <h2 class="subheading">鉤子技術</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">XD3an</a>
+                                on September 29, 2024
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div>
+                            <p>去馬戲團的路上，要小心魔鉤喔！</p>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part4/meme1.jpg" alt="meme1">
+                            </div>
+                            <br>
+                        </div>
+
+                        <div>
+                            <h2>What is Hook?</h2>
+                            <hr>
+                            Hook 是一種機制，用於在程式執行時，對其進行攔截、監視或修改行為，通常用於截取或修改系統或應用程式的行為，以實現一些額外的功能或監視系統活動。例如 Sandbox 。
+                            <br><br>
+
+                            主要的功能：
+                            <ul>
+                                <li><b>攔截（Intercept）：</b>攔截系統或應用程式特定操作。</li>
+                                <li><b>監視（Monitor）：</b>用於監視系統或應用程式的活動。</li>
+                                <li><b>修改行為（Modify Behavior）：</b>修改程式或系統調用的行為。</li>
+                            </ul>
+
+                            主要的應用場景：
+                            <ul>
+                                <li><b>安全研究與防禦：</b>資安相關工具（例如：防毒軟體、EDR）經常會使用 Hook 技術監控系統調用，以檢測潛在的惡意行為。</li>
+                                <li><b>逆向工程：</b>在逆向工程的過程中，Hook 可以有效幫助開發者或研究人員追蹤某個程式的執行路徑、監控 API 調用，以幫助分析其內部邏輯。</li>
+                                <li><b>沙箱（Sandbox）：</b>在沙箱環境中，Hook 機制可以用於監視並限制目標程式的行為，以防止對主機系統造成傷害。</li>
+                                <li><b>軟體功能增強：</b>若想要對現有程式添加新功能，並且不修改原始碼，也可以透過 Hook 的方式輔助。</li> 
+                            </ul>
+
+                            常見的 Hook 技術：
+                            <ul>
+                                <li><b>API Hooking：</b>透過 Hook 系統 API，以監控或修改應用程式與作業系統互動的行為。</li>
+                                <li><b>Inline Hooking：</b>透過 Hook 修改目標函數的程式碼/指令，插入自定義程式碼/指令，使得當函數被調用時，會先依據自定義邏輯執行 Hook 的行為，再執行目標函數程式碼。</li>
+                                <li><b>IAT/EAT Hooking：</b>透過 Hook 修改 IAT / EAT 中的函數指標，指向自定義的函數，以攔截其調用。</li>
+                                <li><b>Kernel Hooking：</b>透過 Hook 內核（Kernel）函數以監控或修改 Kernel Mode 操作。此類技術用於作業系統級別的操作，需要謹慎小心，否則可能導致系統崩潰或其他安全風險。</li>
+                                <ul>
+                                    <li><b>SSDT Hooking（System Service Dispatch Table Hooking）：</b>Windows 的內核透過 SSDT 將系統調用調度到內核中的相對應函數。因此透過 Hook 修改 SSDT，可以實現攔截系統調用，實現內核級別的 Hook。</li>
+                                    <li><b>IDT Hooking（Interrupt Descriptor Table Hooking）：</b>IDT 是用於處理中斷（Interrupt）的機制，修改 IDT 可以實現攔截硬體或軟體中斷，進而控制中斷處理流程。</li>
+                                </ul>
+                            </ul>
+
+                            常見的 Hook 工具：
+                            <ul>
+                                <li><b><a href="https://github.com/microsoft/Detours">Microsoft Detours</a>：</b>由 Microsoft 開發的一套 Hook 框架，支援 Windows 作業系統，可以用於攔截系統 API 調用，並修改其行為。</li>
+                                <li><b><a href="https://github.com/EasyHook/EasyHook">EasyHook</a>：</b>一套開源的 Hook 框架，支援 Windows 作業系統，可以用於攔截應用程式的函數調用，並修改其行為。</li>
+                            </ul>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part4/meme2.jpg" alt="meme2">
+                            </div>
+                            <br>
+                            惡意程式使用 Hook 技術可以實現包括隱藏自身、監控系統、竊取資料、修改系統行為等的惡意行為。由於 Hook 技術在合法和惡意場景中都有廣泛應用，使得惡意程式可以輕鬆利用它來實現各種攻擊手段。
+                            <br><br>
+                        </div>
+
+                        <div>
+                            <h2>How Hooks work</h2>
+                            <hr>
+                            Hook 的方法有很多種，但最終目的都是修改某一位址內容，從而做到控制執行流程。從流程上來看，只是將直接調用的過程修改掉，經過自訂的特殊處理，再執行原先的調用，最終才達到真正的目標函數位址，此一過程也稱作<b>Detour</b> （中文：繞道、迂迴等），插入的這個與原函數接口完全相同（參數、類型、調用約定）的函數，稱為 <b>Detour 函數</b>。
+                            <br><br>
+                            一般情況下，Hook 的實現過程如下：
+                            <ol>
+                                <li>找到目標函數</li>
+                                <li>修改執行路徑</li>
+                                <li>執行自定義程式碼/指令</li>
+                                <li>返回原目標函數</li>
+                            </ol>
+                            <br>
+
+                            <div>
+                                <h4>Type of Hook</h4>
+                                個人認為 Hook 的方法大致可以分為兩種，一種是通過修改資料（例如：引用的函數位址）進行 Hook；另一種，則是直接修改函數內部指令進行 Hook。
+                                <br><br>
+                                <ul>
+                                    <li>Address Hook：修改函數指標（資料）。</li>
+                                    <ul>
+                                        <li>IAT Hook</li>
+                                        <li>EAT Hook</li>
+                                        <li>SSDT Hook</li>
+                                        <li>IDT Hook</li>
+                                        <li>...</li>
+                                    </ul>
+                                    <li>Inline Hook：修改函數內容（指令）。</li>
+                                </ul>
+                                <br>
+                            </div>
+
+                            <div>
+                                <h4>Hook location selection</h4>
+                                即使對同一函數進行 Hook，其大多可以同時進行 Address Hook 與 Inline Hook。對應用程式來說，為了實現某種功能，通常都會需要調用系統 API，而系統 API 是通過一系列底層調用實現的，在這一連串的調用過程中都是可以進行 Hook 的，我們應該如何挑選 Hook 的位置呢？
+                                <br><br>
+                                <ol>
+                                    <li>首先需要對 Hook 目標位置的攔截範圍與攔截內容清楚認識</li>
+                                    <li>Hook 的位置越上層，就可以越早得到控制權</li>
+                                    <li>Hook 的位置越下層，影響可能就越大</li>
+                                </ol>
+                                <div style="text-align: center;" >
+                                    <img class="img-fluid" src="/assets/img/MD-part4/meme3.jpg" alt="meme3">
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+
+                        <div>
+                            <h2>Common Hooking Techniques</h2>
+                            <hr><br> 
+                            <div>
+                                <h4>Address Hook</h4>
+                                是指透過修改函數指標（資料）進行 Hook 的方法，而其中所說的 “資料” 實際上是指函數位址（或是偏移量），其通常儲存在各類表或結構中、某個指定位址處，或是特殊的暫存器中，共同的特點是在執行前都會被存放在 EIP/RIP 暫存器中，只要將這些位址替換成 Detour 函數位址，就可以達到 Hook 的目標了。適合較高層的 API 調用。
+                                <ul>
+                                    <li>IAT Hook</li>
+                                    <li>EAT Hook</li>
+                                    <li>SSDT Hook</li>
+                                    <li>IDT Hook</li>
+                                    <li>...</li>
+                                </ul>
+                                <br>
+                                大致步驟如下：
+                                <ol>
+                                    <li>需要定義一個與被 Hook 函數型態一樣的函數指標，使其指向原始函數。</li>
+                                    <li>查表（或遍歷搜尋）找出目標含數位址，並進行替換（須關閉寫保護權限）及寫入 Detour 函數位址。</li>
+                                </ol>
+
+                                <div>
+                                    <h5>IAT Hook - MessageBoxA</h5>
+                                    攀爬 Import Directory 將指定的 MessageBoxA 的函數位址更改為自訂的函數位址（Hook function）。
+                                    <br><br>
+                                    <script src="https://gist.github.com/XD3an/af6fc29a75f22ca348486661842c0278.js"></script>
+                                    <br>
+                                    <div style="text-align: center;" >
+                                        <img class="img-fluid" src="/assets/img/MD-part4/iat_hook_demo.gif" alt="iat_hook_demo">
+                                    </div>
+                                </div>
+                                <br>
+                                從結果中，我們可以發現兩次雖然都呼叫同一個函數 MessageBoxA，但卻不是屬於同一個函數位址，這就是因為 Hook 的過程中，我們透過攀爬 Import Directory 找出對應的模組中相同名稱的函數，並將其函數位址進行更改，如此一來，當之後需要呼叫該函數時，就會執行更改過後的 Hook 函數。
+                                <br><br>
+                                <div style="text-align: center;" >
+                                    <img class="img-fluid" src="/assets/img/MD-part4/meme4.jpg" alt="meme4">
+                                </div>
+                                <br>
+                            </div>
+
+                            <div>
+                                <h4>Inline Hook</h4>
+                                是指修改函數內容（指令），其中修改的關鍵指令一般為 jmp、call、retn 等。適合較底層的系統函數。
+                                <br>
+                                這邊要介紹一個新的名詞 <b>Trampoline 函數</b>，是指原先調用目標函數的入口點，該函數中執行目標函數中被替換的前幾個指令，以便在執行原始函數的同時，可以插入自定義行為，其通常會在原始函數的開頭部分進行設置，然後調用實際的目標函數。
+                                <br><br>
+                                具體實現步驟如下：
+                                <ol>
+                                    <li>確定 Hook 方式及需要在 Trampoline 中執行的指令。</li>
+                                    <li>準備 Detour 函數。</li>
+                                    <li>準備欲修改指令並寫入。</li>
+                                </ol>
+                                <br>
+    
+                                <div>
+                                    <h5>Inline Hook (x86) - MessageBoxA</h5>
+                                    <li>環境：Windows x86</li>
+                                    <br>
+                                    <script src="https://gist.github.com/XD3an/1627208705b00ecba26266ded4b34348.js"></script>
+                                    <br>
+                                    <div style="text-align: center;" >
+                                        <img class="img-fluid" src="/assets/img/MD-part4/inline_hook_demo.gif" alt="inline_hook_demo">
+                                    </div>
+                                    <br>
+                                </div>
+                                透過將原始函數的前幾個指令替換為跳轉到自定義的 Detour 函數，使程式能夠在調用目標函數時，可以執行自定義操作。
+                                <br><br>
+                                <b>
+                                    執行 MessageBoxA → 跳轉到 Detour 函數 → 執行 Detour 函數 → 跳到 Trampoline 後返回原始函數 MessageBoxA。
+                                </b>
+                                <br><br><br>
+                            </div>
+    
+                            <div>
+                                <h5>Inline Hook with DLL Injection (x86) - MessageBoxW</h5>
+                                <li>環境：Windows x86</li>
+                                <br>
+                                <b>
+                                    這裡使用 JMP 指令改寫，將目標函數位址跳至 HOOK 函數。
+                                </b>
+                                <br><br>
+                                需要計算 JMP 的位址機器碼指令（offset），計算公式如下：
+                                <div style="text-align: center;">
+                                    <b>
+                                        offset = Hook函數位址 - (目標函數位址 + 5)
+                                    </b>
+                                </div>
+                                <br>
+                                <b>下圖舉例</b>
+                                <br><br>
+                                <div style="text-align: center;" >
+                                    <img class="img-fluid" src="/assets/img/MD-part4/calculate_address.png" alt="calculate_address">
+                                </div>
+                                <br>
+                                根據以上，我們可以建立一個 DLL 用於 Hook 目標函數，再透過 DLL Injection，載入時，則執行 Hook 的初始化，這樣就可以實現 Hook 的目標了。
+                                <br><br>
+                                以下是 hookdll.h
+                                <br>
+                                <script src="https://gist.github.com/XD3an/90bf10267bc7735f4627e4f435080e90.js"></script>
+                                <br>
+                                以下是 hookdll.cpp
+                                <br>
+                                <script src="https://gist.github.com/XD3an/8644102dbd1188cd4d85faafeeb55da2.js"></script>
+                                <br>
+                                再通過前面介紹的 DLL Injection 技術就可以實現將 DLL 載入至目標函數的同時，對目標函數進行 Hook 操作。
+                                <br><br>
+                                <div style="text-align: center;" >
+                                    <img class="img-fluid" src="/assets/img/MD-part4/inline_hook_dlli_demo.gif", alt="inline_hook_dlli_demo">
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2>Hook Tools</h2>
+                            <hr>
+                            <p></p>
+                            <div>
+                                <h5>Windows Hook API</h5>
+                                Windows 提供一套允許應用程式攔截或處理系統的消息與事件的 API，可以用於鍵盤、滑鼠、窗口和系統事件等。
+                                <br>
+                                <ul>
+                                    <li>
+                                        <a href="https://learn.microsoft.com/en-us/windows/win32/winmsg/hooks">Karl-Bridge-Microsoft Hooks - Win32 apps</a>
+                                    </li>
+                                </ul>
+                                <br>
+                            </div>
+                            <div>
+                                <h5>Microsoft Detours</h5>
+                                Microsoft Detours 是一個開源工具，用於動態重定位 Windows 應用程序中的函數。
+                                <br>
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/microsoft/Detours">Detours</a>
+                                    </li>
+                                </ul>
+                                <br>
+                            </div>
+                            <div>
+                                <h5>EasyHook</h5>
+                                是一個開源的 .NET Hook 解決方案，允許在 .NET 應用程序中輕鬆實現 Hook。
+                                <br>
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/EasyHook/EasyHook">EasyHook</a>
+                                    </li>
+                                </ul>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2>Conclusion</h2>
+                            <hr>
+                            本篇探討了 Hook 的相關技術，並嘗試實現了簡易版的 IAT Hook、Inline Hook，甚至是將 DLL Injection 技術納入其中來幫助我們實現目標。最後也簡單列出幾個可以參考的 Hook 開發工具。
+                            <br>
+                            Hook 技術經常被應用於許多地方，不論是惡意程式或資安軟體都有其技術的蹤影。
+                            <br>
+                            <br>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part4/meme5.png" alt="meme5">
+                            </div>
+                            <br>
+                        </div>
+
+                        <div>
+                            <h2>References</h2>
+                            <hr>
+                            <ul>
+                                <li>
+                                    <a href="https://bbs.kanxue.com/thread-269261.htm">XiunoBBS 4.0 [原创]Windows Hook技术的简单介绍，干就完了！-编程技术-看雪-安全社区|安全招聘|kanxue.com</a>
+                                </li>
+                                <li>
+                                    <a href="https://s.itho.me/ccms_slides/2024/5/24/82199f76-195a-45bf-87d5-af9cafc30cf4.pdf">s.itho.me</a>
+                                </li>
+                                <li>
+                                    <a href="https://blog.securehat.co.uk/process-injection/manually-implementing-inline-function-hooking">Manually Implementing Inline Function Hooking | Securehat</a>
+                                </li>
+                                <li>
+                                    <a href="https://learn.microsoft.com/en-us/windows/win32/winmsg/hooks">Karl-Bridge-Microsoft Hooks - Win32 apps</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/microsoft/Detours">Detours</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/EasyHook/EasyHook">EasyHook</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/watch?v=jvh5v9Rd9HE">隨意觀看 小心魔鉤</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/d3an_x">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/XD3an">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
