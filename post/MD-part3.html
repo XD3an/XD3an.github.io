@@ -117,14 +117,15 @@
                                     </ul>
                                 </div>
                                 <p>
-                                    <a href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager">https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager</a>
-                                    <a href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753">https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753</a>
+                                    <a style="text-align: center;" href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager">wikiHow - How to Change Process Priorities in Windows Task Manager</a>
+                                    <br><br>
+                                    <a style="text-align: center;" href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753">When you set a 100% CPU program to real-time priority, you get what you asked for</a>
                                 </p>
                                 <b>該如何檢視行程？</b>
                                 <ul>
                                     <li>工作管理員</li>
                                     <li>tasklist</li>
-                                    <img class="img-fluid" src="/assets/img/MD-part3/tasklist.png" alt="tasklist">
+                                    <img style="text-align: center;" class="img-fluid" src="/assets/img/MD-part3/tasklist.png" alt="tasklist">
                                     <li><a href="https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer">Process Explorer</a></li>
                                 </ul>
                                 
@@ -141,12 +142,14 @@
                                     <li>一組唯一識別碼，即 thread ID（process IDs 與 thread IDs 是從同一個命名空間產生的，所以兩者不會重複）。</li>
                                     <li>Thread 有時擁有自己的安全環境，讓 multithreaded 的伺服器程式可以獨立管控各個客戶端的安全層級。</li>
                                 </ul>
+                                <br>
                             </div>
                             <div>
                                 <h5>Handle</h5>
                                 <b>是一個指向物件的參考，用來存取物件的資訊。</b><br>
                                 在 Windows 系統中，用於標識某個資源的結構體，應用程式之間可以透過 Handle 進行交互。
-                                <p><a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers">https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers</a></p>
+                                <a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers">Process Handles and Identifiers</a>
+                                <br><br>
                             </div>
                             <div>
                                 <h5>Application Process, Windows Process, 與 Background Process</h5>
@@ -156,7 +159,7 @@
                                         <li><b>若被標記為 Critical → Windows Process</b>：是指由 Windows 作業系統啟動或管理的核心行程，負責執行系統級的操作，例如：管理硬體資源、提供系統服務。被標記為 Critical 是表示系統穩定運行所需的行程，一旦被終止，系統可能因此崩潰。</li>
                                         <li><b>其餘則為 → Background Process</b>：是指不需要與使用者直接交互的行程，通常在後台執行，提供應用程式或系統的支持功能。</li>
                                     </ul>
-                                <p><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606</a></p>
+                                <p><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">How does Task Manager categorize processes as App, Background Process, or Windows Process?</a></p>
                             </div>
                             <div>
                                 <h4>Windows API</h4>
@@ -177,7 +180,7 @@
                                         <li>Networking and internet</li>
                                         <li>…</li>
                                     </ul>
-                                <p><a href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list">https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list</a></p>
+                                <p><a href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list">Windows API list</a></p>
                                 
                                 <p>
                                     惡意程式常見 API 可以參考以下：
@@ -252,6 +255,7 @@
                                         <img class="img-fluid" src="/assets/img/MD-part3/ltinjection_demo.gif" alt="ltinjection_demo">
                                     </div> -->
                                 </p>
+                                <br>
                             </div>
                             <div>
                                 <h4>Remote Thread Injection</h4>
@@ -265,7 +269,7 @@
                                 </p>
                                 我們現在已經可以對指定的行程注入並執行 shellcode 了。
                             </div>
-                            <br>
+                            <br><br>
                         </div>
 
                         <!-- Dynamic-Link Library Injection -->
@@ -287,8 +291,9 @@
                             <h4>Dynamic-Link Library</h4>
                             <p>動態連結函式庫（Dynamic-Link Library，DLL）是微軟公司在 Windows 系統中實現共享函數函式庫概念的一種實作方式。</p>
                             <p>簡單來說，就是可以定義共享函式的函式庫，通過動態連結的機制，當執行檔呼叫到DLL檔內的函式時，Windows作業系統才會把DLL檔載入記憶體內。</p>
-                            <p><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library#dll-development">https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library#dll-development</a></p>
+                            <p><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library#dll-development">dynamic-link-library#dll-development</a></p>
                             <li>The DLL entry point</li>
+                            <br>
                             <script src="https://gist.github.com/XD3an/796046780a6fb0ec739380e75a35926c.js"></script>
                             <p>
                                 接下來，我們可以先嘗試建立一個簡單的 DLL 檔
@@ -322,13 +327,18 @@
 
                             <div>
                                 <h4>DLL Injector</h4>
-                                <p>再來就可以嘗試實作 DLL Injector 了。</p>
                                 <p>
+                                    再來就可以嘗試實作 DLL Injector 了。
+                                    <br>
                                     首先，還是要先了解一下會使用到的 Windows API。
                                     <li>
                                         <b>kernel32.dll：</b>是 Windows 作業系統中的一個核心動態鏈接庫（DLL），負責提供許多基本的系統函數。
                                         <br>
-                                        <a href="https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm">https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm</a>
+                                        <ul>
+                                            <li>
+                                                <a href="https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm">https://www.geoffchappell.com/studies/windows/win32/kernel32/api/index.htm</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </p>
                                 <p>
@@ -339,7 +349,8 @@
                                     <li><b>GetProcAddress：</b>從指定的動態連結庫 (DLL) 擷取匯出函式 (也稱為程式) 或變數。</li>
                                     <script src="https://gist.github.com/XD3an/5f50b8e803587dae860072275ad95a8f.js"></script>
                                 </p>
-                                <h6>DLL Injector</h6>
+                                <h5>DLL Injector</h5>
+                                <br>
                                 <script src="https://gist.github.com/XD3an/195063cbb6be7650cd688e210e43c9c8.js"></script>
                                 <p>現在嘗試注入 DLL 至指定行程</p>
                                 <div style="text-align: center;">
@@ -374,6 +385,12 @@
                             </ul>
                         </div>
 
+                        <!-- go to part4 -->
+                        <div style="text-align: center;">
+                            <p>
+                                => <a href="MD-part4.html">從刮痕開始的惡意程式開發 - Part 4: Hooking Techniques</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

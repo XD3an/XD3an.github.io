@@ -262,13 +262,15 @@
                                 </div>
                                 <br>
                                 根據以上，我們可以建立一個 DLL 用於 Hook 目標函數，再透過 DLL Injection，載入時，則執行 Hook 的初始化，這樣就可以實現 Hook 的目標了。
-                                <br><br>
-                                以下是 hookdll.h
-                                <br>
+                                
+                                <p>
+                                    以下是 hookdll.h
+                                </p>
+                                
                                 <script src="https://gist.github.com/XD3an/90bf10267bc7735f4627e4f435080e90.js"></script>
-                                <br>
-                                以下是 hookdll.cpp
-                                <br>
+                                <p>
+                                    以下是 hookdll.cpp
+                                </p>
                                 <script src="https://gist.github.com/XD3an/8644102dbd1188cd4d85faafeeb55da2.js"></script>
                                 <br>
                                 再通過前面介紹的 DLL Injection 技術就可以實現將 DLL 載入至目標函數的同時，對目標函數進行 Hook 操作。

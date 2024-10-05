@@ -69,241 +69,265 @@
                         <p>
                             Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。
                         </p>
-                        <h2>殼程式碼 - Shellcode</h2>
-                        <hr>
                         <div>
-                        <p>
-                            shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
-                        <br>
-                        在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得攻擊面相越來越偏向 Web 面的滲透，而在過去的服務通常都是一個二進制的執行檔運行，因此大多都是利用二進制層面的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
-                        <br>                            
-                        在現今， shellcode 不僅用於獲取shell，還被用於下載惡意程式、啟動後門程式等攻擊行為。透過精心構造來繞過防護機制，並根據不同的系統架構、處理器進行量身定制。編寫高品質的 shellcode 需要對底層系統有深入的理解。
-                        <br>
-                        現今環境下編寫 shellcode 已經不像過去如此困難，有很多生成的方法，甚至不需要自己動手編寫，並且很多人也會將自己所編寫的 shellcode 公開，以下是 shellcode 的相關資料與原始碼：
-                        </p>
-                        <p>
-                            <ul>
-                                <li>手動編寫</li>
+                            <h2>殼程式碼 - Shellcode</h2>
+                            <hr>
+                                shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
+                            <br>
+                            在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得攻擊面相越來越偏向 Web 面的滲透，而在過去的服務通常都是一個二進制的執行檔運行，因此大多都是利用二進制層面的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
+                            <br>                            
+                            在現今， shellcode 不僅用於獲取shell，還被用於下載惡意程式、啟動後門程式等攻擊行為。透過精心構造來繞過防護機制，並根據不同的系統架構、處理器進行量身定制。編寫高品質的 shellcode 需要對底層系統有深入的理解。
+                            <p>
+
+                                現今環境下編寫 shellcode 已經不像過去如此困難，有很多生成的方法，甚至不需要自己動手編寫，並且很多人也會將自己所編寫的 shellcode 公開，以下是 shellcode 的相關資料與原始碼：
+                                <br>    
                                 <ul>
-                                    <li>使用組合語言編寫</li>
+                                    <li>手動編寫</li>
+                                    <ul>
+                                        <li>使用組合語言編寫</li>
+                                    </ul>
+                                    <li>工具生成</li>
+                                    <ul>
+                                        <li><a href="https://www.metasploit.com/">Metasploit</a></li>
+                                        <li><a href="https://docs.pwntools.com/en/stable/shellcraft.html">Python - pwntools</a></li>
+                                        <li><a href="https://github.com/TheWover/donut">donut</a>
+                                    </ul>
+                                    <li>線上資源</li>
+                                    <ul>
+                                        <li><a href="https://shell-storm.org/shellcode/index.html">shell-storm</a></li>
+                                        <li><a href="https://www.exploit-db.com/shellcodes">exploit-db</a></li>
+                                    </ul>
                                 </ul>
-                                <li>工具生成</li>
-                                <ul>
-                                    <li><a href="https://www.metasploit.com/">Metasploit</a></li>
-                                    <li><a href="https://docs.pwntools.com/en/stable/shellcraft.html">Python - pwntools</a></li>
-                                    <li><a href="https://github.com/TheWover/donut">donut</a>
-                                </ul>
-                                <li>線上資源</li>
-                                <ul>
-                                    <li><a href="https://shell-storm.org/shellcode/index.html">shell-storm</a></li>
-                                    <li><a href="https://www.exploit-db.com/shellcodes">exploit-db</a></li>
-                                </ul>
-                            </ul>
-                        </p>
-                        <p>
-                            此處嘗試使用 msfvenom 生成 shellcode，先預設目標：
-                            <b>
-                                我們希望讓目標機器彈一個 Reverse Shell 給我們，並且在我們知道對方機器是 Windows 作業系統的假設情況。
-                            </b>                         
-                        </p>
-                        我們首先需要知道自身的 IP 位址是多少（以下是根據實驗環境建立的內網環境，請根據自身狀況改變小心服用）
-                        <p>
-                        </p>
-                        <div style="text-align: center;" >
-                            <img class="img-fluid" src="/assets/img/MD-part2/ifconifg.png" alt="ifconifg">
+                            </p>
+                            <p>
+                                此處嘗試使用 msfvenom 生成 shellcode，先預設目標：
+                                <b>
+                                    我們希望讓目標機器彈一個 Reverse Shell 給我們，並且在我們知道對方機器是 Windows 作業系統的假設情況。
+                                </b>                         
+                            </p>
+                            我們首先需要知道自身的 IP 位址是多少（以下是根據實驗環境建立的內網環境，請根據自身狀況改變小心服用）
+                            <p>
+                            </p>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part2/ifconifg.png" alt="ifconifg">
+                            </div>
+    
+                            <p>
+                                再使用 msfvenom 輸入以下指令生成（LHOST={自己的IP}、LPORT={自己的PORT}）
+                            </p>
+                            <div style="text-align: center;" >
+                                <img class="img-fluid" src="/assets/img/MD-part2/msfvenom.png" alt="msfvenom">
+                            </div>
+                            <p>現在有了 shellcode，但問題來了，要怎麼使用呢？🤔</p>
                         </div>
 
-                        <p>
-                            再使用 msfvenom 輸入以下指令生成（LHOST={自己的IP}、LPORT={自己的PORT}）
-                        </p>
-                        <div style="text-align: center;" >
-                            <img class="img-fluid" src="/assets/img/MD-part2/msfvenom.png" alt="msfvenom">
-                        </div>
-                        <p>現在有了 shellcode，但問題來了，要怎麼使用呢？🤔</p>
-
-                        </div>
-                        <h2>奔跑吧 shellcode</h2>
-                        <hr>
                         <div>
-                            <b>以下先從 x86 架構開始探討，實驗皆是以 Windows 系統作為目標，並以 C/C++ 及 Windows API 實現。</b>
-                        <p>
-                            以下是一個使用 Windows API 的簡易 Shellcode 執行程式碼，基本上直接執行是可以的。
-                        </p>
-                        <script src="https://gist.github.com/XD3an/998ae70c96e0eb58597162d9e2d80b3b.js"></script>
-                        <p>
-                            將 shellcode 放在該放的位置後，編譯並建立該惡意程式
-                        </p>
-                        <div style="text-align: center;" >
-                            <img class="img-fluid" src="/assets/img/MD-part2/shellcode_loader_exe_icon.png" alt="shellcode_loader_exe_icon">
-                        </div>
-                        <p>
-                            之後就可以使用 Metasploit 建立接收 Reverse Shell 的連結點了
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/msfconsole1.png" alt="msfconsole1">
-                        </div>
-                        <br>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/msfconsole2.png" alt="msfconsole2">
-                        </div>
-                        <p>
-                            當一切準備就緒就可以開始執行了
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/shellcode_runner.gif" alt="shellcode_runner">
-                        </div>
-                        <p>
-                            把我們的成果嘗試丟到 VirusTotal 看看
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal1.png" alt="virustotal">
-                        </div>
-                        <p>
-                            沒錯，VirusTotal 的評分相當的紅，顯然是個充滿惡意的程式，但這明顯不是我們要的，為了達到不被發覺是一個惡意程式，勢必需要其他手段達成…
-                        </p>
-
-                        <h4>Obfuscation: XOR shellcode</h4>
-                        <p>
-                            因為防毒軟體在對惡意程式進行匹配時，很可能會將程式中的機器碼進行比對，因此 shellcode 的樣式很容易就會被發現了。因此我們可以將 shellcode 透過 XOR 加密，使其混淆，如此一來就有有機會規避機器碼樣式的匹配了。
-                        </p>
-                        <script src="https://gist.github.com/XD3an/f1a11ffeed36840558c26c3232017114.js"></script>
-                        <p>
-                            解密後再執行一樣可以達到相同效果
-                        </p>
-                        <script src="https://gist.github.com/XD3an/cedeec4565f0b7b38ac005bf16ce44c7.js"></script>
-                        <p>
-                            現在再將已經 XOR 過 shellcode 的惡意程式丟進 VirusTotal 看看
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
-                        </div>
-                        <p>
-                            可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
-                        </p>
-
-                        <h4>x86 tricks: Run Code without Call</h4>
-                        <p>
-                            以上的惡意行為只要對該利用方法有過分析經驗，或是防毒軟體根據所使用的 API 或相應行為，很容易就可以得知惡意的意圖，我們可以通過構造一些過程中的非正常行為，從而繞過這些檢測或增加分析成本。
-                        </p>
-                        以下分享一些小技巧
-                        <p>
-                            我們嘗試重新設計一個新的 shellcode，以彈出計算機為目的，再次使用 msfvenom 生成
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
-                        </div>
-                        <p><b>Run Code without Calling  (Stack Overflow) </b><br>
-                            透過 Stack Overflow 將 return address 蓋掉變成存放 shellcode 的記憶體區塊位址，其中利用 Microsoft 的特定編譯指令 `#pragma` 定義新的 Section 給 shellcode，並告訴 Linker 將權限設為 RWE，要特別注意需要將 main 函數的優化選項關閉。
-                        </p>
-                        <script src="https://gist.github.com/XD3an/2df1cf42c77cc2c4c92af7ad859333f7.js"></script>
-                        <p>
-                            在 main 函數中，構造了一個 Stack Overflow 漏洞，並且可以剛好蓋到 return address
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg1.png" alt="exe_x32dbg1">
-                        </div>
-                        <br>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg2.png" alt="exe_x32dbg2">
-                        </div>
-                        <p>
-                            當 EIP 指向 `ret` 時，就會執行到已經被覆蓋的 return address，即存放 shellcode 的位置
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg3.png" alt="exe_x32dbg3">
-                        </div>
-                        <br>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg4.png" alt="exe_x32dbg4">
-                        </div>
-                        <p>
-                            現在來嘗試彈出計算機吧！
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSof_pop_calc.gif" alt="RunCodeWithoutCallingWithSof_pop_calc">
-                        </div>
-                        <p>
-                            <b>Run Code without Calling (Stack Overflow and Exception Handle) </b>
-                            <br>
-                            在 Windows 中還有一種機制叫例外處理（Exception Handle），是一種用於處理異常情況，主要用於當時程式執行發生意外錯誤或異常時，讓程式可以捕捉這些錯誤並加以處理，以避免程式崩潰或不正確行為的發生。
-                            <br>
-                            <a href="https://learn.microsoft.com/en-us/windows/win32/debug/using-an-exception-handler">https://learn.microsoft.com/en-us/windows/win32/debug/using-an-exception-handler</a>
-                            <br><br>
-                            我們也可以透過濫用例外處理的機制將處理異常的方法改為呼叫 shellcode，透過讓 return address 變為 \xCC 指令，當程式執行的該指令時就會觸發 BREAKPOINT_EXCEPTION 異常。
-                            <a href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3">https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3</a>
-                        </p>
-                        <script src="https://gist.github.com/XD3an/6d4c1d81817016cd6c2464ffdd1996c9.js"></script>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSofnExcp_pop_calc.gif" alt="RunCodeWithoutCallingWithSofnExcp_pop_calc">
-                        </div>
-                        <br>
-                        </div>
-                        
-
-                        <h4>x64</h4>
-                        <p>
-                            現今大部分系統皆為 x64 居多，並且過去樣本大多都是 x86 占多數，因此若惡意程式為 x64 架構，多少會有奇效。
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/msfvenom_x64.png" alt="msfvenom_x64">
-                        </div>
-                        <br>
-                        <script src="https://gist.github.com/XD3an/7bd2b16adaa860d347d1567a0bf59ea6.js"></script>
-                        <br>
-                        <h2>Conclusion</h2>
-                        <hr>
-                        <p>
+                            <h2>奔跑吧 shellcode</h2>
+                            <hr>
                             <div>
-                                透過本篇我們了解了 shellcode 是什麼？如何生成？如何利用？
-                                <br>
-                                再來探討幾個混淆或增加分析成本的小技巧與手段，來幫助我們更加完善我們的惡意程式。
+                                <b>以下先從 x86 架構開始探討，實驗皆是以 Windows 系統作為目標，並以 C/C++ 及 Windows API 實現。</b>
+                                <div>
+                                    <p>
+                                        以下是一個使用 Windows API 的簡易 Shellcode 執行程式碼，基本上直接執行是可以的。
+                                    </p>
+                                    <script src="https://gist.github.com/XD3an/998ae70c96e0eb58597162d9e2d80b3b.js"></script>
+                                    <p>
+                                        將 shellcode 放在該放的位置後，編譯並建立該惡意程式
+                                    </p>
+                                    <div style="text-align: center;" >
+                                        <img class="img-fluid" src="/assets/img/MD-part2/shellcode_loader_exe_icon.png" alt="shellcode_loader_exe_icon">
+                                    </div>
+                                    <p>
+                                        之後就可以使用 Metasploit 建立接收 Reverse Shell 的連結點了
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/msfconsole1.png" alt="msfconsole1">
+                                    </div>
+                                    <br>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/msfconsole2.png" alt="msfconsole2">
+                                    </div>
+                                    <p>
+                                        當一切準備就緒就可以開始執行了
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/shellcode_runner.gif" alt="shellcode_runner">
+                                    </div>
+                                    <p>
+                                        把我們的成果嘗試丟到 VirusTotal 看看
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal1.png" alt="virustotal">
+                                    </div>
+                                    <p>
+                                        沒錯，VirusTotal 的評分相當的紅，顯然是個充滿惡意的程式，但這明顯不是我們要的，為了達到不被發覺是一個惡意程式，勢必需要其他手段達成…
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4>Obfuscation: XOR shellcode</h4>
+                                    <p>
+                                        因為防毒軟體在對惡意程式進行匹配時，很可能會將程式中的機器碼進行比對，因此 shellcode 的樣式很容易就會被發現了。因此我們可以將 shellcode 透過 XOR 加密，使其混淆，如此一來就有有機會規避機器碼樣式的匹配了。
+                                    </p>
+                                    <script src="https://gist.github.com/XD3an/f1a11ffeed36840558c26c3232017114.js"></script>
+                                    <p>
+                                        解密後再執行一樣可以達到相同效果
+                                    </p>
+                                    <script src="https://gist.github.com/XD3an/cedeec4565f0b7b38ac005bf16ce44c7.js"></script>
+                                    <p>
+                                        現在再將已經 XOR 過 shellcode 的惡意程式丟進 VirusTotal 看看
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
+                                    </div>
+                                    <p>
+                                        可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4>x86 tricks: Run Code without Call</h4>
+                                    <p>
+                                        以上的惡意行為只要對該利用方法有過分析經驗，或是防毒軟體根據所使用的 API 或相應行為，很容易就可以得知惡意的意圖，我們可以通過構造一些過程中的非正常行為，從而繞過這些檢測或增加分析成本。
+                                    </p>
+                                    以下分享一些小技巧
+                                    <p>
+                                        我們嘗試重新設計一個新的 shellcode，以彈出計算機為目的，再次使用 msfvenom 生成
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
+                                    </div>
+                                    <br><br>
+
+                                    <div>
+                                        <h5>Run Code without Calling  (Stack Overflow) </h5>
+                                        <p>
+                                            透過 Stack Overflow 將 return address 蓋掉變成存放 shellcode 的記憶體區塊位址，其中利用 Microsoft 的特定編譯指令 `#pragma` 定義新的 Section 給 shellcode，並告訴 Linker 將權限設為 RWE，要特別注意需要將 main 函數的優化選項關閉。
+                                        </p>
+                                        <script src="https://gist.github.com/XD3an/2df1cf42c77cc2c4c92af7ad859333f7.js"></script>
+                                        <p>
+                                            在 main 函數中，構造了一個 Stack Overflow 漏洞，並且可以剛好蓋到 return address
+                                        </p>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg1.png" alt="exe_x32dbg1">
+                                        </div>
+                                        <br>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg2.png" alt="exe_x32dbg2">
+                                        </div>
+                                        <p>
+                                            當 EIP 指向 `ret` 時，就會執行到已經被覆蓋的 return address，即存放 shellcode 的位置
+                                        </p>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg3.png" alt="exe_x32dbg3">
+                                        </div>
+                                        <br>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg4.png" alt="exe_x32dbg4">
+                                        </div>
+                                        <p>
+                                            現在來嘗試彈出計算機吧！
+                                        </p>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSof_pop_calc.gif" alt="RunCodeWithoutCallingWithSof_pop_calc">
+                                        </div>
+                                        <br><br>
+                                    </div>
+                                    <div>
+                                        <h5>Run Code without Calling (Stack Overflow and Exception Handle) </h5>
+                                        <p>
+                                            在 Windows 中還有一種機制叫例外處理（Exception Handle），是一種用於處理異常情況，主要用於當時程式執行發生意外錯誤或異常時，讓程式可以捕捉這些錯誤並加以處理，以避免程式崩潰或不正確行為的發生。
+                                        </p>
+                                        <a style="text-align: center;" href="https://learn.microsoft.com/en-us/windows/win32/debug/using-an-exception-handler">Using an Exception Handler</a>
+                                        <br><br>
+                                        我們也可以透過濫用例外處理的機制將處理異常的方法改為呼叫 shellcode，透過讓 return address 變為 \xCC 指令，當程式執行的該指令時就會觸發 BREAKPOINT_EXCEPTION 異常。
+                                        <br><br>
+                                        <a style="text-align: center;"  href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3">stackoverflow - 0x-cc-vs-0x-cd-03-int-3</a>
+                                        <br><br>
+                                        <script src="https://gist.github.com/XD3an/6d4c1d81817016cd6c2464ffdd1996c9.js"></script>
+                                        <br>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSofnExcp_pop_calc.gif" alt="RunCodeWithoutCallingWithSofnExcp_pop_calc">
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>x64</h4>
+                                    <p>
+                                        現今大部分系統皆為 x64 居多，並且過去樣本大多都是 x86 占多數，因此若惡意程式為 x64 架構，多少會有奇效。
+                                    </p>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/msfvenom_x64.png" alt="msfvenom_x64">
+                                    </div>
+                                    <br>
+                                    <script src="https://gist.github.com/XD3an/7bd2b16adaa860d347d1567a0bf59ea6.js"></script>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                                <h2>Conclusion</h2>
+                                <hr>
+                                <div>
+                                    透過本篇我們了解了 shellcode 是什麼？如何生成？如何利用？
+                                    <br>
+                                    再來探討幾個混淆或增加分析成本的小技巧與手段，來幫助我們更加完善我們的惡意程式。
+                                    <ul>
+                                        <li>Shellcode Loader</li>
+                                        <li>Obfuscation: XOR shellcode</li>
+                                        <li>x64 tricks: Run Code without Calling</li>
+                                    </ul>
+                                    <div>
+                                        在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
+                                        <br>
+                                        以下是 VirusTotal 對於簡易 Shellcode 執行器的 Behavior 分析結果，其利用 MITRE ATT&CK & MBC 來作行為匹配。
+                                    </div>
+                                    <br>
+                                    <div style="text-align: center;">
+                                        <img class="img-fluid" src="/assets/img/MD-part2/virustotal_behavior_report.png" alt="virustotal_behavior_report">
+                                    </div>
+                                    <p>
+                                        這篇僅僅是談了非常初階的惡意程式開發手法，其還有非常多更加複雜且高深的技術，舉凡像是為了提權可能會使用一些特殊手段將惡意程式碼注入到更高權限的程式記憶體區塊當中進行執行，或是為了規避防毒軟體，可能會偽裝或隱藏自身惡意行為等，甚至是會利用到 Kernel 層級的 System Call 直接執行底層的行為，從而繞過一些防禦機制。
+                                    </p>
+                                </div>
+                        </div>
+
+                        <div>
+                            <h2>References</h2>
+                            <hr>
+                            <div>
                                 <ul>
-                                    <li>Shellcode Loader</li>
-                                    <li>Obfuscation: XOR shellcode</li>
-                                    <li>x64 tricks: Run Code without Calling</li>
+                                    <li>
+                                        <a href="https://0xpat.github.io/">0xPat blog 0xPat blog – Red/purple teamer</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.youtube.com/playlist?list=PL_z_ep2nxC57sHAlCcvvaYRrpdMIQXri1">crow Malware Development</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ired.team/">What is ired.team notes? | Red Team Notes</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0">https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3">Stack Overflow 0x cc vs 0x cd 03 (int 3)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://zh.m.wikipedia.org/zh-tw/X86-64">x86-64 - 維基百科，自由的百科全書</a>
+                                    </li>
                                 </ul>
                             </div>
-                            <div>
-                                在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
-                                <br>
-                                以下是 VirusTotal 對於簡易 Shellcode 執行器的 Behavior 分析結果，其利用 MITRE ATT&CK & MBC 來作行為匹配。
-                            </div>
-                        </p>
-                        <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part2/virustotal_behavior_report.png" alt="virustotal_behavior_report">
                         </div>
-                        <p>
-                            這篇僅僅是談了非常初階的惡意程式開發手法，其還有非常多更加複雜且高深的技術，舉凡像是為了提權可能會使用一些特殊手段將惡意程式碼注入到更高權限的程式記憶體區塊當中進行執行，或是為了規避防毒軟體，可能會偽裝或隱藏自身惡意行為等，甚至是會利用到 Kernel 層級的 System Call 直接執行底層的行為，從而繞過一些防禦機制。
-                        </p>
-                        
-                        <h2>References</h2>
-                        <hr>
-                        <div>
-                            <ul>
-                                <li>
-                                    <a href="https://0xpat.github.io/">0xPat blog 0xPat blog – Red/purple teamer</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.youtube.com/playlist?list=PL_z_ep2nxC57sHAlCcvvaYRrpdMIQXri1">crow Malware Development</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.ired.team/">What is ired.team notes? | Red Team Notes</a>
-                                </li>
-                                <li>
-                                    <a href="https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0">https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0</a>
-                                </li>
-                                <li>
-                                    <a href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3">Stack Overflow 0x cc vs 0x cd 03 (int 3)</a>
-                                </li>
-                                <li>
-                                    <a href="https://zh.m.wikipedia.org/zh-tw/X86-64">x86-64 - 維基百科，自由的百科全書</a>
-                                </li>
-                            </ul>
+
+                        <!-- go to part 3: -->
+                        <div style="text-align: center;">
+                            <p>
+                                => <a href="MD-part3.html">從刮痕開始的惡意程式開發 - Part 3: Process Injection</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-                    
         </article>
         <!-- Footer-->
         <footer class="border-top">
