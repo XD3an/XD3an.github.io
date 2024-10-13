@@ -360,10 +360,27 @@
                                     透過本篇我們了解了 shellcode 是什麼？如何生成？如何利用？
                                     <br>
                                     再來探討幾個混淆或增加分析成本的小技巧與手段，來幫助我們更加完善我們的惡意程式。
+                                    <br>
                                     <ul>
                                         <li>Shellcode Loader</li>
-                                        <li>Obfuscation: XOR shellcode</li>
-                                        <li>x64 tricks: Run Code without Calling</li>
+                                        <li>
+                                            Evading Techniques
+                                            <ul>
+                                                <li>
+                                                    Obfuscation
+                                                    <ul>
+                                                        <li>String/Instruction obfuscation</li>
+                                                        <li>Control flow obfuscation</li>
+                                                        <li>Dynamic import loading</li>
+                                                        <li>Execution Delay</li>
+                                                        <li>Environment Detection</li>
+                                                    </ul>
+                                                </li>
+                                                <li>Executable Packer</li>
+                                            </ul>
+                                        </li>
+                                        <li>x86 tricks: Run Code without Call</li>
+                                        
                                     </ul>
                                     <div>
                                         在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
