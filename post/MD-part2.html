@@ -49,8 +49,8 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="post-heading">
-                            <h1>從刮痕開始的惡意程式開發 - Part 2: Shellcode Runner</h1>
-                            <h2 class="subheading">Shellcode 跑者</h2>
+                            <h1>從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro</h1>
+                            <h2 class="subheading">Malware 開發介紹</h2>
                             <span class="meta">
                                 Posted by
                                 <a href="#!">XD3an</a>
@@ -66,13 +66,14 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>
-                            Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。
-                        </p>
+
+                        
+
                         <div>
-                            <h2>殼程式碼 - Shellcode</h2>
+                            <h2>Shellcode</h2>
                             <hr>
-                                shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
+                            Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。<br> 
+                            Shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
                             <br>
                             在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得攻擊面相越來越偏向 Web 面的滲透，而在過去的服務通常都是一個二進制的執行檔運行，因此大多都是利用二進制層面的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
                             <br>                            
@@ -163,64 +164,126 @@
                                         沒錯，VirusTotal 的評分相當的紅，顯然是個充滿惡意的程式，但這明顯不是我們要的，為了達到不被發覺是一個惡意程式，勢必需要其他手段達成…
                                     </p>
                                 </div>
+                            </div> 
+
+                            <div>
+
+                                <h2>Evading Techniques</h2>
+                                <hr>
+                                <br>
                                 <div>
-                                    <h4>Obfuscation: XOR shellcode</h4>
+                                    <h4>Obfuscation</h4>
+                                    <hr>
                                     <p>
-                                        因為防毒軟體在對惡意程式進行匹配時，很可能會將程式中的機器碼進行比對，因此 shellcode 的樣式很容易就會被發現了。因此我們可以將 shellcode 透過 XOR 加密，使其混淆，如此一來就有有機會規避機器碼樣式的匹配了。
+                                        Obfuscation 是一種將程式碼進行混淆的技術，目的是為了增加分析者的分析成本，使得分析者難以理解程式碼的真正意圖，從而達到規避檢測的目的。
                                     </p>
-                                    <script src="https://gist.github.com/XD3an/f1a11ffeed36840558c26c3232017114.js"></script>
-                                    <p>
-                                        解密後再執行一樣可以達到相同效果
-                                    </p>
-                                    <script src="https://gist.github.com/XD3an/cedeec4565f0b7b38ac005bf16ce44c7.js"></script>
-                                    <p>
-                                        現在再將已經 XOR 過 shellcode 的惡意程式丟進 VirusTotal 看看
-                                    </p>
-                                    <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
+                                    <div>
+                                        <h5>String/Instruction obfuscation</h5>
+                                        <p>
+                                            因為防毒軟體在對惡意程式進行匹配時，很可能會將程式中的機器碼進行比對，因此 shellcode 的樣式很容易就會被發現了。因此我們可以將 shellcode 透過 XOR 加密，使其混淆，如此一來就有有機會規避機器碼樣式的匹配了。
+                                        </p>
+                                        <script src="https://gist.github.com/XD3an/f1a11ffeed36840558c26c3232017114.js"></script>
+                                        <p>
+                                            解密後再執行一樣可以達到相同效果
+                                        </p>
+                                        <script src="https://gist.github.com/XD3an/cedeec4565f0b7b38ac005bf16ce44c7.js"></script>
+                                        <p>
+                                            現在再將已經 XOR 過 shellcode 的惡意程式丟進 VirusTotal 看看
+                                        </p>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
+                                        </div>
+                                        <p>
+                                            可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
+                                        </p>
                                     </div>
-                                    <p>
-                                        可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
-                                    </p>
-                                </div>
-                                <div>
-                                    <h4>Executable Packer - UPX</h4>
-                                    <p>
-                                    UPX 是一個開源的可執行檔加殼工具，可以將執行檔進行壓縮，減少檔案大小，並且可以對執行檔進行加密，從而達到保護執行檔的目的。
+                                    <div>
+                                        <h5>Control flow obfuscation</h5>
+                                        <p>
+                                            除了對 shellcode 進行 XOR 加密外，我們還可以對 shellcode 進行控制流混淆，使得分析者難以理解程式碼的真正意圖，從而達到規避檢測的目的。
+                                        </p>
+                                        <script src="https://gist.github.com/XD3an/8d6659cc170571b49ad03788aff4f97d.js"></script>
+                                        <br><br>
+                                    </div>
+                                    <div>
+                                        <h5>Dynamic import loading</h5>
+                                        <p>
+                                            Dynamic import loading 是一種將程式碼中的 API 動態加載的技術，目的是為了使得分析者難以理解程式碼中 API 的真正意圖，從而達到規避檢測的目的。
+                                        </p>
+                                        <script src="https://gist.github.com/XD3an/4e95f52f35dff18a5e540c4de931b4dc.js"></script>
+                                        <br><br>
+                                    </div>
+                                    <div>
+                                        <h5>Execution Delay</h5>
+                                        <p>
+                                            Execution Delay 是一種將程式碼中的執行時間延遲的技術，目的是為了阻止分析者對程式碼的分析，增加分析成本。
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h5>Environment Detection</h5>
+                                        <p>
+                                            Environment Detection 是一種將程式碼中的環境檢測的技術，使得可以在不同環境有不同行為，也可以避免被檢測及分析。
+                                        </p>
+                                    </div>
                                     <ul>
                                         <li>
-                                            <a href="https://upx.github.io/">UPX</a>
+                                            <a href="https://github.com/LordNoteworthy/al-khaser">al-khaser</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://anti-debug.checkpoint.com/"> Anti-Debug Tricks</a>
                                         </li>
                                     </ul>
-                                    </p>
-                                    <p>
-                                    我們可以嘗試利用 UPX 進行加殼
-                                    <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/upx.png" alt="upx">
-                                    </div>
-                                    </p>
-                                    <p>
-                                        現在再將已經 UPX 過惡意程式丟進 VirusTotal 看看
-                                        <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal3.png" alt="virustotal3">
-                                        </div>
-                                    </p>
+                                    <br>
                                 </div>
-                                <div>
-                                    <h4>x86 tricks: Run Code without Call</h4>
-                                    <p>
-                                        以上的惡意行為只要對該利用方法有過分析經驗，或是防毒軟體根據所使用的 API 或相應行為，很容易就可以得知惡意的意圖，我們可以通過構造一些過程中的非正常行為，從而繞過這些檢測或增加分析成本。
-                                    </p>
-                                    以下分享一些小技巧
-                                    <p>
-                                        我們嘗試重新設計一個新的 shellcode，以彈出計算機為目的，再次使用 msfvenom 生成
-                                    </p>
-                                    <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
-                                    </div>
-                                    <br><br>
 
+                                <div>
+                                    <h4>Executable Packer</h4>
+                                    <hr>
+                                    <p>
+                                        加殼器（Packer）是一個將執行檔進行加殼的工具，目的是為了將執行檔進行壓縮，減少檔案大小，並且可以對執行檔進行加密，從而達到保護執行檔的目的。
+                                    </p>
                                     <div>
+                                        <h5>UPX</h5>
+                                        <p>
+                                        UPX 是一個開源的可執行檔加殼工具，本身的用途是將執行檔進行壓縮，減少檔案大小，但是 UPX 也可以一定程度上達到混淆的效果。因為 UPX 很常見，所以實際上是很容易被防毒軟體所檢測到的，但是對於一些不太熟悉的分析者來說，還是會增加分析成本。
+                                        <ul>
+                                            <li>
+                                                <a href="https://upx.github.io/">UPX</a>
+                                            </li>
+                                        </ul>
+                                        </p>
+                                        <p>
+                                        我們可以嘗試利用 UPX 進行加殼
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/upx.png" alt="upx">
+                                        </div>
+                                        </p>
+                                        <p>
+                                            現在再將已經 UPX 過惡意程式丟進 VirusTotal 看看
+                                            <div style="text-align: center;">
+                                                <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal3.png" alt="virustotal3">
+                                            </div>
+                                        </p>
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div>
+                                    <h4>x86 tricks</h4>
+                                    <hr>
+                                    <div>                              
+                                        <p>
+                                            以上的惡意行為只要對該利用方法有過分析經驗，或是防毒軟體根據所使用的 API 或相應行為，很容易就可以得知惡意的意圖，我們可以通過構造一些過程中的非正常行為，從而繞過這些檢測或增加分析成本。
+                                        </p>
+                                        以下分享一些小技巧
+                                        <p>
+                                            我們嘗試重新設計一個新的 shellcode，以彈出計算機為目的，再次使用 msfvenom 生成
+                                        </p>
+                                        <div style="text-align: center;">
+                                            <img class="img-fluid" src="/assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
+                                        </div>
+                                        <br><br>
+                                        <div>
                                         <h5>Run Code without Calling  (Stack Overflow) </h5>
                                         <p>
                                             透過 Stack Overflow 將 return address 蓋掉變成存放 shellcode 的記憶體區塊位址，其中利用 Microsoft 的特定編譯指令 `#pragma` 定義新的 Section 給 shellcode，並告訴 Linker 將權限設為 RWE，要特別注意需要將 main 函數的優化選項關閉。
@@ -272,9 +335,8 @@
                                         </div>
                                         <br>
                                     </div>
+                                    </div>
                                 </div>
-
-                                
 
                                 <div>
                                     <h4>x64</h4>
@@ -318,6 +380,8 @@
                                 </div>
                         </div>
 
+                        
+
                         <div>
                             <h2>References</h2>
                             <hr>
@@ -340,6 +404,15 @@
                                     </li>
                                     <li>
                                         <a href="https://zh.m.wikipedia.org/zh-tw/X86-64">x86-64 - 維基百科，自由的百科全書</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://bible.malcore.io/readme/the-beginning/introduction-to-malware#command-and-control">Malcore - So You Want to Write Malware?</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/LordNoteworthy/al-khaser">al-khaser</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://anti-debug.checkpoint.com/"> Anti-Debug Tricks</a>
                                     </li>
                                 </ul>
                             </div>
