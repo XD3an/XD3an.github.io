@@ -100,69 +100,67 @@
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
-            <div style="background: #f8f9fa; border-left: 4px solid #6c757d; padding: 1em; margin: 2em 0;">
-              <b>Browser Automation 歷史沿革</b>
-              <hr>
-              <ul style="margin-top: 0.5em">
-                <li><b>1. 萌芽期（The Millenial Era, 1992–2003）</b>
-                  <ul>
-                    <li>1992：Lynx（文字模式瀏覽器），可用腳本自動化按鍵。</li>
-                    <li>1995–1997：Netscape Navigator（Unix）支援 <code>netscape -remote "openURL(http://…)"</code> 控制 GUI 瀏覽器。</li>
-                    <li>1997：Internet Explorer（Windows）COM automation object（InternetExplorer.Application），VB/VBA/WSH 可操作 DOM、事件。</li>
-                    <li>1998：Mercury Astra QuickTest（QTP/HP UFT）、WinRunner/XRunner。</li>
-                    <li>1999–2002：HttpUnit（headless/HTML級）、iMacros（錄製/重播）、HtmlUnit（headless Java “browser”）。</li>
-                    <li>2001–2003：Watir（Ruby）從 IE COM/OLE 擴展，開始提供通用 API。</li>
-                  </ul>
-                </li>
-                <li><b>2. Selenium 崛起（Selenium Dominance Era, 2004–2017）</b>
-                  <ul>
-                    <li>2004：Selenium 問世，開啟現代瀏覽器自動化時代。</li>
-                    <li>2009：Selenium 與 WebDriver 合併，標準化 API。</li>
-                    <li>2011–2017：PhantomJS（headless WebKit）填補 headless Chrome 出現前的空白。</li>
-                  </ul>
-                </li>
-                <li><b>3. 前 Headless 時代（Pre-Headless Era, 2011–2014）</b>
-                  <ul>
-                    <li>2011：Chrome 推出 remote debugging，WebKit upstream 其他瀏覽器也能採用。</li>
-                    <li>2012：WebKit Remote Debugging Protocol v1.0，CDP 雛形。</li>
-                    <li>2013–2014：Blink 從 WebKit 分支，CDP 在 Chromium 端成形，chrome.debugger/--remote-debugging 可用。</li>
-                    <li>2014：Chrome 推出 chrome.automation extension API（無障礙樹，獨立於 CDP）。</li>
-                  </ul>
-                </li>
-                <li><b>4. Headless Chrome & CDP 時代（2017–2019）</b>
-                  <ul>
-                    <li>2017/4：Headless Chrome 發表，Puppeteer（Node.js 驅動 Chrome via CDP）問世。</li>
-                    <li>2018/1：Puppeteer 1.0 發布。</li>
-                    <li>2018/6：WebDriver 成為 W3C 標準，ChromeDriver 實作 WebDriver/BiDi。</li>
-                    <li>2019：Google I/O 推廣 Puppeteer 現代化測試。</li>
-                  </ul>
-                </li>
-                <li><b>5. 多瀏覽器標準化時代（Multi-Browser Standardization Era, 2019–2024）</b>
-                  <ul>
-                    <li>2019–2020：Puppeteer 核心工程師加入 Microsoft，開發 Playwright（跨瀏覽器自動化）。</li>
-                    <li>2020/1：Playwright 0.x 公開。</li>
-                    <li>2020/5：Playwright 1.0 發布。</li>
-                    <li>2020/9–10：Playwright 開始多語言支援（Python 版 9/30 公布）。</li>
-                    <li>2023：ChromeDriver 支援 WebDriver BiDi。</li>
-                    <li>2024：Puppeteer 支援 WebDriver BiDi，Selenium 正式納入 Puppeteer。</li>
-                  </ul>
-                </li>
-                <li><b>6. 現代多元選擇（Modern Times: A Multitude of Choice, 2025–）</b>
-                  <ul>
-                    <li>2025：多種高品質 driver library 可選：</li>
-                    <li>pydoll（Python-first Playwright 替代品）</li>
-                    <li>go-rod（最佳 CDP 實作）、chromedp（CDP debug 工具）</li>
-                    <li>Puppeteer（原生 Chrome 行為）、Playwright（跨瀏覽器支援）</li>
-                    <li>Selenium/Selenium Grid（成熟穩定）、Cypress（傳統 WebDriver 自動化）</li>
-                    <li>Appium（Android/iOS/macOS/Windows 系統層自動化）</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
             <p style="font-size:1.1em; margin-bottom:2em;">
               <b>Browser Automation（瀏覽器自動化）</b> 是指利用程式控制瀏覽器自動執行各種操作，如自動化測試、資料爬取、表單填寫、搶票、批次操作等。現代自動化框架不僅能模擬人類點擊、輸入、滑動等行為，還能處理複雜的 JavaScript 動態網頁、驗證碼、反爬蟲機制。<br /><br />
               選擇合適的自動化技術時，需考慮 <b>支援語言</b>、<b>瀏覽器兼容性</b>、<b>反偵測能力</b>、<b>效能</b> 及 <b>生態系統</b> 等因素。下表整理了主流框架的特色與適用場景，協助你快速選型。
             </p>
+            <h4 style="margin-top: 1.5em">Browser Automation 簡史</h4>
+            <hr>
+            <ul style="margin-top: 0.5em">
+              <li><b>1. 萌芽期（The Millenial Era, 1992–2003）</b>
+                <ul>
+                  <li>1992：Lynx（文字模式瀏覽器），可用腳本自動化按鍵。</li>
+                  <li>1995–1997：Netscape Navigator（Unix）支援 <code>netscape -remote "openURL(http://…)"</code> 控制 GUI 瀏覽器。</li>
+                  <li>1997：Internet Explorer（Windows）COM automation object（InternetExplorer.Application），VB/VBA/WSH 可操作 DOM、事件。</li>
+                  <li>1998：Mercury Astra QuickTest（QTP/HP UFT）、WinRunner/XRunner。</li>
+                  <li>1999–2002：HttpUnit（headless/HTML級）、iMacros（錄製/重播）、HtmlUnit（headless Java “browser”）。</li>
+                  <li>2001–2003：Watir（Ruby）從 IE COM/OLE 擴展，開始提供通用 API。</li>
+                </ul>
+              </li>
+              <li><b>2. Selenium 崛起（Selenium Dominance Era, 2004–2017）</b>
+                <ul>
+                  <li>2004：Selenium 問世，開啟現代瀏覽器自動化時代。</li>
+                  <li>2009：Selenium 與 WebDriver 合併，標準化 API。</li>
+                  <li>2011–2017：PhantomJS（headless WebKit）填補 headless Chrome 出現前的空白。</li>
+                </ul>
+              </li>
+              <li><b>3. 前 Headless 時代（Pre-Headless Era, 2011–2014）</b>
+                <ul>
+                  <li>2011：Chrome 推出 remote debugging，WebKit upstream 其他瀏覽器也能採用。</li>
+                  <li>2012：WebKit Remote Debugging Protocol v1.0，CDP 雛形。</li>
+                  <li>2013–2014：Blink 從 WebKit 分支，CDP 在 Chromium 端成形，chrome.debugger/--remote-debugging 可用。</li>
+                  <li>2014：Chrome 推出 chrome.automation extension API（無障礙樹，獨立於 CDP）。</li>
+                </ul>
+              </li>
+              <li><b>4. Headless Chrome & CDP 時代（2017–2019）</b>
+                <ul>
+                  <li>2017/4：Headless Chrome 發表，Puppeteer（Node.js 驅動 Chrome via CDP）問世。</li>
+                  <li>2018/1：Puppeteer 1.0 發布。</li>
+                  <li>2018/6：WebDriver 成為 W3C 標準，ChromeDriver 實作 WebDriver/BiDi。</li>
+                  <li>2019：Google I/O 推廣 Puppeteer 現代化測試。</li>
+                </ul>
+              </li>
+              <li><b>5. 多瀏覽器標準化時代（Multi-Browser Standardization Era, 2019–2024）</b>
+                <ul>
+                  <li>2019–2020：Puppeteer 核心工程師加入 Microsoft，開發 Playwright（跨瀏覽器自動化）。</li>
+                  <li>2020/1：Playwright 0.x 公開。</li>
+                  <li>2020/5：Playwright 1.0 發布。</li>
+                  <li>2020/9–10：Playwright 開始多語言支援（Python 版 9/30 公布）。</li>
+                  <li>2023：ChromeDriver 支援 WebDriver BiDi。</li>
+                  <li>2024：Puppeteer 支援 WebDriver BiDi，Selenium 正式納入 Puppeteer。</li>
+                </ul>
+              </li>
+              <li><b>6. 現代多元選擇（Modern Times: A Multitude of Choice, 2025–）</b>
+                <ul>
+                  <li>2025：多種高品質 driver library 可選：</li>
+                  <li>pydoll（Python-first Playwright 替代品）</li>
+                  <li>go-rod（最佳 CDP 實作）、chromedp（CDP debug 工具）</li>
+                  <li>Puppeteer（原生 Chrome 行為）、Playwright（跨瀏覽器支援）</li>
+                  <li>Selenium/Selenium Grid（成熟穩定）、Cypress（傳統 WebDriver 自動化）</li>
+                  <li>Appium（Android/iOS/macOS/Windows 系統層自動化）</li>
+                </ul>
+              </li>
+            </ul>
             <h4 style="margin-top: 1.5em">🧩 Browser Automation 框架比較</h4>
             <hr />
             <div class="table-responsive" style="margin-bottom: 2em">
@@ -324,7 +322,7 @@
                 >
               </li>
             </ul>
-            <b>在 August 20 2025 時，browser-use 團隊發表了文章，說明了他們為何選擇從 Playwright 轉向 CDP。不僅是因為效能考量，還有對於細節控制的需求。browser-use 這次的技術轉變也意味著瀏覽器自動化技術正朝向更貼近底層的方向發展。極有可能會為相關瀏覽器自動化研究帶來新的啟發。</b>
+            <p>在 August 20 2025 時，browser-use 團隊發表了文章，說明了他們為何選擇從 Playwright 轉向 CDP。不僅是因為效能考量，還有對於細節控制的需求。browser-use 這次的技術轉變也意味著瀏覽器自動化技術正朝向更貼近底層的方向發展。極有可能會為相關瀏覽器自動化研究帶來新的啟發。</p>
             <h4 style="margin-top:2em"><a href="https://browser-use.com/posts/playwright-to-cdp" target="_blank">browser-use - Closer to the Metal: Leaving Playwright for CDP</a></h4>
             <ul style="margin-top: 0.5em">
               <li>
