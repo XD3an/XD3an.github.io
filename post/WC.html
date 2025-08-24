@@ -13,7 +13,7 @@
       name="keywords"
       content="XD3an, github.io, All-In-One, Browser Automation, Playwright, Selenium, NoDriver, 反爬蟲, 偽裝, 優化"
     />
-    <title> Browser Automation 技術比較與偽裝優化</title>
+    <title>Browser Automation 技術比較與偽裝優化</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
     <script
       src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
@@ -23,11 +23,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/scripts.js"></script>
     <!-- Highlight.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
     <!-- Highlight.js JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <script>
+      hljs.highlightAll();
+    </script>
     <style>
       article pre {
         margin-left: 1.5em;
@@ -37,6 +42,49 @@
         padding: 1em;
       }
     </style>
+    <!-- Open Graph / Facebook -->
+    <meta
+      property="og:title"
+      content="Browser Automation 技術比較與偽裝優化 | XD3an Blog"
+    />
+    <meta
+      property="og:description"
+      content="Browser Automation（瀏覽器自動化）技術比較、Playwright、Selenium、NoDriver、反爬蟲偽裝、效能優化、AI agent 實戰分享。"
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://XD3an.github.io/post/WC.html" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Browser Automation 技術比較與偽裝優化 | XD3an Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Browser Automation（瀏覽器自動化）技術比較、Playwright、Selenium、NoDriver、反爬蟲偽裝、效能優化、AI agent 實戰分享。"
+    />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://XD3an.github.io/post/WC.html" />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Browser Automation 技術比較與偽裝優化",
+        "description": "Browser Automation（瀏覽器自動化）技術比較、Playwright、Selenium、NoDriver、反爬蟲偽裝、效能優化、AI agent 實戰分享。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2025-08-24",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://XD3an.github.io/post/WC.html"
+        }
+      }
+    </script>
   </head>
 
   <body style="font-size: var(--bs-font-size-base)">
@@ -82,13 +130,18 @@
     </nav>
     <header
       class="masthead"
-      style="background-image: url('/assets/img/WC/background.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;"
+      style="
+        background-image: url('/assets/img/WC/background.png');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      "
     >
       <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="post-heading">
-              <h1> Browser Automation 技術比較與偽裝優化</h1>
+              <h1>Browser Automation 技術比較與偽裝優化</h1>
               <h4 class="subheading">瀏覽器自動化框架、反偵測與效能分享</h4>
               <span class="meta">By XD3an</span>
             </div>
@@ -100,68 +153,139 @@
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
-            <p style="font-size:1.1em; margin-bottom:2em;">
-              <b>Browser Automation（瀏覽器自動化）</b> 是指利用程式控制瀏覽器自動執行各種操作，如自動化測試、資料爬取、表單填寫、搶票、批次操作等。現代自動化框架不僅能模擬人類點擊、輸入、滑動等行為，還能處理複雜的 JavaScript 動態網頁、驗證碼、反爬蟲機制。<br /><br />
-              選擇合適的自動化技術時，需考慮 <b>支援語言</b>、<b>瀏覽器兼容性</b>、<b>反偵測能力</b>、<b>效能</b> 及 <b>生態系統</b> 等因素。下表整理了主流框架的特色與適用場景，協助你快速選型。
+            <p style="font-size: 1.1em; margin-bottom: 2em">
+              <b>Browser Automation（瀏覽器自動化）</b>
+              是指利用程式控制瀏覽器自動執行各種操作，如自動化測試、資料爬取、表單填寫、搶票、批次操作等。現代自動化框架不僅能模擬人類點擊、輸入、滑動等行為，還能處理複雜的
+              JavaScript 動態網頁、驗證碼、反爬蟲機制。<br /><br />
+              選擇合適的自動化技術時，需考慮
+              <b>支援語言</b>、<b>瀏覽器兼容性</b>、<b>反偵測能力</b>、<b
+                >效能</b
+              >
+              及
+              <b>生態系統</b>
+              等因素。下表整理了主流框架的特色與適用場景，協助你快速選型。
             </p>
-            <h4 style="margin-top: 1.5em">Browser Automation 簡史</h4>
-            <hr>
+            <h2 style="margin-top: 1.5em; font-size:1.5em;">Browser Automation 簡史</h2>
+            <hr />
             <ul style="margin-top: 0.5em">
-              <li><b>1. 萌芽期（The Millenial Era, 1992–2003）</b>
+              <li>
+                <b>1. 萌芽期（The Millenial Era, 1992–2003）</b>
                 <ul>
                   <li>1992：Lynx（文字模式瀏覽器），可用腳本自動化按鍵。</li>
-                  <li>1995–1997：Netscape Navigator（Unix）支援 <code>netscape -remote "openURL(http://…)"</code> 控制 GUI 瀏覽器。</li>
-                  <li>1997：Internet Explorer（Windows）COM automation object（InternetExplorer.Application），VB/VBA/WSH 可操作 DOM、事件。</li>
-                  <li>1998：Mercury Astra QuickTest（QTP/HP UFT）、WinRunner/XRunner。</li>
-                  <li>1999–2002：HttpUnit（headless/HTML級）、iMacros（錄製/重播）、HtmlUnit（headless Java “browser”）。</li>
-                  <li>2001–2003：Watir（Ruby）從 IE COM/OLE 擴展，開始提供通用 API。</li>
+                  <li>
+                    1995–1997：Netscape Navigator（Unix）支援
+                    <code>netscape -remote "openURL(http://…)"</code> 控制 GUI
+                    瀏覽器。
+                  </li>
+                  <li>
+                    1997：Internet Explorer（Windows）COM automation
+                    object（InternetExplorer.Application），VB/VBA/WSH 可操作
+                    DOM、事件。
+                  </li>
+                  <li>
+                    1998：Mercury Astra QuickTest（QTP/HP
+                    UFT）、WinRunner/XRunner。
+                  </li>
+                  <li>
+                    1999–2002：HttpUnit（headless/HTML級）、iMacros（錄製/重播）、HtmlUnit（headless
+                    Java “browser”）。
+                  </li>
+                  <li>
+                    2001–2003：Watir（Ruby）從 IE COM/OLE 擴展，開始提供通用
+                    API。
+                  </li>
                 </ul>
               </li>
-              <li><b>2. Selenium 崛起（Selenium Dominance Era, 2004–2017）</b>
+              <li>
+                <b>2. Selenium 崛起（Selenium Dominance Era, 2004–2017）</b>
                 <ul>
                   <li>2004：Selenium 問世，開啟現代瀏覽器自動化時代。</li>
                   <li>2009：Selenium 與 WebDriver 合併，標準化 API。</li>
-                  <li>2011–2017：PhantomJS（headless WebKit）填補 headless Chrome 出現前的空白。</li>
+                  <li>
+                    2011–2017：PhantomJS（headless WebKit）填補 headless Chrome
+                    出現前的空白。
+                  </li>
                 </ul>
               </li>
-              <li><b>3. 前 Headless 時代（Pre-Headless Era, 2011–2014）</b>
+              <li>
+                <b>3. 前 Headless 時代（Pre-Headless Era, 2011–2014）</b>
                 <ul>
-                  <li>2011：Chrome 推出 remote debugging，WebKit upstream 其他瀏覽器也能採用。</li>
-                  <li>2012：WebKit Remote Debugging Protocol v1.0，CDP 雛形。</li>
-                  <li>2013–2014：Blink 從 WebKit 分支，CDP 在 Chromium 端成形，chrome.debugger/--remote-debugging 可用。</li>
-                  <li>2014：Chrome 推出 chrome.automation extension API（無障礙樹，獨立於 CDP）。</li>
+                  <li>
+                    2011：Chrome 推出 remote debugging，WebKit upstream
+                    其他瀏覽器也能採用。
+                  </li>
+                  <li>
+                    2012：WebKit Remote Debugging Protocol v1.0，CDP 雛形。
+                  </li>
+                  <li>
+                    2013–2014：Blink 從 WebKit 分支，CDP 在 Chromium
+                    端成形，chrome.debugger/--remote-debugging 可用。
+                  </li>
+                  <li>
+                    2014：Chrome 推出 chrome.automation extension
+                    API（無障礙樹，獨立於 CDP）。
+                  </li>
                 </ul>
               </li>
-              <li><b>4. Headless Chrome & CDP 時代（2017–2019）</b>
+              <li>
+                <b>4. Headless Chrome & CDP 時代（2017–2019）</b>
                 <ul>
-                  <li>2017/4：Headless Chrome 發表，Puppeteer（Node.js 驅動 Chrome via CDP）問世。</li>
+                  <li>
+                    2017/4：Headless Chrome 發表，Puppeteer（Node.js 驅動 Chrome
+                    via CDP）問世。
+                  </li>
                   <li>2018/1：Puppeteer 1.0 發布。</li>
-                  <li>2018/6：WebDriver 成為 W3C 標準，ChromeDriver 實作 WebDriver/BiDi。</li>
+                  <li>
+                    2018/6：WebDriver 成為 W3C 標準，ChromeDriver 實作
+                    WebDriver/BiDi。
+                  </li>
                   <li>2019：Google I/O 推廣 Puppeteer 現代化測試。</li>
                 </ul>
               </li>
-              <li><b>5. 多瀏覽器標準化時代（Multi-Browser Standardization Era, 2019–2024）</b>
+              <li>
+                <b
+                  >5. 多瀏覽器標準化時代（Multi-Browser Standardization Era,
+                  2019–2024）</b
+                >
                 <ul>
-                  <li>2019–2020：Puppeteer 核心工程師加入 Microsoft，開發 Playwright（跨瀏覽器自動化）。</li>
+                  <li>
+                    2019–2020：Puppeteer 核心工程師加入 Microsoft，開發
+                    Playwright（跨瀏覽器自動化）。
+                  </li>
                   <li>2020/1：Playwright 0.x 公開。</li>
                   <li>2020/5：Playwright 1.0 發布。</li>
-                  <li>2020/9–10：Playwright 開始多語言支援（Python 版 9/30 公布）。</li>
+                  <li>
+                    2020/9–10：Playwright 開始多語言支援（Python 版 9/30
+                    公布）。
+                  </li>
                   <li>2023：ChromeDriver 支援 WebDriver BiDi。</li>
-                  <li>2024：Puppeteer 支援 WebDriver BiDi，Selenium 正式納入 Puppeteer。</li>
+                  <li>
+                    2024：Puppeteer 支援 WebDriver BiDi，Selenium 正式納入
+                    Puppeteer。
+                  </li>
                 </ul>
               </li>
-              <li><b>6. 現代多元選擇（Modern Times: A Multitude of Choice, 2025–）</b>
+              <li>
+                <b
+                  >6. 現代多元選擇（Modern Times: A Multitude of Choice,
+                  2025–）</b
+                >
                 <ul>
                   <li>2025：多種高品質 driver library 可選：</li>
                   <li>pydoll（Python-first Playwright 替代品）</li>
                   <li>go-rod（最佳 CDP 實作）、chromedp（CDP debug 工具）</li>
-                  <li>Puppeteer（原生 Chrome 行為）、Playwright（跨瀏覽器支援）</li>
-                  <li>Selenium/Selenium Grid（成熟穩定）、Cypress（傳統 WebDriver 自動化）</li>
+                  <li>
+                    Puppeteer（原生 Chrome 行為）、Playwright（跨瀏覽器支援）
+                  </li>
+                  <li>
+                    Selenium/Selenium Grid（成熟穩定）、Cypress（傳統 WebDriver
+                    自動化）
+                  </li>
                   <li>Appium（Android/iOS/macOS/Windows 系統層自動化）</li>
                 </ul>
               </li>
             </ul>
-            <h4 style="margin-top: 1.5em">🧩 Browser Automation 框架比較</h4>
+            <h2 style="margin-top: 1.5em; font-size:1.5em;">🧩 Browser Automation 框架比較</h2>
             <hr />
             <div class="table-responsive" style="margin-bottom: 2em">
               <table
@@ -233,8 +357,8 @@
               <b>Playwright vs NoDriver 實戰比較</b><br />
               <ul style="margin-top: 0.5em">
                 <li>
-                  <b>Playwright</b>：支援多瀏覽器，API
-                  現代且一致，速度快，原生 WebSocket
+                  <b>Playwright</b>：支援多瀏覽器，API 現代且一致，速度快，原生
+                  WebSocket
                   控制，能自動等待動態內容，反爬蟲能力佳，適合複雜互動、驗證碼、跨平台需求，穩定性高。
                 </li>
                 <li>
@@ -265,8 +389,7 @@
                   密集型任務，彼此獨立不會互相干擾，但啟動/溝通成本較高，記憶體用量大。
                 </li>
                 <li>
-                  <b>Async IO（非同步/異步）</b>：單一進程下可高效處理大量
-                  I/O
+                  <b>Async IO（非同步/異步）</b>：單一進程下可高效處理大量 I/O
                   密集型任務，切換成本低，記憶體用量小，但無法真正同時執行多個
                   CPU 密集任務，適合單帳號高頻搶票。
                 </li>
@@ -277,7 +400,7 @@
                 IO。兩者可混合使用，依需求選擇最佳方案。
               </div>
             </aside>
-            <h6 style="margin-top: 2em">🔗 參考連結</h3>
+            <h3 style="margin-top: 2em; font-size:1.25em;">🔗 參考連結</h3>
             <ul style="margin-bottom: 2em">
               <li>
                 📚
@@ -322,41 +445,95 @@
                 >
               </li>
             </ul>
-            <p>在 August 20 2025 時，browser-use 團隊發表了文章，說明了他們為何選擇從 Playwright 轉向 CDP。不僅是因為效能考量，還有對於細節控制的需求。browser-use 這次的技術轉變也意味著瀏覽器自動化技術正朝向更貼近底層的方向發展。極有可能會為相關瀏覽器自動化研究帶來新的啟發。</p>
-            <h4 style="margin-top:2em"><a href="https://browser-use.com/posts/playwright-to-cdp" target="_blank">browser-use - Closer to the Metal: Leaving Playwright for CDP</a></h4>
+            <p>
+              在 August 20 2025 時，browser-use
+              團隊發表了文章，說明了他們為何選擇從 Playwright 轉向
+              CDP。不僅是因為效能考量，還有對於細節控制的需求。browser-use
+              這次的技術轉變也意味著瀏覽器自動化技術正朝向更貼近底層的方向發展。極有可能會為相關瀏覽器自動化研究帶來新的啟發。
+            </p>
+            <h2 style="margin-top: 2em; font-size:1.5em;"><a href="https://browser-use.com/posts/playwright-to-cdp" target="_blank">browser-use - Closer to the Metal: Leaving Playwright for CDP</a></h2>
             <ul style="margin-top: 0.5em">
               <li>
                 <b>瀏覽器自動化歷史演進：</b>
                 <ul>
-                  <li>1990s：Lynx（文字模式）、IE COM 物件，早期僅能簡單腳本控制。</li>
-                  <li>2000s：Watir、QTP、Selenium 等工具出現，開始支援 GUI 操作、跨瀏覽器自動化。</li>
-                  <li>2010s：PhantomJS（headless）、Puppeteer（Node.js 驅動 Chrome）、Playwright（多語言、多瀏覽器支援），自動化框架逐漸成熟，抽象層提升易用性。</li>
-                  <li>2020s：多元選擇（pydoll、go-rod、chromedp、cdp-use），AI 驅動需求興起，開始追求更貼近底層的控制與效能。</li>
+                  <li>
+                    1990s：Lynx（文字模式）、IE COM 物件，早期僅能簡單腳本控制。
+                  </li>
+                  <li>
+                    2000s：Watir、QTP、Selenium 等工具出現，開始支援 GUI
+                    操作、跨瀏覽器自動化。
+                  </li>
+                  <li>
+                    2010s：PhantomJS（headless）、Puppeteer（Node.js 驅動
+                    Chrome）、Playwright（多語言、多瀏覽器支援），自動化框架逐漸成熟，抽象層提升易用性。
+                  </li>
+                  <li>
+                    2020s：多元選擇（pydoll、go-rod、chromedp、cdp-use），AI
+                    驅動需求興起，開始追求更貼近底層的控制與效能。
+                  </li>
                 </ul>
               </li>
               <li>
-                <b>browser-use 團隊 2025 年 8 月發表專文</b>，深入分析 Playwright 抽象層的限制，並說明轉向直接使用 CDP（Chrome DevTools Protocol）的原因。
+                <b>browser-use 團隊 2025 年 8 月發表專文</b>，深入分析
+                Playwright 抽象層的限制，並說明轉向直接使用 CDP（Chrome DevTools
+                Protocol）的原因。
                 <ul>
-                  <li>高階框架（如 Playwright、Puppeteer）雖然 API 現代、易用，適合 QA 測試與一般自動化，但在 AI agent、批次爬蟲等高頻場景下，抽象層會造成效能瓶頸、細節控制困難。</li>
-                  <li>Playwright 架構為多語言 client 透過 Node.js server 轉發指令，導致多層 relay、狀態漂移、死鎖、異常處理不易，尤其在 tab crash、iframe、異步事件等情境。</li>
-                  <li>browser-use 推出自家 Python CDP 客戶端（<b><a href="https://github.com/browser-use/cdp-use" target="_blank">cdp-use</a></b>），直接根據官方 CDP spec 產生型別安全 binding，無抽象層，100% 直通底層，並採事件驅動架構（watchdog 監控），可即時處理下載、crash、DOM 變化等。</li>
-                  <li>元素操作採「超級選擇器」(super-selector) 設計，包含 targetId、frameId、backendNodeId、座標等，解決跨 iframe/target 操作困難，提升 agent 穩定性與反應速度。</li>
-                  <li>文章強調：自動化技術正朝向「更貼近底層、更細緻控制」發展，適合高階需求者參考。一般 QA/測試仍可用高階框架，進階 AI/爬蟲建議直接用 CDP。</li>
+                  <li>
+                    高階框架（如 Playwright、Puppeteer）雖然 API
+                    現代、易用，適合 QA 測試與一般自動化，但在 AI
+                    agent、批次爬蟲等高頻場景下，抽象層會造成效能瓶頸、細節控制困難。
+                  </li>
+                  <li>
+                    Playwright 架構為多語言 client 透過 Node.js server
+                    轉發指令，導致多層
+                    relay、狀態漂移、死鎖、異常處理不易，尤其在 tab
+                    crash、iframe、異步事件等情境。
+                  </li>
+                  <li>
+                    browser-use 推出自家 Python CDP 客戶端（<b
+                      ><a
+                        href="https://github.com/browser-use/cdp-use"
+                        target="_blank"
+                        >cdp-use</a
+                      ></b
+                    >），直接根據官方 CDP spec 產生型別安全
+                    binding，無抽象層，100% 直通底層，並採事件驅動架構（watchdog
+                    監控），可即時處理下載、crash、DOM 變化等。
+                  </li>
+                  <li>
+                    元素操作採「超級選擇器」(super-selector) 設計，包含
+                    targetId、frameId、backendNodeId、座標等，解決跨
+                    iframe/target 操作困難，提升 agent 穩定性與反應速度。
+                  </li>
+                  <li>
+                    文章強調：自動化技術正朝向「更貼近底層、更細緻控制」發展，適合高階需求者參考。一般
+                    QA/測試仍可用高階框架，進階 AI/爬蟲建議直接用 CDP。
+                  </li>
                 </ul>
               </li>
             </ul>
-            <a href="https://browser-use.com/posts/playwright-to-cdp" target="_blank">🔗 browser-use - Closer to the Metal: Leaving Playwright for CDP</a>
-            <h4 style="margin-top: 2.5em">
-              🦾 Camouflage & Performance Optimization（偽裝與效能優化）
-            </h4>
+            <a
+              href="https://browser-use.com/posts/playwright-to-cdp"
+              target="_blank"
+              >🔗 browser-use - Closer to the Metal: Leaving Playwright for
+              CDP</a
+            >
+            <h2 style="margin-top: 2.5em; font-size:1.5em;">🦾 Camouflage & Performance Optimization（偽裝與效能優化）</h2>
             <hr />
             <div style="margin-bottom: 2em">
               <ul style="margin-bottom: 1.5em">
                 <li>
                   <b>navigator.webdriver 隱藏</b>：
                   <ul>
-                    <li><b>原理：</b>自動化瀏覽器會自動帶有 <code>navigator.webdriver = true</code>，網站可用此判斷是否為機器人。將其設為 undefined 可繞過大多數自動化偵測。</li>
-                    <li><b>原因：</b>這是最常見的自動化檢查點，必須優先隱藏。</li>
+                    <li>
+                      <b>原理：</b>自動化瀏覽器會自動帶有
+                      <code>navigator.webdriver = true</code
+                      >，網站可用此判斷是否為機器人。將其設為 undefined
+                      可繞過大多數自動化偵測。
+                    </li>
+                    <li>
+                      <b>原因：</b>這是最常見的自動化檢查點，必須優先隱藏。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -375,8 +552,14 @@ with sync_playwright() as playwright:
                 <li>
                   <b>navigator.plugins、navigator.languages 偽裝</b>
                   <ul>
-                    <li><b>原理：</b>真實瀏覽器會有多個 plugins（如 PDF、Flash）及多語言，機器人常為空陣列或異常。偽造常見值可混淆檢查。</li>
-                    <li><b>原因：</b>部分網站會檢查 plugins/languages 來判斷是否為正常用戶。</li>
+                    <li>
+                      <b>原理：</b>真實瀏覽器會有多個 plugins（如
+                      PDF、Flash）及多語言，機器人常為空陣列或異常。偽造常見值可混淆檢查。
+                    </li>
+                    <li>
+                      <b>原因：</b>部分網站會檢查 plugins/languages
+                      來判斷是否為正常用戶。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -390,7 +573,10 @@ Object.defineProperty(navigator, 'languages', {get: () => ['zh-TW', 'zh', 'en']}
                 <li>
                   <b>window.chrome 物件偽裝</b>
                   <ul>
-                    <li><b>原理：</b>Chrome 會有 window.chrome 物件，機器人常缺少。補上可避免被判斷為自動化。</li>
+                    <li>
+                      <b>原理：</b>Chrome 會有 window.chrome
+                      物件，機器人常缺少。補上可避免被判斷為自動化。
+                    </li>
                     <li><b>原因：</b>部分網站用此判斷是否為真實 Chrome。</li>
                   </ul>
                 </li>
@@ -407,7 +593,11 @@ window.chrome.runtime = {};
                 <li>
                   <b>Permissions API 偽裝</b>
                   <ul>
-                    <li><b>原理：</b>自動化瀏覽器的權限查詢行為與真實用戶不同，覆寫 query 方法可避免異常回傳。</li>
+                    <li>
+                      <b>原理：</b
+                      >自動化瀏覽器的權限查詢行為與真實用戶不同，覆寫 query
+                      方法可避免異常回傳。
+                    </li>
                     <li><b>原因：</b>網站可用權限查詢結果判斷自動化。</li>
                   </ul>
                 </li>
@@ -425,8 +615,13 @@ window.navigator.permissions.query = (parameters) => (
                 <li>
                   <b>Canvas/WebGL/Audio 指紋偽裝</b>
                   <ul>
-                    <li><b>原理：</b>網站可用畫布、WebGL、音訊 API 產生指紋，機器人常有固定特徵。覆寫相關方法可降低指紋辨識率。</li>
-                    <li><b>原因：</b>進階防爬網站會用這些 API 產生唯一指紋。</li>
+                    <li>
+                      <b>原理：</b>網站可用畫布、WebGL、音訊 API
+                      產生指紋，機器人常有固定特徵。覆寫相關方法可降低指紋辨識率。
+                    </li>
+                    <li>
+                      <b>原因：</b>進階防爬網站會用這些 API 產生唯一指紋。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -435,8 +630,14 @@ window.navigator.permissions.query = (parameters) => (
                 <li>
                   <b>HTTP headers 偽裝</b>
                   <ul>
-                    <li><b>原理：</b>自動化 context 常缺少 sec-ch-ua、accept-language 等 headers，或內容異常。自動推導並補齊可模擬真實瀏覽器請求。</li>
-                    <li><b>原因：</b>網站可用 headers 組合判斷是否為自動化。</li>
+                    <li>
+                      <b>原理：</b>自動化 context 常缺少
+                      sec-ch-ua、accept-language 等
+                      headers，或內容異常。自動推導並補齊可模擬真實瀏覽器請求。
+                    </li>
+                    <li>
+                      <b>原因：</b>網站可用 headers 組合判斷是否為自動化。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -455,8 +656,14 @@ window.navigator.permissions.query = (parameters) => (
                 <li>
                   <b>hardwareConcurrency/deviceMemory 偽裝</b>
                   <ul>
-                    <li><b>原理：</b>真實裝置多為 4/8/16 核心、4/8GB 記憶體，機器人常為預設值。偽造常見值可混淆檢查。</li>
-                    <li><b>原因：</b>部分網站會檢查這些屬性判斷是否為虛擬機或自動化。</li>
+                    <li>
+                      <b>原理：</b>真實裝置多為 4/8/16 核心、4/8GB
+                      記憶體，機器人常為預設值。偽造常見值可混淆檢查。
+                    </li>
+                    <li>
+                      <b>原因：</b
+                      >部分網站會檢查這些屬性判斷是否為虛擬機或自動化。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -469,7 +676,10 @@ Object.defineProperty(navigator, 'deviceMemory', {get: () => 8});
                 <li>
                   <b>Media Codecs、chrome.csi/loadTimes 偽裝</b>
                   <ul>
-                    <li><b>原理：</b>真實 Chrome 支援多種影音格式，且有特殊 API。補上這些屬性可避免被判斷為自動化。</li>
+                    <li>
+                      <b>原理：</b>真實 Chrome 支援多種影音格式，且有特殊
+                      API。補上這些屬性可避免被判斷為自動化。
+                    </li>
                     <li><b>原因：</b>進階網站會檢查這些 API 是否存在。</li>
                   </ul>
                 </li>
@@ -503,8 +713,14 @@ window.chrome.loadTimes = () => ({
                 <li>
                   <b>Storage（localStorage/sessionStorage）隨機化</b>
                   <ul>
-                    <li><b>原理：</b>自動化 context 常為乾淨狀態，真實用戶多有歷史資料。隨機填充可降低指紋重複。</li>
-                    <li><b>原因：</b>網站可用 storage 內容判斷是否為新開的自動化分頁。</li>
+                    <li>
+                      <b>原理：</b>自動化 context
+                      常為乾淨狀態，真實用戶多有歷史資料。隨機填充可降低指紋重複。
+                    </li>
+                    <li>
+                      <b>原因：</b>網站可用 storage
+                      內容判斷是否為新開的自動化分頁。
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -519,7 +735,11 @@ try {
                 <li>
                   <b>滑鼠/鍵盤行為偽裝</b>
                   <ul>
-                    <li><b>原理：</b>自動化操作常無滑鼠/鍵盤事件，或事件間隔異常。隨機觸發 mousemove、keydown、focus/blur 等事件可模擬人類行為。</li>
+                    <li>
+                      <b>原理：</b
+                      >自動化操作常無滑鼠/鍵盤事件，或事件間隔異常。隨機觸發
+                      mousemove、keydown、focus/blur 等事件可模擬人類行為。
+                    </li>
                     <li><b>原因：</b>網站可用行為軌跡判斷是否為機器人。</li>
                   </ul>
                 </li>
@@ -552,7 +772,10 @@ setTimeout(() => {
                 <li>
                   <b>Captcha/滑塊驗證偽裝</b>
                   <ul>
-                    <li><b>原理：</b>部分網站會檢查是否有自動化腳本處理驗證。預留偽裝標記可降低被特殊驗證腳本識破。</li>
+                    <li>
+                      <b>原理：</b
+                      >部分網站會檢查是否有自動化腳本處理驗證。預留偽裝標記可降低被特殊驗證腳本識破。
+                    </li>
                     <li><b>原因：</b>防止網站用 JS 偵測自動化解驗證。</li>
                   </ul>
                 </li>
@@ -570,30 +793,30 @@ Object.defineProperty(window, 'isRobot', { get: () => false });
     </article>
     <!-- Footer-->
     <footer class="border-top">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <ul class="list-inline text-center">
-                        <li class="list-inline-item">
-                            <a href="https://twitter.com/d3an_x">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://github.com/XD3an">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/d3an_x">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </footer>
   </body>
 </html>
