@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://XD3an.github.io/sitemap.xml
+
+# Allow crawling of all main content
+Allow: /post/
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+
+# Disallow crawling of draft and temporary files
+Disallow: /draft/
+Disallow: /temp/
+Disallow: /lab/
+
+# Crawl-delay (optional - be nice to servers)
+Crawl-delay: 1
