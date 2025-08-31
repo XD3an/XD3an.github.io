@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="XD3an" content="All-In-One" />
+    <meta
+      name="description"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+    />
+    <meta name="author" content="XD3an" />
+    <meta
+      name="keywords"
+      content="XD3an, github.io, All-In-One, Claude Code, AI Coding Agent, MCP, 自動化程式開發, CLI 工具, Anthropic"
+    />
+    <title>Claude Code 贏麻了：躺平也能寫程式</title>
+    <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/scripts.js"></script>
+    <!-- Highlight.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <!-- Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <style>
+      article pre {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+        border-radius: 0.5em;
+        background: #f8f9fa;
+        padding: 1em;
+      }
+      
+      /* Table of Contents 漂浮小視窗 */
+      .floating-toc {
+        position: fixed;
+        top: 20%;
+        right: 20px;
+        width: 280px;
+        max-height: 60vh;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        font-size: 14px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        opacity: 0.95;
+      }
+      
+      .floating-toc:hover {
+        opacity: 1;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+      
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #0d6efd;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .toc-toggle-btn {
+        background: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        color: #6c757d;
+        padding: 0;
+      }
+      
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+      
+      .toc-content.collapsed {
+        display: none;
+      }
+      
+      .floating-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .floating-toc li {
+        margin: 2px 0;
+      }
+      
+      .floating-toc a {
+        text-decoration: none;
+        color: #6c757d;
+        display: block;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      
+      .floating-toc a:hover {
+        background-color: #f8f9fa;
+        color: #ff6b35;
+        transform: translateX(2px);
+      }
+      
+      .floating-toc a.active {
+        background-color: #ff6b35;
+        color: white;
+        font-weight: 500;
+      }
+      
+      .floating-toc .toc-h2 {
+        font-weight: 500;
+        color: #495057;
+      }
+      
+      .floating-toc .toc-h3 {
+        padding-left: 16px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+      
+      /* 響應式設計 */
+      @media (max-width: 1200px) {
+        .floating-toc {
+          right: 10px;
+          width: 250px;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .floating-toc {
+          display: none;
+        }
+      }
+      
+      /* 平滑滾動 */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* 滾動條樣式 */
+      .floating-toc::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .floating-toc::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 2px;
+      }
+      
+      .floating-toc::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+      }
+      
+      .floating-toc::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+    </style>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog" />
+    <meta
+      property="og:description"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://XD3an.github.io/post/claude-code-guide.html"
+    />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+    />
+    <!-- Canonical URL -->
+    <link
+      rel="canonical"
+      href="https://XD3an.github.io/post/claude-code-guide.html"
+    />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Claude Code 贏麻了：躺平也能寫程式",
+        "description": "Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2025-08-31",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://XD3an.github.io/post/claude-code-guide.html"
+        }
+      }
+    </script>
+  </head>
+
+  <body style="font-size: var(--bs-font-size-base)">
+    <!-- 漂浮目錄 -->
+    <div class="floating-toc" id="floatingToc">
+      <div class="toc-content" id="tocContent">
+        <ul>
+          <li><a href="#how-to-use" class="toc-h2">如何使用</a></li>
+          <li><a href="#installation" class="toc-h3">初次安裝</a></li>
+          <li><a href="#basic-commands" class="toc-h3">基礎指令</a></li>
+          <li><a href="#configuration" class="toc-h3">配置管理</a></li>
+          <li><a href="#mcp-tools" class="toc-h3">工具管理（MCP）</a></li>
+          <li><a href="#advanced-usage" class="toc-h3">進階操作</a></li>
+          <li><a href="#troubleshooting" class="toc-h3">常見問題</a></li>
+          <li><a href="#best-practices" class="toc-h2">最佳實踐</a></li>
+          <li><a href="#initialization" class="toc-h3">初始化配置</a></li>
+          <li><a href="#tips-tricks" class="toc-h3">小技巧</a></li>
+          <li><a href="#references" class="toc-h2">參考來源</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <canvas id="magic-canvas"></canvas>
+    <script src="/js/magic.js"></script>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4"
+                >Notion</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <header
+      class="masthead"
+      style="
+        background-image: url('../assets/img/claude-code-guide/claude-code-guide-background.png');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      "
+    >
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-heading">
+              <h1>Claude Code 贏麻了：躺平也能寫程式</h1>
+              <h4 class="subheading">躺平時代的AI編程攻略</h4>
+              <span class="meta">By XD3an</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Article Content Starts Here -->
+            <p style="font-size: 1.1em; margin-bottom: 2em">
+              <a href="https://www.anthropic.com/claude-code" target="_blank"
+                >Claude Code</a
+              >
+              是由 Anthropic 在 2024 年 12 月發布的一款 AI Coding Agent
+              工具，目的幫助開發者在終端機中將想法更快地轉化為程式碼，可以搜尋和讀取程式碼、編輯檔案、編寫和執行測試、提交並推送程式碼到
+              GitHub，以及使用命令列工具等操作。
+            </p>
+
+            <img
+              src="../assets/img/claude-code-guide/claude-code.png"
+              alt="Claude Code"
+              class="img-fluid mb-3"
+            />
+
+            <h2 id="how-to-use" style="margin-top: 1.5em; font-size: 1.5em">
+              如何使用
+            </h2>
+            <hr />
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-guide/ssstwitter.com_1753677505679-ezgif.com-video-to-gif-converter.gif"
+                alt="Claude Code Demo"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted"
+                >src: https://x.com/sidbidasari</span
+              >
+            </div>
+
+            <h3 id="installation" style="margin-top: 2em; font-size: 1.25em">
+              初次安裝
+            </h3>
+
+            <p>初次使用前需要先安裝 Claude Code</p>
+
+            <pre><code class="language-bash">npm install -g @anthropic-ai/claude-code
+claude --version</code></pre>
+
+            <img
+              src="../assets/img/claude-code-guide/claude-code-install.png"
+              alt="Claude Code Installation"
+              class="img-fluid mb-3"
+            />
+
+            <p>
+              更多相關安裝方法，請參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/quickstart"
+                target="_blank"
+                >Anthropic Quickstart - Anthropic</a
+              >
+            </p>
+
+            <h3 id="basic-commands" style="margin-top: 2em; font-size: 1.25em">
+              基礎指令
+            </h3>
+
+            <p>
+              使用 Claude
+              Code，最基礎有兩種方式，一種是互動模式也就是多輪對話的互動介面；另一個則是一次性詢問的方式，只執行一次互動操作。還有其他像是
+              pipeline 等方式也可以與 Claude Code 互動。
+            </p>
+
+            <ol>
+              <li>
+                <strong>啟動互動模式</strong>
+                <p>
+                  於終端機輸入 <code>claude</code>，按下 Enter
+                  即可進入對話模式。輸入 <code>/exit</code> 或
+                  <code>/quit</code> 可退出互動模式。
+                </p>
+                <pre><code class="language-powershell">claude</code></pre>
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-interaction.png"
+                  alt="Claude Code Interaction"
+                  class="img-fluid mb-3"
+                />
+              </li>
+
+              <li>
+                <strong>一次性詢問</strong>
+                <p>
+                  不想進入互動模式？直接在命令列輸入
+                  <code>claude "你的問題"</code>，即可取得即時回答，例如
+                  <code>"這段代碼有什麼問題？"</code> 或
+                  <code>"幫我寫個快速排序"</code>。
+                </p>
+                <pre><code class="language-powershell">claude "tell me what this project is doing"</code></pre>
+                <p>互動完成後會停留在互動模式，可以繼續使用 Claude Code。</p>
+              </li>
+
+              <li>
+                <strong>管道處理（Pipe）</strong>
+                <p>
+                  可以把文件或輸出的結果透過管道傳入 <code>claude</code>，比如：
+                </p>
+                <pre><code class="language-bash">cat main.py | claude "optimize this code"
+cat README.md | claude "translate into chinese"
+git diff | claude "explain this change"</code></pre>
+                <p>可以直接分析內容、優化或翻譯，省時省力。</p>
+              </li>
+
+              <li>
+                <strong>純文字輸出</strong>
+                <p>
+                  預設輸出為 Markdown 格式，加上
+                  <code>-p</code> 後就會輸出純文字並直接退出，例如：
+                </p>
+                <pre><code class="language-bash">claude -p "generate mysql json statement example" > query.sql</code></pre>
+                <p>非互動、純結果導出。</p>
+              </li>
+
+              <li>
+                <strong>查看幫助</strong>
+                <p>
+                  忘記指令？輸入
+                  <code>claude --help</code>，即可查看全部命令說明。
+                </p>
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-help.png"
+                  alt="Claude Code Help"
+                  class="img-fluid mb-3"
+                />
+              </li>
+            </ol>
+
+            <p>
+              若想要退出 直接使用 <code>/exit</code>,
+              <code>/quit</code> 就可以了。
+            </p>
+
+            <h3 id="configuration" style="margin-top: 2em; font-size: 1.25em">
+              配置管理
+            </h3>
+
+            <p>
+              若希望更客製化的配置資訊，Claude Code
+              提供大量的方法可以根據個人要求進行相應配置。
+            </p>
+
+            <ul>
+              <li>
+                <strong>查看目前配置</strong>
+                <p>可查看當前使用的模型、API 金鑰等資訊。</p>
+                <pre><code class="language-bash">claude config list</code></pre>
+              </li>
+
+              <li>
+                <strong>查看特定設定值</strong>
+                <pre><code class="language-bash">claude config get &lt;key&gt;</code></pre>
+                <p>查詢某一個設定的當前值。</p>
+              </li>
+
+              <li>
+                <strong>修改設定值</strong>
+                <pre><code class="language-bash">claude config set &lt;key&gt; &lt;value&gt;</code></pre>
+                <p>將某一個設定更新為新值。</p>
+              </li>
+
+              <li>
+                <strong>對「列表型設定」新增項目</strong>
+                <pre><code class="language-bash">claude config add &lt;key&gt; &lt;value&gt;</code></pre>
+                <p>在清單型設定中加入一個新項。</p>
+              </li>
+
+              <li>
+                <strong>對「列表型設定」移除項目</strong>
+                <pre><code class="language-bash">claude config remove &lt;key&gt; &lt;value&gt;</code></pre>
+                <p>從清單型設定中刪除指定項目。</p>
+              </li>
+            </ul>
+
+            <p>
+              更多配置管理可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/settings"
+                target="_blank"
+                >Anthropic Claude Code settings - Anthropic</a
+              >
+            </p>
+
+            <h3 id="mcp-tools" style="margin-top: 2em; font-size: 1.25em">
+              工具管理（MCP）
+            </h3>
+
+            <p>Claude Code 本身也完全支援 MCP 來連結外部工具，擴展自身能力：</p>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-guide/mcp-arch.jpg"
+                alt="MCP Architecture"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted"
+                >src:
+                https://norahsakal.com/blog/mcp-vs-api-model-context-protocol-explained/</span
+              >
+            </div>
+
+            <ol>
+              <li>
+                <strong>列出所有已安裝的 MCP</strong>
+                <pre><code class="language-bash">claude mcp list</code></pre>
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-mcp-list.png"
+                  alt="Claude Code MCP List"
+                  class="img-fluid mb-3"
+                />
+              </li>
+
+              <li>
+                <strong>查看某個 MCP 的詳細設定</strong>
+                <pre><code class="language-bash">claude mcp get playwright</code></pre>
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-mcp-get.png"
+                  alt="Claude Code MCP Get"
+                  class="img-fluid mb-3"
+                />
+              </li>
+
+              <li>
+                <strong>安裝常用 MCP</strong>，如下所示：
+                <ul>
+                  <li>
+                    安裝 Playwright：
+                    <pre><code class="language-bash">claude mcp add playwright -s user -- npx @playwright/mcp@latest</code></pre>
+                  </li>
+                  <li>
+                    安裝 Sequential Thinking：
+                    <pre><code class="language-bash">claude mcp add sequential-thinking -s user -- npx -y @modelcontextprotocol/server-sequential-thinking</code></pre>
+                  </li>
+                  <li>
+                    安裝 Puppeteer：
+                    <pre><code class="language-bash">claude mcp add puppeteer -s user -- npx -y @modelcontextprotocol/server-puppeteer</code></pre>
+                  </li>
+                  <li>
+                    安裝 Context7：
+                    <pre><code class="language-bash">claude mcp add context7 -- npx @upstash/context7-mcp</code></pre>
+                  </li>
+                </ul>
+              </li>
+
+              <li>
+                <strong>移除 MCP</strong>
+                <pre><code class="language-bash">claude mcp remove "playwright" -s user</code></pre>
+              </li>
+
+              <li>
+                <strong>檢視 MCP 狀態（互動模式下）</strong>
+                <p>
+                  進入 <code>claude</code> 後使用，即可查看目前所有 MCP 狀態：
+                </p>
+                <pre><code class="language-bash">/mcp</code></pre>
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-mcp-status.png"
+                  alt="Claude Code MCP Status"
+                  class="img-fluid mb-3"
+                />
+              </li>
+            </ol>
+
+            <p>除此之外還可以使用 .mcp.json 設定</p>
+
+            <pre><code class="language-json">{
+  "mcpServers": {
+    "playwright": {
+      "args": ["@playwright/mcp@latest", "--headless"],
+      "command": "npx"
+    },
+    "context7": {
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "command": "npx"
+    }
+  }
+}</code></pre>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/mcp"
+                target="_blank"
+                >Anthropic Connect Claude Code to tools via MCP - Anthropic</a
+              >
+            </p>
+
+            <h3 id="advanced-usage" style="margin-top: 2em; font-size: 1.25em">
+              進階操作
+            </h3>
+
+            <p>
+              在
+              <code>claude</code>
+              的互動模式中，除了輸入問題，也能使用以下命令加速流程：
+            </p>
+
+            <p><strong>壓縮對話上下文</strong></p>
+            <p>
+              有時因為使用的狀況會導致上下文過長，此時可以選擇清除多餘歷史，只保留摘要在上下文中。
+            </p>
+            <pre><code class="language-bash">/compact  &lt;optional custom summarization instructions&gt;    # Clear conversation history but keep a summary in context. Optional: /compact [instructions for summarization]</code></pre>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-compact.png"
+              alt="Claude Code Compact"
+              class="img-fluid mb-3"
+            />
+
+            <p><strong>清除會話歷史</strong></p>
+            <p>又或是可以完全重置會話，釋放上下文空間。</p>
+            <pre><code class="language-bash">/clear (reset) # Clear conversation history and free up context</code></pre>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-clear.png"
+              alt="Claude Code Clear"
+              class="img-fluid mb-3"
+            />
+
+            <p><strong>接續上次的對話</strong></p>
+            <p>還可恢復之前的對話狀態繼續使用。</p>
+            <pre><code class="language-bash">/resume      # Resume a conversation</code></pre>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-resume-1.png"
+              alt="Claude Code Resume 1"
+              class="img-fluid mb-3"
+            />
+            <img
+              src="../assets/img/claude-code-guide/claude-code-resume-2.png"
+              alt="Claude Code Resume 2"
+              class="img-fluid mb-3"
+            />
+
+            <p><strong>記憶模式 (項目級別/全域級別)</strong></p>
+            <p>
+              輸入 <code>#</code> 可進入 <strong>記憶編輯模式</strong>，用來修改
+              <code>CLAUDE.md</code>：
+            </p>
+            <ul>
+              <li>專案級：<code>./CLAUDE.md</code></li>
+              <li>全域級：<code>~/.claude/CLAUDE.md</code></li>
+            </ul>
+            <pre><code class="language-bash">#</code></pre>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-memory-1.png"
+              alt="Claude Code Memory 1"
+              class="img-fluid mb-3"
+            />
+            <img
+              src="../assets/img/claude-code-guide/claude-code-memory-2.png"
+              alt="Claude Code Memory 2"
+              class="img-fluid mb-3"
+            />
+
+            <p><strong>讀圖片</strong></p>
+            <ol>
+              <li>
+                <strong>拖曳圖片到終端</strong
+                >：可以直接將圖片檔案拖拽到正在執行 Claude Code
+                的終端視窗中。Claude 將能夠「看到」並分析這個圖片。
+                <img
+                  src="../assets/img/claude-code-guide/claude-code-image.png"
+                  alt="Claude Code Image"
+                  class="img-fluid mb-3"
+                />
+              </li>
+              <li>
+                <strong>複製貼上圖片（macOS）</strong>：在 macOS 上，可以使用
+                <code>Control</code> + <code>V</code>（不是
+                <code>Command</code> + <code>V</code>）將其貼上到 Claude Code
+                中。
+              </li>
+            </ol>
+
+            <p><strong>回撤操作</strong></p>
+            <p>
+              有時會希望 Claude Code 回撤此前的操作，除了可以使用
+              <code>esc</code> 或是直接告訴 Claude Code 以外，還可以參考下面
+              ccundo 來進行回撤。
+            </p>
+            <ul>
+              <li>
+                <a href="https://github.com/RonitSachdev/ccundo" target="_blank"
+                  >https://github.com/RonitSachdev/ccundo</a
+                >
+              </li>
+            </ul>
+            <p>
+              實際上 Claude Code 會把相關歷史紀錄都儲存在
+              <code>C:\Users\USER\.claude\projects\</code>
+              （Windows）下的相關專案紀錄中。
+            </p>
+
+            <p><strong>IDE 整合</strong></p>
+            <p>若想整合其他 IDE，則可以使用 /ide 這樣一來就可以與其整合。</p>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-ide-1.png"
+              alt="Claude Code IDE 1"
+              class="img-fluid mb-3"
+            />
+            <p>
+              像是若與 VSCode 整合，假設選取一段程式碼，Claude Code
+              是可以知道你所選取的程式碼區段內容。
+            </p>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-ide-2.png"
+              alt="Claude Code IDE 2"
+              class="img-fluid mb-3"
+            />
+
+            <p><strong>hook</strong></p>
+            <p>
+              Claude Code hooks 是使用者定義的 shell 命令，在 Claude Code
+              生命週期的各個時點執行。Hooks 提供對 Claude Code
+              行為的確定性控制，確保某些動作的觸發，而不是依賴 LLM 選擇執行。
+            </p>
+
+            <p>舉例以下幾個場景：</p>
+            <ul>
+              <li>
+                通知：自訂當 Claude Code 等待您的輸入或執行權限時如何通知您。
+              </li>
+              <li>
+                自動格式化：在每次檔案編輯後對 .ts 檔案執行 prettier，對 .go
+                檔案執行 gofmt 等。
+              </li>
+              <li>記錄：追蹤和計算所有執行的命令以符合合規性或除錯需求。</li>
+              <li>
+                回饋：當 Claude Code
+                產生不符合您程式碼庫慣例的程式碼時提供自動回饋。
+              </li>
+              <li>自訂權限：阻止對生產檔案或敏感目錄的修改。</li>
+            </ul>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/hooks"
+                target="_blank"
+                >Anthropic Hooks reference - Anthropic</a
+              >
+            </p>
+
+            <p><strong>子代理（Subagent）</strong></p>
+            <p>
+              Claude Code 中的自定義子代理是專門的 AI
+              助手，可以被調用來處理特定類型的任務。
+            </p>
+            <ul>
+              <li>具有自定義系統提示（system prompt）</li>
+              <li>工具和獨立上下文窗口（context windows）的特定任務配置</li>
+              <li>可重用性</li>
+              <li>彈性的權限管理</li>
+            </ul>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/sub-agents"
+                target="_blank"
+                >Anthropic Subagents - Anthropic</a
+              >
+            </p>
+
+            <h3 id="troubleshooting" style="margin-top: 2em; font-size: 1.25em">
+              常見問題
+            </h3>
+
+            <p><strong>連接問題</strong></p>
+            <pre><code class="language-powershell"># test api/network connection
+claude "test connection"
+
+# check config
+claude config get api-key
+claude config get model</code></pre>
+
+            <p><strong>性能優化</strong></p>
+            <pre><code class="language-powershell"># enable cache
+claude config set cache-enabled true
+
+# set max-concurrent
+claude config set max-concurrent 3
+
+# adujst timeout
+claude config set timeout 30</code></pre>
+
+            <p><strong>調試模式</strong></p>
+            <pre><code class="language-powershell"># enable verbose mode
+claude --verbose "question"
+
+# debug
+claude --debug "debug command"</code></pre>
+
+            <h2 id="best-practices" style="margin-top: 2.5em; font-size: 1.5em">
+              最佳實踐
+            </h2>
+            <hr />
+
+            <h3
+              id="initialization"
+              style="margin-top: 1.5em; font-size: 1.25em"
+            >
+              初始化配置
+            </h3>
+
+            <p><strong>創建 CLAUDE.md</strong></p>
+            <p>
+              <code>CLAUDE.md</code> 是 Claude Code 中的重要配置文件，用來定義
+              Claude Code 的行為與上下文資訊，會被自動讀取到上下文中。
+            </p>
+
+            <p>通常包含以下資訊：</p>
+            <ul>
+              <li><strong>項目概述</strong></li>
+              <li><strong>開發環境設置</strong></li>
+              <li><strong>代碼庫結構</strong></li>
+              <li><strong>使用指南</strong></li>
+              <li><strong>開發工作流程</strong></li>
+              <li><strong>限制和注意事項</strong></li>
+            </ul>
+
+            <p>創建的方式可以使用 <code>/init</code> 命令，或是手動建立：</p>
+            <pre><code class="language-bash">/init</code></pre>
+            <img
+              src="../assets/img/claude-code-guide/claude-code-init.png"
+              alt="Claude Code Init"
+              class="img-fluid mb-3"
+            />
+
+            <p>
+              Claude Code 讀取
+              <code>CLAUDE.md</code> 設定檔的優先順序和搜尋路徑：
+            </p>
+            <ol>
+              <li>
+                專案根目錄：<code>./CLAUDE.md</code>（推薦使用，可提交至
+                git，團隊成員共享相同的配置）
+              </li>
+              <li>
+                專案本地：<code>./CLAUDE.local.md</code>（不須提交到
+                git，通常添加到 .gitignore，用於個人開發環境的特殊設置）
+              </li>
+              <li>
+                全域設定：<code>~/.claude/CLAUDE.md</code>（適用於所有沒有專案特定配置的情況）
+              </li>
+            </ol>
+
+            <p>父目錄和子目錄中也會被自動讀取。</p>
+
+            <p><strong>配置工具權限</strong></p>
+            <p>
+              Claude Code
+              中也需要進行權限的控管，避免非預期行為的發生。透過以下方式進行權限設定：
+            </p>
+            <ul>
+              <li>使用 <code>/permissions</code> 命令</li>
+              <li>手動編輯 <code>.claude/settings.json</code></li>
+              <li>啟用 <code>--allowedTools</code> 參數</li>
+              <li>使用 <code>--dangerously-skip-permissions</code></li>
+            </ul>
+
+            <p><strong>MCP 工具</strong></p>
+            <p>Claude Code 可透過三種方式連接任意數量的 MCP 伺服器：</p>
+            <ul>
+              <li>專案配置中（在該目錄執行 Claude Code 時可用）</li>
+              <li>全域設定中（所有項目可用）</li>
+              <li>
+                提交到 .mcp.json⁠
+                檔案（任何在你程式碼庫工作的成員都可用）。例如，你可以在
+                .mcp.json⁠ 新增 Puppeteer 和 Sentry
+                伺服器，方便每位工程師開箱即用。
+              </li>
+              <li>用 MCP 時，建議用 --mcp-debug⁠ 標誌來幫助排查設定問題。</li>
+            </ul>
+
+            <p><strong>上下文管理</strong></p>
+            <p>若希望更好的使用上下文，可以參考以下用法：</p>
+            <ul>
+              <li>使用 <code>@</code> 引用文件</li>
+              <li>任務切換時使用 <code>/clear</code> 清空上次任務訊息</li>
+              <li>長時間會話使用 <code>/compact</code> 定期壓縮上下文</li>
+              <li>
+                將重要資訊透過 <code>#</code>（memory 功能） 記錄到
+                <code>CLAUDE.md</code> 中
+              </li>
+              <li>
+                使用 <code>/resume</code> 恢復歷史會話；也可以啟動時恢復，指令為
+                <code>claude --continue</code>。
+              </li>
+            </ul>
+
+            <p><strong>自定義命令</strong></p>
+            <p>
+              對於重複性高的工作流（例如：日誌分析），可以在
+              <code>.claude/commands</code> 目錄下創建自定義的命令，是 Claude
+              Code 支援的
+              <strong>專案級自定義 Slash Commands</strong> 儲存位置。你可以透過
+              Markdown 檔案定義常用 prompt 指令，可以用於 Claude Code 中。
+            </p>
+
+            <pre><code class="language-markdown">---
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
+description: Create a git commit
+---
+
+## Context
+
+- Current git status: !`git status`
+- Current git diff (staged and unstaged changes): !`git diff HEAD`
+- Current branch: !`git branch --show-current`
+- Recent commits: !`git log --oneline -10`
+
+## Your task
+
+Based on the above changes, create a single git commit.</code></pre>
+
+            <p>
+              更多參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"
+                target="_blank"
+                >Anthropic Slash commands - Anthropic</a
+              >
+            </p>
+
+            <p>
+              Claude Code
+              的最大優勢在於其<strong>靈活性</strong>和<strong>終端原生體驗</strong>，不會綁定你到特定的
+              IDE，而是作為一個 CLI 工具，可以與任何現有的 IDE 配合使用。相比
+              Cursor、Windsurf 等 AI 編程工具需要完全切換到新的 IDE
+              環境或學習全新界面，Claude Code
+              讓開發者能保持原有的工作流程，同時在熟悉的終端環境中獲得 AI 協助。
+            </p>
+
+            <h3 id="tips-tricks" style="margin-top: 2em; font-size: 1.25em">
+              小技巧
+            </h3>
+
+            <div style="margin-top: 1.5em;">
+              <p><strong>更換 LLM Provider</strong></p>
+              <p style="margin-bottom: 1em;">
+                有時你可能想要切換 Claude Code 預設的 API
+                Provider（例如切換到自建 Proxy
+                服務）。這可以透過環境變數完成：
+              </p>
+              <pre><code class="language-powershell">ANTHROPIC_AUTH_TOKEN = "sk-..."
+ANTHROPIC_BASE_URL = "..."</code></pre>
+              <p style="margin-top: 1em; margin-bottom: 2em;">
+                參考：<a
+                  href="https://github.com/musistudio/claude-code-router"
+                  target="_blank"
+                  >musistudio/claude-code-router</a
+                >
+              </p>
+
+              <p><strong>具體說明需求</strong></p>
+              <p style="margin-bottom: 2em;">把需求說清楚、說具體，避免「修一下
+                bug」這種籠統指令；具體到模組/錯誤型態/期望行為，回應品質更高。</p>
+
+              <p><strong>把複雜的需求分步執行</strong></p>
+              <p style="margin-bottom: 2em;">大任務拆小步：先接口、再驗證、再測試… 每一步完成就
+                review/測試，再進下一步，能避開上下文過長與輸出截斷。</p>
+
+              <p><strong>先理解專案程式碼再操作</strong></p>
+              <p style="margin-bottom: 2em;">在動手改前，先讓 Claude
+                掃描與解讀系統設計、資料表、錯誤處理流等，再提出修改要求，成功率更高。</p>
+
+              <p><strong>多使用快捷鍵</strong></p>
+              <ul style="margin-bottom: 1em;">
+                <li><code>/</code> 檢視所有斜線命令</li>
+                <li>↑/↓ 瀏覽歷史、Tab 自動補全</li>
+                <li>Option+Enter（macOS）換行、Ctrl+C 離開</li>
+              </ul>
+              <p style="margin-bottom: 2em;">這些能大幅提速日常操作。</p>
+
+              <p><strong>使用免授權模式</strong></p>
+              <p style="margin-bottom: 1em;">長流程常被「要求授權」打斷時，可用：</p>
+              <pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre>
+              <p style="margin-bottom: 2em;">建議在離線容器中使用，降低風險。</p>
+
+              <p><strong>啟發思考模式</strong></p>
+              <p style="margin-bottom: 1em;">若在對話中可以使用以下詞啟發
+                Claude Code 進行深度思考：</p>
+              <pre><code class="language-powershell">think
+think hard
+think harder
+ultrathink</code></pre>
+              <div style="margin-bottom: 2em;"></div>
+
+              <p><strong>若發現錯誤，及時打斷</strong></p>
+              <p style="margin-bottom: 2em;">若發現提示指令下錯，或是
+                Claude Code 執行過程不如預期，可以使用
+                <code>esc</code> 及時打斷，以免造成後續麻煩。</p>
+
+              <p><strong>發送圖片</strong></p>
+              <p style="margin-bottom: 2em;">可貼圖片讓 Claude Code
+                讀圖說明錯誤/按設計稿還原 UI 等。</p>
+
+              <p><strong>恢復歷史對話</strong></p>
+              <p style="margin-bottom: 0.5em;">非互動模式：</p>
+              <pre><code class="language-bash">claude --continue
+claude --resume</code></pre>
+              <p style="margin-bottom: 0.5em;">互動模式：</p>
+              <ul style="margin-bottom: 2em;">
+                <li>輸入 <code>/resume</code> 從清單選擇會話繼續。</li>
+              </ul>
+
+              <p><strong>記憶管理</strong></p>
+              <p style="margin-bottom: 0.5em;">記憶檔位置與用途：</p>
+              <ul style="margin-bottom: 1em;">
+                <li>專案共享：<code>./CLAUDE.md</code>（規範/工作流/風格等）</li>
+                <li>使用者全域：<code>~/.claude/CLAUDE.md</code>（個人偏好）</li>
+                <li>本地專案偏好：<code>./CLAUDE.local.md</code></li>
+              </ul>
+              <p style="margin-bottom: 0.5em;">互動中用 <code>/memory</code> 打開並編輯記憶檔。</p>
+              <p style="margin-bottom: 2em;">啟動時會自動遞迴載入路徑上的 <code>CLAUDE.md</code>。</p>
+
+              <p><strong>編輯記憶檔案</strong></p>
+              <p style="margin-bottom: 2em;">在
+                <code>/memory</code> 清單中選目標檔（如
+                <code>~/.claude/CLAUDE.md</code
+                >），加入如「請用繁體中文回答」等個人規則，即可長期生效。</p>
+
+              <p><strong>Git 交互</strong></p>
+              <p style="margin-bottom: 0.5em;">用自然語言驅動 Git：</p>
+              <ul style="margin-bottom: 2em;">
+                <li>「我修改了哪些文件」→ 顯示變更</li>
+                <li>「用合理描述性信息提交我的更改」→ 產生提交訊息並提交</li>
+                <li>「推送本分支到遠端 / 建立 feature 分支 / 顯示最近 3
+                  次提交檔案」等皆可直說。</li>
+              </ul>
+
+              <p><strong>Linux 交互</strong></p>
+              <p style="margin-bottom: 2em;">互動模式或一次性
+                <code>-p</code> 皆可讓 Claude 生成並執行複雜 Shell
+                指令（如列出行數最多的前 3 個 .java 檔）。</p>
+
+              <p><strong>查看消耗狀況</strong></p>
+              <ul style="margin-bottom: 2em;">
+                <li><code>/cost</code> 檢視當前會話花費。</li>
+                <li><a
+                    href="https://github.com/ryoppippi/ccusage"
+                    target="_blank"
+                    >ryoppippi/ccusage</a
+                  ></li>
+              </ul>
+
+              <p><strong>必要時上下文壓縮</strong></p>
+              <p style="margin-bottom: 2em;"><code>/compact</code>
+                清除對話歷史但保留摘要，降低 token 與上下文長度；也可在
+                <code>/config</code> 控制自動壓縮（接近 95% 容量時會自動觸發）。</p>
+
+              <p><strong>自定義快捷指令</strong></p>
+              <p style="margin-bottom: 0.5em;">位置：</p>
+              <ul style="margin-bottom: 2em;">
+                <li>User level：<code>~/.claude/commands/</code>（所有專案可用，前綴
+                  <code>/user:</code>）</li>
+                <li>Project level：<code>./.claude/commands/</code>（僅當前專案，前綴
+                  <code>/project:</code>）</li>
+              </ul>
+
+              <p><strong>進入 Bash 模式</strong></p>
+              <p style="margin-bottom: 2em;">在命令前加
+                <code>!</code>，即可進入 Bash 模式，由系統直接執行。</p>
+
+              <p><strong>自動接受編輯、使用計畫模式</strong></p>
+              <p style="margin-bottom: 1em;">
+                按下 <code>Shift + Tab</code> 切換「auto‑accept
+                edits」模式。開啟後，Claude Code
+                會<strong>自動創建及編輯檔案</strong>，省去逐次確認。比
+                <code>--dangerously-skip-permissions</code>
+                更安全，作用範圍也僅限編輯操作。
+              </p>
+              <p style="margin-bottom: 1em;">
+                同樣使用 <code>Shift + Tab</code> 切換「plan
+                mode」。開啟後，Claude Code
+                會生成功能規劃，並詢問是否執行。如果選擇「Yes, and auto-accept
+                edits」，它將自動切換到自動接受編輯模式，依計畫完成所有工作。
+              </p>
+              <p style="margin-bottom: 2em;">
+                若遇到問題可以看看這個 Issues：<a
+                  href="https://github.com/anthropics/claude-code/issues/3368"
+                  target="_blank"
+                  >anthropics/claude-code/issues/3368</a
+                >
+              </p>
+
+              <p><strong>使用 MCP 提升效率</strong></p>
+              <p style="margin-bottom: 1em;">
+                Claude Code 支援 MCP 協議，可加入多種服務器工具（如 browser
+                自動化、最新文件查詢等）。
+              </p>
+              <p style="margin-bottom: 0.5em;">管理 MCP：</p>
+              <pre><code class="language-bash">claude mcp list
+claude mcp get &lt;name&gt;
+claude mcp remove &lt;name&gt;</code></pre>
+              <p style="margin-bottom: 2em;">使用 <code>/mcp</code> 指令查看相關資訊。</p>
+
+              <p><strong>快速跳轉前訊息</strong></p>
+              <p style="margin-bottom: 2em;">連按兩次
+                <code>Esc</code> 可跳出訊息歷史視窗，選擇 msg
+                後可返回並重新編輯該 prompt。有效避免重打指令。</p>
+
+              <p><strong>還原程式碼版本</strong></p>
+              <p style="margin-bottom: 1em;">
+                輸入 <code>rollback</code> 即可回退到先前
+                checkpoint，若想取消回退，再輸入
+                <code>undo</code> 即可復原。類似 Cursor 的 checkpoint
+                功能，十分便利。但務必仍使用 Git 控制版本，保護資料。
+              </p>
+              <p style="margin-bottom: 2em;">
+                參考：<a
+                  href="https://github.com/RonitSachdev/ccundo"
+                  target="_blank"
+                  >RonitSachdev/ccundo</a
+                >
+              </p>
+
+              <p><strong>更新版本保持最新功能</strong></p>
+              <pre style="margin-bottom: 2em;"><code class="language-bash">npm install -g @anthropic-ai/claude-code
+claude --version</code></pre>
+            </div>
+
+            <p style="margin-top: 2em; font-size: 1.1em; line-height: 1.6">
+              Claude Code
+              的最大優勢在於其<strong>靈活性</strong>和<strong>終端原生體驗</strong>，不會綁定你到特定的
+              IDE，而是作為一個 CLI 工具，可以與任何現有的 IDE 配合使用。相比
+              Cursor、Windsurf 等 AI 編程工具需要完全切換到新的 IDE
+              環境或學習全新界面，Claude Code
+              讓開發者能保持原有的工作流程，同時在熟悉的終端環境中獲得 AI
+              協助。反映並體現了現代開發者對<strong>效率與靈活性</strong>的追求，就像我們習慣在手機上快速切換各種
+              app 來完成不同任務，Claude Code
+              讓開發者無需離開熟悉的終端環境，就能透過自然語言指令快速將想法轉化為程式碼，同時也反映了當代「工具應該適應人，而非人適應工具」的理念，讓
+              AI
+              助手融入開發者既有的工作流程中，而不是強迫改變習慣，這正是現代生活與
+              AI 協作所追求「無縫整合」體驗的最佳體現。
+            </p>
+
+            <h2 id="references" style="margin-top: 1.5em; font-size: 1.5em">
+              參考來源
+            </h2>
+            <hr />
+            <ul>
+              <li>
+                <a href="https://www.anthropic.com/claude-code" target="_blank"
+                  >Claude Code 官方網站</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://docs.anthropic.com/en/docs/claude-code/overview"
+                  target="_blank"
+                  >Claude Code 官方文件</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code"
+                  target="_blank"
+                  >Anthropic 團隊如何使用 Claude Code</a
+                >
+              </li>
+              <li>
+                <a href="https://www.anthropic.com/learn" target="_blank"
+                  >Anthropic Learn</a
+                >
+              </li>
+              <li>
+                <a href="https://youtu.be/gv0WHhKelSE" target="_blank"
+                  >Claude Code 官方教學影片</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://youtube.com/playlist?list=PLf2m23nhTg1P5BsOHUOXyQz5RhfUSSVUi"
+                  target="_blank"
+                  >Claude Code 教學影片播放清單</a
+                >
+              </li>
+              <li>
+                <a href="https://youtu.be/e5O8A5pcVgg" target="_blank"
+                  >Claude Code 功能介紹影片</a
+                >
+              </li>
+              <li>
+                <a href="https://b23.tv/0muLyXg" target="_blank"
+                  >用神器 Claude Code！打造贴身 AI
+                  秘书团【小白教程】-哔哩哔哩</a
+                >
+              </li>
+              <li>
+                <a href="https://b23.tv/LSByZFH" target="_blank"
+                  >Claude Code 初识：已经在用 Cursor 的我，为何还要用 CC
+                  🤔-哔哩哔哩</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://docs.ctok.ai/claude-code-commands-guide.html"
+                  target="_blank"
+                  >Claude Code 指令指南（ctok.ai）</a
+                >
+              </li>
+              <li>
+                <a href="https://cc.deeptoai.com/docs" target="_blank"
+                  >Claude Code 中文文檔（deeptoai）</a
+                >
+              </li>
+            </ul>
+
+            <!-- Article Content Ends Here -->
+          </div>
+        </div>
+      </div>
+    </article>
+    <!-- Footer-->
+    <footer class="border-top">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/d3an_x">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- 目錄功能JavaScript -->
+    <script>
+      // 滾動時高亮當前章節
+      function updateActiveSection() {
+        const sections = [
+          'how-to-use', 'installation', 'basic-commands', 'configuration', 
+          'mcp-tools', 'advanced-usage', 'troubleshooting', 'best-practices', 
+          'initialization', 'tips-tricks', 'references'
+        ];
+        
+        let currentSection = '';
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 找到當前最接近頂部的章節
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const element = document.getElementById(sections[i]);
+          if (element && element.offsetTop <= scrollTop + 100) {
+            currentSection = sections[i];
+            break;
+          }
+        }
+        
+        // 更新目錄中的活動狀態
+        const tocLinks = document.querySelectorAll('.floating-toc a');
+        tocLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + currentSection) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      // 平滑滾動到指定章節
+      function scrollToSection(targetId) {
+        const targetElement = document.getElementById(targetId.substring(1));
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 20;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      }
+      
+      // 頁面載入完成後初始化
+      document.addEventListener('DOMContentLoaded', function() {
+        // 監聽滾動事件
+        window.addEventListener('scroll', updateActiveSection);
+        
+        // 為目錄連結添加點擊事件
+        const tocLinks = document.querySelectorAll('.floating-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            scrollToSection(targetId);
+          });
+        });
+        
+        // 初始化活動章節
+        updateActiveSection();
+      });
+      
+      // 可以拖曳移動目錄（可選功能）
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+      
+      const tocElement = document.getElementById('floatingToc');
+      
+      tocElement.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        dragOffset.x = e.clientX - tocElement.offsetLeft;
+        dragOffset.y = e.clientY - tocElement.offsetTop;
+        tocElement.style.cursor = 'grabbing';
+      });
+      
+      document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+          tocElement.style.left = (e.clientX - dragOffset.x) + 'px';
+          tocElement.style.top = (e.clientY - dragOffset.y) + 'px';
+          tocElement.style.right = 'auto'; // 取消right定位
+        }
+      });
+      
+      document.addEventListener('mouseup', function() {
+        if (isDragging) {
+          isDragging = false;
+          tocElement.style.cursor = 'grab';
+        }
+      });
+      
+      // 設置初始游標樣式
+      tocElement.style.cursor = 'grab';
+    </script>
+  </body>
+</html>
