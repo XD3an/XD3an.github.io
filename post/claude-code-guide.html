@@ -47,7 +47,7 @@
         background: #f8f9fa;
         padding: 1em;
       }
-      
+
       /* Table of Contents 漂浮小視窗 */
       .floating-toc {
         position: fixed;
@@ -66,12 +66,12 @@
         transition: all 0.3s ease;
         opacity: 0.95;
       }
-      
+
       .floating-toc:hover {
         opacity: 1;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       }
-      
+
       .toc-header {
         font-weight: 600;
         font-size: 16px;
@@ -83,7 +83,7 @@
         justify-content: space-between;
         align-items: center;
       }
-      
+
       .toc-toggle-btn {
         background: none;
         border: none;
@@ -92,26 +92,26 @@
         color: #6c757d;
         padding: 0;
       }
-      
+
       .toc-content {
         max-height: calc(60vh - 60px);
         overflow-y: auto;
       }
-      
+
       .toc-content.collapsed {
         display: none;
       }
-      
+
       .floating-toc ul {
         list-style: none;
         padding: 0;
         margin: 0;
       }
-      
+
       .floating-toc li {
         margin: 2px 0;
       }
-      
+
       .floating-toc a {
         text-decoration: none;
         color: #6c757d;
@@ -122,30 +122,30 @@
         font-size: 13px;
         line-height: 1.4;
       }
-      
+
       .floating-toc a:hover {
         background-color: #f8f9fa;
         color: #ff6b35;
         transform: translateX(2px);
       }
-      
+
       .floating-toc a.active {
         background-color: #ff6b35;
         color: white;
         font-weight: 500;
       }
-      
+
       .floating-toc .toc-h2 {
         font-weight: 500;
         color: #495057;
       }
-      
+
       .floating-toc .toc-h3 {
         padding-left: 16px;
         font-size: 12px;
         color: #6c757d;
       }
-      
+
       /* 響應式設計 */
       @media (max-width: 1200px) {
         .floating-toc {
@@ -153,39 +153,42 @@
           width: 250px;
         }
       }
-      
+
       @media (max-width: 768px) {
         .floating-toc {
           display: none;
         }
       }
-      
+
       /* 平滑滾動 */
       html {
         scroll-behavior: smooth;
       }
-      
+
       /* 滾動條樣式 */
       .floating-toc::-webkit-scrollbar {
         width: 4px;
       }
-      
+
       .floating-toc::-webkit-scrollbar-track {
         background: #f1f1f1;
         border-radius: 2px;
       }
-      
+
       .floating-toc::-webkit-scrollbar-thumb {
         background: #c1c1c1;
         border-radius: 2px;
       }
-      
+
       .floating-toc::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
       }
     </style>
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog" />
+    <meta
+      property="og:title"
+      content="Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog"
+    />
     <meta
       property="og:description"
       content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
@@ -935,29 +938,21 @@ Based on the above changes, create a single git commit.</code></pre>
               >
             </p>
 
-            <p>
-              Claude Code
-              的最大優勢在於其<strong>靈活性</strong>和<strong>終端原生體驗</strong>，不會綁定你到特定的
-              IDE，而是作為一個 CLI 工具，可以與任何現有的 IDE 配合使用。相比
-              Cursor、Windsurf 等 AI 編程工具需要完全切換到新的 IDE
-              環境或學習全新界面，Claude Code
-              讓開發者能保持原有的工作流程，同時在熟悉的終端環境中獲得 AI 協助。
-            </p>
+            <b>以下是一些小技巧的分享...</b>
 
             <h3 id="tips-tricks" style="margin-top: 2em; font-size: 1.25em">
               小技巧
             </h3>
 
-            <div style="margin-top: 1.5em;">
+            <div style="margin-top: 1.5em">
               <p><strong>更換 LLM Provider</strong></p>
-              <p style="margin-bottom: 1em;">
+              <p style="margin-bottom: 1em">
                 有時你可能想要切換 Claude Code 預設的 API
-                Provider（例如切換到自建 Proxy
-                服務）。這可以透過環境變數完成：
+                Provider（例如切換到自建 Proxy 服務）。這可以透過環境變數完成：
               </p>
               <pre><code class="language-powershell">ANTHROPIC_AUTH_TOKEN = "sk-..."
 ANTHROPIC_BASE_URL = "..."</code></pre>
-              <p style="margin-top: 1em; margin-bottom: 2em;">
+              <p style="margin-top: 1em; margin-bottom: 2em">
                 參考：<a
                   href="https://github.com/musistudio/claude-code-router"
                   target="_blank"
@@ -966,130 +961,162 @@ ANTHROPIC_BASE_URL = "..."</code></pre>
               </p>
 
               <p><strong>具體說明需求</strong></p>
-              <p style="margin-bottom: 2em;">把需求說清楚、說具體，避免「修一下
-                bug」這種籠統指令；具體到模組/錯誤型態/期望行為，回應品質更高。</p>
+              <p style="margin-bottom: 2em">
+                把需求說清楚、說具體，避免「修一下
+                bug」這種籠統指令；具體到模組/錯誤型態/期望行為，回應品質更高。
+              </p>
 
               <p><strong>把複雜的需求分步執行</strong></p>
-              <p style="margin-bottom: 2em;">大任務拆小步：先接口、再驗證、再測試… 每一步完成就
-                review/測試，再進下一步，能避開上下文過長與輸出截斷。</p>
+              <p style="margin-bottom: 2em">
+                大任務拆小步：先接口、再驗證、再測試… 每一步完成就
+                review/測試，再進下一步，能避開上下文過長與輸出截斷。
+              </p>
 
               <p><strong>先理解專案程式碼再操作</strong></p>
-              <p style="margin-bottom: 2em;">在動手改前，先讓 Claude
-                掃描與解讀系統設計、資料表、錯誤處理流等，再提出修改要求，成功率更高。</p>
+              <p style="margin-bottom: 2em">
+                在動手改前，先讓 Claude
+                掃描與解讀系統設計、資料表、錯誤處理流等，再提出修改要求，成功率更高。
+              </p>
 
               <p><strong>多使用快捷鍵</strong></p>
-              <ul style="margin-bottom: 1em;">
+              <ul style="margin-bottom: 1em">
                 <li><code>/</code> 檢視所有斜線命令</li>
                 <li>↑/↓ 瀏覽歷史、Tab 自動補全</li>
                 <li>Option+Enter（macOS）換行、Ctrl+C 離開</li>
               </ul>
-              <p style="margin-bottom: 2em;">這些能大幅提速日常操作。</p>
+              <p style="margin-bottom: 2em">這些能大幅提速日常操作。</p>
 
               <p><strong>使用免授權模式</strong></p>
-              <p style="margin-bottom: 1em;">長流程常被「要求授權」打斷時，可用：</p>
+              <p style="margin-bottom: 1em">
+                長流程常被「要求授權」打斷時，可用：
+              </p>
               <pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre>
-              <p style="margin-bottom: 2em;">建議在離線容器中使用，降低風險。</p>
+              <p style="margin-bottom: 2em">建議在離線容器中使用，降低風險。</p>
 
               <p><strong>啟發思考模式</strong></p>
-              <p style="margin-bottom: 1em;">若在對話中可以使用以下詞啟發
-                Claude Code 進行深度思考：</p>
+              <p style="margin-bottom: 1em">
+                若在對話中可以使用以下詞啟發 Claude Code 進行深度思考：
+              </p>
               <pre><code class="language-powershell">think
 think hard
 think harder
 ultrathink</code></pre>
-              <div style="margin-bottom: 2em;"></div>
+              <div style="margin-bottom: 2em"></div>
 
               <p><strong>若發現錯誤，及時打斷</strong></p>
-              <p style="margin-bottom: 2em;">若發現提示指令下錯，或是
-                Claude Code 執行過程不如預期，可以使用
-                <code>esc</code> 及時打斷，以免造成後續麻煩。</p>
+              <p style="margin-bottom: 2em">
+                若發現提示指令下錯，或是 Claude Code 執行過程不如預期，可以使用
+                <code>esc</code> 及時打斷，以免造成後續麻煩。
+              </p>
 
               <p><strong>發送圖片</strong></p>
-              <p style="margin-bottom: 2em;">可貼圖片讓 Claude Code
-                讀圖說明錯誤/按設計稿還原 UI 等。</p>
+              <p style="margin-bottom: 2em">
+                可貼圖片讓 Claude Code 讀圖說明錯誤/按設計稿還原 UI 等。
+              </p>
 
               <p><strong>恢復歷史對話</strong></p>
-              <p style="margin-bottom: 0.5em;">非互動模式：</p>
+              <p style="margin-bottom: 0.5em">非互動模式：</p>
               <pre><code class="language-bash">claude --continue
 claude --resume</code></pre>
-              <p style="margin-bottom: 0.5em;">互動模式：</p>
-              <ul style="margin-bottom: 2em;">
+              <p style="margin-bottom: 0.5em">互動模式：</p>
+              <ul style="margin-bottom: 2em">
                 <li>輸入 <code>/resume</code> 從清單選擇會話繼續。</li>
               </ul>
 
               <p><strong>記憶管理</strong></p>
-              <p style="margin-bottom: 0.5em;">記憶檔位置與用途：</p>
-              <ul style="margin-bottom: 1em;">
-                <li>專案共享：<code>./CLAUDE.md</code>（規範/工作流/風格等）</li>
-                <li>使用者全域：<code>~/.claude/CLAUDE.md</code>（個人偏好）</li>
+              <p style="margin-bottom: 0.5em">記憶檔位置與用途：</p>
+              <ul style="margin-bottom: 1em">
+                <li>
+                  專案共享：<code>./CLAUDE.md</code>（規範/工作流/風格等）
+                </li>
+                <li>
+                  使用者全域：<code>~/.claude/CLAUDE.md</code>（個人偏好）
+                </li>
                 <li>本地專案偏好：<code>./CLAUDE.local.md</code></li>
               </ul>
-              <p style="margin-bottom: 0.5em;">互動中用 <code>/memory</code> 打開並編輯記憶檔。</p>
-              <p style="margin-bottom: 2em;">啟動時會自動遞迴載入路徑上的 <code>CLAUDE.md</code>。</p>
+              <p style="margin-bottom: 0.5em">
+                互動中用 <code>/memory</code> 打開並編輯記憶檔。
+              </p>
+              <p style="margin-bottom: 2em">
+                啟動時會自動遞迴載入路徑上的 <code>CLAUDE.md</code>。
+              </p>
 
               <p><strong>編輯記憶檔案</strong></p>
-              <p style="margin-bottom: 2em;">在
-                <code>/memory</code> 清單中選目標檔（如
+              <p style="margin-bottom: 2em">
+                在 <code>/memory</code> 清單中選目標檔（如
                 <code>~/.claude/CLAUDE.md</code
-                >），加入如「請用繁體中文回答」等個人規則，即可長期生效。</p>
+                >），加入如「請用繁體中文回答」等個人規則，即可長期生效。
+              </p>
 
               <p><strong>Git 交互</strong></p>
-              <p style="margin-bottom: 0.5em;">用自然語言驅動 Git：</p>
-              <ul style="margin-bottom: 2em;">
+              <p style="margin-bottom: 0.5em">用自然語言驅動 Git：</p>
+              <ul style="margin-bottom: 2em">
                 <li>「我修改了哪些文件」→ 顯示變更</li>
                 <li>「用合理描述性信息提交我的更改」→ 產生提交訊息並提交</li>
-                <li>「推送本分支到遠端 / 建立 feature 分支 / 顯示最近 3
-                  次提交檔案」等皆可直說。</li>
+                <li>
+                  「推送本分支到遠端 / 建立 feature 分支 / 顯示最近 3
+                  次提交檔案」等皆可直說。
+                </li>
               </ul>
 
               <p><strong>Linux 交互</strong></p>
-              <p style="margin-bottom: 2em;">互動模式或一次性
-                <code>-p</code> 皆可讓 Claude 生成並執行複雜 Shell
-                指令（如列出行數最多的前 3 個 .java 檔）。</p>
+              <p style="margin-bottom: 2em">
+                互動模式或一次性 <code>-p</code> 皆可讓 Claude 生成並執行複雜
+                Shell 指令（如列出行數最多的前 3 個 .java 檔）。
+              </p>
 
               <p><strong>查看消耗狀況</strong></p>
-              <ul style="margin-bottom: 2em;">
+              <ul style="margin-bottom: 2em">
                 <li><code>/cost</code> 檢視當前會話花費。</li>
-                <li><a
-                    href="https://github.com/ryoppippi/ccusage"
-                    target="_blank"
+                <li>
+                  <a href="https://github.com/ryoppippi/ccusage" target="_blank"
                     >ryoppippi/ccusage</a
-                  ></li>
+                  >
+                </li>
               </ul>
 
               <p><strong>必要時上下文壓縮</strong></p>
-              <p style="margin-bottom: 2em;"><code>/compact</code>
+              <p style="margin-bottom: 2em">
+                <code>/compact</code>
                 清除對話歷史但保留摘要，降低 token 與上下文長度；也可在
-                <code>/config</code> 控制自動壓縮（接近 95% 容量時會自動觸發）。</p>
+                <code>/config</code> 控制自動壓縮（接近 95% 容量時會自動觸發）。
+              </p>
 
               <p><strong>自定義快捷指令</strong></p>
-              <p style="margin-bottom: 0.5em;">位置：</p>
-              <ul style="margin-bottom: 2em;">
-                <li>User level：<code>~/.claude/commands/</code>（所有專案可用，前綴
-                  <code>/user:</code>）</li>
-                <li>Project level：<code>./.claude/commands/</code>（僅當前專案，前綴
-                  <code>/project:</code>）</li>
+              <p style="margin-bottom: 0.5em">位置：</p>
+              <ul style="margin-bottom: 2em">
+                <li>
+                  User
+                  level：<code>~/.claude/commands/</code>（所有專案可用，前綴
+                  <code>/user:</code>）
+                </li>
+                <li>
+                  Project
+                  level：<code>./.claude/commands/</code>（僅當前專案，前綴
+                  <code>/project:</code>）
+                </li>
               </ul>
 
               <p><strong>進入 Bash 模式</strong></p>
-              <p style="margin-bottom: 2em;">在命令前加
-                <code>!</code>，即可進入 Bash 模式，由系統直接執行。</p>
+              <p style="margin-bottom: 2em">
+                在命令前加 <code>!</code>，即可進入 Bash 模式，由系統直接執行。
+              </p>
 
               <p><strong>自動接受編輯、使用計畫模式</strong></p>
-              <p style="margin-bottom: 1em;">
+              <p style="margin-bottom: 1em">
                 按下 <code>Shift + Tab</code> 切換「auto‑accept
                 edits」模式。開啟後，Claude Code
                 會<strong>自動創建及編輯檔案</strong>，省去逐次確認。比
                 <code>--dangerously-skip-permissions</code>
                 更安全，作用範圍也僅限編輯操作。
               </p>
-              <p style="margin-bottom: 1em;">
+              <p style="margin-bottom: 1em">
                 同樣使用 <code>Shift + Tab</code> 切換「plan
                 mode」。開啟後，Claude Code
                 會生成功能規劃，並詢問是否執行。如果選擇「Yes, and auto-accept
                 edits」，它將自動切換到自動接受編輯模式，依計畫完成所有工作。
               </p>
-              <p style="margin-bottom: 2em;">
+              <p style="margin-bottom: 2em">
                 若遇到問題可以看看這個 Issues：<a
                   href="https://github.com/anthropics/claude-code/issues/3368"
                   target="_blank"
@@ -1098,29 +1125,32 @@ claude --resume</code></pre>
               </p>
 
               <p><strong>使用 MCP 提升效率</strong></p>
-              <p style="margin-bottom: 1em;">
+              <p style="margin-bottom: 1em">
                 Claude Code 支援 MCP 協議，可加入多種服務器工具（如 browser
                 自動化、最新文件查詢等）。
               </p>
-              <p style="margin-bottom: 0.5em;">管理 MCP：</p>
+              <p style="margin-bottom: 0.5em">管理 MCP：</p>
               <pre><code class="language-bash">claude mcp list
 claude mcp get &lt;name&gt;
 claude mcp remove &lt;name&gt;</code></pre>
-              <p style="margin-bottom: 2em;">使用 <code>/mcp</code> 指令查看相關資訊。</p>
+              <p style="margin-bottom: 2em">
+                使用 <code>/mcp</code> 指令查看相關資訊。
+              </p>
 
               <p><strong>快速跳轉前訊息</strong></p>
-              <p style="margin-bottom: 2em;">連按兩次
-                <code>Esc</code> 可跳出訊息歷史視窗，選擇 msg
-                後可返回並重新編輯該 prompt。有效避免重打指令。</p>
+              <p style="margin-bottom: 2em">
+                連按兩次 <code>Esc</code> 可跳出訊息歷史視窗，選擇 msg
+                後可返回並重新編輯該 prompt。有效避免重打指令。
+              </p>
 
               <p><strong>還原程式碼版本</strong></p>
-              <p style="margin-bottom: 1em;">
+              <p style="margin-bottom: 1em">
                 輸入 <code>rollback</code> 即可回退到先前
                 checkpoint，若想取消回退，再輸入
                 <code>undo</code> 即可復原。類似 Cursor 的 checkpoint
                 功能，十分便利。但務必仍使用 Git 控制版本，保護資料。
               </p>
-              <p style="margin-bottom: 2em;">
+              <p style="margin-bottom: 2em">
                 參考：<a
                   href="https://github.com/RonitSachdev/ccundo"
                   target="_blank"
@@ -1129,7 +1159,9 @@ claude mcp remove &lt;name&gt;</code></pre>
               </p>
 
               <p><strong>更新版本保持最新功能</strong></p>
-              <pre style="margin-bottom: 2em;"><code class="language-bash">npm install -g @anthropic-ai/claude-code
+              <pre
+                style="margin-bottom: 2em"
+              ><code class="language-bash">npm install -g @anthropic-ai/claude-code
 claude --version</code></pre>
             </div>
 
@@ -1147,9 +1179,18 @@ claude --version</code></pre>
               助手融入開發者既有的工作流程中，而不是強迫改變習慣，這正是現代生活與
               AI 協作所追求「無縫整合」體驗的最佳體現。
             </p>
-            
-            <p style="margin-top: 1.5em; font-size: 1.1em; line-height: 1.6; color: #6c757d; font-style: italic;">
-              不過話說回來，Claude Code 是真的貴... 💸 用起來很爽，但荷包會哭泣。
+
+            <p
+              style="
+                margin-top: 1.5em;
+                font-size: 1.1em;
+                line-height: 1.6;
+                color: #6c757d;
+                font-style: italic;
+              "
+            >
+              不過話說回來，Claude Code 是真的貴... 💸
+              用起來很爽，但荷包會哭泣。
             </p>
 
             <h2 id="references" style="margin-top: 1.5em; font-size: 1.5em">
@@ -1256,20 +1297,29 @@ claude --version</code></pre>
         </div>
       </div>
     </footer>
-    
+
     <!-- 目錄功能JavaScript -->
     <script>
       // 滾動時高亮當前章節
       function updateActiveSection() {
         const sections = [
-          'how-to-use', 'installation', 'basic-commands', 'configuration', 
-          'mcp-tools', 'advanced-usage', 'troubleshooting', 'best-practices', 
-          'initialization', 'tips-tricks', 'references'
+          "how-to-use",
+          "installation",
+          "basic-commands",
+          "configuration",
+          "mcp-tools",
+          "advanced-usage",
+          "troubleshooting",
+          "best-practices",
+          "initialization",
+          "tips-tricks",
+          "references",
         ];
-        
-        let currentSection = '';
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
+
+        let currentSection = "";
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
         // 找到當前最接近頂部的章節
         for (let i = sections.length - 1; i >= 0; i--) {
           const element = document.getElementById(sections[i]);
@@ -1278,17 +1328,17 @@ claude --version</code></pre>
             break;
           }
         }
-        
+
         // 更新目錄中的活動狀態
-        const tocLinks = document.querySelectorAll('.floating-toc a');
-        tocLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + currentSection) {
-            link.classList.add('active');
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
           }
         });
       }
-      
+
       // 平滑滾動到指定章節
       function scrollToSection(targetId) {
         const targetElement = document.getElementById(targetId.substring(1));
@@ -1296,60 +1346,60 @@ claude --version</code></pre>
           const offsetTop = targetElement.offsetTop - 20;
           window.scrollTo({
             top: offsetTop,
-            behavior: 'smooth'
+            behavior: "smooth",
           });
         }
       }
-      
+
       // 頁面載入完成後初始化
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // 監聽滾動事件
-        window.addEventListener('scroll', updateActiveSection);
-        
+        window.addEventListener("scroll", updateActiveSection);
+
         // 為目錄連結添加點擊事件
-        const tocLinks = document.querySelectorAll('.floating-toc a');
-        tocLinks.forEach(link => {
-          link.addEventListener('click', function(e) {
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
+            const targetId = this.getAttribute("href");
             scrollToSection(targetId);
           });
         });
-        
+
         // 初始化活動章節
         updateActiveSection();
       });
-      
+
       // 可以拖曳移動目錄（可選功能）
       let isDragging = false;
       let dragOffset = { x: 0, y: 0 };
-      
-      const tocElement = document.getElementById('floatingToc');
-      
-      tocElement.addEventListener('mousedown', function(e) {
+
+      const tocElement = document.getElementById("floatingToc");
+
+      tocElement.addEventListener("mousedown", function (e) {
         isDragging = true;
         dragOffset.x = e.clientX - tocElement.offsetLeft;
         dragOffset.y = e.clientY - tocElement.offsetTop;
-        tocElement.style.cursor = 'grabbing';
+        tocElement.style.cursor = "grabbing";
       });
-      
-      document.addEventListener('mousemove', function(e) {
+
+      document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = (e.clientX - dragOffset.x) + 'px';
-          tocElement.style.top = (e.clientY - dragOffset.y) + 'px';
-          tocElement.style.right = 'auto'; // 取消right定位
+          tocElement.style.left = e.clientX - dragOffset.x + "px";
+          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          tocElement.style.right = "auto"; // 取消right定位
         }
       });
-      
-      document.addEventListener('mouseup', function() {
+
+      document.addEventListener("mouseup", function () {
         if (isDragging) {
           isDragging = false;
-          tocElement.style.cursor = 'grab';
+          tocElement.style.cursor = "grab";
         }
       });
-      
+
       // 設置初始游標樣式
-      tocElement.style.cursor = 'grab';
+      tocElement.style.cursor = "grab";
     </script>
   </body>
 </html>
