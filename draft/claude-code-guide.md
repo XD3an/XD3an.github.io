@@ -289,6 +289,30 @@ claude mcp remove "playwright" -s user
 
 ![claude-code-ide-2](../assets/img/claude-code-guide/claude-code-ide-2.png)
 
+**自定義命令**
+
+對於重複性高的工作流（例如：日誌分析），可以在 `.claude/commands` 目錄下創建自定義的命令，是 Claude Code 支援的 **專案級自定義 Slash Commands** 儲存位置。你可以透過 Markdown 檔案定義常用 prompt 指令，可以用於 Claude Code 中。
+
+```markdown
+---
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
+description: Create a git commit
+---
+
+## Context
+
+- Current git status: !`git status`
+- Current git diff (staged and unstaged changes): !`git diff HEAD`
+- Current branch: !`git branch --show-current`
+- Recent commits: !`git log --oneline -10`
+
+## Your task
+
+Based on the above changes, create a single git commit.
+```
+
+更多參考：[Anthropic Slash commands - Anthropic](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+
 **hook**
 
 Claude Code hooks 是使用者定義的 shell 命令，在 Claude Code 生命週期的各個時點執行。Hooks 提供對 Claude Code 行為的確定性控制，確保某些動作的觸發，而不是依賴 LLM 選擇執行。
@@ -326,6 +350,8 @@ claude "test connection"
 claude config get api-key
 claude config get model
 ```
+
+````
 
 **性能優化**
 
@@ -401,27 +427,11 @@ Claude Code 可透過三種方式連接任意數量的 MCP 伺服器：
 - 提交到 .mcp.json⁠ 檔案（任何在你程式碼庫工作的成員都可用）。例如，你可以在 .mcp.json⁠ 新增 Puppeteer 和 Sentry 伺服器，方便每位工程師開箱即用。
 - 用 MCP 時，建議用 --mcp-debug⁠ 標誌來幫助排查設定問題。
 
-**自定義命令**
-
-對於重複性高的工作流（例如：日誌分析），可以在 `.claude/commands` 目錄下創建自定義的命令，是 Claude Code 支援的 **專案級自定義 Slash Commands** 儲存位置。你可以透過 Markdown 檔案定義常用 prompt 指令，可以用於 Claude Code 中。
-
-```markdown
----
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
-description: Create a git commit
----
-
-## Context
-
-- Current git status: !`git status`
-- Current git diff (staged and unstaged changes): !`git diff HEAD`
-- Current branch: !`git branch --show-current`
-- Recent commits: !`git log --oneline -10`
-
 ## Your task
 
 Based on the above changes, create a single git commit.
-```
+
+````
 
 更多參考：[Anthropic Slash commands - Anthropic](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
 

@@ -462,7 +462,7 @@ git diff | claude "explain this change"</code></pre>
               提供大量的方法可以根據個人要求進行相應配置。
             </p>
 
-            <ul>
+            <ol>
               <li>
                 <strong>查看目前配置</strong>
                 <p>可查看當前使用的模型、API 金鑰等資訊。</p>
@@ -492,7 +492,7 @@ git diff | claude "explain this change"</code></pre>
                 <pre><code class="language-bash">claude config remove &lt;key&gt; &lt;value&gt;</code></pre>
                 <p>從清單型設定中刪除指定項目。</p>
               </li>
-            </ul>
+            </ol>
 
             <p>
               更多配置管理可以參考：<a
@@ -726,6 +726,39 @@ git diff | claude "explain this change"</code></pre>
               class="img-fluid mb-3"
             />
 
+            <p><strong>自定義命令</strong></p>
+            <p>
+              對於重複性高的工作流（例如：日誌分析），可以在
+              <code>.claude/commands</code> 目錄下創建自定義的命令，是 Claude
+              Code 支援的
+              <strong>專案級自定義 Slash Commands</strong> 儲存位置。你可以透過
+              Markdown 檔案定義常用 prompt 指令，可以用於 Claude Code 中。
+            </p>
+
+            <pre><code class="language-markdown">---
+allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
+description: Create a git commit
+---
+
+## Context
+
+- Current git status: !`git status`
+- Current git diff (staged and unstaged changes): !`git diff HEAD`
+- Current branch: !`git branch --show-current`
+- Recent commits: !`git log --oneline -10`
+
+## Your task
+
+Based on the above changes, create a single git commit.</code></pre>
+
+            <p>
+              更多參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"
+                target="_blank"
+                >Anthropic Slash commands - Anthropic</a
+              >
+            </p>
+
             <p><strong>hook</strong></p>
             <p>
               Claude Code hooks 是使用者定義的 shell 命令，在 Claude Code
@@ -904,39 +937,6 @@ claude --debug "debug command"</code></pre>
                 <code>claude --continue</code>。
               </li>
             </ul>
-
-            <p><strong>自定義命令</strong></p>
-            <p>
-              對於重複性高的工作流（例如：日誌分析），可以在
-              <code>.claude/commands</code> 目錄下創建自定義的命令，是 Claude
-              Code 支援的
-              <strong>專案級自定義 Slash Commands</strong> 儲存位置。你可以透過
-              Markdown 檔案定義常用 prompt 指令，可以用於 Claude Code 中。
-            </p>
-
-            <pre><code class="language-markdown">---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
-description: Create a git commit
----
-
-## Context
-
-- Current git status: !`git status`
-- Current git diff (staged and unstaged changes): !`git diff HEAD`
-- Current branch: !`git branch --show-current`
-- Recent commits: !`git log --oneline -10`
-
-## Your task
-
-Based on the above changes, create a single git commit.</code></pre>
-
-            <p>
-              更多參考：<a
-                href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"
-                target="_blank"
-                >Anthropic Slash commands - Anthropic</a
-              >
-            </p>
 
             <b>以下是一些小技巧的分享...</b>
 
