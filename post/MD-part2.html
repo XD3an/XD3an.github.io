@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="XD3an" content="All-In-One" />
-        <meta name="description" content="" />
+        <meta name="description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基础程式編寫及系統呼叫。" />
         <meta name="author" content="XD3an" />
-        <meta name="keywords" content="XD3an, github.io, All-In-One">
-        <title> All-In-One </title>
+        <meta name="keywords" content="XD3an, github.io, All-In-One, 惡意程式開發, Malware Development, 資訊安全, Cybersecurity, Windows API, 系統呼叫, System Call, 教學, Tutorial">
+        <title>從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog</title>
         <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://xd3an.github.io/post/MD-part2.html" />
+        <meta property="og:title" content="從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog" />
+        <meta property="og:description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基礎程式編寫及系統呼叫。" />
+        <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-background_adobe.jpg" />
+        <meta property="og:site_name" content="XD3an's All-In-One" />
+        <meta property="article:published_time" content="2024-09-10T00:00:00Z" />
+        <meta property="article:author" content="XD3an" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://xd3an.github.io/post/MD-part2.html" />
+        <meta property="twitter:title" content="從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog" />
+        <meta property="twitter:description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基礎程式編寫及系統呼叫。" />
+        <meta property="twitter:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-background_adobe.jpg" />
+        <meta property="twitter:creator" content="@d3an_x" />
+
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -17,8 +36,133 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="../js/scripts.js"></script>
+
+        <!-- Table of Contents Styles -->
+        <style>
+          /* Table of Contents 漂浮小視窗 */
+          .floating-toc {
+            position: fixed;
+            top: 20%;
+            right: 20px;
+            width: 280px;
+            max-height: 60vh;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            font-size: 14px;
+            z-index: 1000;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            opacity: 0.95;
+          }
+
+          .floating-toc:hover {
+            opacity: 1;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+          }
+
+          .floating-toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+          }
+
+          .floating-toc li {
+            margin: 2px 0;
+          }
+
+          .floating-toc a {
+            text-decoration: none;
+            color: #6c757d;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            line-height: 1.4;
+          }
+
+          .floating-toc a:hover {
+            background-color: #f8f9fa;
+            color: #ff6b35;
+            transform: translateX(2px);
+          }
+
+          .floating-toc a.active {
+            background-color: #ff6b35;
+            color: white;
+            font-weight: 500;
+          }
+
+          .floating-toc .toc-h2 {
+            font-weight: 500;
+            color: #495057;
+          }
+
+          .floating-toc .toc-h3 {
+            padding-left: 16px;
+            font-size: 12px;
+            color: #6c757d;
+          }
+
+          /* 響應式設計 */
+          @media (max-width: 1200px) {
+            .floating-toc {
+              right: 10px;
+              width: 250px;
+            }
+          }
+
+          @media (max-width: 768px) {
+            .floating-toc {
+              display: none;
+            }
+          }
+
+          /* 平滑滾動 */
+          html {
+            scroll-behavior: smooth;
+          }
+
+          /* 滾動條樣式 */
+          .floating-toc::-webkit-scrollbar {
+            width: 4px;
+          }
+
+          .floating-toc::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 2px;
+          }
+
+          .floating-toc::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 2px;
+          }
+
+          .floating-toc::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+          }
+        </style>
     </head>
     <body style="font-size: var(--bs-font-size-base);">
+        <!-- Table of Contents 漂浮視窗 -->
+        <div class="floating-toc" id="floatingToc">
+          <div class="toc-content" id="tocContent">
+            <ul>
+              <li><a href="#shellcode" class="toc-h2">Shellcode</a></li>
+              <li><a href="#running-shellcode" class="toc-h2">奔跑吧 shellcode</a></li>
+              <li><a href="#evading-techniques" class="toc-h2">Evading Techniques</a></li>
+              <li><a href="#obfuscation" class="toc-h3">Obfuscation</a></li>
+              <li><a href="#executable-packer" class="toc-h3">Executable Packer</a></li>
+              <li><a href="#x86-tricks" class="toc-h3">x86 tricks</a></li>
+              <li><a href="#x64" class="toc-h3">x64</a></li>
+              <li><a href="#conclusion" class="toc-h2">Conclusion</a></li>
+              <li><a href="#references" class="toc-h2">References</a></li>
+            </ul>
+          </div>
+        </div>
 
         <!-- Magic -->
         <canvas id="magic-canvas"></canvas>
@@ -44,7 +188,7 @@
         </nav>
 
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('/assets/img/MD-part2/MD-part2-background.jpg')">
+        <header class="masthead" style="background-image: url('../assets/img/MD-part2/MD-part2-background.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -55,7 +199,7 @@
                                 Posted by
                                 <a href="#!">XD3an</a>
                                 on September 10, 2024
-                            </span> 
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -67,21 +211,21 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
 
-                        
+
 
                         <div>
-                            <h2>Shellcode</h2>
+                            <h2 id="shellcode">Shellcode</h2>
                             <hr>
-                            Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。<br> 
+                            Shellcode 常被作為惡意程式的實現部分， 經常被用於幫助其在目標機器或系統上執行任意指令，是一種常見的攻擊實施手段。<br>
                             Shellcode 是一個用於執行任意目的的程式碼、指令，通常是透過 16 進制的機器碼經過精心構造編寫而成，利用漏洞等方式影響程式進而導致執行流程改變。在早期用於利用漏洞觸發 shell 而聞名，因此被稱作 shellcode。
                             <br>
                             在傳統的駭客攻擊中，通常是指程式面的漏洞利用，而不像現今由於 Web 端服務便利而普及，使得攻擊面相越來越偏向 Web 面的滲透，而在過去的服務通常都是一個二進制的執行檔運行，因此大多都是利用二進制層面的漏洞，例如：緩衝區溢位漏洞（buffer overflow vulnerability），是指未對使用者輸入進行檢查與過濾，導致當使用者輸入超過輸入緩衝區大小的資料時，可能會破壞其內部結構，導致非預期行為的發生，而 shellcode 就是過去所使用的利用腳本，可以見得 shellcode 在過去的資安攻防的領域，其重要性不言而喻。
-                            <br>                            
+                            <br>
                             在現今， shellcode 不僅用於獲取shell，還被用於下載惡意程式、啟動後門程式等攻擊行為。透過精心構造來繞過防護機制，並根據不同的系統架構、處理器進行量身定制。編寫高品質的 shellcode 需要對底層系統有深入的理解。
                             <p>
 
                                 現今環境下編寫 shellcode 已經不像過去如此困難，有很多生成的方法，甚至不需要自己動手編寫，並且很多人也會將自己所編寫的 shellcode 公開，以下是 shellcode 的相關資料與原始碼：
-                                <br>    
+                                <br>
                                 <ul>
                                     <li>手動編寫</li>
                                     <ul>
@@ -104,26 +248,26 @@
                                 此處嘗試使用 msfvenom 生成 shellcode，先預設目標：
                                 <b>
                                     我們希望讓目標機器彈一個 Reverse Shell 給我們，並且在我們知道對方機器是 Windows 作業系統的假設情況。
-                                </b>                         
+                                </b>
                             </p>
                             我們首先需要知道自身的 IP 位址是多少（以下是根據實驗環境建立的內網環境，請根據自身狀況改變小心服用）
                             <p>
                             </p>
                             <div style="text-align: center;" >
-                                <img class="img-fluid" src="/assets/img/MD-part2/ifconifg.png" alt="ifconifg">
+                                <img class="img-fluid" src="../assets/img/MD-part2/ifconifg.png" alt="ifconifg">
                             </div>
-    
+
                             <p>
                                 再使用 msfvenom 輸入以下指令生成（LHOST={自己的IP}、LPORT={自己的PORT}）
                             </p>
                             <div style="text-align: center;" >
-                                <img class="img-fluid" src="/assets/img/MD-part2/msfvenom.png" alt="msfvenom">
+                                <img class="img-fluid" src="../assets/img/MD-part2/msfvenom.png" alt="msfvenom">
                             </div>
                             <p>現在有了 shellcode，但問題來了，要怎麼使用呢？🤔</p>
                         </div>
 
                         <div>
-                            <h2>奔跑吧 shellcode</h2>
+                            <h2 id="running-shellcode">奔跑吧 shellcode</h2>
                             <hr>
                             <div>
                                 <b>以下先從 x86 架構開始探討，實驗皆是以 Windows 系統作為目標，並以 C/C++ 及 Windows API 實現。</b>
@@ -136,43 +280,43 @@
                                         將 shellcode 放在該放的位置後，編譯並建立該惡意程式
                                     </p>
                                     <div style="text-align: center;" >
-                                        <img class="img-fluid" src="/assets/img/MD-part2/shellcode_loader_exe_icon.png" alt="shellcode_loader_exe_icon">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/shellcode_loader_exe_icon.png" alt="shellcode_loader_exe_icon">
                                     </div>
                                     <p>
                                         之後就可以使用 Metasploit 建立接收 Reverse Shell 的連結點了
                                     </p>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/msfconsole1.png" alt="msfconsole1">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/msfconsole1.png" alt="msfconsole1">
                                     </div>
                                     <br>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/msfconsole2.png" alt="msfconsole2">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/msfconsole2.png" alt="msfconsole2">
                                     </div>
                                     <p>
                                         當一切準備就緒就可以開始執行了
                                     </p>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/shellcode_runner.gif" alt="shellcode_runner">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/shellcode_runner.gif" alt="shellcode_runner">
                                     </div>
                                     <p>
                                         把我們的成果嘗試丟到 VirusTotal 看看
                                     </p>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal1.png" alt="virustotal">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/VirusTotal1.png" alt="virustotal">
                                     </div>
                                     <p>
                                         沒錯，VirusTotal 的評分相當的紅，顯然是個充滿惡意的程式，但這明顯不是我們要的，為了達到不被發覺是一個惡意程式，勢必需要其他手段達成…
                                     </p>
                                 </div>
-                            </div> 
+                            </div>
 
                             <div>
 
-                                <h2>Evading Techniques</h2>
+                                <h2 id="evading-techniques">Evading Techniques</h2>
                                 <hr>
                                 <br>
                                 <div>
-                                    <h4>Obfuscation</h4>
+                                    <h4 id="obfuscation">Obfuscation</h4>
                                     <hr>
                                     <p>
                                         Obfuscation 是一種將程式碼進行混淆的技術，目的是為了增加分析者的分析成本，使得分析者難以理解程式碼的真正意圖，從而達到規避檢測的目的。
@@ -191,7 +335,7 @@
                                             現在再將已經 XOR 過 shellcode 的惡意程式丟進 VirusTotal 看看
                                         </p>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/VirusTotal2.png" alt="virustotal2">
                                         </div>
                                         <p>
                                             可以發現通過 XOR 將 shellcode 混淆是真的有些許效果的，但這畢竟還是有很多缺陷，實際上現實情況不太可能只會出現如此單純的混淆手段。
@@ -237,7 +381,7 @@
                                 </div>
 
                                 <div>
-                                    <h4>Executable Packer</h4>
+                                    <h4 id="executable-packer">Executable Packer</h4>
                                     <hr>
                                     <p>
                                         加殼器（Packer）是一個將執行檔進行加殼的工具，目的是為了將執行檔進行壓縮，減少檔案大小，並且可以對執行檔進行加密，從而達到保護執行檔的目的。
@@ -255,13 +399,13 @@
                                         <p>
                                         我們可以嘗試利用 UPX 進行加殼
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/upx.png" alt="upx">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/upx.png" alt="upx">
                                         </div>
                                         </p>
                                         <p>
                                             現在再將已經 UPX 過惡意程式丟進 VirusTotal 看看
                                             <div style="text-align: center;">
-                                                <img class="img-fluid" src="/assets/img/MD-part2/VirusTotal3.png" alt="virustotal3">
+                                                <img class="img-fluid" src="../assets/img/MD-part2/VirusTotal3.png" alt="virustotal3">
                                             </div>
                                         </p>
                                     </div>
@@ -269,9 +413,9 @@
                                 </div>
 
                                 <div>
-                                    <h4>x86 tricks</h4>
+                                    <h4 id="x86-tricks">x86 tricks</h4>
                                     <hr>
-                                    <div>                              
+                                    <div>
                                         <p>
                                             以上的惡意行為只要對該利用方法有過分析經驗，或是防毒軟體根據所使用的 API 或相應行為，很容易就可以得知惡意的意圖，我們可以通過構造一些過程中的非正常行為，從而繞過這些檢測或增加分析成本。
                                         </p>
@@ -280,7 +424,7 @@
                                             我們嘗試重新設計一個新的 shellcode，以彈出計算機為目的，再次使用 msfvenom 生成
                                         </p>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/pop_calc_shellcode_generate.png" alt="pop_calc_shellcode_generate">
                                         </div>
                                         <br><br>
                                         <div>
@@ -293,27 +437,27 @@
                                             在 main 函數中，構造了一個 Stack Overflow 漏洞，並且可以剛好蓋到 return address
                                         </p>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg1.png" alt="exe_x32dbg1">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/exe_x32dbg1.png" alt="exe_x32dbg1">
                                         </div>
                                         <br>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg2.png" alt="exe_x32dbg2">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/exe_x32dbg2.png" alt="exe_x32dbg2">
                                         </div>
                                         <p>
                                             當 EIP 指向 `ret` 時，就會執行到已經被覆蓋的 return address，即存放 shellcode 的位置
                                         </p>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg3.png" alt="exe_x32dbg3">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/exe_x32dbg3.png" alt="exe_x32dbg3">
                                         </div>
                                         <br>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/exe_x32dbg4.png" alt="exe_x32dbg4">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/exe_x32dbg4.png" alt="exe_x32dbg4">
                                         </div>
                                         <p>
                                             現在來嘗試彈出計算機吧！
                                         </p>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSof_pop_calc.gif" alt="RunCodeWithoutCallingWithSof_pop_calc">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/RunCodeWithoutCallingWithSof_pop_calc.gif" alt="RunCodeWithoutCallingWithSof_pop_calc">
                                         </div>
                                         <br><br>
                                     </div>
@@ -331,7 +475,7 @@
                                         <script src="https://gist.github.com/XD3an/6d4c1d81817016cd6c2464ffdd1996c9.js"></script>
                                         <br>
                                         <div style="text-align: center;">
-                                            <img class="img-fluid" src="/assets/img/MD-part2/RunCodeWithoutCallingWithSofnExcp_pop_calc.gif" alt="RunCodeWithoutCallingWithSofnExcp_pop_calc">
+                                            <img class="img-fluid" src="../assets/img/MD-part2/RunCodeWithoutCallingWithSofnExcp_pop_calc.gif" alt="RunCodeWithoutCallingWithSofnExcp_pop_calc">
                                         </div>
                                         <br>
                                     </div>
@@ -339,12 +483,12 @@
                                 </div>
 
                                 <div>
-                                    <h4>x64</h4>
+                                    <h4 id="x64">x64</h4>
                                     <p>
                                         現今大部分系統皆為 x64 居多，並且過去樣本大多都是 x86 占多數，因此若惡意程式為 x64 架構，多少會有奇效。
                                     </p>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/msfvenom_x64.png" alt="msfvenom_x64">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/msfvenom_x64.png" alt="msfvenom_x64">
                                     </div>
                                     <br>
                                     <script src="https://gist.github.com/XD3an/7bd2b16adaa860d347d1567a0bf59ea6.js"></script>
@@ -354,7 +498,7 @@
                         </div>
 
                         <div>
-                                <h2>Conclusion</h2>
+                                <h2 id="conclusion">Conclusion</h2>
                                 <hr>
                                 <div>
                                     透過本篇我們了解了 shellcode 是什麼？如何生成？如何利用？
@@ -380,7 +524,7 @@
                                             </ul>
                                         </li>
                                         <li>x86 tricks: Run Code without Call</li>
-                                        
+
                                     </ul>
                                     <div>
                                         在 Part 1 也談到 MITRE ATT&CK & MBC，在 VirusTotal 中有一個 Behavior 分析報告，也可以得知相關資訊。
@@ -389,7 +533,7 @@
                                     </div>
                                     <br>
                                     <div style="text-align: center;">
-                                        <img class="img-fluid" src="/assets/img/MD-part2/virustotal_behavior_report.png" alt="virustotal_behavior_report">
+                                        <img class="img-fluid" src="../assets/img/MD-part2/virustotal_behavior_report.png" alt="virustotal_behavior_report">
                                     </div>
                                     <p>
                                         這篇僅僅是談了非常初階的惡意程式開發手法，其還有非常多更加複雜且高深的技術，舉凡像是為了提權可能會使用一些特殊手段將惡意程式碼注入到更高權限的程式記憶體區塊當中進行執行，或是為了規避防毒軟體，可能會偽裝或隱藏自身惡意行為等，甚至是會利用到 Kernel 層級的 System Call 直接執行底層的行為，從而繞過一些防禦機制。
@@ -397,10 +541,10 @@
                                 </div>
                         </div>
 
-                        
+
 
                         <div>
-                            <h2>References</h2>
+                            <h2 id="references">References</h2>
                             <hr>
                             <div>
                                 <ul>
@@ -472,5 +616,97 @@
                 </div>
             </div>
         </footer>
+
+        <!-- Table of Contents JavaScript -->
+        <script>
+          // 監聽滾動事件，更新活動章節
+          function updateActiveSection() {
+            const sections = [
+              "shellcode", "running-shellcode", "evading-techniques", "obfuscation",
+              "executable-packer", "x86-tricks", "x64", "conclusion", "references"
+            ];
+            
+            let currentSection = "";
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach((sectionId) => {
+              const element = document.getElementById(sectionId);
+              if (element && element.offsetTop <= scrollPos) {
+                currentSection = sectionId;
+              }
+            });
+
+            // 更新活動連結
+            const tocLinks = document.querySelectorAll(".floating-toc a");
+            tocLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === "#" + currentSection) {
+                link.classList.add("active");
+              }
+            });
+          }
+
+          // 平滑滾動到指定章節
+          function scrollToSection(targetId) {
+            const targetElement = document.getElementById(targetId.substring(1));
+            if (targetElement) {
+              const offsetTop = targetElement.offsetTop - 20;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+            }
+          }
+
+          // 頁面載入完成後初始化
+          document.addEventListener("DOMContentLoaded", function () {
+            // 監聽滾動事件
+            window.addEventListener("scroll", updateActiveSection);
+
+            // 為目錄連結添加點擊事件
+            const tocLinks = document.querySelectorAll(".floating-toc a");
+            tocLinks.forEach((link) => {
+              link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute("href");
+                scrollToSection(targetId);
+              });
+            });
+
+            // 初始化活動章節
+            updateActiveSection();
+          });
+
+          // 可以拖曳移動目錄
+          let isDragging = false;
+          let dragOffset = { x: 0, y: 0 };
+
+          const tocElement = document.getElementById("floatingToc");
+
+          tocElement.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            dragOffset.x = e.clientX - tocElement.offsetLeft;
+            dragOffset.y = e.clientY - tocElement.offsetTop;
+            tocElement.style.cursor = "grabbing";
+          });
+
+          document.addEventListener("mousemove", function (e) {
+            if (isDragging) {
+              tocElement.style.left = e.clientX - dragOffset.x + "px";
+              tocElement.style.top = e.clientY - dragOffset.y + "px";
+              tocElement.style.right = "auto";
+            }
+          });
+
+          document.addEventListener("mouseup", function () {
+            if (isDragging) {
+              isDragging = false;
+              tocElement.style.cursor = "grab";
+            }
+          });
+
+          tocElement.style.cursor = "grab";
+        </script>
+
     </body>
 </html>

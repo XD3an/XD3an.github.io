@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="XD3an" content="All-In-One" />
-    <meta name="description" content="" />
+    <meta name="description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
     <meta name="author" content="XD3an" />
-    <meta name="keywords" content="XD3an, github.io, All-In-One">
-    <title>All-In-One</title>
+    <meta name="keywords" content="XD3an, github.io, All-In-One, 惡意程式開發, Malware Development, 資訊安全, Cybersecurity, Process Injection, 程式碼注入, 教學, Tutorial">
+    <title>從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://xd3an.github.io/post/MD-part1.html" />
+    <meta property="og:title" content="從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog" />
+    <meta property="og:description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
+    <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part1/MD-background_adobe.jpg" />
+    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="article:published_time" content="2024-09-10T00:00:00Z" />
+    <meta property="article:author" content="XD3an" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://xd3an.github.io/post/MD-part1.html" />
+    <meta property="twitter:title" content="從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog" />
+    <meta property="twitter:description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
+    <meta property="twitter:image" content="https://xd3an.github.io/assets/img/MD-part1/MD-background_adobe.jpg" />
+    <meta property="twitter:creator" content="@d3an_x" />
+
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -17,8 +36,135 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="../js/scripts.js"></script>
+
+    <!-- Table of Contents Styles -->
+    <style>
+      /* Table of Contents 漂浮小視窗 */
+      .floating-toc {
+        position: fixed;
+        top: 20%;
+        right: 20px;
+        width: 280px;
+        max-height: 60vh;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        font-size: 14px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        opacity: 0.95;
+      }
+
+      .floating-toc:hover {
+        opacity: 1;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .floating-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .floating-toc li {
+        margin: 2px 0;
+      }
+
+      .floating-toc a {
+        text-decoration: none;
+        color: #6c757d;
+        display: block;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .floating-toc a:hover {
+        background-color: #f8f9fa;
+        color: #ff6b35;
+        transform: translateX(2px);
+      }
+
+      .floating-toc a.active {
+        background-color: #ff6b35;
+        color: white;
+        font-weight: 500;
+      }
+
+      .floating-toc .toc-h2 {
+        font-weight: 500;
+        color: #495057;
+      }
+
+      .floating-toc .toc-h3 {
+        padding-left: 16px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      /* 響應式設計 */
+      @media (max-width: 1200px) {
+        .floating-toc {
+          right: 10px;
+          width: 250px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .floating-toc {
+          display: none;
+        }
+      }
+
+      /* 平滑滾動 */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* 滾動條樣式 */
+      .floating-toc::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .floating-toc::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+    </style>
 </head>
 <body style="font-size: var(--bs-font-size-base);">
+    <!-- Table of Contents 漂浮視窗 -->
+    <div class="floating-toc" id="floatingToc">
+      <div class="toc-content" id="tocContent">
+        <ul>
+          <li><a href="#introduction-to-malware" class="toc-h2">Introduction to Malware</a></li>
+          <li><a href="#era-1940s-1970s" class="toc-h3">1940s-1970s</a></li>
+          <li><a href="#era-1980s-1990s" class="toc-h3">1980s-1990s</a></li>
+          <li><a href="#era-2000s" class="toc-h3">2000s-</a></li>
+          <li><a href="#malware-lifecycle-architecture" class="toc-h2">Malware Lifecycle and Architecture</a></li>
+          <li><a href="#lifecycle" class="toc-h3">Lifecycle</a></li>
+          <li><a href="#architecture" class="toc-h3">Architecture</a></li>
+          <li><a href="#malware-delivery" class="toc-h2">Malware Delivery</a></li>
+          <li><a href="#are-you-ready" class="toc-h2">Are you ready for malware development?</a></li>
+          <li><a href="#references" class="toc-h2">References</a></li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Magic -->
     <canvas id="magic-canvas"></canvas>
     <script src="/js/magic.js"></script>
@@ -42,7 +188,7 @@
     </nav>
 
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url('/assets/img/MD-part1/MD-background_adobe.jpg')">
+    <header class="masthead" style="background-image: url('../assets/img/MD-part1/MD-background_adobe.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -66,36 +212,36 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div>
-                        <h2>Introduction to Malware</h2>
+                        <h2 id="introduction-to-malware">Introduction to Malware</h2>
                         <hr>
                         <br>
                         <div>
-                            <h4>1940s-1970s</h4>
+                            <h4 id="era-1940s-1970s">1940s-1970s</h4>
                             <p>
                                 惡意程式（Malware）的歷史可以追溯到 1940 年代。在 1949 年，著名數學家兼物理學家 John von Neumann 首次提出自我複製程式（self-replicating program）的概念，這一概念成為了後來惡意程式開發的基礎。該想法在其學生的協助下取得進一步的發展，並在他去世後於 1996 年發表《<i>Theory of Self-Reproducing Automata</i>》，探討機器可以建立自己複製品的可能性。
                                 在 1971 年，Bob Thomas 創建了被認為是最早的惡意程式 Creeper，是為 ARPANET 的安全測試而設計的，用於測試自我複製程式的可能性。
                             </p>
                             <div style="text-align: center;">
-                                <img class="img-fluid" src="/assets/img/MD-part1/CreeperWorm.jpg" alt="CreeperWorm" />
+                                <img class="img-fluid" src="../assets/img/MD-part1/CreeperWorm.jpg" alt="CreeperWorm" />
                                 <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:CreeperWorm.jpg</span>
                             </div>
                             <p>
                                 在 1986 年，來自 Pakistan 的 Alvi 兄弟編寫了第一個專門針對個人電腦的惡意程式 Brain，其通過磁碟傳播，目標是自我複製，最終導致系統性能下降甚至崩潰。
                             </p>
                             <div style="text-align: center;">
-                                <img class="img-fluid" src="/assets/img/MD-part1/Brain-virus.jpg" alt="Brain-virus" />
+                                <img class="img-fluid" src="../assets/img/MD-part1/Brain-virus.jpg" alt="Brain-virus" />
                                 <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:Brain-virus.jpg</span>
                             </div>
                             <br>
                         </div>
 
                         <div>
-                            <h4>1980s-1990s</h4>
+                            <h4 id="era-1980s-1990s">1980s-1990s</h4>
                             <p>
                                 在 1988 年，Cornell University 的 Robert Morris 創建了第一個網路蠕蟲，意外地感染了約 6000 台電腦設備，甚至引發美國法律界對於惡意程式及網路威脅的關注。
                             </p>
                             <div style="text-align: center;">
-                                <img class="img-fluid" src="/assets/img/MD-part1/330px-Morris_Worm.jpg" alt="Morris_Worm" />
+                                <img class="img-fluid" src="../assets/img/MD-part1/330px-Morris_Worm.jpg" alt="Morris_Worm" />
                                 <span class="caption text-muted">src: https://en.wikipedia.org/wiki/File:Morris_Worm.jpg</span>
                             </div>
                             <p>
@@ -108,7 +254,7 @@
                         </div>
 
                         <div>
-                            <h4>2000s-</h4>
+                            <h4 id="era-2000s">2000s-</h4>
                             <p>
                                 2000 年代初期出現一系列基於電子郵件的蠕蟲病毒：
                                 <ul>
@@ -130,10 +276,10 @@
                     </div>
                     <br>
                     <div>
-                        <h2>Malware Lifecycle and Architecture</h2>
+                        <h2 id="malware-lifecycle-architecture">Malware Lifecycle and Architecture</h2>
                         <hr>
                         <br>
-                        <h4>Lifecycle</h4>
+                        <h4 id="lifecycle">Lifecycle</h4>
                         <p>
                             惡意軟體的生命週期可分為四個時期：
                             <ul>
@@ -143,7 +289,7 @@
                                 <li><strong>破壞與濫用行為（Damage and abuse behavior）：</strong>實現惡意竊取或破壞系等統的惡意行為。</li>
                             </ul>
                         </p>
-                        <h4>Architecture</h4>
+                        <h4 id="architecture">Architecture</h4>
                         <br>
                         <ul>
                             <li><strong>入侵向量（Intrution Vector）</strong>
@@ -165,13 +311,13 @@
                             </li>
                         </ul>
                         <div style="text-align: center;">
-                            <img class="img-fluid" src="/assets/img/MD-part1/malArch.png" alt="malArch" />
+                            <img class="img-fluid" src="../assets/img/MD-part1/malArch.png" alt="malArch" />
                         </div>
                         <br>
                     </div>
 
                     <div>
-                        <h2>Malware Delivery</h2>
+                        <h2 id="malware-delivery">Malware Delivery</h2>
                         <hr>
                         當惡意程式開發完成後，接下來就是要將惡意程式傳播到目標設備上，而惡意程式的傳播方式有很多種，以下列舉幾種常見的：
                         <br><br>
@@ -202,7 +348,7 @@
                     </div>
 
                     <div>
-                        <h2>Are you ready for malware development?</h2>
+                        <h2 id="are-you-ready">Are you ready for malware development?</h2>
                         <hr>
                             在開始惡意程式開發之前，還是有不少先備知識需要學習。
                             首先，既然是要在電腦系統上進行實現，勢必要先知道基本<b>電腦科學（Computer Science）</b>知識，
@@ -225,7 +371,7 @@
 
 
                     <div>
-                        <h2>References</h2>
+                        <h2 id="references">References</h2>
                         <hr>
                         <div>
                             <ul>
@@ -238,7 +384,7 @@
 
                     <!-- go to part2 -->
                     <div style="text-align: center;">
-                        <p>
+                        <p> 
                             => <a href="MD-part2.html">從刮痕開始的惡意程式開發 - Part 2: Shellcode Runner</a>
                         </p>
                     </div>
@@ -274,5 +420,99 @@
             </div>
         </div>
     </footer>
+
+    <!-- Table of Contents JavaScript -->
+    <script>
+      // 監聽滾動事件，更新活動章節
+      function updateActiveSection() {
+        const sections = [
+          "introduction-to-malware", "era-1940s-1970s", "era-1980s-1990s", "era-2000s",
+          "malware-lifecycle-architecture", "lifecycle", "architecture", 
+          "malware-delivery", "are-you-ready", "references"
+        ];
+        
+        let currentSection = "";
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach((sectionId) => {
+          const element = document.getElementById(sectionId);
+          if (element && element.offsetTop <= scrollPos) {
+            currentSection = sectionId;
+          }
+        });
+
+        // 更新活動連結
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      // 平滑滾動到指定章節
+      function scrollToSection(targetId) {
+        const targetElement = document.getElementById(targetId.substring(1));
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 20;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: "smooth",
+          });
+        }
+      }
+
+      // 頁面載入完成後初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        // 監聽滾動事件
+        window.addEventListener("scroll", updateActiveSection);
+
+        // 為目錄連結添加點擊事件
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            scrollToSection(targetId);
+          });
+        });
+
+        // 初始化活動章節
+        updateActiveSection();
+      });
+
+      // 可以拖曳移動目錄（可選功能）
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+
+      const tocElement = document.getElementById("floatingToc");
+
+      tocElement.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        dragOffset.x = e.clientX - tocElement.offsetLeft;
+        dragOffset.y = e.clientY - tocElement.offsetTop;
+        tocElement.style.cursor = "grabbing";
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isDragging) {
+          tocElement.style.left = e.clientX - dragOffset.x + "px";
+          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          tocElement.style.right = "auto"; // 取消right定位
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        if (isDragging) {
+          isDragging = false;
+          tocElement.style.cursor = "grab";
+        }
+      });
+
+      // 設置初始游標樣式
+      tocElement.style.cursor = "grab";
+    </script>
+
 </body>
 </html>
