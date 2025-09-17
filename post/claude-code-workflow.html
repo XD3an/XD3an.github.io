@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="XD3an" content="All-In-One" />
+    <meta
+      name="description"
+      content="人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流，從基礎工作流到進階多子代理協作，包含Vibe Coding、Spec驅動開發、提示詞工程等實戰技巧。"
+    />
+    <meta name="author" content="XD3an" />
+    <meta
+      name="keywords"
+      content="XD3an, github.io, All-In-One, Claude Code, AI Workflow, Vibe Coding, Spec Driven Development, 多子代理協作, 提示詞工程, 工作流自動化"
+    />
+    <title>人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流</title>
+    <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/scripts.js"></script>
+    <!-- Highlight.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <!-- Highlight.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <style>
+      article pre {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+        border-radius: 0.5em;
+        background: #f8f9fa;
+        padding: 1em;
+      }
+
+      /* Table of Contents 漂浮小視窗 */
+      .floating-toc {
+        position: fixed;
+        top: 20%;
+        right: 20px;
+        width: 280px;
+        max-height: 60vh;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        font-size: 14px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        opacity: 0.95;
+      }
+
+      .floating-toc:hover {
+        opacity: 1;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #0d6efd;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toc-toggle-btn {
+        background: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        color: #6c757d;
+        padding: 0;
+      }
+
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+
+      .toc-content.collapsed {
+        display: none;
+      }
+
+      .floating-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .floating-toc li {
+        margin: 2px 0;
+      }
+
+      .floating-toc a {
+        text-decoration: none;
+        color: #6c757d;
+        display: block;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .floating-toc a:hover {
+        background-color: #f8f9fa;
+        color: #ff6b35;
+        transform: translateX(2px);
+      }
+
+      .floating-toc a.active {
+        background-color: #ff6b35;
+        color: white;
+        font-weight: 500;
+      }
+
+      .floating-toc .toc-h2 {
+        font-weight: 500;
+        color: #495057;
+      }
+
+      .floating-toc .toc-h3 {
+        padding-left: 16px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      /* 響應式設計 */
+      @media (max-width: 1200px) {
+        .floating-toc {
+          right: 10px;
+          width: 250px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .floating-toc {
+          display: none;
+        }
+      }
+
+      /* 平滑滾動 */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* 滾動條樣式 */
+      .floating-toc::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .floating-toc::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      /* 表格樣式 */
+      .table-responsive {
+        margin: 2em 0;
+      }
+
+      .table {
+        font-size: 14px;
+      }
+
+      .table th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+      }
+
+      .table td {
+        vertical-align: top;
+      }
+
+      .table ul {
+        margin: 0;
+        padding-left: 1.2em;
+      }
+
+      .table li {
+        margin-bottom: 0.3em;
+      }
+    </style>
+    <!-- Open Graph / Facebook -->
+    <meta
+      property="og:title"
+      content="人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流 | XD3an Blog"
+    />
+    <meta
+      property="og:description"
+      content="人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流，從基礎工作流到進階多子代理協作，包含Vibe Coding、Spec驅動開發、提示詞工程等實戰技巧。"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://XD3an.github.io/post/claude-code-workflow.html"
+    />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流 | XD3an Blog"
+    />
+    <meta
+      name="twitter:description"
+      content="人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流，從基礎工作流到進階多子代理協作，包含Vibe Coding、Spec驅動開發、提示詞工程等實戰技巧。"
+    />
+    <!-- Canonical URL -->
+    <link
+      rel="canonical"
+      href="https://XD3an.github.io/post/claude-code-workflow.html"
+    />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流",
+        "description": "人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流，從基礎工作流到進階多子代理協作，包含Vibe Coding、Spec驅動開發、提示詞工程等實戰技巧。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2025-01-15",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://XD3an.github.io/post/claude-code-workflow.html"
+        }
+      }
+    </script>
+  </head>
+
+  <body style="font-size: var(--bs-font-size-base)">
+    <!-- 漂浮目錄 -->
+    <div class="floating-toc" id="floatingToc">
+      <div class="toc-content" id="tocContent">
+        <ul>
+          <li><a href="#team-workflow" class="toc-h2">團隊工作流實戰</a></li>
+          <li><a href="#general-workflow" class="toc-h3">一般工作流</a></li>
+          <li><a href="#quick-workflow" class="toc-h3">快速使用流</a></li>
+          <li><a href="#tdd-workflow" class="toc-h3">測試驅動開發</a></li>
+          <li><a href="#ui-workflow" class="toc-h3">UI 工作流</a></li>
+          <li><a href="#git-workflow" class="toc-h3">Git 操作流</a></li>
+          <li>
+            <a href="#jupyter-workflow" class="toc-h3">Jupyter Notebook</a>
+          </li>
+          <li><a href="#spec-driven" class="toc-h3">Spec 驅動開發</a></li>
+          <li><a href="#vibe-coding" class="toc-h2">Vibe Coding 新趨勢</a></li>
+          <li><a href="#prompt-engineering" class="toc-h2">提示詞工程</a></li>
+          <li><a href="#multi-agent" class="toc-h2">多子代理協作</a></li>
+          <li><a href="#tools-resources" class="toc-h2">工具資源</a></li>
+          <li>
+            <a href="#claude-action" class="toc-h2">Claude Code in Action</a>
+          </li>
+          <li><a href="#references" class="toc-h2">參考來源</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <canvas id="magic-canvas"></canvas>
+    <script src="/js/magic.js"></script>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4"
+                >Notion</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <header
+      class="masthead"
+      style="
+        background-image: url('../assets/img/claude-code-workflow/background.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      "
+    >
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-heading">
+              <h1>人家還在手寫代碼，你已經 AI 自動化：Claude Code 工作流</h1>
+              <h4 class="subheading">讓代碼自己寫自己的魔法現實</h4>
+              <span class="meta">By XD3an</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Article Content Starts Here -->
+
+            <h2 id="team-workflow" style="margin-top: 1.5em; font-size: 1.5em">
+              團隊工作流實戰
+            </h2>
+            <hr />
+            <p style="font-size: 1.1em; margin-bottom: 2em">
+              Anthropic 在 2025 年 7 月 24 日發布文章
+              <a
+                href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code"
+                target="_blank"
+                >How Anthropic teams use Claude Code</a
+              >
+              詳細介紹了各部門如何運用 Claude Code
+              來提升工作流程效率、自動化繁瑣任務，甚至讓非技術人員也能開發解決方案。本文將深入探討這些實戰工作流。
+            </p>
+            <p style="margin-bottom: 1.5em">
+              以下是 Anthropic 各部門如何利用 Claude Code 的實際案例：
+            </p>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th style="width: 15%">團隊</th>
+                    <th style="width: 40%">主要使用案例</th>
+                    <th style="width: 45%">團隊影響/效果</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>資料基礎設施</strong></td>
+                    <td>
+                      <ul>
+                        <li>Kubernetes 除錯診斷</li>
+                        <li>為財務團隊建立純文字工作流程</li>
+                        <li>新員工程式庫導覽</li>
+                        <li>會話結束文件更新</li>
+                        <li>多實例並行任務管理</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>無需專業知識解決基礎設施問題</li>
+                        <li>加速新人培訓</li>
+                        <li>增強支援工作流程</li>
+                        <li>實現跨團隊自助服務</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>產品開發</strong></td>
+                    <td>
+                      <ul>
+                        <li>自動接受模式快速原型開發</li>
+                        <li>核心功能同步編程</li>
+                        <li>測試生成和錯誤修復</li>
+                        <li>程式庫探索</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>更快的功能實作</li>
+                        <li>提升開發速度</li>
+                        <li>透過自動測試提升程式碼品質</li>
+                        <li>更好的程式庫探索</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>資安工程</strong></td>
+                    <td>
+                      <ul>
+                        <li>複雜基礎設施除錯</li>
+                        <li>程式碼審查和分析</li>
+                        <li>文件整合和操作手冊</li>
+                        <li>測試驅動開發工作流程</li>
+                        <li>情境切換和專案導入</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>減少事件解決時間（10-15 分鐘 →5 分鐘）</li>
+                        <li>改善安全審查週期</li>
+                        <li>增強跨功能貢獻</li>
+                        <li>更好的文件工作流程</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>推理系統</strong></td>
+                    <td>
+                      <ul>
+                        <li>程式庫理解和新人培訓</li>
+                        <li>單元測試生成與邊界案例涵蓋</li>
+                        <li>機器學習概念解釋</li>
+                        <li>跨語言程式碼翻譯</li>
+                        <li>指令回憶和 Kubernetes 管理</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>加速 ML 概念學習（減少 80%研究時間）</li>
+                        <li>更快的程式庫導覽</li>
+                        <li>全面的測試覆蓋</li>
+                        <li>消除語言障礙</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>資料科學與 ML 工程</strong></td>
+                    <td>
+                      <ul>
+                        <li>建立 JavaScript/TypeScript 儀表板應用</li>
+                        <li>處理重複性重構任務</li>
+                        <li>建立持久性分析工具</li>
+                        <li>零依賴性任務委派</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>實現 2-4 倍時間節省</li>
+                        <li>在不熟悉語言中建立複雜應用</li>
+                        <li>從一次性轉向持久性工具</li>
+                        <li>直接改善模型洞察</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>成長行銷</strong></td>
+                    <td>
+                      <ul>
+                        <li>Google Ads 創意自動生成</li>
+                        <li>Figma 外掛大量創意製作</li>
+                        <li>Meta Ads MCP 伺服器用於廣告活動分析</li>
+                        <li>使用記憶系統的進階提示工程</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>重複性任務大幅節省時間</li>
+                        <li>創意輸出增加 10 倍</li>
+                        <li>像更大的團隊一樣運作</li>
+                        <li>戰略焦點轉移</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3
+              id="general-workflow"
+              style="margin-top: 2em; font-size: 1.25em"
+            >
+              一般工作流
+            </h3>
+
+            <p><strong>適用多類型問題的標準流程</strong></p>
+
+            <ol>
+              <li>
+                <strong>探索</strong>：
+                <ul>
+                  <li>讓 Claude Code 閱讀相關檔案、圖片或 URL</li>
+                  <li>
+                    <strong>提示</strong>：此階段不要讓 Claude Code 寫程式碼
+                  </li>
+                  <li>
+                    可利用<strong>子代理</strong>幫助查細節、調查問題，保留更多上下文
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>規劃</strong>：
+                <ul>
+                  <li>要求 Claude Code 制定解決方案計劃</li>
+                  <li>
+                    使用關鍵字控制思考深度： <code>think</code> <
+                    <code>think hard</code> < <code>think harder</code> <
+                    <code>ultrathink</code>
+                  </li>
+                  <li>
+                    結果合理時，可讓 Claude Code 建立文檔或 GitHub issue 記錄
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>編碼</strong>：
+                <ul>
+                  <li>請 Claude Code 實現程式碼，並在過程中檢查合理性</li>
+                </ul>
+              </li>
+              <li>
+                <strong>提交</strong>：
+                <ul>
+                  <li>提交 PR，並可更新 README、changelog</li>
+                </ul>
+              </li>
+            </ol>
+
+            <div class="alert alert-warning" role="alert">
+              <strong>⚠️ 重要提醒</strong><br />
+              第 1-2 步至關重要，否則 Claude 可能直接跳到寫代碼！
+            </div>
+
+            <h3 id="quick-workflow" style="margin-top: 2em; font-size: 1.25em">
+              快速使用流
+            </h3>
+
+            <p><strong>適用於快速修復 lint、生成樣板程式碼</strong></p>
+
+            <pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre>
+
+            <div class="alert alert-danger" role="alert">
+              <strong>⚠️ 安全警告</strong><br />
+              可能造成資料丟失 / 系統損壞 /
+              資料洩露（提示注入攻擊）。<strong>建議</strong>在<strong>無網路容器</strong>中使用，例如
+              Docker。
+            </div>
+
+            <h3 id="tdd-workflow" style="margin-top: 2em; font-size: 1.25em">
+              測試驅動開發（TDD）
+            </h3>
+
+            <p><strong>適用於單元 / 集成 / 端到端測試可驗證的功能</strong></p>
+
+            <ol>
+              <li>
+                <strong>寫測試</strong>：
+                <ul>
+                  <li>要求 Claude Code 根據預期輸入/輸出編寫測試</li>
+                  <li>強調「不要寫功能程式碼」</li>
+                </ul>
+              </li>
+              <li>
+                <strong>驗證測試失敗</strong>：
+                <ul>
+                  <li>明確要求先執行測試，確認失敗</li>
+                </ul>
+              </li>
+              <li><strong>提交測試</strong></li>
+              <li>
+                <strong>編寫與迭代</strong>：
+                <ul>
+                  <li>要求 Claude 編寫實現程式碼，且「不要修改測試」</li>
+                  <li>多輪迭代直到測試通過</li>
+                  <li>也可用子代理檢查是否<strong>過擬合測試</strong></li>
+                </ul>
+              </li>
+              <li><strong>最後提交最終程式碼</strong></li>
+            </ol>
+
+            <h3 id="ui-workflow" style="margin-top: 2em; font-size: 1.25em">
+              UI 工作流
+            </h3>
+
+            <p><strong>適用於設計 / UI 驗證</strong></p>
+
+            <ol>
+              <li>提供 Claude Code 圖片或 UI 設計圖</li>
+              <li>Claude Code 根據設計實現程式碼，輸出結果並截圖</li>
+              <li>對比 → 修改 → 截圖 → 再迭代</li>
+              <li>滿意後提交</li>
+            </ol>
+
+            <h3 id="git-workflow" style="margin-top: 2em; font-size: 1.25em">
+              Git 操作流
+            </h3>
+
+            <p><strong>可處理多數 git 操作：</strong></p>
+
+            <ul>
+              <li><strong>查歷史</strong>：版本差異、作者、設計原因</li>
+              <li><strong>提交訊息</strong>：自動生成，包含完整上下文</li>
+              <li>
+                <strong>複雜操作</strong>：回滾、rebase 衝突解決、補丁移植
+              </li>
+            </ul>
+
+            <p><strong>還可代理 GitHub 交互：</strong></p>
+            <ul>
+              <li>建立 PR（支援「pr」簡寫）</li>
+              <li>一鍵修正 PR 上的簡單 review 意見</li>
+              <li>修復 build 錯誤或 linter 警告</li>
+              <li>批次處理 open issues（分類、整理）</li>
+            </ul>
+
+            <h3 id="spec-driven" style="margin-top: 2em; font-size: 1.25em">
+              Spec 驅動開發（Spec-driven development）
+            </h3>
+
+            <p>
+              這是近期備受看好的 AI coding 開發工作流，以
+              <strong>Amazon</strong> 的
+              <strong>Kiro IDE</strong> 為例，流程分為三步：
+            </p>
+
+            <ol>
+              <li>
+                <strong>Requirements（需求規格）</strong>
+                <p>
+                  用自然語言寫清楚「功能要達到什麼」、「使用者情境」、「成功驗收標準」。
+                </p>
+                <blockquote class="blockquote">
+                  例如：使用者輸入 email，系統必須驗證格式，若錯誤需提示訊息。
+                </blockquote>
+              </li>
+              <li>
+                <strong>Design（設計規格）</strong>
+                <p>定義系統架構、資料流、API 介面、數據結構。</p>
+                <ul>
+                  <li>UI 元件：Email 輸入框</li>
+                  <li>
+                    驗證函式：<code>validate_email(email: str) -> bool</code>
+                  </li>
+                  <li>錯誤提示元件：ErrorBanner</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Tasks（實作任務）</strong>
+                <p>把設計切分成小的可交付任務。</p>
+                <ul>
+                  <li>Task 1: 建立 <code>validate_email</code> 函式</li>
+                  <li>Task 2: 建立 UI 元件 EmailInput</li>
+                  <li>Task 3: 整合驗證與錯誤提示</li>
+                </ul>
+              </li>
+            </ol>
+
+            <p><strong>其價值在於：</strong></p>
+            <ul>
+              <li>
+                <strong>可追蹤性（Traceability）</strong> -
+                每行程式碼都能追溯回需求
+              </li>
+              <li>
+                <strong>協作性（Collaboration）</strong> - 團隊成員可先討論
+                Spec，而不是直接討論 AI 生成的程式碼
+              </li>
+              <li><strong>品質（Quality）</strong> - 減少 AI 產生的隱性錯誤</li>
+              <li>
+                <strong>一致性（Consistency）</strong> - 多代理開發可共用
+                Spec，降低上下文遺失問題
+              </li>
+            </ul>
+
+            <p>
+              參考實現：<a
+                href="https://github.com/gotalab/claude-code-spec"
+                target="_blank"
+                >gotalab/cc-sdd</a
+              >
+            </p>
+
+            <h2 id="vibe-coding" style="margin-top: 2.5em; font-size: 1.5em">
+              Vibe Coding 新趨勢
+            </h2>
+            <hr />
+
+            <p>
+              由 <strong>Andrej Karpathy</strong> 在
+              <strong>2025 年 2 月</strong>於他的推文中首次提出 Vibe Coding，<a
+                href="https://x.com/karpathy/status/1886192184808149383"
+                target="_blank"
+                >：「There's a new kind of coding I call 'vibe coding', where
+                you fully give in to the vibes, embrace exponentials, and forget
+                that the code even exists」</a
+              >
+            </p>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/andrej-karpathy-x-vibe-coding.png"
+                alt="Andrej Karpathy Vibe Coding Tweet"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">Andrej Karpathy 推文截圖</span>
+            </div>
+
+            <p>
+              是一種 AI
+              輔助的編程方式，開發者用自然語言描述需求，由大型語言模型（LLM）生成程式碼，不需審閱原始碼，只透過執行結果和互動來驗證與改進，重心從「寫程式」轉為「引導
+              AI、測試和反饋」。同時也被視為低程式碼（low-code）與無程式碼（no-code）技術上的演進。從
+              2010 年代的 4GL、模型驅動開發，到 2021 年的 AI 編程助手（例如
+              GitHub Copilot），再加上 2022 年 ChatGPT 的出現，到了 2025
+              年形成一個新興主流趨勢。
+            </p>
+
+            <p><strong>隨後有以下幾個現象</strong></p>
+
+            <ul>
+              <li>
+                多家媒體與專家重視這一概念，例如
+                <strong>Ars Technica</strong>、<strong>The Observer</strong
+                >、<strong>Times of India</strong> 都於 2025
+                年早期報導，探討其潛力與風險。
+              </li>
+              <li>
+                <strong>Y Combinator</strong> 表示，2025 冬季批次中有
+                <strong>25% 的新創公司</strong>幾乎完全依賴 AI
+                生成程式碼（codebase nearly 95% AI-generated）。
+              </li>
+              <li>
+                <strong>Garry Tan（Y Combinator CEO）</strong> 認為 vibe coding
+                可能讓小團隊完成過往需 50–100 人才能做的工作量，顯著提高效率。
+              </li>
+              <li>
+                <strong>Tom's Guide</strong> 與
+                <strong>Financial Times</strong>
+                等也指出，這種方式為非程式開發者提供了創造工具的可能性，但也引發專業程式設計師對程式品質與安全性的疑慮。
+              </li>
+            </ul>
+
+            <p>
+              <strong
+                >除此之外，值得注意的是，不僅只有 Vibe Coding，近期就連 Hacker
+                也開始 Vibe Hacking！？</strong
+              >
+            </p>
+
+            <p>
+              由 iThome 報導
+              <a href="https://www.ithome.com.tw/news/170951" target="_blank"
+                >iThome - 不只 Vibe Coding，駭客正把 Claude Code 用於 Vibe
+                Hacking</a
+              >，有人將 Claude Code 作為 AI
+              代理整合至攻擊鏈，不再只是建議，而是實際執行整個攻擊流程。其<strong>受害範圍</strong>至少影響
+              17 個組織，涵蓋政府、醫療、緊急應變、宗教等領域，勒索金額超過 50
+              萬美元。
+            </p>
+
+            <p><strong>主要有以下幾個操作</strong></p>
+
+            <ul>
+              <li>
+                在 Kali Linux 上使用 Claude Code 作為統合平台，從 OSINT
+                探查、VPN 掃描、憑證竊取到網路滲透與橫向移動，Claude Code
+                決定入侵策略、選擇洩露資料類型、撰寫具心理操控效果的勒索話術，並規劃財務評估與勒索手段。
+              </li>
+              <li>
+                使用 <code>CLAUDE.md</code> 設定 TTP（Tactics, Techniques,
+                Procedures），Claude Code 可依此批次化操作數千 VPN
+                端點，並開發混淆隧道與自製 TCP
+                代理，加入字符串加密、反除錯與檔名偽裝（如偽裝為
+                MSBuild.exe、devenv.exe、cl.exe）。
+              </li>
+              <li>
+                Claude Code
+                甚至分析受害者的財務狀況，以估算可承受的勒索金額，並自動生成強烈視覺警示的
+                HTML 勒索頁面，嵌入開機流程，使受害者無法逃避。
+              </li>
+            </ul>
+
+            <p><strong>其他濫用案例：</strong></p>
+
+            <ol>
+              <li>
+                北韓透過 Claude Code
+                偽造專業履歷與形象，甚至在面試與工作中自動產出程式碼與英文溝通內容，進入美國大型科技公司，違反國際制裁；Anthropic
+                已封鎖帳號並通報主管機關。
+              </li>
+              <li>
+                一名英國駭客（編號 GTG-5004）利用 Claude Code
+                開發、銷售具加密、反分析功能的勒索軟體，每套售價約 400–1,200
+                美元。若無 AI 幫助，開發者根本無法完成這類惡意軟體的實作。
+              </li>
+            </ol>
+
+            <p>
+              相關調查報告可以看 Anthropic 發表的這篇文章
+              <a
+                href="https://www.anthropic.com/news/detecting-countering-misuse-aug-2025"
+                target="_blank"
+                >AnthropicAI Detecting and countering misuse of AI: August
+                2025</a
+              >
+            </p>
+
+            <h2
+              id="prompt-engineering"
+              style="margin-top: 2.5em; font-size: 1.5em"
+            >
+              提示詞工程（Prompt Engineering）
+            </h2>
+            <hr />
+
+            <p>
+              與 Claude Code 互動，勢必要更好的讓它知道該做的是甚麼，因此 Prompt
+              的設計相當重要。
+            </p>
+
+            <p>
+              關於 Prompt 的設計可以參考
+              <a
+                href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+                target="_blank"
+                >Anthropic Prompt engineering overview - Anthropic</a
+              >，或是 <strong>Code w/ Claude</strong> 演講的分享
+              <a
+                href="https://youtu.be/ysPbXH0LpIE?si=FHE0TTKb6zSxDNr9"
+                target="_blank"
+                >Anthropic Prompting 101 | Code w/ Claude</a
+              >。
+            </p>
+
+            <h3 style="margin-top: 1.5em; font-size: 1.25em">
+              Prompt Structure
+            </h3>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/prompt-structure.png"
+                alt="Prompt Structure"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">基本提示詞結構</span>
+            </div>
+
+            <ol>
+              <li>
+                <strong>角色定位與任務描述（1–2 句）</strong>
+                <p>明確設定 AI 的身份與目標，用簡短語句交代核心任務。</p>
+              </li>
+              <li>
+                <strong>動態與檢索資訊</strong>
+                <p>
+                  提供即時或個人化的資料（例如使用者偏好、地點、上下文），作為回應的依據。
+                </p>
+              </li>
+              <li>
+                <strong>詳細任務指令</strong>
+                <p>清楚列出執行步驟與規則，確保 AI 按指定流程處理。</p>
+              </li>
+              <li>
+                <strong>範例 / n-shot（選填）</strong>
+                <p>以示例引導模型，展示輸入與輸出的對應方式。</p>
+              </li>
+              <li>
+                <strong>關鍵指令重申</strong>
+                <p>在長提示的結尾再次強調最重要的規則，避免模型偏離。</p>
+              </li>
+            </ol>
+
+            <p>
+              若要處理更複雜的任務時，也可以參考以下結構，擴展更多上下文，使得它可以更好理解上下文資訊
+            </p>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/prompt-structure-plus.png"
+                alt="Advanced Prompt Structure"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">進階提示詞結構</span>
+            </div>
+
+            <ul>
+              <li>
+                <strong>任務脈絡（Task Context）</strong>
+                <p>用 1–3 句交代角色、目標、受眾與成功定義。</p>
+                <p>例如：「你是 ⋯；目標是 ⋯；成功 = ⋯。」</p>
+              </li>
+              <li>
+                <strong>語氣設定（Tone & Style）</strong>
+                <p>明確指定語氣、風格、嚴謹度與讀者假設。</p>
+                <p>例如：「專業但親切；避免行話；面向新手 PM。」</p>
+              </li>
+              <li>
+                <strong>參考資料（Background Docs & Media）</strong>
+                <p>列出可用的靜態素材與其用途/優先序；標示缺漏時的退場策略。</p>
+                <p>例如：「主參考 A，次參考 B；若缺 A，依 B→C 順序補。」</p>
+              </li>
+              <li>
+                <strong>作業規則（Instructions & Constraints）</strong>
+                <p>
+                  以「必須／不得／可以」三層條款描述步驟、判準、邊界與超時/錯誤處理。
+                </p>
+                <p>例如：「必須：對齊產品定義；不得：暴露內部推理。」</p>
+              </li>
+              <li>
+                <strong>範例（Examples / N-shot）</strong>
+                <p>提供 1–3 組高品質對照範例；標註為「示意，非抄寫」。</p>
+                <p>例如：範例覆蓋常見變體與邊界情形。</p>
+              </li>
+              <li>
+                <strong>對話歷史（Conversation History）</strong>
+                <p>只保留與本輪決策必需的片段，並以要點化摘要注入。</p>
+                <p>例如：「先前已確定：KPI=CTR；時區=Asia/Taipei。」</p>
+              </li>
+              <li>
+                <strong>本輪請求（Current Turn Request）</strong>
+                <p>用可驗收的單句工作說明 + 交付時限/範圍。</p>
+                <p>例如：「請在 600 字內產出方案比較表與建議。」</p>
+              </li>
+              <li>
+                <strong>思考引導（Reasoning Hints）</strong>
+                <p>引導「先思後寫」，但<strong>避免要求輸出長推理</strong>。</p>
+                <p>例如：「先列關鍵假設再給結論；僅輸出結論與依據摘要。」</p>
+              </li>
+              <li>
+                <strong>輸出格式（Output Formatting / Schema）</strong>
+                <p>
+                  指定結構、欄位、順序與單位；必要時給 JSON schema 或 Markdown
+                  骨架。
+                </p>
+                <p>例如：「輸出：# 概覽 → 表格 → 建議 → 風險。」</p>
+              </li>
+              <li>
+                <strong>預填回應（Assistant Prefill）</strong>
+                <p>（供支援的供應商使用）預置回應開頭以定調或鎖定格式。</p>
+              </li>
+            </ul>
+
+            <p>
+              Claude Code 本身的 System Prompt 可以參考
+              <a
+                href="https://minusx.ai/blog/decoding-claude-code/#appendi"
+                target="_blank"
+                >vivek What makes Claude Code so damn good (and how to recreate
+                that…)</a
+              >
+              中 Appendix 的部分。這篇文章是在<strong
+                >解構 Claude Code 為什麼好用</strong
+              >，並整理出可以借鏡的 AI 系統設計原則。
+            </p>
+
+            <h2 id="multi-agent" style="margin-top: 2.5em; font-size: 1.5em">
+              多子代理協作
+            </h2>
+            <hr />
+
+            <p>使用多個 agent 協作可以實現更複雜的任務處理：</p>
+
+            <p><strong>流程範例：</strong></p>
+            <ol>
+              <li>agent A：負責寫代碼</li>
+              <li>
+                agent
+                B：清空上下文（<code>/clear</code>）或在另一終端啟動，負責審查或測試代碼
+              </li>
+              <li>agent C：重新讀取代碼與審查意見，根據反饋修改代碼</li>
+            </ol>
+
+            <p><strong>分工開發</strong></p>
+            <ul>
+              <li>建立 3–4 個 git clone，分別放在不同資料夾</li>
+              <li>在不同終端標籤頁打開每個資料夾</li>
+              <li>在各資料夾啟動一個 Claude，分配不同任務</li>
+              <li>輪流檢查進度、批準/拒絕權限請求</li>
+            </ul>
+
+            <p><strong>Git Worktree 應用</strong></p>
+            <pre><code class="language-bash">git worktree add ../project-feature-a feature-a
+cd ../project-feature-a && claude</code></pre>
+
+            <p><strong>無頭模式自動化</strong></p>
+            <pre><code class="language-bash">claude -p "migrate foo.py from React to Vue. When you are done, return OK or FAIL." \
+  --allowedTools Edit Bash(git commit:*)</code></pre>
+
+            <h2
+              id="tools-resources"
+              style="margin-top: 2.5em; font-size: 1.5em"
+            >
+              工具資源
+            </h2>
+            <hr />
+
+            <p><strong>工具資源集</strong></p>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/hesreallyhim/awesome-claude-code"
+                  target="_blank"
+                  >awesome-claude-code</a
+                >
+                - Claude Code 相關資源大全
+              </li>
+              <li>
+                <a
+                  href="https://github.com/davila7/claude-code-templates"
+                  target="_blank"
+                  >claude-code-templates</a
+                >
+                - Claude Code 模板集
+              </li>
+            </ul>
+
+            <p><strong>一般工具</strong></p>
+            <ul>
+              <li>
+                <a href="https://github.com/RonitSachdev/ccundo" target="_blank"
+                  >ccundo</a
+                >
+                - Claude Code 撤銷操作工具
+              </li>
+              <li>
+                <a href="https://github.com/ryoppippi/ccusage" target="_blank"
+                  >ccusage</a
+                >
+                - Claude Code 使用情況統計
+              </li>
+              <li>
+                <a href="https://github.com/slopus/happy" target="_blank"
+                  >happy</a
+                >
+                /
+                <a
+                  href="https://github.com/JessyTsui/Claude-Code-Remote"
+                  target="_blank"
+                  >Claude-Code-Remote</a
+                >
+                - 遠端協作工具
+              </li>
+              <li>
+                <a
+                  href="https://github.com/musistudio/claude-code-router"
+                  target="_blank"
+                  >claude-code-router</a
+                >
+                - Claude Code 路由管理
+              </li>
+            </ul>
+
+            <p><strong>工作流與多代理協作</strong></p>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/feiskyer/claude-code-settings"
+                  target="_blank"
+                  >claude-code-settings</a
+                >
+                - Claude Code 設定配置
+              </li>
+              <li>
+                <a
+                  href="https://github.com/contains-studio/agents"
+                  target="_blank"
+                  >agents</a
+                >
+                - 代理協作框架
+              </li>
+              <li>
+                <a
+                  href="https://github.com/SuperClaude-Org/SuperClaude_Framework"
+                  target="_blank"
+                  >SuperClaude_Framework</a
+                >
+                - SuperClaude 框架
+              </li>
+              <li>
+                <a
+                  href="https://github.com/eyaltoledano/claude-task-master"
+                  target="_blank"
+                  >claude-task-master</a
+                >
+                - 任務管理工具
+              </li>
+              <li>
+                <a href="https://github.com/ruvnet/claude-flow" target="_blank"
+                  >claude-flow</a
+                >
+                - 工作流管理
+              </li>
+              <li>
+                <a
+                  href="https://github.com/smtg-ai/claude-squad"
+                  target="_blank"
+                  >claude-squad</a
+                >
+                - 多代理協作平台
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Pimzino/claude-code-spec-workflow"
+                  target="_blank"
+                  >claude-code-spec-workflow</a
+                >
+                - Spec 驅動開發工作流
+              </li>
+            </ul>
+
+            <p><strong>交互界面與 IDE 整合</strong></p>
+            <ul>
+              <li>
+                <a href="https://github.com/getAsterisk/gooey" target="_blank"
+                  >gooey</a
+                >
+                - GUI 界面工具
+              </li>
+              <li>
+                <a
+                  href="https://github.com/coder/claudecode.nvim"
+                  target="_blank"
+                  >claudecode.nvim</a
+                >
+                - Neovim 整合外掛
+              </li>
+            </ul>
+
+            <h2 id="claude-action" style="margin-top: 2.5em; font-size: 1.5em">
+              Claude Code in Action
+            </h2>
+            <hr />
+
+            <p>
+              除此之外，Claude Code 還可以幫助開發者整合 Github Action
+              工作流，只需在任何 PR 或 issue 中簡單地提及
+              <strong><code>@claude</code></strong
+              >，Claude 就能：
+            </p>
+
+            <ul>
+              <li>
+                <strong>自動分析程式碼</strong
+                >：審查差異、檢查潛在問題並提出優化建議。
+              </li>
+              <li>
+                <strong>建立與更新 PR</strong>：根據需求自動生成新的 Pull
+                Request，或更新既有的修改。
+              </li>
+              <li>
+                <strong>實作新功能</strong
+                >：將自然語言需求轉化為實際程式碼，直接推送到分支。
+              </li>
+              <li>
+                <strong>修復錯誤與漏洞</strong>：快速定位問題並提交修正程式碼。
+              </li>
+            </ul>
+
+            <p>
+              使得開發團隊能在 GitHub 中，使用 Claude Code
+              支援，大幅提升協作與開發效率。
+            </p>
+
+            <p>
+              更多資訊可參考：<a
+                href="https://anthropic.skilljar.com/claude-code-in-action"
+                target="_blank"
+                >Claude Code in Action</a
+              >
+            </p>
+
+            <h2 id="references" style="margin-top: 2.5em; font-size: 1.5em">
+              參考來源
+            </h2>
+            <hr />
+
+            <ul>
+              <li>
+                <a
+                  href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code"
+                  target="_blank"
+                  >AnthropicAI How Anthropic teams use Claude Code</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://docs.anthropic.com/zh-TW/docs/claude-code/sub-agents"
+                  target="_blank"
+                  >Anthropic sub-agents - Anthropic</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+                  target="_blank"
+                  >Anthropic Prompt engineering overview - Anthropic</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://anthropic.skilljar.com/claude-code-in-action"
+                  target="_blank"
+                  >skilljar Claude Code in Action</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://youtu.be/ysPbXH0LpIE?si=FHE0TTKb6zSxDNr9"
+                  target="_blank"
+                  >Anthropic Prompting 101 | Code w/ Claude</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://x.com/karpathy/status/1886192184808149383"
+                  target="_blank"
+                  >Andrej Karpathy - Vibe Coding 推文</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://minusx.ai/blog/decoding-claude-code/#appendi"
+                  target="_blank"
+                  >vivek What makes Claude Code so damn good (and how to
+                  recreate that…)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.anthropic.com/news/detecting-countering-misuse-aug-2025"
+                  target="_blank"
+                  >AnthropicAI Detecting and countering misuse of AI: August
+                  2025</a
+                >
+              </li>
+              <li>
+                <a href="https://www.ithome.com.tw/news/170951" target="_blank"
+                  >iThome - 不只 Vibe Coding，駭客正把 Claude Code 用於 Vibe
+                  Hacking</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/gotalab/claude-code-spec"
+                  target="_blank"
+                  >gotalab/cc-sdd - Spec 驅動開發工作流</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/hesreallyhim/awesome-claude-code"
+                  target="_blank"
+                  >awesome-claude-code - Claude Code 相關資源大全</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/davila7/claude-code-templates"
+                  target="_blank"
+                  >claude-code-templates - Claude Code 模板集</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/RonitSachdev/ccundo" target="_blank"
+                  >ccundo - Claude Code 撤銷操作工具</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/ryoppippi/ccusage" target="_blank"
+                  >ccusage - Claude Code 使用情況統計</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/musistudio/claude-code-router"
+                  target="_blank"
+                  >claude-code-router - Claude Code 路由管理</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/feiskyer/claude-code-settings"
+                  target="_blank"
+                  >claude-code-settings - Claude Code 設定配置</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/contains-studio/agents"
+                  target="_blank"
+                  >agents - 代理協作框架</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/SuperClaude-Org/SuperClaude_Framework"
+                  target="_blank"
+                  >SuperClaude_Framework - SuperClaude 框架</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/eyaltoledano/claude-task-master"
+                  target="_blank"
+                  >claude-task-master - 任務管理工具</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/ruvnet/claude-flow" target="_blank"
+                  >claude-flow - 工作流管理</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/smtg-ai/claude-squad"
+                  target="_blank"
+                  >claude-squad - 多代理協作平台</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Pimzino/claude-code-spec-workflow"
+                  target="_blank"
+                  >claude-code-spec-workflow - Spec 驅動開發工作流</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/slopus/happy" target="_blank"
+                  >happy - 遠端協作工具</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/JessyTsui/Claude-Code-Remote"
+                  target="_blank"
+                  >Claude-Code-Remote - 遠端協作工具</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/getAsterisk/gooey" target="_blank"
+                  >gooey - GUI 界面工具</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/coder/claudecode.nvim"
+                  target="_blank"
+                  >claudecode.nvim - Neovim 整合外掛</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+    <!-- Footer-->
+    <footer class="border-top">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/d3an_x">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 目錄功能JavaScript -->
+    <script>
+      // 滾動時高亮當前章節
+      function updateActiveSection() {
+        const sections = [
+          "team-workflow",
+          "general-workflow",
+          "quick-workflow",
+          "tdd-workflow",
+          "ui-workflow",
+          "git-workflow",
+          "jupyter-workflow",
+          "spec-driven",
+          "vibe-coding",
+          "prompt-engineering",
+          "multi-agent",
+          "tools-resources",
+          "claude-action",
+          "references",
+        ];
+
+        let currentSection = "";
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // 找到當前最接近頂部的章節
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const element = document.getElementById(sections[i]);
+          if (element && element.offsetTop <= scrollTop + 100) {
+            currentSection = sections[i];
+            break;
+          }
+        }
+
+        // 更新目錄中的活動狀態
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      // 平滑滾動到指定章節
+      function scrollToSection(targetId) {
+        const targetElement = document.getElementById(targetId.substring(1));
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 20;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: "smooth",
+          });
+        }
+      }
+
+      // 頁面載入完成後初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        // 監聽滾動事件
+        window.addEventListener("scroll", updateActiveSection);
+
+        // 為目錄連結添加點擊事件
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            scrollToSection(targetId);
+          });
+        });
+
+        // 初始化活動章節
+        updateActiveSection();
+      });
+
+      // 可以拖曳移動目錄
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+
+      const tocElement = document.getElementById("floatingToc");
+
+      tocElement.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        dragOffset.x = e.clientX - tocElement.offsetLeft;
+        dragOffset.y = e.clientY - tocElement.offsetTop;
+        tocElement.style.cursor = "grabbing";
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isDragging) {
+          tocElement.style.left = e.clientX - dragOffset.x + "px";
+          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          tocElement.style.right = "auto";
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        if (isDragging) {
+          isDragging = false;
+          tocElement.style.cursor = "grab";
+        }
+      });
+
+      tocElement.style.cursor = "grab";
+    </script>
+  </body>
+</html>
