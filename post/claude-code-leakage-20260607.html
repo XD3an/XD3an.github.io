@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="XD3an" content="All-In-One" />
+    <meta
+      name="description"
+      content="2026 年 3 月 31 日，Claude Code v2.1.88 因 npm source map 未清除，意外洩漏 51.2 萬行 TypeScript 原始碼，揭開 Harness Engineering、Query 循環、五層壓縮管線等核心架構設計。"
+    />
+    <meta name="author" content="XD3an" />
+    <meta
+      name="keywords"
+      content="XD3an, Claude Code, Source Map, 原始碼洩漏, Harness Engineering, Query Loop, Agent, npm, Anthropic, AI Coding, 架構分析"
+    />
+    <title>Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！</title>
+    <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/scripts.js"></script>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <style>
+      article pre {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+        border-radius: 0.5em;
+        background: #f8f9fa;
+        padding: 1em;
+      }
+
+      article h2, article h3, article h4 {
+        margin-bottom: 0.8em;
+      }
+
+      .floating-toc {
+        position: fixed;
+        top: 20%;
+        right: 20px;
+        width: 280px;
+        max-height: 60vh;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 16px;
+        font-size: 14px;
+        z-index: 1000;
+        overflow-y: auto;
+        opacity: 0.95;
+        transition: all 0.3s ease;
+      }
+      .floating-toc:hover { opacity: 1; box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #0d6efd;
+        color: #212529;
+      }
+      .toc-content { max-height: calc(60vh - 60px); overflow-y: auto; }
+      .floating-toc ul { list-style: none; padding: 0; margin: 0; }
+      .floating-toc li { margin: 2px 0; }
+      .floating-toc a {
+        text-decoration: none;
+        color: #6c757d;
+        display: block;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .floating-toc a:hover { background-color: #f8f9fa; color: #ff6b35; transform: translateX(2px); }
+      .floating-toc a.active { background-color: #ff6b35; color: white; font-weight: 500; }
+      .floating-toc .toc-h2 { font-weight: 500; color: #495057; }
+      .floating-toc .toc-h3 { padding-left: 16px; font-size: 12px; color: #6c757d; }
+      @media (max-width: 1200px) { .floating-toc { right: 10px; width: 250px; } }
+      @media (max-width: 768px) { .floating-toc { display: none; } }
+      html { scroll-behavior: smooth; }
+      .floating-toc::-webkit-scrollbar { width: 4px; }
+      .floating-toc::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 2px; }
+      .floating-toc::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 2px; }
+    </style>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！ | XD3an Blog" />
+    <meta property="og:description" content="2026 年 3 月 31 日，51.2 萬行 TypeScript 意外流出，揭開 Claude Code 的 Harness Engineering、Query 循環、五層壓縮管線等核心架構。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://XD3an.github.io/post/claude-code-leakage-20260607.html" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！ | XD3an Blog" />
+    <meta name="twitter:description" content="2026 年 3 月 31 日，51.2 萬行 TypeScript 意外流出，揭開 Claude Code 核心架構。" />
+    <!-- Canonical -->
+    <link rel="canonical" href="https://XD3an.github.io/post/claude-code-leakage-20260607.html" />
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！",
+      "description": "2026 年 3 月 31 日，Claude Code v2.1.88 因 npm source map 未清除，意外洩漏 51.2 萬行 TypeScript 原始碼，揭開核心架構設計。",
+      "author": { "@type": "Person", "name": "XD3an" },
+      "datePublished": "2026-06-07",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://XD3an.github.io/post/claude-code-leakage-20260607.html"
+      }
+    }
+    </script>
+  </head>
+
+  <body style="font-size: var(--bs-font-size-base)">
+    <!-- 漂浮目錄 -->
+    <div class="floating-toc" id="floatingToc">
+      <div class="toc-content" id="tocContent">
+        <ul>
+          <li><a href="#background" class="toc-h2">整起事件的背景</a></li>
+          <li><a href="#leak-event" class="toc-h3">原始碼洩漏事件</a></li>
+          <li><a href="#npm-source-map" class="toc-h3">始作俑者：npm Source Map</a></li>
+          <li><a href="#leaked-features" class="toc-h3">被看光的隱藏機制</a></li>
+          <li><a href="#product-surfaces" class="toc-h2">產品形態：從 CLI 到雲端</a></li>
+          <li><a href="#core-architecture" class="toc-h2">核心架構</a></li>
+          <li><a href="#background-desc" class="toc-h3">背景敘述</a></li>
+          <li><a href="#agent-core" class="toc-h3" style="padding-left:24px;">打造 AI Agent 核心</a></li>
+          <li><a href="#harness-engineering" class="toc-h3" style="padding-left:24px;">Harness Engineering</a></li>
+          <li><a href="#query-loop" class="toc-h3">Query 循環</a></li>
+          <li><a href="#prompt-system" class="toc-h3">提示詞系統</a></li>
+          <li><a href="#tools-system" class="toc-h3">工具系統</a></li>
+          <li><a href="#permission-mode" class="toc-h3">權限模式</a></li>
+          <li><a href="#state-management" class="toc-h3">狀態管理</a></li>
+          <li><a href="#context-management" class="toc-h3">上下文管理</a></li>
+          <li><a href="#agent-mcp-skills" class="toc-h3">Agent / MCP / Skills</a></li>
+          <li><a href="#architecture-summary" class="toc-h3">總結四大問題</a></li>
+          <li><a href="#supplementary" class="toc-h3">補充機制</a></li>
+          <li><a href="#business-moat" class="toc-h2">商業模式與護城河</a></li>
+          <li><a href="#market-landscape" class="toc-h2">市場格局與競爭者</a></li>
+          <li><a href="#security-analysis" class="toc-h2">安全與攻擊面解析</a></li>
+          <li><a href="#repo-links" class="toc-h2">復現與相關 repo</a></li>
+          <li><a href="#references" class="toc-h2">參考來源</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <canvas id="magic-canvas"></canvas>
+    <script src="/js/magic.js"></script>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4">Notion</a></li>
+            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/img/claude-code-source-map/claude-code-leakage-bg.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-heading">
+              <h1>Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！</h1>
+              <h4 class="subheading">我的天，Claude Code 居然全漏出來了！</h4>
+              <span class="meta">By XD3an</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+
+            <p style="font-size: 1.1em; margin-top: 2em; margin-bottom: 2em;">
+              Claude Code 可以說是引領這波 AI 應用潮流的殺手級應用產品，其架構設計與可用性被公認是最前沿的 AI 應用工程技術，是 Anthropic 廣為人知的一項產品，其原作者與開發負責人 Boris Cherny 也因此聲名大噪。但是 Claude Code 本身是不開源的，就在 2026 年 3 月 31 日，由於 source map 沒清乾淨，Claude Code 在 v2.1.88 版本中意外地洩漏了，剛好逢隔天 4/1 愚人節，甚至被當作是一場愚人節驚喜！此次的洩漏事件也讓大家有機會了解這項最前沿的 AI 應用到底是如何被實現出來的，因此大家也非常樂見此次的洩漏事件，當然也不少人因此看笑話，但最重要的還是如何從此次的事件，學習 AI 時代的各種新課題，其中也包括如何在快速迭代的開發過程中，進行更加嚴謹與安全的管控，避免後續諸如此類的事情發生。
+            </p>
+            <p style="margin-bottom: 2em;">
+              蠻值得看的除了 Agent Loop 的實作，還有完整的 Harness Engineering 設計，甚至是一些有趣的機制，都值得拿來參考的~
+            </p>
+
+            <!-- ==================== 整起事件的背景 ==================== -->
+            <h2 id="background" style="margin-top: 1.5em; font-size: 1.5em;">整起事件的背景</h2>
+            <hr />
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/claude-code-overview.png" alt="Claude Code 產品概覽" class="img-fluid mb-3" />
+            </div>
+
+            <p>
+              <a href="https://www.anthropic.com/claude-code" target="_blank">Claude Code</a> 是由 Anthropic 在 2024 年 12 月發布的一款 AI Coding Agent 工具，目的是幫助開發者在終端機中將想法更快地轉化為程式碼，可以搜尋和讀取程式碼、編輯檔案、編寫和執行測試、提交並推送程式碼到 GitHub，以及使用命令列工具等操作。
+            </p>
+            <p>
+              Claude Code 的最大優勢在於其<strong>靈活性</strong>和<strong>終端原生體驗</strong>，不會綁定你到特定的 IDE，而是作為一個 CLI 工具，可以與任何現有的 IDE 配合使用。相比 Cursor、Windsurf 等 AI 編程工具需要完全切換到新的 IDE 環境，Claude Code 讓開發者能保持原有的工作流程，同時在熟悉的終端環境中獲得 AI 協助。
+            </p>
+
+            <h3 id="leak-event" style="margin-top: 2em; font-size: 1.25em;">Claude Code 原始碼洩漏 !!!</h3>
+
+            <p>
+              2026 年 3 月 31 日，安全研究員 Chaofan Shou 在例行巡查 npm 倉庫時，發現 Anthropic 在發布 Claude Code v2.1.88 版本時，錯誤地將一個 source map（<code>.map</code>）檔案打包進了公開發布的 npm 包。
+            </p>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/source-map-leak-tweet.png" alt="Chaofan Shou 推文截圖" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://x.com/Fried_rice/status/2038894956459290963" target="_blank">https://x.com/Fried_rice/status/2038894956459290963</a></span>
+            </div>
+
+            <div style="text-align: center; margin-top: 1em;">
+              <img src="../assets/img/claude-code-source-map/npm-package-screenshot.png" alt="npm 套件截圖" class="img-fluid mb-3" />
+            </div>
+
+            <p>
+              正常情況下，<code>.map</code> 檔案不應該出現在發布到 npm 的生產包裡，需要在 <code>.npmignore</code> 中排除，或在構建配置中關閉 source map 生成。Claude Code 使用 Bun 作為打包工具，而 Bun 打包器預設會生成 source map，除非關閉。
+            </p>
+            <p>
+              這個檔案約 <strong>59.8 MB</strong>，有了這個檔案，任何人都可以完整還原出 Claude Code 的全部原始碼。洩漏規模超過 <strong>51.2 萬行 TypeScript 程式碼</strong>，共計約 <strong>1,900 個原始檔案</strong>，涵蓋完整程式碼庫，以及大量尚未發布的功能。
+            </p>
+            <p>
+              幾個小時內，這條推文瀏覽量突破 530 萬，已有其他人將完整原始碼備份至 GitHub。其中最大的備份倉庫，一小時內就衝到 11,300 顆星和 17,300 次 fork。
+            </p>
+            <p>
+              到 4 月 2 日，Anthropic 針對超過 8,100 個倉庫提交了 DMCA 版權侵權投訴，但封殺令已無法阻止程式碼的蔓延。後來可能因害怕被起訴，原備份者 Sigrid Jin 在極短時間內先將整個龐大的 TypeScript 程式碼全量改寫為 Python，幾小時後又改用 Rust 重構了一遍，讓 Anthropic 的 DMCA 投訴瞬間失效。
+            </p>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/dmca-notice.png" alt="DMCA 通知截圖" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://github.com/github/dmca/blob/master/2026/03/2026-03-31-anthropic.md" target="_blank">github.com/github/dmca</a></span>
+            </div>
+
+            <div style="text-align: center; margin-top: 1em;">
+              <img src="../assets/img/claude-code-source-map/techcrunch-article.png" alt="TechCrunch 報導截圖" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://techcrunch.com/2026/04/01/anthropic-took-down-thousands-of-github-repos-trying-to-yank-its-leaked-source-code-a-move-the-company-says-was-an-accident/" target="_blank">TechCrunch</a></span>
+            </div>
+
+            <p>實際上這已是 Anthropic 兩年內連續發生的三起事件：</p>
+            <ol>
+              <li>
+                <strong>2025 年 2 月 24 日</strong>：Claude Code 外部首發日，第一次 source map 洩漏。Anthropic 兩小時內撤下。
+                （<a href="https://www.sabrina.dev/p/claude-code-source-leak-analysis" target="_blank">Sabrina.dev 深度分析</a>）
+              </li>
+              <li>
+                <strong>2026 年 3 月 26 日</strong>：CMS 配置錯誤，代號 Capybara 的未發布模型 Claude Mythos 相關草稿外流。
+                （<a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank">Fortune 獨家報導</a>）
+              </li>
+              <li>
+                <strong>2026 年 3 月 31 日</strong>：Claude Code v2.1.88 第二次 source map 洩漏。
+                （<a href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" target="_blank">VentureBeat</a>）
+              </li>
+            </ol>
+
+            <div class="alert alert-warning" role="alert">
+              <strong>關鍵教訓：</strong>這次事件揭示的不是模型本身不安全，而是 AI 系統的工程治理才是最大風險來源。這是一個供應鏈 / CI/CD 發布錯誤，根本原因在於工程流程設計的不足。
+            </div>
+
+            <h3 id="npm-source-map" style="margin-top: 2em; font-size: 1.25em;">始作俑者：npm Source Map</h3>
+
+            <p>
+              npm（Node Package Manager）是 JavaScript / TypeScript 世界最大的套件註冊中心，開發者會將寫好的函式庫或工具發布上去。Claude Code 就是以 npm 套件的形式發布的，套件名稱叫 <code>@anthropic-ai/claude-code</code>。
+            </p>
+            <p>
+              現代 JavaScript 程式上線前通常會經過「打包」（bundling）和「壓縮」（minification）：
+            </p>
+            <ul>
+              <li><strong>打包</strong>把幾百個原始檔合併成一個檔案，減少載入次數</li>
+              <li><strong>壓縮</strong>把變數名 <code>userAccountBalance</code> 改成 <code>a</code>、把空白和註解全刪掉，讓檔案更小</li>
+            </ul>
+            <p>
+              <strong>source map 就是一份對照表</strong>，一個 <code>.map</code> 副檔名的檔案，記錄壓縮後每個位置對應原始碼的哪一行哪一個變數名。為了能反向還原，<strong>幾乎包含完整的原始碼內容</strong>，原始的變數名、註解、檔案結構、模組關係全都在裡面。
+            </p>
+
+            <p><strong>Claude Code 的事故流程：</strong></p>
+            <ol>
+              <li>用 Bun 這個 runtime 打包，Bun <strong>預設會產生 source map</strong></li>
+              <li>沒人在 <code>.npmignore</code> 加上 <code>.map</code> 規則</li>
+              <li>發布到 npm 時 <code>.map</code> 檔被一起推上去</li>
+              <li>任何人都能 <code>npm install</code> 然後解壓縮看到完整 TypeScript 原始碼</li>
+            </ol>
+
+            <p>
+              Boris Cherny 後來承認這是「應該早就自動化的手動部署步驟」造成的，而且第一次出事是 2025 年 2 月，<strong>13 個月後同樣的洞還沒補</strong>——直到第二次出事才補上。
+            </p>
+            <div class="alert alert-info" role="alert">
+              值得一提的是，Anthropic 在 2025 年底<strong>收購了 Bun</strong>，所以這次是<strong>自己的工具鏈炸了自己的產品</strong>。Bun 的 issue tracker 早在 2026 年 3 月 11 日就有人回報這個預設行為問題（oven-sh/bun#28001），事件爆發時還是 open 狀態。
+            </div>
+
+            <h3 id="leaked-features" style="margin-top: 2em; font-size: 1.25em;">被看光的隱藏機制與架構</h3>
+
+            <ul>
+              <li><strong>Undercover Mode（隱身模式）</strong>：當 Anthropic 員工用 Claude Code 對外部開源專案貢獻時，自動抹除所有 AI 參與痕跡，連「Claude Code」這個字本身都在禁字清單。諷刺的是，他們花這麼大力氣防止 AI 洩漏資訊，結果 build 流程把包含這個模組的完整原始碼一起推上了 npm。</li>
+              <li><strong>Memory & Context 三層架構</strong>：針對長 session 的 context 退化問題設計的三層記憶系統，索引、知識、歷史各層各司其職，從不全部同時載入，搭配五種漸進式壓縮策略。</li>
+              <li><strong>Multi-Agent 編排（Swarms）</strong>：內部叫「swarms」的多代理系統，可為可並行任務 spawn 帶有自己工具權限的子代理，分為輕量複製、平行協作、完全隔離三種執行模型。</li>
+              <li><strong>KAIROS（未發布的常駐自主代理）</strong>：設計成永遠在背景運行的 daemon agent，可自主判斷是否採取行動，並在使用者閒置時自動整合記憶。目前藏在 feature flag 後面尚未上線，但架構已完整建好。</li>
+              <li><strong>終端渲染引擎</strong>：外表是 CLI，內裡用遊戲引擎技術做全屏無閃爍渲染，整個介面由 React 元件樹驅動。</li>
+              <li><strong>Buddy 寵物系統</strong>：程式碼裡藏著一個 Tamagotchi 風格的彩蛋寵物系統，18 種物種、RPG 屬性、1% 閃光機率，rollout 視窗設在 4 月 1–7 日。</li>
+              <li><strong>Frustration Detection</strong>：用 15 個 regex 短語偵測使用者不滿情緒並觸發 telemetry，是整次洩漏裡社群反應最爆笑的發現。</li>
+              <li><strong>Anti-Distillation</strong>：三層防蒸餾機制：對 API 請求注入假工具定義污染競品訓練資料、加密簽章封裝工具呼叫間的推理鏈、HTTP 層 DRM 驗證客戶端真偽。</li>
+            </ul>
+
+            <p><strong>規模數字：</strong></p>
+            <ul>
+              <li>51.2 萬行 TypeScript、約 1,900 個檔案</li>
+              <li>Query engine 單獨 46,000 行</li>
+              <li><code>print.ts</code> 5,594 行包含一個 3,167 行的單一函式</li>
+              <li>187 個 spinner verbs（loading 動畫循環顯示 187 種不同的動詞）</li>
+              <li>44 個隱藏的 feature flag</li>
+            </ul>
+
+            <!-- ==================== 產品形態 ==================== -->
+            <h2 id="product-surfaces" style="margin-top: 2.5em; font-size: 1.5em;">產品形態：從 CLI 到雲端</h2>
+            <hr />
+
+            <p>Claude Code 並不是單一的工具，其本身有多種執行與部屬的方式，每一個都有自己的使用情境：</p>
+
+            <p><strong>本地運行命令介面（CLI）</strong></p>
+            <p>
+              最原始也最常見的形態，使用者在自己機器的終端機裡跑 <code>claude</code> 指令。從外表看 Claude Code 就是一個會在終端印字的指令列工具，但其實是個<strong>自製的 React 終端渲染器</strong>，整個 CLI 用 React 元件樹來管理畫面狀態，包含串流輸出、工具呼叫的展開/折疊、權限提示彈窗、即時編輯介面等。
+            </p>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/cli-react-renderer.png" alt="CLI React 渲染器示意" class="img-fluid mb-3" />
+            </div>
+
+            <p><strong>IDE 整合</strong></p>
+            <p>
+              透過 VS Code 和 JetBrains 的擴充套件嵌入編輯器，透過 WebSocket 跟本地 CLI 行程進行通訊。
+            </p>
+            <div class="alert alert-danger" role="alert">
+              <strong>CVE-2025-52882：</strong>VS Code 和 JetBrains 整合的 WebSocket 連線沒做好來源驗證，任意網站都能連進去讀取編輯器狀態。
+              (<a href="https://nvd.nist.gov/vuln/detail/CVE-2025-52882" target="_blank">NVD 詳情</a>)
+            </div>
+
+            <p><strong>Remote Control / Claude Code on the web</strong></p>
+            <p>
+              讓 Claude Code 在 Anthropic 自己的基礎設施跑，使用者透過瀏覽器或行動裝置遙控。這跟本地版本的信任模型完全不同。
+            </p>
+
+            <!-- ==================== 核心架構 ==================== -->
+            <h2 id="core-architecture" style="margin-top: 2.5em; font-size: 1.5em;">核心架構：Claude Code 的內部構造</h2>
+            <hr />
+
+            <h3 id="background-desc" style="margin-top: 1.5em; font-size: 1.25em;">背景敘述</h3>
+
+            <h4 id="agent-core" style="margin-top: 1.5em; font-size: 1.1em;">打造 AI Agent 核心</h4>
+
+            <p>在看 Claude Code 本身的機制之前，我們可以先思考一下，一個 LLM Agent 究竟核心是甚麼？又存在什麼工程問題需要解決？</p>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/agent-loop-code.png" alt="Agent Loop 核心程式碼" class="img-fluid mb-3" style="filter: brightness(0.75);" />
+              <span class="caption text-muted">src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+
+            <pre><code class="language-javascript">while(true) {
+    for await (msg of callModel())
+    if (!needsFollowUp)
+        return {reason: 'completed',...}
+    runtTools(toolUseBlocks...)
+    toolResults.push(...)
+}</code></pre>
+            <p><em>Claude Code 的 Query 核心在 <code>src/query.ts</code></em></p>
+
+            <p><strong>打造 Agent 需要面臨的四大問題：</strong></p>
+            <ul>
+              <li><strong>上下文品質問題</strong>：context window 有限，對話太長會導致模型遺忘前段內容或品質下降，需要做 context compression 或 summarization</li>
+              <li><strong>歷史紀錄的失憶問題</strong>：LLM 本身無狀態，每次 call 都需要重新傳入完整歷史，需要設計 memory 機制</li>
+              <li><strong>安全控制問題</strong>：Agent 能執行工具（如 shell、file system），需要有 permission system 和使用者確認機制</li>
+              <li><strong>成本上升問題</strong>：每個 loop 都會累積 token，長任務的費用會快速增加，需要 token 管理策略</li>
+            </ul>
+
+            <h4 id="harness-engineering" style="margin-top: 2em; font-size: 1.1em;">Harness Engineering</h4>
+
+            <p>
+              <strong>Viv Trivedy</strong> 是第一個提出 harness engineering 這個術語的人，他的文章〈Anatomy of an Agent Harness〉被公認為對這個概念最清晰的推導。
+              （<a href="https://www.oreilly.com/radar/agent-harness-engineering/" target="_blank">O'Reilly 文章連結</a>）
+            </p>
+            <p>
+              2026 年，一個新的架構模式出現了，位於所有既有方法之上，叫做 Harness。OpenAI 和 Anthropic 都已正式採用這個術語。
+            </p>
+            <p>
+              SDKs、Frameworks 和 Scaffolding 三者分別回答的是「你怎麼<strong>建造</strong>一個 Agent」，而 Harness 回答的是一個完全不同的問題：「<strong>Agent 怎麼運行</strong>」。Harness 不是前三者的替代，而是位於它們之上的一層。Harness 核心不是 Agent 本身，而是<strong>管理 Agent 如何運作的軟體系統</strong>，包含六個核心組件：
+            </p>
+            <ul>
+              <li><strong>Tool Integration Layer</strong>：將 model 連接到外部 API、資料庫、code execution 環境</li>
+              <li><strong>Memory & State Management</strong>：多層記憶體（working context、session state、long-term memory），跨越單一 context window</li>
+              <li><strong>Context Engineering</strong>：動態管理每次 model call 中出現的資訊</li>
+              <li><strong>權限與安全控制</strong>：決定哪些操作需要人工確認</li>
+              <li><strong>錯誤處理與重試</strong>：當工具失敗或 model 跑偏時的恢復機制</li>
+              <li><strong>可觀測性</strong>：記錄每一輪的執行狀態供 debug 和成本控制</li>
+            </ul>
+            <p>
+              Claude Code 自己的文件直接說明了這一點：「Claude Code serves as the agentic harness around Claude.」
+              （<a href="https://huggingface.co/blog/agent-glossary" target="_blank">HuggingFace Agent Glossary</a>）
+            </p>
+
+            <p>Claude Code 的系統架構被劃分為五個緊密協作的子系統層次：</p>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/system-architecture.png" alt="Claude Code 系統架構圖" class="img-fluid mb-3" />
+              <span class="caption text-muted">Claude Code 五層系統架構｜src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+
+            <h3 id="query-loop" style="margin-top: 2em; font-size: 1.25em;">Query 循環（The Query Loop）</h3>
+
+            <p>
+              <strong>Query 循環</strong>是 Claude Code 系統架構中的核心代理循環，本質上是一個帶有狀態管理的 <code>while-true</code> 循環。它被實作為一個位於 <code>query.ts</code> 中的非同步生成器（<code>AsyncGenerator</code>），負責協調整個系統的運作。無論使用者是透過互動式終端機、headless CLI、Agent SDK 還是 IDE 整合介面來操作，最終都會進入這同一個循環。
+            </p>
+            <p>
+              在設計哲學上，Query 循環採用了 <strong>ReAct 模式</strong>：由模型負責產生推理與工具呼叫，外圍框架（harness）負責執行實際動作，隨後再將執行結果回饋到下一次的迭代中。
+            </p>
+
+            <p>每一次的 Query 循環（單一回合，Turn）都會嚴格遵循以下 <strong>9 個執行步驟</strong>：</p>
+            <ol>
+              <li><strong>設定解析</strong>：解析不可變的參數，包括系統提示詞、使用者上下文、權限檢查回呼函式及模型設定檔</li>
+              <li><strong>可變狀態初始化</strong>：使用一個單一的 <code>State</code> 物件來儲存跨迭代的所有可變狀態</li>
+              <li><strong>上下文組裝</strong>：提取從上一次「壓縮邊界」之後的所有對話訊息</li>
+              <li><strong>模型前上下文塑形</strong>：在每次呼叫模型之前，執行由 5 個階段組成的上下文壓縮管線</li>
+              <li><strong>模型呼叫</strong>：透過非同步串流的方式呼叫 Claude 模型</li>
+              <li><strong>工具分發</strong>：若模型的回應中包含了工具呼叫，送往工具編排層（支援併發執行）</li>
+              <li><strong>權限閘門</strong>：每一個工具請求都必須通過層層把關的權限系統（deny-first）</li>
+              <li><strong>工具執行與結果收集</strong>：工具執行的結果轉換為 <code>tool_result</code> 訊息，附加到對話紀錄中</li>
+              <li><strong>停止條件判斷</strong>：如果模型回應只包含純文字而沒有新的工具呼叫，該回合宣告完成</li>
+            </ol>
+
+            <p><strong>四種強制終止條件：</strong></p>
+            <ul>
+              <li><strong>達到最大迭代限制（Max turns）</strong>：達到系統設定的最大循環次數</li>
+              <li><strong>上下文溢出（Context overflow）</strong>：API 拋出 <code>prompt_too_long</code> 且自動壓縮失效</li>
+              <li><strong>Hook 介入攔截</strong>：外部 <code>PostToolUse</code> Hook 設定了停止繼續的標記</li>
+              <li><strong>明確中斷</strong>：使用者手動觸發中止訊號</li>
+            </ul>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/query-loop-1.png" alt="Query 循環示意圖 1" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/query-loop-2.png" alt="Query 循環示意圖 2" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/query-loop-reference.png" alt="Query 循環參考圖" class="img-fluid mb-3" />
+            </div>
+
+            <p>
+              <strong>雙重熔斷檢測</strong>：<code>maxTurns</code> / <code>maxBudget</code> 透過兩個 max 限制，前者防止輪次過多，後者防止單輪過貴，任一觸發即乾淨結束並回傳對應錯誤碼（<code>error_max_turns</code> / <code>error_max_budget_usd</code>）。
+            </p>
+
+            <h3 id="prompt-system" style="margin-top: 2em; font-size: 1.25em;">提示詞系統（Prompt）</h3>
+
+            <p>在 Claude Code 的架構中，<strong>提示詞（Prompt）</strong>不只是單一的靜態字串，而是一個高度動態、多層次組裝的資源，系統將提示詞視為一種稀缺的瓶頸資源（Binding resource constraint）。</p>
+
+            <ol>
+              <li>
+                <strong>系統提示詞（System Prompt）的動態組裝</strong>
+                <p>在每次模型呼叫前，系統組裝完整上下文視窗，包含基礎提示詞、輸出風格（Output styles）、透過 <code>getSystemContext()</code> 獲取的環境資訊（如當前 git 狀態）。</p>
+                <p>值得注意的是，使用者的專案配置（如 <code>CLAUDE.md</code>）<strong>並不會</strong>被放入系統提示詞中，而是作為「使用者上下文」被放置在訊息陣列的最前面。因此模型對 <code>CLAUDE.md</code> 指令的遵守是「機率性（Probabilistic）」的，真正的<em>強制執行</em>則是依賴確定性的權限規則。</p>
+              </li>
+              <li>
+                <strong>使用者提示詞（User Prompt）與歷史紀錄</strong>
+                <p>系統提供了 <code>UserPromptSubmit</code> Hook，允許開發者在使用者提交提示詞時注入額外的上下文或阻擋提交。使用者的純提示詞輸入會被獨立儲存在全域的 <code>history.jsonl</code> 檔案中，支援終端機的「向上鍵」或 <code>ctrl+r</code> 回溯。</p>
+              </li>
+              <li>
+                <strong>子代理（Subagents）的獨立提示詞</strong>
+                <p>使用者可以透過 <code>.claude/agents/*.md</code> 來定義自訂的子代理，這些 Markdown 檔案的內文會直接作為該子代理的<strong>系統提示詞</strong>，YAML 前置資料則定義了它能使用的工具與權限。因為子代理預設不會繼承父層的對話歷史，子代理的呼叫必須依賴高度自給自足（Self-contained）的提示詞。</p>
+              </li>
+              <li>
+                <strong>提示詞長度溢出的錯誤恢復</strong>
+                <p>當 API 拋出 <code>prompt_too_long</code> 錯誤時，Claude Code 不會直接崩潰，而是會觸發<strong>優雅恢復機制</strong>：先嘗試「上下文折疊（Context-collapse）」，接著進行「反應式壓縮（Reactive compaction）」。</p>
+              </li>
+            </ol>
+
+            <h3 id="tools-system" style="margin-top: 2em; font-size: 1.25em;">工具系統（Tools System）</h3>
+
+            <p><strong>工具系統</strong>是代理的「手」，負責將模型的推理轉化為對外部環境的具體操作。工具分為以下幾類：</p>
+            <ul>
+              <li><strong>文件工具</strong>：Read / Edit / Write / Glob / Grep</li>
+              <li><strong>環境工具</strong>：Bash / WebFetch / WebSearch</li>
+              <li><strong>會話工具</strong>：AskUserQuestion / Plan Mode / ToDo</li>
+              <li><strong>協作工具</strong>：Agent / Task / MCP resource</li>
+              <li><strong>MCP</strong>：<code>src\services\mcp</code></li>
+            </ul>
+
+            <p><strong>核心架構機制：</strong></p>
+            <ol>
+              <li><strong>工具池的動態組裝</strong>：系統最多提供 54 個內建工具。其中 19 個永遠包含，另外 35 個根據功能旗標、作業系統環境（如 Windows 下的 <code>PowerShellTool</code>）與使用者權限條件載入。</li>
+              <li><strong>預先過濾機制</strong>：<code>filterToolsByDenyRules()</code> 把被權限系統全面拒絕的工具直接從模型的視野中剔除，確保模型不浪費額度嘗試無權使用的工具。</li>
+              <li><strong>延遲載入（Deferred Tool Schemas）</strong>：部分工具一開始只會向模型展示「工具名稱」。<strong>完整的工具定義只有在模型明確需要並搜尋時才會按需載入</strong>。</li>
+              <li><strong>串流分發與併發執行</strong>：唯讀操作（如讀取多個檔案）可以平行處理；會修改狀態的操作（如 <code>BashTool</code>）則被強制序列化排隊執行。</li>
+            </ol>
+
+            <h3 id="permission-mode" style="margin-top: 2em; font-size: 1.25em;">權限模式（Permission Mode）</h3>
+
+            <p><strong>權限模式</strong>建立了一個「漸進式信任光譜（Graduated trust spectrum）」，Claude Code 總共設計了 <strong>7 種權限模式</strong>：</p>
+
+            <p><strong>五種常規外部模式（依自主性由低至高）：</strong></p>
+            <ol>
+              <li><strong><code>plan</code>（計畫模式）</strong>：最保守的模式。模型必須先擬定計畫，經使用者批准後才能執行任何動作。</li>
+              <li><strong><code>default</code>（預設模式）</strong>：標準互動式使用情境，絕大多數工具操作需要使用者確認。</li>
+              <li><strong><code>acceptEdits</code>（接受編輯模式）</strong>：針對當前工作目錄內的檔案編輯及特定安全的檔案系統 Shell 指令（<code>mkdir</code>、<code>rm</code>、<code>mv</code> 等）自動批准。</li>
+              <li><strong><code>dontAsk</code>（不詢問模式）</strong>：系統不再向使用者跳出詢問提示，但 deny rules 仍被強制執行。</li>
+              <li><strong><code>bypassPermissions</code>（繞過權限模式）</strong>：跳過絕大多數的權限提示，但最關鍵的安全檢查仍持續生效。</li>
+            </ol>
+
+            <p><strong>條件啟用與內部專用模式：</strong></p>
+            <ol>
+              <li><strong><code>auto</code>（自動模式）</strong>：引入基於機器學習的分類器（ML-based classifier）動態評估請求安全性。</li>
+              <li><strong><code>bubble</code>（冒泡模式）</strong>：內部系統專用，專門用於子代理的權限升級。</li>
+            </ol>
+
+            <div class="alert alert-warning" role="alert">
+              無論使用者切換到多麼寬鬆的模式，Claude Code 的底層永遠遵循「<strong>先拒絕（Deny-first）</strong>」的最高原則。
+            </div>
+
+            <h3 id="state-management" style="margin-top: 2em; font-size: 1.25em;">狀態管理架構（State Management）</h3>
+
+            <p>Claude Code 嚴格遵循兩大核心設計原則：「<strong>僅限附加的持久化狀態（append-only durable state）</strong>」以及「<strong>透明的檔案基底配置與記憶</strong>」。</p>
+
+            <ol>
+              <li><strong>運行期的可變狀態</strong>：使用單一的 <code>State</code> 物件儲存跨迭代的所有可變狀態，循環在推進時以替換整個物件的方式來更新狀態。</li>
+              <li>
+                <strong>三大持久化儲存通道：</strong>
+                <ul>
+                  <li><strong>會話逐字稿（Session transcripts）</strong>：每個專案的單一會話被儲存為 <code>JSONL</code> 檔案</li>
+                  <li><strong>全域提示詞歷史（Global prompt history）</strong>：使用者的純文字提示詞獨立儲存在 <code>history.jsonl</code></li>
+                  <li><strong>子代理側鏈紀錄（Subagent sidechains）</strong>：每個子代理的對話歷史寫入專屬的 <code>.jsonl</code> 與 <code>.meta.json</code> 檔案</li>
+                </ul>
+              </li>
+              <li><strong>僅限附加設計</strong>：Claude Code 刻意放棄具備強大查詢能力的資料庫，轉而選擇純文字的 Markdown 與 JSONL 檔案，從不修改或刪除先前寫入的紀錄。</li>
+              <li><strong>安全設計</strong>：<strong>會話範圍內的權限僅存在於記憶體中，並不會被序列化寫入磁碟</strong>，防止恢復舊會話時帶入過高權限。</li>
+            </ol>
+
+            <h3 id="context-management" style="margin-top: 2em; font-size: 1.25em;">上下文管理（Context Management）</h3>
+
+            <p>上下文管理採用「漸進式管理（Progressive management）」與「透明基於檔案的記憶」兩大核心原則。</p>
+
+            <p><strong>CLAUDE.md 階層與記憶體架構：</strong></p>
+            <p>Claude Code 刻意放棄依賴向量資料庫或嵌入檢索的黑箱記憶模式，轉而選擇純文字的 Markdown 檔案。這些指引檔案被劃分為 <strong>四個嚴格的優先級階層</strong>：</p>
+            <ol>
+              <li><strong>管理層（Managed memory）</strong>：OS 級別的全局策略（<code>/etc/claude-code/CLAUDE.md</code>）</li>
+              <li><strong>使用者層（User memory）</strong>：個人的全局指引（<code>~/.claude/CLAUDE.md</code>）</li>
+              <li><strong>專案層（Project memory）</strong>：與程式碼庫一起受版本控制的指引</li>
+              <li><strong>本地層（Local memory）</strong>：被 git 忽略的私人專案指引（<code>CLAUDE.local.md</code>）</li>
+            </ol>
+            <p>目錄越接近當前工作目錄（CWD），其優先級越高。</p>
+
+            <p><strong>五層漸進式壓縮管線（Five-Layer Compaction Pipeline）：</strong></p>
+            <ol>
+              <li><strong>預算縮減（Budget reduction）</strong>：強制限制單一工具結果的長度上限，過長的部分會被替換為內容參照</li>
+              <li><strong>歷史裁剪（Snip）</strong>：輕量級地移除較舊的歷史片段</li>
+              <li><strong>微壓縮（Microcompact）</strong>：具有快取感知的細粒度壓縮，避免破壞 API 的提示詞快取</li>
+              <li><strong>上下文折疊（Context collapse）</strong>：在不更動底層完整對話紀錄的情況下，向模型投影出一個虛擬折疊的對話視圖</li>
+              <li><strong>自動壓縮（Auto-compact）</strong>：作為最後手段，呼叫模型對對話進行完整的語意摘要</li>
+            </ol>
+
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/context-management-1.png" alt="Context Management 圖 1" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+            <div style="text-align: center;">
+              <img src="../assets/img/claude-code-source-map/context-management-2.png" alt="Context Management 圖 2" class="img-fluid mb-3" />
+              <span class="caption text-muted">src: <a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv.org/abs/2604.14228</a></span>
+            </div>
+
+            <h3 id="agent-mcp-skills" style="margin-top: 2em; font-size: 1.25em;">Agent / MCP / Skills</h3>
+
+            <p><strong>代理（Agent）</strong></p>
+            <p>Agent 是系統中用於處理複雜、多步驟任務的隔離委派機制。它不是在當前的對話視窗中增加工具，而是<strong>生成一個全新且隔離的上下文視窗</strong>來執行任務。</p>
+            <ul>
+              <li><strong>子代理類型</strong>：包含內建型（Explore、Plan、通用型、驗證型等），以及透過 <code>.claude/agents/*.md</code> 自訂的代理</li>
+              <li><strong>隔離層級</strong>：worktree（建立暫時的 Git 工作樹）、remote（內部遠端執行）、預設的 in-process</li>
+              <li><strong>上下文保護</strong>：子代理的完整對話歷史只會寫入專屬的側鏈紀錄，<strong>只有最終的回應摘要會回傳給父代理</strong></li>
+            </ul>
+
+            <p><strong>模型上下文協定（MCP）</strong></p>
+            <p>MCP 是 Claude Code <strong>整合外部服務與工具的主要路徑</strong>，賦予模型操作外部環境的能力。在所有擴充機制中，MCP 的上下文成本最高，因為系統必須將 MCP 工具的完整定義放入模型的上下文視窗。支援多種傳輸協定（stdio、SSE、HTTP、WebSocket 等），並採用基於 <code>mcp__server__tool</code> 命名規則的拒絕優先安全把關。</p>
+
+            <p><strong>Skills</strong></p>
+            <p>Skills 是一種<strong>低成本注入特定領域知識與指令</strong>的機制。定義在 <code>SKILL.md</code> 檔案中，透過 <code>SkillTool</code> 元工具觸發。系統一開始只會向模型展示技能的「名稱與描述」；<strong>只有當模型主動決定呼叫 SkillTool 時，該技能的完整指令才會被載入注入到當前的上下文視窗中</strong>。這與 MCP 形成對比——MCP 上下文成本高、Skills 上下文成本低。</p>
+
+            <h3 id="architecture-summary" style="margin-top: 2em; font-size: 1.25em;">總結：如何解決四大問題</h3>
+
+            <ul>
+              <li>
+                <strong>上下文品質問題</strong>
+                <p>五層漸進式壓縮管線（預算縮減 → 歷史裁剪 → 微壓縮 → 上下文折疊 → 自動壓縮）確保 context window 在逼近上限時不是硬截斷，而是有層次地降級處理。</p>
+              </li>
+              <li>
+                <strong>歷史紀錄的失憶問題</strong>
+                <p>放棄向量資料庫，改用四層 CLAUDE.md 階層加上 append-only JSONL 逐字稿。記憶是透明的、可人工編輯的、可版本控制的。</p>
+              </li>
+              <li>
+                <strong>安全控制問題</strong>
+                <p>七種權限模式建立漸進式信任光譜，搭配 deny-first 最高原則。工具在進入模型視野之前就先過濾，27 個 Hooks 攔截點讓外部介入有固定錨點。模型的能力沒有被限制，被限制的是 harness 讓模型能做什麼。</p>
+              </li>
+              <li>
+                <strong>成本上升問題</strong>
+                <p>雙重熔斷（<code>maxTurns</code> / <code>maxBudget</code>）從輪次和預算兩個維度設硬上限。工具延遲載入節省 context 空間。StreamingToolExecutor 的偷跑機制減少等待時間。子代理隔離確保探索任務不會污染主線程 token 消耗。</p>
+              </li>
+            </ul>
+
+            <h3 id="supplementary" style="margin-top: 2em; font-size: 1.25em;">補充機制</h3>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">啟動流程的工程：並行 IO 啟動</h4>
+
+            <p>Claude Code 的設計哲學強烈傾向於「最小化決策限制，最大化營運框架（Minimal scaffolding, maximal operational harness）」。</p>
+            <ul>
+              <li><strong>啟動點與環境初始化</strong>：系統的進入點位於 <code>main.tsx</code> 的 <code>main()</code> 函數，它在啟動時會先初始化安全設定（例如防止 Windows PATH 劫持的設定），註冊優雅關閉（graceful shutdown）的訊號處理器，接著才將控制權分派給對應的執行模式（如互動式或無頭模式）。</li>
+              <li><strong>預先信任初始化（Pre-trust Initialization）的工程抉擇</strong>：在系統啟動與專案初始化的階段，Claude Code 展現了一種將「擴充性與環境準備」置於「安全攔截」之前的時間順序哲學。<strong>系統在向使用者展示互動式的信任對話框之前，就會預先執行包含 Hook 載入、MCP 伺服器連線建立，以及設定檔解析等涉及大量外部 IO 的操作</strong>。這個選擇也是 Pre-trust 攻擊面得以存在的根本原因。</li>
+              <li><strong>串流與並行執行</strong>：進入代理循環後，為了降低延遲，系統並不會等待模型將所有工具請求生成完畢才開始執行。透過 StreamingToolExecutor，系統會在模型回應串流進來的同時，同步並行地啟動工具操作。唯讀的 IO 操作會被平行併發執行，而會修改狀態的操作（如 Shell 指令）則會被序列化以保障安全。</li>
+            </ul>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">自動記憶系統與 Dream 模式</h4>
+
+            <p>除了靜態的 CLAUDE.md 階層，Claude Code 還有一套<strong>動態自動寫入記憶</strong>的機制：</p>
+            <ul>
+              <li><strong>自動記憶（Auto memory）</strong>：代理會在對話過程中自動寫入觀察條目，形成「事實層（factual tier）」。系統使用基於 LLM 的檔案標頭掃描，在需要時動態擷取相關記憶載入上下文視窗。</li>
+              <li><strong>Dream 模式</strong>：當 KAIROS 背景代理啟用時，系統會在使用者閒置時觸發 <code>/dream</code> prompt，用 forked subagent 執行記憶整合——合併分散的觀察、移除矛盾、把模糊洞察轉成事實。採「最便宜的閘門先檢查」順序（時間 → session 累積數量），確保整合動作不會無謂觸發。</li>
+              <li><strong>設計取捨</strong>：Claude Code 的工程心力主要投資在「漸進式上下文壓縮」（五層壓縮管線）而非長期記憶的結構化升級，選擇透明可編輯的純文字記憶勝過黑箱向量資料庫。</li>
+            </ul>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">Hooks Pipeline（27 個生命週期攔截點）</h4>
+
+            <p>系統定義了 <strong>27 個事件攔截點</strong>，分佈在工具授權、對話週期與子代理協調等環節。透過這些 Hooks，外掛不僅能給 AI 新工具，還能在 AI 決定使用工具前修改它的輸入參數，或在發生錯誤時自動注入特定的上下文提示。</p>
+
+            <!-- ==================== 商業模式與護城河 ==================== -->
+            <h2 id="business-moat" style="margin-top: 2.5em; font-size: 1.5em;">商業模式與護城河</h2>
+            <hr />
+
+            <p><strong>規模指標（2026 年初）：</strong></p>
+            <ul>
+              <li>Claude Code ARR 超過 <strong>25 億美元</strong>，年初到 3 月翻了一倍以上</li>
+              <li><strong>企業使用佔營收約 80%</strong></li>
+              <li>整個 Anthropic ARR 約 190 億美元，Claude Code 佔了約 13%</li>
+            </ul>
+
+            <p><strong>雙軌定價：</strong></p>
+            <ul>
+              <li><strong>訂閱制</strong>：Pro（$20/月）、Max 5x（$100/月）、Max 20x（$200/月）、Enterprise（按用量議價）</li>
+              <li><strong>API 計量</strong>：透過 Agent SDK 走 token 計費</li>
+            </ul>
+
+            <p>
+              洩漏的 BigQuery 分析發現有一個壓縮 retry 迴圈靜默失敗，一個 session 重試了 25 萬次無謂呼叫。這提醒了一件事：<strong>訂閱使用者用 Claude Code 燒掉的算力，Anthropic 是吃下成本的</strong>。這也是為什麼產品內部一堆熔斷機制——這些不只是給使用者的安全網，更是 Anthropic 自己的成本控制裝置。
+            </p>
+
+            <p><strong>四層護城河：</strong></p>
+            <ol>
+              <li><strong>模型本身</strong>：Claude 模型的相對優勢是真的，但它不是真正的護城河，因為競爭者正在縮小差距。</li>
+              <li><strong>Harness</strong>：這是這次洩漏揭露最值錢的東西。七種權限模式、AutoCompact 五層壓縮管線、coordinator + worker 的多代理編排架構，都是從踩坑裡長出來的工程資產。</li>
+              <li><strong>分發與整合</strong>：CLI + VS Code / JetBrains 整合 + Claude Code on the web + Claude Code for Slack + MCP 生態系（月下載量已達 9,700 萬）。每多一個整合表面，使用者切換成本就多一層。</li>
+              <li><strong>Anti-distillation 機制</strong>：<code>ANTI_DISTILLATION_CC</code> 旗標讓 server 在 system prompt 注入假工具定義，污染競品訓練資料。這是<strong>情報邊界 moat</strong>：控制「外界能從產品行為推斷出什麼」。</li>
+            </ol>
+
+
+
+            <p>這個護城河雖然在 2026 年 3 月 31 日被部分公開化了，但不代表它失效，原因有三：</p>
+            <ul>
+              <li><strong>抄程式碼容易，抄營運經驗難</strong>：bash validator 為什麼那樣寫、verification agent 為什麼有 rationalization 清單，背後是真實事故的累積</li>
+              <li><strong>產品一直在動</strong>：洩漏的是 v2.1.88，Anthropic 已經發到 v2.1.89+，feature flag 後面還有 KAIROS、未發布的 advisor tool、effort 控制等</li>
+              <li><strong>企業合約的鎖定效果</strong>：80% 營收來自企業，這部分不會因為有開源克隆就跑掉，企業要的是 SLA、合規、支援、責任歸屬</li>
+            </ul>
+
+            <!-- ==================== 市場格局 ==================== -->
+            <h2 id="market-landscape" style="margin-top: 2.5em; font-size: 1.5em;">市場格局與競爭者</h2>
+            <hr />
+
+            <p>到 2026 年，AI 輔助寫程式工具大致分成三個形態不同的層級：</p>
+
+            <p><strong>第一層：IDE 嵌入式補全（Inline assistant）</strong></p>
+            <p>GitHub Copilot、Cursor、Windsurf（前 Codeium）、Tabnine。主要工作流：你在編輯器打字，工具補全、改錯、聊天回答。<strong>以人為中心，AI 是輔助。</strong></p>
+
+            <p><strong>第二層：Agentic CLI / 終端代理（Agentic CLI）</strong></p>
+            <p>Claude Code、OpenAI Codex CLI、Gemini CLI、Aider、OpenCode、Cline。主要工作流：你下任務，agent 自主在 codebase 裡讀檔、改檔、跑指令、迭代。<strong>以 agent 為中心，人類監督。</strong></p>
+
+            <p><strong>第三層：自主 SWE 代理（Autonomous SWE Agent）</strong></p>
+            <p>Devin（Cognition）、SWE-agent（Princeton）、Replit Agent、Factory.ai。主要工作流：開一個 ticket，agent 自己領、自己做、自己開 PR。<strong>以任務為中心，事後審查。</strong></p>
+
+            <p><strong>主要競爭動態四條軸線：</strong></p>
+            <ul>
+              <li><strong>軸線一：閉源模型 vs 開源權重</strong>：GPT、Claude、Gemini vs DeepSeek、Kimi K2.6、Llama</li>
+              <li><strong>軸線二：垂直整合 vs 模組化</strong>：Claude Code（自家模型 + 自家 harness）vs OpenCode / Aider（任意模型 + 開源 harness）</li>
+              <li><strong>軸線三：人在 loop 內 vs 全自動化</strong>：Claude Code、Cursor vs Devin、Factory.ai（虛擬員工 vs 生產力工具）</li>
+              <li><strong>軸線四：CLI / IDE / IDE 擴充 / 雲端</strong>：Claude Code 走多 surface 策略，是 platform play</li>
+            </ul>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">主要競爭者</h3>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">Agent IDE</h4>
+
+            <p><strong>GitHub Copilot</strong></p>
+            <p>微軟靠 GitHub + VS Code + Azure 的鐵三角，是市場規模最大的玩家。但 Copilot 的設計重心一直在 inline 補全，agentic 深度仍在追趕。</p>
+
+            <p><strong>Cursor</strong></p>
+            <p>2024–2025 年最快成長的 AI IDE。但 2025 年中改了訂閱定價（從 $20 fixed 改成計量式），引發大規模用戶反彈。</p>
+
+            <p><strong>Windsurf</strong></p>
+            <p>從 Codeium 改名。2025 年 5 月 OpenAI 同意以約 30 億美元收購，但因微軟對 OpenAI 的 IP 協議問題於 7 月宣告破局。Google 隨即以 24 億美元將 CEO Varun Mohan、共同創辦人 Douglas Chen 及約 40 名核心 R&D 人員納入 DeepMind，並取得技術授權；三天後 Cognition 另外收購了 Windsurf 剩餘的資產。這整起事件本身顯示 agent IDE 戰場的戰略價值。</p>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">同型 CLI 競爭者</h4>
+
+            <p><strong>OpenAI Codex CLI</strong></p>
+            <p>2025 年中發布的 OpenAI 對應產品。架構上跟 Claude Code 高度相似——agentic loop、工具呼叫、權限模式，但生態系深度仍在追趕。優勢是 GPT 模型本身和 OpenAI 的開發者基礎，劣勢是 harness 成熟度和 MCP 等橫向標準支援。</p>
+
+            <p><strong>Gemini CLI</strong></p>
+            <p>Google 的對應方案，2025 年發布並選擇開源 SDK 路線。吸納 Windsurf 團隊後，Google 在 agentic coding 的人才密度大幅提升。Google 的策略是 SDK 開源 + 模型免費額度，靠 Gemini 的長 context 和 Google 雲端整合搶開發者。但缺乏 Claude Code 等級的 harness 工程深度。</p>
+
+            <p><strong>Aider</strong></p>
+            <p>真正的 OG 開源 agentic CLI，2023 年就有。社群派、不依附特定模型、git-first workflow。<strong>它定義了「在終端機跟 LLM 結對寫程式」的早期模式</strong>，Claude Code 很多設計選擇可以追溯到 Aider 的影響。</p>
+
+            <p><strong>OpenCode</strong></p>
+            <p>2026 年 3 月 21 日收到 Anthropic 法律威脅函，因為它內建 Claude 認證，第三方工具用 Claude Code 內部 API 拿到訂閱費率的 Opus，等於把 Anthropic 的訂閱經濟轉手套利。後來移除了 Claude 內建認證，改成「BYOM」（Bring Your Own Model）路線，支援 GPT、Llama、DeepSeek、Gemini、MiniMax 等任意 LLM。</p>
+
+            <p><strong>Cline / Roo Code</strong></p>
+            <p>VS Code 擴充套件路線的開源 agent。Cline 在 2025 年快速成長，特別是在企業內部不能裝外部 CLI 的環境裡。</p>
+
+            <h4 style="margin-top: 1.5em; font-size: 1.1em;">Autonomous SWE Agent</h4>
+
+            <p><strong>Devin（Cognition Labs）</strong></p>
+            <p>2024 年初的「第一個 AI 軟體工程師」，引發整個品類的關注。實際表現遠不及最初的 demo，但它定義了「自主 SWE agent」這個 category，並讓投資人開始用這個框架評估後續產品。2025 年 7 月 Cognition 也接收了 Windsurf 的剩餘資產。</p>
+
+            <p><strong>Recursive Superintelligence</strong></p>
+            <p>2026 年初成立四個月就拿到 <strong>5 億美元融資</strong>的「self-improving AI」新創，代表 capital market 對自主 agent 方向的押注強度。</p>
+
+            <p><strong>Factory.ai、Replit Agent、Cognition 等</strong></p>
+            <p>各自切不同的垂直：Factory 主打企業內 ticket-to-PR、Replit 主打全棧 + 部署、Cognition 持續迭代 Devin。這層的特徵是<strong>按結果計費</strong>而不是按時間/token 計費，商業模式比較像 outsourcing 不像 SaaS。</p>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">間接競爭：開源替代方案</h3>
+
+            <p>這層不是直接競爭 Claude Code，但會<strong>侵蝕它的議價能力</strong>：</p>
+            <ul>
+              <li><strong>DeepSeek V4 / V4 Pro</strong>：開源權重、可本地跑、coding 評測接近 GPT-5.4 水平</li>
+              <li><strong>Kimi K2.6</strong>（Moonshot AI）：開源、agent swarm 架構、針對長 context 優化</li>
+              <li><strong>Qwen 3 / Llama 系列</strong>：Meta 與阿里的旗艦開源模型</li>
+              <li><strong>MiniMax</strong>：中國新興玩家</li>
+            </ul>
+            <p>
+              這些模型搭配開源 harness（OpenCode、Cline、Aider）形成「完全不依附閉源廠商」的方案。對 Claude Code 來說它們不是直接搶訂閱戶，而是讓<strong>企業在談合約時有 BATNA（談判替代方案）</strong>，這會壓縮 Anthropic 的議價空間。
+            </p>
+
+            <!-- ==================== 安全與攻擊面 ==================== -->
+            <h2 id="security-analysis" style="margin-top: 2.5em; font-size: 1.5em;">安全與攻擊面解析</h2>
+            <hr />
+
+            <h3 style="margin-top: 1.5em; font-size: 1.25em;">洩漏本身的問題</h3>
+
+            <p><strong>Bun 預設行為的設計缺陷</strong></p>
+            <p>
+              Bun bundler 預設產生 source map，需要明確設 <code>--no-sourcemap</code> 或在 <code>.npmignore</code> 加 <code>*.map</code> 才會排除。這是「<strong>default-leaky</strong>」設計——預設不安全，需要 opt-in 才安全。Bun 的 issue tracker 早在 <strong>2026 年 3 月 11 日</strong>就有人回報這個問題（oven-sh/bun#28001），事件爆發時還是 open 狀態。
+              Anthropic 在 2025 年底<strong>收購了 Bun</strong>，所以是<strong>自己的工具鏈炸了自己的產品</strong>。
+            </p>
+
+            <p><strong>手動部署步驟</strong></p>
+            <p>
+              Boris Cherny 承認：「Our deploy process has a few manual steps, and we didn't do one of the steps correctly.」第一次 source map 洩漏在 2025 年 2 月，<strong>13 個月過去這個手動步驟還沒自動化</strong>——直到第二次出事才補上。這是流程治理層的弱點，不是技術弱點。
+            </p>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">Bash Command Validation 的攻擊面</h3>
+
+            <p>
+              Claude Code 的 bash 安全檢查由多個 validator 串接。問題是——<strong>任一 validator 回傳 <code>allow</code> 會 short-circuit 後面所有檢查</strong>。source code 裡甚至有明確的歷史警告：
+            </p>
+            <blockquote class="blockquote" style="border-left: 4px solid #dc3545; padding-left: 1em; font-size: 0.9em; color: #666;">
+              "validateGitCommit returns allow → bashCommandIsSafe short-circuits → validateRedirections NEVER runs → ~/.bashrc overwritten"
+            </blockquote>
+
+            <p><strong>Parser Differential 攻擊</strong></p>
+            <p>
+              Bash 指令在 Claude Code 內部會被多個 parser 處理：<code>splitCommand_DEPRECATED</code>、<code>tryParseShellCommand</code>、<code>ParsedCommand.parse</code>，每個的邊界行為不同。原始碼自己就紀錄了一個已知差異：
+            </p>
+            <blockquote class="blockquote" style="border-left: 4px solid #dc3545; padding-left: 1em; font-size: 0.9em; color: #666;">
+              "shell-quote's [^\s] treats CR as a word separator (JS \s ⊃ \r), but bash IFS does NOT include CR"
+            </blockquote>
+            <p>
+              意思是：<strong>JavaScript 認為 <code>\r</code> 是空白分隔符，但 bash 不認</strong>。攻擊者只要在指令裡塞 <code>\r</code>，validator 看到的指令結構和 shell 實際執行的結構就不一樣。這是系統性的攻擊路徑——找到任何 parser 與真實 shell 行為的差異，就是一條繞過。Claude Code 用 JavaScript 解析 bash 指令的選擇本身就埋下這個風險。
+            </p>
+
+            <p><strong>Misparsing 偵測的盲區</strong></p>
+            <p>
+              原始碼揭露當 <code>validateRedirections</code> 抓到危險的 <code>&gt;</code> 但沒有任何 misparsing validator 跳出時，結果會缺少 <code>isBashSecurityCheckForMisparsing</code> 標記。這個細節對攻擊者來說等於一張地圖：<strong>哪裡有檢查、哪裡是檢查的盲點，全部清楚</strong>。
+            </p>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">Pre-Trust 階段的弱點</h3>
+            <ul>
+              <li>
+                <strong>CVE-2026-21852（最嚴重）</strong>：惡意 repo 可以設定 <code>ANTHROPIC_BASE_URL</code> 環境變數，讓 Claude Code 在還沒顯示 trust prompt 之前就向那個 URL 發出請求，<strong>可能洩漏 API key</strong>。攻擊路徑：clone 惡意 repo → <code>.envrc</code> 改寫 URL → Claude Code 啟動時還沒問「你信任這個目錄嗎」就已發送認證 header。
+              </li>
+              <li><strong>CVE-2025-59828</strong>：Yarn 相關程式碼可在 directory trust 確立前執行。</li>
+              <li><strong>CVE-2025-58764、CVE-2025-64755</strong>：類似性質的 pre-trust 初始化問題，顯示整個 trust boundary 設計需要重新審視。</li>
+              <li><strong>CVE-2025-52882</strong>：VS Code 和 JetBrains 整合允許來自任意來源的未授權 WebSocket 連線，任何網站都能讀取編輯器狀態。</li>
+            </ul>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">Agent 行為層的弱點</h3>
+
+            <p><strong>Prompt Injection 防禦的可繞過性</strong></p>
+            <p>
+              洩漏前，攻擊者攻擊 prompt injection 是黑盒——亂試 prompt 看哪個會中。<strong>洩漏後</strong>，所有 system prompt、所有 anti-injection 檢查、所有「Claude 在哪個情境下會被允許做什麼」的邏輯都是白盒。攻擊者現在可以針對 Claude Code 的四層 context 管線精準設計能在 compaction 後存活的 payload，等於在任意長度的 session 裡持久化後門。
+            </p>
+
+            <p><strong>Context Poisoning（情境投毒）</strong></p>
+            <p>
+              惡意 repo 可以塞入精心設計的 <code>CLAUDE.md</code>、註解、檔案名，影響 Claude 後續的行為。這不需要任何技術漏洞——<strong>它利用的是 Claude Code 把 repo 內容當成 context 餵給模型這個正常設計</strong>。洩漏讓攻擊者知道哪些檔案會被自動讀取、讀取順序為何、優先級如何。
+            </p>
+
+            <p><strong>Anti-Distillation 機制本身的繞過</strong></p>
+            <p>
+              洩漏揭露了 <code>ANTI_DISTILLATION_CC</code> 注入假工具、connector-text summarization 用加密簽章封裝助手文字。但 Alex Kim 的分析點出：
+            </p>
+            <blockquote class="blockquote" style="border-left: 4px solid #dc3545; padding-left: 1em; font-size: 0.9em; color: #666;">
+              任何認真要從 Claude Code 流量做蒸餾的人，<strong>讀一小時 source 就能找到這些機制的繞過方式</strong>。
+            </blockquote>
+
+            <p><strong>權限旋鈕的負面樣貌</strong></p>
+            <ul>
+              <li><code>bypassPermissions</code> 模式如果有 bypass-immune 規則的判定漏洞，就是直通車</li>
+              <li><code>auto</code> 模式的 ML 分類器本身可能被 prompt injection 攻擊</li>
+              <li><code>dontAsk</code> 模式只擋互動 prompt，但 <strong>deny rules 是否完整取決於使用者設定</strong></li>
+            </ul>
+            <p>每一種模式都把不同類型的決策權移給不同主體（人、規則、ML 模型、上層 agent），<strong>每次移交都是一個攻擊面</strong>。</p>
+
+            <h3 style="margin-top: 2em; font-size: 1.25em;">供應鏈弱點</h3>
+            <p>
+              洩漏期間（3 月 31 日）剛好還發生了 axios 套件的供應鏈攻擊（00:21–03:29 UTC），在這個時間窗口內透過 npm 安裝 Claude Code 的使用者可能同時拉到了含有 Remote Access Trojan 的惡意 axios 版本。Anthropic 後續建議使用者<strong>改用官方原生安裝程式而不是 npm</strong>。
+            </p>
+
+            <p><strong>給使用者的實際建議：</strong></p>
+            <ul>
+              <li><strong>保持 Claude Code 更新</strong>，洩漏揭露的弱點正在被快速修補，舊版本是更明確的標靶</li>
+              <li><strong>避免在不熟悉的 repo 使用 <code>bypassPermissions</code></strong>，pre-trust 漏洞會把這個假設打穿</li>
+              <li><strong>不要 clone 不信任的 repo 後直接跑 Claude Code</strong>，先看 <code>.envrc</code>、<code>.claude/</code> 設定檔、<code>CLAUDE.md</code> 內容</li>
+              <li><strong>API key rotation</strong>，洩漏時間窗（3 月 31 日—4 月 2 日）內如果有可疑跡象，輪換金鑰</li>
+              <li><strong>企業環境考慮原生安裝程式</strong>，而不是 npm 路徑</li>
+              <li><strong>不要從聲稱「leaked Claude Code」的 GitHub repo 下載執行</strong>，Zscaler 已記錄到偽裝成洩漏程式碼的惡意軟體傳播（Vidar、Ghostsocks）</li>
+            </ul>
+
+            <!-- ==================== 復現與相關 repo ==================== -->
+            <h2 id="repo-links" style="margin-top: 2.5em; font-size: 1.5em;">復現與相關 repo</h2>
+            <hr />
+
+            <ul>
+              <li><a href="https://github.com/ultraworkers/claw-code" target="_blank">github/ultraworkers/claw-code</a></li>
+              <li><a href="https://github.com/sanbuphy/learn-coding-agent" target="_blank">github/sanbuphy/learn-coding-agent</a></li>
+              <li><a href="https://claude-code-from-source.com/" target="_blank">claude-code-from-source.com</a></li>
+            </ul>
+
+            <!-- ==================== 參考來源 ==================== -->
+            <h2 id="references" style="margin-top: 2.5em; font-size: 1.5em;">參考來源</h2>
+            <hr />
+
+            <ul>
+              <li><a href="https://x.com/Fried_rice/status/2038894956459290963" target="_blank">Chaofan Shou 推文（洩漏第一手發現）</a></li>
+              <li><a href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" target="_blank">VentureBeat - Claude Code's source code appears to have leaked（含 Anthropic 官方聲明）</a></li>
+              <li><a href="https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/" target="_blank">Alex Kim - Claude Code Source Leak（Undercover Mode、ANTI_DISTILLATION_CC 等細節）</a></li>
+              <li><a href="https://www.infoq.com/news/2026/04/claude-code-source-leak/" target="_blank">InfoQ - Claude Code Source Leak</a></li>
+              <li><a href="https://kuber.studio/blog/AI/Claude-Code's-Entire-Source-Code-Got-Leaked-via-a-Sourcemap-in-npm,-Let's-Talk-About-it" target="_blank">Kuber Studio - 技術深度分析</a></li>
+              <li><a href="https://claudefa.st/blog/guide/mechanics/claude-code-source-leak" target="_blank">Claude Fast - 全面整理</a></li>
+              <li><a href="https://www.sabrina.dev/p/claude-code-source-leak-analysis" target="_blank">Sabrina.dev - 2025 年 2 月第一次洩漏深度分析</a></li>
+              <li><a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank">Fortune - Claude Mythos / Capybara 洩漏獨家報導</a></li>
+              <li><a href="https://www.oreilly.com/radar/agent-harness-engineering/" target="_blank">O'Reilly - Anatomy of an Agent Harness（Harness Engineering 原始論文）</a></li>
+              <li><a href="https://huggingface.co/blog/agent-glossary" target="_blank">HuggingFace - Agent Glossary</a></li>
+              <li><a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv 相關論文</a></li>
+              <li><a href="https://github.com/ultraworkers/claw-code" target="_blank">github/ultraworkers/claw-code</a></li>
+              <li><a href="https://github.com/sanbuphy/learn-coding-agent" target="_blank">github/sanbuphy/learn-coding-agent</a></li>
+              <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-52882" target="_blank">NVD - CVE-2025-52882（WebSocket 未授權連線）</a></li>
+              <li><a href="https://securitylabs.datadoghq.com/articles/claude-mcp-cve-2025-52882/" target="_blank">Datadog Security Labs - CVE-2025-52882 分析</a></li>
+              <li><a href="https://www.bilibili.com/video/BV1q997BmEyo/" target="_blank">BiliBili - Claude Code 泄露源码分析，10分钟速通核心架构</a></li>
+              <li><a href="https://b23.tv/YV8jpLT" target="_blank">BiliBili - Claude Code 源码分析与复刻实现</a></li>
+              <li><a href="https://b23.tv/LkWPDLa" target="_blank">BiliBili - claude code 源码解析</a></li>
+              <li><a href="https://www.bilibili.com/video/BV1U8d8BzEUK/?p=2" target="_blank">BiliBili - 51万行源码真相，ClaudeCode架构深度解读</a></li>
+              <li><a href="https://www.techzine.eu/news/applications/140017/details-leak-on-anthropics-step-change-mythos-model/" target="_blank">Techzine Global - Anthropic's step-change Mythos model leak</a></li>
+              <li><a href="https://the-decoder.com/anthropic-leak-reveals-new-model-claude-mythos-with-dramatically-higher-scores-on-tests-than-any-previous-model/" target="_blank">The Decoder - Anthropic leak reveals Claude Mythos</a></li>
+              <li><a href="https://claudemythosai.io/blog/claude-mythos-leak-explained/" target="_blank">Claude Mythos 專題站 - 時間軸重建</a></li>
+              <li><a href="https://wavespeed.ai/blog/posts/what-is-claude-mythos/" target="_blank">WaveSpeedAI - What is Claude Mythos</a></li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="border-top">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/d3an_x">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- TOC JavaScript -->
+    <script>
+      function updateActiveSection() {
+        const sections = [
+          "background","leak-event","npm-source-map","leaked-features",
+          "product-surfaces","core-architecture","background-desc","agent-core","harness-engineering",
+          "query-loop","prompt-system","tools-system","permission-mode",
+          "state-management","context-management","agent-mcp-skills",
+          "architecture-summary","supplementary","business-moat","market-landscape",
+          "security-analysis","repo-links","references"
+        ];
+        let currentSection = "";
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const element = document.getElementById(sections[i]);
+          if (element && element.offsetTop <= scrollTop + 100) {
+            currentSection = sections[i];
+            break;
+          }
+        }
+        document.querySelectorAll(".floating-toc a").forEach(link => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("scroll", updateActiveSection);
+        document.querySelectorAll(".floating-toc a").forEach(link => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href").substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              window.scrollTo({ top: targetElement.offsetTop - 20, behavior: "smooth" });
+            }
+          });
+        });
+        updateActiveSection();
+      });
+
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+      const tocElement = document.getElementById("floatingToc");
+      tocElement.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        dragOffset.x = e.clientX - tocElement.offsetLeft;
+        dragOffset.y = e.clientY - tocElement.offsetTop;
+        tocElement.style.cursor = "grabbing";
+      });
+      document.addEventListener("mousemove", function (e) {
+        if (isDragging) {
+          tocElement.style.left = e.clientX - dragOffset.x + "px";
+          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          tocElement.style.right = "auto";
+        }
+      });
+      document.addEventListener("mouseup", function () {
+        if (isDragging) { isDragging = false; tocElement.style.cursor = "grab"; }
+      });
+      tocElement.style.cursor = "grab";
+    </script>
+  </body>
+</html>
