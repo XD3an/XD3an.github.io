@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="XD3an" content="All-In-One" />
+    <meta
+      name="description"
+      content="Vibe Coding 的盡頭是一堆爛架構？從單機到千萬用戶，系統架構如何一步步演進：負載平衡、快取、資料庫讀寫分離、CDN、微服務、容器化到雲端平台。"
+    />
+    <meta name="author" content="XD3an" />
+    <meta
+      name="keywords"
+      content="XD3an, 系統架構, System Design, Vibe Coding, 微服務, 容器化, Kubernetes, Docker, CDN, 負載平衡, Load Balancer, Redis, Message Queue, 分布式架構"
+    />
+    <title>
+      Vibe Coding 的盡頭是一堆爛架構 | XD3an Blog
+    </title>
+    <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="../css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/scripts.js"></script>
+    <style>
+      .floating-toc {
+        position: fixed;
+        top: 20%;
+        right: 20px;
+        width: 280px;
+        max-height: 60vh;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        font-size: 14px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        opacity: 0.95;
+      }
+
+      .floating-toc:hover {
+        opacity: 1;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .floating-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .floating-toc li {
+        margin: 2px 0;
+      }
+
+      .floating-toc a {
+        text-decoration: none;
+        color: #6c757d;
+        display: block;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .floating-toc a:hover {
+        background-color: #f8f9fa;
+        color: #4a7fc1;
+        transform: translateX(2px);
+      }
+
+      .floating-toc a.active {
+        background-color: #4a7fc1;
+        color: white;
+        font-weight: 500;
+      }
+
+      .floating-toc .toc-h2 {
+        font-weight: 500;
+        color: #495057;
+      }
+
+      .floating-toc .toc-h3 {
+        padding-left: 16px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      @media (max-width: 1200px) {
+        .floating-toc {
+          right: 10px;
+          width: 240px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .floating-toc {
+          display: none;
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .floating-toc::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .floating-toc::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+      }
+
+      .floating-toc::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      blockquote {
+        border-left: 4px solid #4a7fc1;
+        padding: 0.75em 1.25em;
+        margin: 1.5em 0;
+        background: #fff8f5;
+        border-radius: 0 6px 6px 0;
+        font-style: italic;
+        color: #555;
+      }
+
+      .callout-box {
+        background: #f0f8ff;
+        border-left: 4px solid #0d6efd;
+        padding: 0.85em 1.25em;
+        margin: 1em 0;
+        border-radius: 0 6px 6px 0;
+      }
+
+      .section-ref {
+        font-size: 0.9em;
+        color: #6c757d;
+        margin-top: 0.5em;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5em 0;
+        font-size: 0.95em;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #dee2e6;
+        padding: 0.6em 1em;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+
+      /* Lightbox */
+      .lb-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 9999;
+        cursor: zoom-out;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .lb-overlay.active {
+        display: flex;
+      }
+
+      .lb-overlay img {
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 6px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+        object-fit: contain;
+        cursor: zoom-out;
+      }
+
+      .lb-close {
+        position: fixed;
+        top: 20px;
+        right: 28px;
+        color: #fff;
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+        user-select: none;
+      }
+
+      .lb-close:hover {
+        opacity: 1;
+      }
+
+      .diagram-img {
+        cursor: zoom-in;
+        transition: opacity 0.15s;
+      }
+
+      .diagram-img:hover {
+        opacity: 0.85;
+      }
+
+      /* 內文標題字重 */
+      article h2,
+      article h3 {
+        font-weight: 400;
+      }
+
+      /* 左文右圖 */
+      .section-row {
+        display: flex;
+        gap: 2em;
+        align-items: flex-start;
+        margin: 1em 0 1.5em;
+      }
+
+      .section-desc {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .section-row .diagram-wrap {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        text-align: center;
+      }
+
+      .section-row .diagram-wrap img {
+        max-width: 100% !important;
+      }
+
+      @media (max-width: 768px) {
+        .section-row {
+          flex-direction: column;
+        }
+      }
+
+      /* 圖片後的「問題描述」段落自動變紅 */
+      .section-row + p,
+      .section-row + p + ul,
+      .section-row + p + ul li {
+        color: #dc3545;
+      }
+    </style>
+    <!-- Open Graph / Facebook -->
+    <meta
+      property="og:title"
+      content="Vibe Coding 的盡頭是一堆爛架構 | XD3an Blog"
+    />
+    <meta
+      property="og:description"
+      content="從一台機器到千萬用戶，中間發生了什麼：談談系統架構究竟在設計什麼。"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://xd3an.github.io/post/system-architecture-20260621.html"
+    />
+    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="article:published_time" content="2026-06-21T00:00:00Z" />
+    <meta property="article:author" content="XD3an" />
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://xd3an.github.io/post/system-architecture-20260621.html"
+    />
+    <meta
+      property="twitter:title"
+      content="Vibe Coding 的盡頭是一堆爛架構 | XD3an Blog"
+    />
+    <meta
+      property="twitter:description"
+      content="從一台機器到千萬用戶，中間發生了什麼：談談系統架構究竟在設計什麼。"
+    />
+    <meta property="twitter:creator" content="@d3an_x" />
+    <!-- Canonical URL -->
+    <link
+      rel="canonical"
+      href="https://xd3an.github.io/post/system-architecture-20260621.html"
+    />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Vibe Coding 的盡頭是一堆爛架構",
+        "description": "從一台機器到千萬用戶，中間發生了什麼：談談系統架構究竟在設計什麼。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2026-06-21",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://XD3an.github.io/post/system-architecture-20260621.html"
+        }
+      }
+    </script>
+  </head>
+
+  <body style="font-size: var(--bs-font-size-base)">
+    <!-- Table of Contents 漂浮視窗 -->
+    <div class="floating-toc" id="floatingToc">
+      <div class="toc-content" id="tocContent">
+        <ul>
+          <li><a href="#overview" class="toc-h2">概述</a></li>
+          <li><a href="#architecture-evolution" class="toc-h2">系統架構進程</a></li>
+          <li><a href="#single-machine" class="toc-h3">單機架構</a></li>
+          <li><a href="#multi-machine" class="toc-h3">多機架構</a></li>
+          <li><a href="#horizontal-scaling" class="toc-h3">水平擴展</a></li>
+          <li><a href="#cache" class="toc-h3">引入緩存</a></li>
+          <li><a href="#read-write-split" class="toc-h3">資料庫讀寫分離</a></li>
+          <li><a href="#vertical-sharding" class="toc-h3">資料庫分庫</a></li>
+          <li><a href="#cdn" class="toc-h3">CDN</a></li>
+          <li><a href="#reverse-proxy" class="toc-h3">反向代理</a></li>
+          <li><a href="#nosql" class="toc-h3">NoSQL / 搜尋引擎</a></li>
+          <li><a href="#distributed" class="toc-h3">分布式架構</a></li>
+          <li><a href="#rpc" class="toc-h3">RPC 與服務發現</a></li>
+          <li><a href="#message-queue" class="toc-h3">消息佇列</a></li>
+          <li><a href="#microservices" class="toc-h3">微服務架構</a></li>
+          <li><a href="#containerization" class="toc-h3">容器化</a></li>
+          <li><a href="#cloud" class="toc-h3">雲端平台</a></li>
+          <li><a href="#design-principles" class="toc-h2">系統設計原則</a></li>
+          <li><a href="#design-steps" class="toc-h3">系統設計步驟</a></li>
+          <li><a href="#conclusion" class="toc-h2">總結</a></li>
+          <li><a href="#references" class="toc-h2">參考來源</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <canvas id="magic-canvas"></canvas>
+    <script src="/js/magic.js"></script>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="https://quiet-hardboard-563.notion.site/b57c59ebaa034e47bd9c92fa2fe1f649?v=37c871eccae34fd7a37171be35d29a0c&pvs=4"
+                >Notion</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="../contact.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('../assets/img/system-architecture-20260621/system-architecture.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-heading">
+              <h1>Vibe Coding 的盡頭是一堆爛架構</h1>
+              <h4 class="subheading">
+                從一台機器到千萬用戶，中間發生了什麼：談談系統架構究竟在設計什麼。
+              </h4>
+              <span class="meta">By XD3an</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+
+            <!-- 概述 -->
+            <h2 id="overview" style="margin-top: 1.5em; font-size: 1.5em">
+              <strong>概述</strong>
+            </h2>
+            <hr />
+
+            <p>
+              在現代這種 AI 革命的時代，透過 LLM 就能進行程式碼的生成，這讓編寫系統變得比過去更加容易，因此系統架構的設計就成了可以更加有心力關注的主題。我們也不能只是完全依賴 AI 所生成的程式進行系統的建立，更關鍵的是要真正理解並設計適合目標問題與場景的系統架構，如此一來才能更加發揮 AI 程式碼生成的能力，從而達到比過去更加快速、精準、完善的系統建立流程。
+            </p>
+            <p>
+              在系統架構中，隨著用戶規模的增長與業務複雜度的提升，單一伺服器已無法應對大量請求的挑戰。因此系統架構不斷演進，從單機走向分布式、從集中走向微服務，每一次演進都是為了解決當下的瓶頸。
+            </p>
+            <p>
+              接下來就嘗試一步步拆解系統建立可能會面臨到的問題，並從中找出適合的解決方法。
+            </p>
+
+            <div
+              class="callout-box"
+              style="background: #f0f8ff; border-left: 4px solid #0d6efd; padding: 1em 1.25em; margin: 1.5em 0; border-radius: 0 6px 6px 0;"
+            >
+              <p style="margin-bottom: 0.75em">💡 以下是系統架構常見到的專業用語：</p>
+              <ul style="margin-bottom: 0">
+                <li style="margin-bottom: 0.5em">
+                  <strong>分布式：</strong>指系統中的多個模組、服務、資料庫、或功能節點部署在不同的伺服器（甚至不同地區）上彼此協作。
+                </li>
+                <li style="margin-bottom: 0.5em">
+                  <strong>集群：</strong>一個特定領域的軟體部署在多台伺服器上並作為一個整體提供一類服務，則可被稱作集群。在常見的集群中，客戶端通常能夠連接任意一個節點獲得服務，並且在當集群中一個節點掉線時，其他節點能夠自動替它繼續提供服務。
+                </li>
+                <li style="margin-bottom: 0.5em">
+                  <strong>負載平衡：</strong>請求發送到系統時，通過某些方式把請求均勻分發到多個節點上，使系統中每個節點能夠均勻的處理請求負載。
+                </li>
+                <li style="margin-bottom: 0">
+                  <strong>正向代理和反向代理：</strong>系統內部要存取外部網路時，統一透過一個代理伺服器把請求轉發出去，在外部網路的視角下，這些請求都是該代理伺服器所發起的，則稱其為正向代理（代理伺服器正向代理）；當外部請求進入系統時，代理伺服器把該請求轉發到系統的某台伺服器上，對外部請求來說，與之交互的是該代理伺服器，則稱其為反向代理（代理伺服器反向代理）。
+                </li>
+              </ul>
+            </div>
+
+            <!-- 系統架構進程 -->
+            <h2 id="architecture-evolution" style="margin-top: 2em; font-size: 1.5em">
+              <strong>系統架構進程</strong>
+            </h2>
+            <hr />
+
+            <!-- 單機架構 -->
+            <h3 id="single-machine" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>單機架構（Single Machine）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>基礎的單機架構，一個應用伺服器一個資料庫。</p>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-0.png" alt="單機架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>如果使用者變多了，導致應用與資料庫之間常常競爭搶資源？</p>
+
+            <!-- 多機架構 -->
+            <h3 id="multi-machine" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>多機架構 - 拆分應用與資料庫</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>為了解決資源競爭問題，透過拆分應用與資料庫至不同伺服器中。</p>
+                <ul>
+                  <li>應用伺服器處理請求與相關邏輯</li>
+                  <li>資料庫伺服器處理與儲存資料</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-1.png" alt="多機架構 - 拆分應用與資料庫" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>如果使用者再變更多了，導致應用與資料庫無法負荷如此大量的查詢呢？</p>
+
+            <!-- 水平擴展 -->
+            <h3 id="horizontal-scaling" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>高併發設計架構 - 水平擴展</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>為了解決單台伺服器無法負荷大量請求的問題，透過部署多台應用伺服器組成集群，並引入負載平衡器（Load Balancer）將請求均勻分發到各台伺服器中。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>負載平衡器（Load Balancer）</strong>是一種位於使用者與伺服器之間的裝置或服務，負責將網路流量分配到多台伺服器上。當使用者發出請求時，請求會先抵達負載平衡器，接著負載平衡器會依據特定的演算法，將流量導向健康的後端伺服器。若某台伺服器故障，它會自動將流量轉移至其他正常的伺服器。</li>
+                  <li>即便其中一台出問題，其他的也可以幫忙分擔請求</li>
+                </ul>
+                <p>負載平衡常見的分配演算法包括：</p>
+                <ul>
+                  <li><strong>輪詢（Round Robin）</strong>：依序將請求分配給每台伺服器</li>
+                  <li><strong>加權輪詢（Weighted Round Robin）</strong>：依伺服器效能配置不同權重</li>
+                  <li><strong>最少連線（Least Connections）</strong>：優先分配給當前連線數最少的伺服器</li>
+                  <li><strong>IP Hash</strong>：依用戶 IP 固定路由到同一台伺服器，可解決 Session 問題</li>
+                </ul>
+                <p>常見工具：<strong>Nginx</strong>、<strong>HAProxy</strong>（Layer 7）</p>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-2.png" alt="水平擴展 - 負載平衡" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>水平擴展讓應用層可支撐更多並發，但大量請求最終仍會打到同一個資料庫，資料庫的讀取壓力成為新的系統瓶頸。</p>
+
+            <!-- 緩存 -->
+            <h3 id="cache" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>引入本地與分布式緩存</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>在多台應用伺服器上各自部署<strong>本地緩存（Local Cache）</strong>，並在外部建置共享的<strong>分布式緩存（Distributed Cache, Redis）</strong>，讓大多數請求能在緩存層被攔截，避免直接打到資料庫。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>本地緩存</strong>：每台 Application Server 各自維護，存取速度最快，但各節點間資料可能不一致</li>
+                  <li style="margin-bottom: 0.5em"><strong>分布式緩存（Redis）</strong>：所有節點共享，解決一致性問題，也能在 Application 重啟後保留緩存資料</li>
+                  <li>資料庫前也加一層緩存，進一步降低資料庫直接被存取的壓力</li>
+                </ul>
+                <p>需注意的常見問題：</p>
+                <ul>
+                  <li style="margin-bottom: 0.4em"><strong>緩存穿透</strong>：查詢不存在的資料，每次都打到資料庫</li>
+                  <li style="margin-bottom: 0.4em"><strong>緩存擊穿</strong>：熱點 Key 過期瞬間，大量請求同時湧入資料庫</li>
+                  <li style="margin-bottom: 0.4em"><strong>緩存雪崩</strong>：大量 Key 同時過期，導致資料庫瞬間壓力爆增</li>
+                  <li><strong>緩存一致性</strong>：資料更新時如何保持緩存與資料庫的同步</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-3.png" alt="引入本地與分布式緩存" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>緩存雖然大幅降低了資料庫壓力，但寫入操作仍然全數打向單一資料庫，讀寫混雜使資料庫成為下一個瓶頸。</p>
+
+            <!-- 資料庫讀寫分離 -->
+            <h3 id="read-write-split" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>資料庫讀寫分離</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將資料庫拆分為 <strong>Master（寫庫）</strong> 與 <strong>Slave（讀庫）</strong>，所有寫入操作導向 Master，讀取操作則導向 Slave，讀庫可以有多個以分擔讀取壓力。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>Master</strong>：負責處理所有寫入（Write）請求，並透過同步機制將資料複製到 Slave</li>
+                  <li style="margin-bottom: 0.5em"><strong>Slave</strong>：負責處理所有讀取（Read）請求，可水平擴展增加多個節點</li>
+                  <li><strong>Distribution Cache（Redis）</strong>：對於需要即時讀取剛寫入資料的場景，透過在緩存中多寫一份來解決主從同步延遲問題</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-4.png" alt="資料庫讀寫分離" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>隨著業務增加，不同業務之間存取量差距大，且彼此競爭資料庫資源，相互影響效能。</p>
+
+            <!-- 垂直分庫 -->
+            <h3 id="vertical-sharding" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>資料庫按業務分庫（Vertical Sharding）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將不同業務的資料拆分到各自獨立的資料庫中，透過 <strong>Database Proxy</strong> 統一接收應用層的請求，再路由到對應的業務資料庫，降低業務間的資源競爭。</p>
+                <ul>
+                  <li><strong>Database Proxy</strong>：作為應用與資料庫之間的代理層，負責 SQL 路由、讀寫分離，應用不需感知底層資料庫的分佈</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-5.png" alt="資料庫按業務分庫" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>隨著用戶數量與地理分布越來越廣，靜態資源（圖片、CSS、JS、影片等）每次都需從源站伺服器取得，導致：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">距離遠的用戶存取延遲高</li>
+              <li style="margin-bottom: 0.4em">大量靜態資源請求佔用應用伺服器與頻寬資源</li>
+              <li style="margin-bottom: 0.4em">源站在流量高峰時壓力過大</li>
+              <li>源站 IP 直接暴露，容易遭受 DDoS 攻擊、惡意爬蟲、流量劫持等安全威脅</li>
+            </ul>
+
+            <!-- CDN -->
+            <h3 id="cdn" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>內容傳遞網路（Content Delivery Network, CDN）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>在不同地區部署多個 CDN 節點，用戶請求會被導向<strong>地理位置最近的 CDN 節點</strong>，由 CDN 直接回應靜態資源，大幅減少源站壓力與用戶存取延遲。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>CDN 節點</strong>：分布於各地區的邊緣伺服器，快取靜態資源（圖片、CSS、JS、影片等），讓用戶就近取得內容</li>
+                  <li style="margin-bottom: 0.5em"><strong>回源機制</strong>：CDN 快取未命中時，才向後端 Load Balancer 請求，並將結果快取供後續使用</li>
+                  <li><strong>隱藏源站 IP</strong>：用戶只與 CDN 節點互動，源站 IP 不對外暴露，有效防禦 DDoS 攻擊、流量劫持等安全威脅</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-6.png" alt="內容傳遞網路 CDN" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>靜態資源的延遲與安全問題解決了，但隨著流量持續增長，應用伺服器直接面對所有動態請求，單一入口缺乏統一的流量管控與協定處理能力。</p>
+
+            <!-- 反向代理 -->
+            <h3 id="reverse-proxy" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>反向代理（Reverse Proxy）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>在用戶請求進入應用伺服器之前，加入一層 <strong>Reverse Proxy</strong> 統一處理所有進入的流量，再分發到後端的應用伺服器叢集。</p>
+                <ul>
+                  <li style="margin-bottom: 0.4em"><strong>Load Balancing</strong>：將請求均勻分發到多台 Application Server，避免單台過載</li>
+                  <li style="margin-bottom: 0.4em"><strong>Request Routing</strong>：依路徑或規則將請求導向對應的服務或伺服器</li>
+                  <li style="margin-bottom: 0.4em"><strong>SSL Termination</strong>：統一在此層處理 HTTPS 加解密，減輕後端應用伺服器的負擔</li>
+                  <li style="margin-bottom: 0.4em"><strong>Caching</strong>：快取部分回應內容，減少重複請求打到應用層</li>
+                  <li><strong>Compression</strong>：對回應進行 Gzip 壓縮，降低網路傳輸量</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-7.png" alt="反向代理" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>隨著業務持續擴張，需要解決的查詢場景越來越複雜，傳統關聯式資料庫已無法負荷，例如：模糊查詢、全文搜尋、多維統計分析等問題。</p>
+
+            <!-- NoSQL -->
+            <h3 id="nosql" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>NoSQL / 搜尋引擎</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>針對傳統關聯式資料庫無法有效處理的場景，引入專門的技術方案，讓不同類型的查詢需求都能交由最適合的系統處理。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>Search Engine（ElasticSearch）</strong>：處理全文搜尋、模糊查詢等非結構化文字搜尋需求，應用層直接查詢 ElasticSearch，不再打到傳統資料庫</li>
+                  <li><strong>NoSQL（MongoDB）</strong>：處理彈性資料結構、多維統計分析等場景，適合文件型、非結構化的資料儲存</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-8.png" alt="NoSQL / 搜尋引擎" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>隨著功能持續迭代，所有業務邏輯都集中在同一個單體應用（Monolith）中，導致：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">任何一個小改動都需要整個應用重新部署，部署風險高</li>
+              <li style="margin-bottom: 0.4em">不同團隊修改同一份程式碼，容易互相衝突、難以並行開發</li>
+              <li style="margin-bottom: 0.4em">單一功能出問題，整個應用都會受到影響，無法隔離故障</li>
+              <li>難以針對特定業務獨立擴展，只能整體垂直擴充</li>
+            </ul>
+
+            <!-- 分布式架構 -->
+            <h3 id="distributed" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>分布式架構（Distributed Architecture）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將單體應用按業務拆分成多個獨立的應用服務，每個服務各自組成 <strong>Cluster</strong> 獨立部署，不同 Cluster 可由不同團隊負責開發與維護，互不干擾。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>Cluster1（App1）</strong>：負責特定業務的應用叢集，多個節點共同提供服務，單節點故障不影響整體</li>
+                  <li><strong>Cluster2（App2）</strong>：另一個獨立業務的應用叢集，可依各自業務流量獨立水平擴展</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-9.png" alt="分布式架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>各服務拆分成獨立 Cluster 後，服務之間需要互相呼叫，但直接使用 HTTP 存在以下問題：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">呼叫方需要知道對方的 IP 與 Port，服務一多難以管理</li>
+              <li style="margin-bottom: 0.4em">服務節點動態增減時，呼叫方無法即時感知</li>
+              <li>缺乏統一的服務發現機制，服務間依賴關係混亂</li>
+            </ul>
+
+            <!-- RPC -->
+            <h3 id="rpc" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>引入 RPC 與服務註冊發現（RPC &amp; Service Register / Discovery）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>各 Cluster 之間透過 <strong>RPC（Remote Procedure Call）</strong> 互相呼叫，並引入 <strong>Service Register &amp; Discovery Center</strong> 統一管理所有服務的位置，讓服務間的呼叫不再需要硬編碼 IP。</p>
+                <p><strong>RPC（Remote Procedure Call）</strong></p>
+                <ul>
+                  <li style="margin-bottom: 0.4em">讓服務之間可以像呼叫本地函式一樣呼叫遠端服務，屏蔽底層網路通訊細節</li>
+                  <li style="margin-bottom: 0.4em">比 HTTP 更輕量、效能更高，適合服務間的內部通訊</li>
+                  <li>常見框架：<strong>gRPC</strong>、<strong>Dubbo</strong>、<strong>Thrift</strong></li>
+                </ul>
+                <p><strong>Service Register &amp; Discovery Center</strong></p>
+                <ul>
+                  <li style="margin-bottom: 0.4em">每個 Cluster 啟動時向 Discovery Center <strong>註冊</strong>自己的位置（IP、Port）</li>
+                  <li style="margin-bottom: 0.4em">呼叫方透過 Discovery Center <strong>查詢</strong>目標服務的位置，再發起 RPC 呼叫</li>
+                  <li style="margin-bottom: 0.4em">服務節點新增或下線時，Discovery Center 自動更新，呼叫方無需手動維護</li>
+                  <li>常見工具：<strong>Zookeeper</strong>、<strong>Consul</strong>、<strong>Nacos</strong>、<strong>Eureka</strong></li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-10.png" alt="RPC 與服務註冊發現" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>服務間直接透過 RPC 同步呼叫，當呼叫鏈過長或下游服務處理緩慢時，會造成：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em"><strong>上游服務被阻塞</strong>：需等待下游回應才能繼續，響應時間拉長</li>
+              <li style="margin-bottom: 0.4em"><strong>流量洪峰</strong>：突發大量請求直接打向下游服務，容易造成服務崩潰</li>
+              <li><strong>強耦合</strong>：上游服務必須知道下游服務的存在，任一方異常都會互相影響</li>
+            </ul>
+
+            <!-- Message Queue -->
+            <h3 id="message-queue" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>引入消息佇列（Message Queue）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>在 Cluster 之間加入 <strong>Message Queue</strong> 作為非同步通訊的中介層，讓服務之間不再需要直接同步呼叫，上游發完消息即可繼續處理下一個請求，由下游服務自行消費。</p>
+                <ul>
+                  <li style="margin-bottom: 0.5em"><strong>非同步（Async）</strong>：上游發送消息後不需等待下游回應，大幅降低響應時間</li>
+                  <li style="margin-bottom: 0.5em"><strong>削峰填谷（Peak Shaving）</strong>：流量洪峰時消息暫存於佇列，下游依自身處理能力逐步消費，避免服務崩潰</li>
+                  <li><strong>解耦（Decoupling）</strong>：上游不需知道下游服務的存在，雙方透過消息格式約定溝通，互不依賴</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-11.png" alt="消息佇列" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>隨著服務數量持續增加，部署與維運面臨嚴峻挑戰：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">每個服務都需要手動準備運行環境，環境設定不一致容易出錯</li>
+              <li style="margin-bottom: 0.4em">服務更新時需要逐台伺服器部署，耗時且風險高</li>
+              <li style="margin-bottom: 0.4em">流量高峰時難以快速水平擴展特定服務</li>
+              <li>服務崩潰時缺乏自動恢復機制</li>
+            </ul>
+
+            <!-- 微服務 -->
+            <h3 id="microservices" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>微服務架構</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將應用進一步拆分成多個<strong>更小、更專一</strong>的微服務，每個服務各自獨立部署、獨立擴展，整體構成一個 <strong>Micro Service</strong> 層。</p>
+                <ul>
+                  <li style="margin-bottom: 0.4em">各服務獨立部署，單一服務更新不影響其他服務</li>
+                  <li style="margin-bottom: 0.4em">故障隔離，單一服務崩潰不會拖垮整體系統</li>
+                  <li>各服務可依需求選擇最適合的技術棧</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-12.png" alt="微服務架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>微服務數量龐大，每個服務都需要獨立管理運行環境，導致：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">不同服務的環境設定不一致，「在我機器上可以跑」的問題頻繁出現</li>
+              <li style="margin-bottom: 0.4em">服務部署需要人工逐台安裝環境、啟動服務，耗時且容易出錯</li>
+              <li style="margin-bottom: 0.4em">流量高峰時無法快速自動擴展，尖峰過後大量機器閒置，資源利用率低</li>
+              <li>硬體機器需要公司自行採購與維護，固定成本高</li>
+            </ul>
+
+            <!-- 容器化 -->
+            <h3 id="containerization" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>容器化</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將每個微服務打包成 <strong>Docker Image</strong>，包含服務程式碼（Service Program）、設定（Config.）、依賴（Depn.）與運行環境（Environment），確保在任何機器上都能一致地運行。</p>
+                <p><strong>Docker</strong></p>
+                <ul>
+                  <li style="margin-bottom: 0.4em"><strong>Service Program</strong>：服務本身的程式碼</li>
+                  <li style="margin-bottom: 0.4em"><strong>Config.</strong>：服務的設定檔</li>
+                  <li style="margin-bottom: 0.4em"><strong>Depn.（Dependencies）</strong>：服務所需的套件與函式庫</li>
+                  <li><strong>Environment</strong>：運行環境（JDK、Node.js 等），打包進 Image 後環境完全一致</li>
+                </ul>
+                <p><strong>Docker Engine</strong></p>
+                <ul>
+                  <li style="margin-bottom: 0.4em">每台機器上運行 Docker Engine，負責啟動與管理 Container</li>
+                  <li style="margin-bottom: 0.4em">多個 Container 運行在同一台機器上，共享 OS 資源但互相隔離</li>
+                  <li>Container1 / Container2 / Container3 / Container4 各自對應不同的微服務</li>
+                </ul>
+                <p><strong>Kubernetes（K8S）</strong></p>
+                <ul>
+                  <li style="margin-bottom: 0.4em"><strong>自動調度</strong>：將容器自動分配到最適合的節點上運行</li>
+                  <li style="margin-bottom: 0.4em"><strong>Auto Scaling</strong>：依流量自動水平擴展或縮減容器數量</li>
+                  <li style="margin-bottom: 0.4em"><strong>Self Healing</strong>：容器崩潰時自動重啟，節點故障時自動遷移</li>
+                  <li><strong>Rolling Update</strong>：服務更新時滾動部署，零停機上線</li>
+                </ul>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-13.png" alt="容器化 Docker + Kubernetes" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+            <p>容器數量龐大，手動管理調度已不可行：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em">容器崩潰時需要人工介入重啟</li>
+              <li style="margin-bottom: 0.4em">流量高峰時無法自動擴展容器數量</li>
+              <li style="margin-bottom: 0.4em">大量容器分散在多台機器上，難以統一監控與管理</li>
+              <li>硬體機器仍需公司自行採購與維護，非尖峰時期資源大量閒置，成本高</li>
+            </ul>
+
+            <!-- 雲端平台 -->
+            <h3 id="cloud" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>雲端平台（Cloud Platform）</strong>
+            </h3>
+            <div class="section-row">
+              <div class="section-desc">
+                <p>將整個系統部署至雲端，透過雲端提供的基礎設施與服務，解決容器調度、自動擴縮容、硬體維護等問題。</p>
+                <table>
+              <thead>
+                <tr>
+                  <th>層級</th>
+                  <th>全名</th>
+                  <th>說明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>IaaS</strong></td>
+                  <td>Infrastructure as a Service</td>
+                  <td>動態申請運算、儲存、網路等硬體資源，按用量付費</td>
+                </tr>
+                <tr>
+                  <td><strong>PaaS</strong></td>
+                  <td>Platform as a Service</td>
+                  <td>提供現成的資料庫、緩存、消息佇列等技術組件</td>
+                </tr>
+                <tr>
+                  <td><strong>SaaS</strong></td>
+                  <td>Software as a Service</td>
+                  <td>提供完整的應用服務，直接訂閱使用</td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>雲端帶來的優勢：</strong></p>
+            <ul>
+              <li style="margin-bottom: 0.4em">硬體資源按需申請，非尖峰時期自動釋放，大幅降低成本</li>
+              <li style="margin-bottom: 0.4em">全球各地均有機房，可就近部署降低延遲</li>
+              <li>雲端廠商負責硬體維護，大幅降低運維負擔</li>
+            </ul>
+            <p>常見雲端平台：<strong>AWS</strong>、<strong>GCP</strong>、<strong>Azure</strong> 等</p>
+              </div>
+              <div class="diagram-wrap">
+                <img src="../assets/img/system-architecture-20260621/diagram-14.png" alt="雲端平台 Cloud Platform" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+              </div>
+            </div>
+
+            <!-- 系統設計原則 -->
+            <h2 id="design-principles" style="margin-top: 2em; font-size: 1.5em">
+              <strong>系統設計原則</strong>
+            </h2>
+            <hr />
+
+            <p>
+              <strong>Sean Goedecke</strong> 是 GitHub 的 Staff Software Engineer，擁有哲學背景的澳洲軟體工程師，目前在 GitHub 負責 AI 產品開發。他是 2025 年 Hacker News 上最受歡迎的部落客之一，發表了 141 篇文章，每月讀者超過百萬人。
+            </p>
+            <p>
+              <a href="https://www.seangoedecke.com/good-system-design/" target="_blank">這篇文章</a>是他試圖把自己<strong>所有關於好的系統設計的知識</strong>整理成文字。他開頭就說市面上充斥著很多爛的系統設計建議。
+            </p>
+            <p>他的核心主張是：</p>
+            <blockquote>
+              <em>What is system design? In my view, if software design is how you assemble lines of code, system design is how you assemble services. — Sean Goedecke</em>
+              <br /><br />
+              <strong>好的系統設計不是聰明的技巧，而是知道如何在對的地方使用無聊但經過驗證的組件。</strong>
+              <br /><br />
+              <span class="section-ref">
+                來源：<a href="https://www.seangoedecke.com/good-system-design/" target="_blank">seangoedecke.com/good-system-design</a>
+              </span>
+            </blockquote>
+            <p>他最後用一句話總結：好的系統設計就像好的水管工程，「如果你在做太刺激的事，你大概會搞得一身糞。」</p>
+
+            <ul>
+              <li style="margin-bottom: 0.75em">
+                <strong>識別好的系統設計</strong>
+                <ul style="margin-top: 0.5em">
+                  <li style="margin-bottom: 0.4em">好的系統設計應該從簡單的架構開始發展，而非一開始就使用複雜的架構與技術</li>
+                  <li>好設計會讓人覺得「比想像中容易」、「幾乎不用擔心」。</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 0.75em">
+                <strong>狀態管理</strong>
+                <ul style="margin-top: 0.5em">
+                  <li style="margin-bottom: 0.4em">儘量減少有狀態元件，集中管理狀態，因為最難維護也最容易出錯。</li>
+                  <li style="margin-bottom: 0.4em">寫入邏輯最好集中在單一服務，避免多個服務直接操作同一張資料表。</li>
+                  <li>讀邏輯雖然較彈性，但集中管理仍然比較乾淨。</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 0.75em">
+                <strong>資料庫設計</strong>
+                <ul style="margin-top: 0.5em">
+                  <li style="margin-bottom: 0.4em">
+                    Schema 與 Index
+                    <ul style="margin-top: 0.3em">
+                      <li style="margin-bottom: 0.3em">Schema 要直觀可讀，同時能隨業務演進。</li>
+                      <li>索引要針對常見查詢設計，避免過度索引影響寫入效能。</li>
+                    </ul>
+                  </li>
+                  <li style="margin-bottom: 0.4em">
+                    瓶頸與最佳化
+                    <ul style="margin-top: 0.3em">
+                      <li style="margin-bottom: 0.3em">資料庫往往是流量瓶頸。</li>
+                      <li style="margin-bottom: 0.3em">使用 JOIN 通常比多次查詢有效率，但在特定情境下可考慮拆查詢。</li>
+                      <li>使用讀取副本（read replicas）分擔查詢負載，但要注意延遲。</li>
+                    </ul>
+                  </li>
+                  <li>大量寫入或突發流量需考慮限流或緩衝機制。</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 0.75em">
+                <strong>快與慢的分離</strong>
+                <ul style="margin-top: 0.5em">
+                  <li style="margin-bottom: 0.4em">使用者請求應保持快速，耗時工作應丟到背景處理。</li>
+                  <li style="margin-bottom: 0.4em">背景工作透過隊列（queue + worker）執行，週期性工作可透過排程完成。</li>
+                  <li>長時間延遲的任務（例如一個月後）應存放在資料庫，由排程定期檢查。</li>
+                </ul>
+              </li>
+              <li>
+                <strong>快取</strong>
+                <ul style="margin-top: 0.5em">
+                  <li style="margin-bottom: 0.4em">對多用戶共用或重複計算的結果，應使用快取降低延遲與成本。</li>
+                  <li>適合應用在 API 查詢或高頻計算的情境。</li>
+                </ul>
+              </li>
+            </ul>
+
+            <!-- 系統設計步驟 -->
+            <h3 id="design-steps" style="margin-top: 1.5em; font-size: 1.2em">
+              <strong>系統設計步驟</strong>
+            </h3>
+            <p>系統設計大致步驟可分為以下：</p>
+            <ol>
+              <li style="margin-bottom: 0.6em">
+                <strong>問題定義（Problem Definition）：</strong>確定要解決的核心問題。明確界定系統的目標與邊界（scope）。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>需求分析（Requirement Analysis）：</strong>
+                <ul style="margin-top: 0.4em">
+                  <li style="margin-bottom: 0.3em"><strong>功能性需求（Functional Requirements）</strong>：系統必須提供的功能，例如「用戶可以註冊/登入」、「系統能處理 10,000 筆交易」。</li>
+                  <li><strong>非功能性需求（Non-Functional Requirements）</strong>：系統的品質屬性，例如效能（latency）、可用性（availability）、安全性（security）、可維護性（maintainability）。</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>高階設計（High-level Design）：</strong>繪製系統架構圖（Architecture Diagram）。定義主要模組、子系統及其互動方式。決定技術棧（tech stack）。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>詳細設計（Low-level Design / Detailed Design）：</strong>
+                <ul style="margin-top: 0.4em">
+                  <li style="margin-bottom: 0.3em">設計資料庫（ERD、Schema）。</li>
+                  <li style="margin-bottom: 0.3em">設計 API 介面。</li>
+                  <li style="margin-bottom: 0.3em">設計類別（Class Diagrams）與流程（Sequence Diagrams）。</li>
+                  <li>規劃模組內部邏輯。</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>原型/概念驗證（Prototype / Proof of Concept）：</strong>驗證關鍵功能或技術可行性。測試需求是否正確、技術風險是否可控。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>實作（Implementation）：</strong>根據詳細設計開發程式。遵循編碼規範、版本控制與 CI/CD 流程。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>測試（Testing）：</strong>執行單元測試（Unit Test）、整合測試（Integration Test）、壓力測試（Load Test）、安全測試（Security Test）。確保功能符合需求且系統穩定。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>部署（Deployment）：</strong>部署至測試環境、預備環境、正式環境。使用自動化部署工具（CI/CD Pipeline）。
+              </li>
+              <li style="margin-bottom: 0.6em">
+                <strong>維運（Operation &amp; Maintenance）：</strong>進行系統監控（Monitoring）。收集與分析 Log。持續修正 bug、改善效能、擴充功能。
+              </li>
+              <li>
+                <strong>回饋與迭代（Feedback &amp; Iteration）：</strong>收集用戶回饋。依需求變更與新挑戰持續改版。
+              </li>
+            </ol>
+
+            <!-- 總結 -->
+            <h2 id="conclusion" style="margin-top: 2em; font-size: 1.5em">
+              <strong>總結</strong>
+            </h2>
+            <hr />
+
+            <p>
+              系統架構其設計上的演進本質上是一場以問題為驅動的持續優化，每一個階段的解法都是為了解決上一個階段的瓶頸，同時也會帶來一些新的挑戰。
+            </p>
+            <p>從最初的<strong>單機架構</strong>出發，隨著用戶量與業務複雜度的增長，系統依序經歷了：</p>
+            <ul>
+              <li style="margin-bottom: 0.4em"><strong>資源分離</strong>：應用與資料庫分開部署，解決資源競爭</li>
+              <li style="margin-bottom: 0.4em"><strong>水平擴展</strong>：Load Balancer + 多台伺服器，解決單機應用瓶頸</li>
+              <li style="margin-bottom: 0.4em"><strong>緩存層</strong>：引入本地與分布式緩存，大幅降低資料庫讀取壓力</li>
+              <li style="margin-bottom: 0.4em"><strong>資料庫讀寫分離 → 分庫</strong>：逐步解決資料庫的讀寫與業務競爭瓶頸</li>
+              <li style="margin-bottom: 0.4em"><strong>CDN + Reverse Proxy</strong>：提升靜態資源效能、強化安全性與流量管控</li>
+              <li style="margin-bottom: 0.4em"><strong>NoSQL + 搜尋引擎</strong>：針對複雜查詢場景引入專用儲存系統</li>
+              <li style="margin-bottom: 0.4em"><strong>分布式架構 → RPC &amp; Service Discovery</strong>：拆分單體應用，解決服務間通訊與動態感知問題</li>
+              <li style="margin-bottom: 0.4em"><strong>Message Queue</strong>：實現非同步解耦與削峰填谷</li>
+              <li style="margin-bottom: 0.4em"><strong>微服務架構</strong>：服務更細粒度拆分，實現獨立部署與故障隔離</li>
+              <li><strong>容器化 + 雲端平台</strong>：解決環境一致性、自動調度與資源彈性問題</li>
+            </ul>
+            <p>
+              沒有一種架構是完全正確且適用所有場景的，<strong>架構的選擇要與當前的業務規模、團隊能力和成本相匹配</strong>，過度設計與設計不足都會帶來問題。好的架構不是追求最複雜的系統，而是在對的時機做出對的取捨。
+            </p>
+
+            <!-- 參考來源 -->
+            <h2 id="references" style="margin-top: 2em; font-size: 1.5em">
+              <strong>參考來源</strong>
+            </h2>
+            <hr />
+
+            <ul>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer - GitHub</a> — 最知名的系統設計學習資源，英文
+              </li>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://blog.bytebytego.com/" target="_blank">ByteByteGo Newsletter</a> — 系統設計圖解，與本文風格接近
+              </li>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://www.infoq.cn/topic/architecture" target="_blank">InfoQ 架構專欄</a> — 中文，有大量分布式架構實戰文章
+              </li>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://aws.amazon.com/architecture/" target="_blank">AWS 架構白皮書</a> — 雲端平台章節的參考
+              </li>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://docs.nginx.com/" target="_blank">Nginx 官方文檔</a> — Reverse Proxy 章節的參考
+              </li>
+              <li style="margin-bottom: 0.5em">
+                <a href="https://kubernetes.io/docs/" target="_blank">Kubernetes 官方文檔</a> — 容器化章節的參考
+              </li>
+              <li>
+                <a href="https://www.elastic.co/guide/" target="_blank">ElasticSearch 官方文檔</a> — NoSQL/搜尋引擎章節的參考
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer-->
+    <footer class="border-top">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an" target="_blank">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <div class="small text-center text-muted fst-italic">Copyright &copy; XD3an 2026</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // TOC active state on scroll
+      const tocLinks = document.querySelectorAll('.floating-toc a');
+      const sections = document.querySelectorAll('h2[id], h3[id]');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tocLinks.forEach((link) => link.classList.remove('active'));
+              const activeLink = document.querySelector(
+                `.floating-toc a[href="#${entry.target.id}"]`
+              );
+              if (activeLink) activeLink.classList.add('active');
+            }
+          });
+        },
+        { rootMargin: '-10% 0px -80% 0px' }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    </script>
+
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      const overlay = document.getElementById('lbOverlay');
+      const lbImg  = document.getElementById('lbImg');
+
+      document.querySelectorAll('.diagram-img').forEach((img) => {
+        img.addEventListener('click', () => {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+          overlay.classList.add('active');
+        });
+      });
+
+      function closeLb() {
+        overlay.classList.remove('active');
+        lbImg.src = '';
+      }
+
+      document.getElementById('lbClose').addEventListener('click', closeLb);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeLb();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLb();
+      });
+    </script>
+  </body>
+</html>
