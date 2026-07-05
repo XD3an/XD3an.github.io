@@ -13,7 +13,7 @@
       name="keywords"
       content="XD3an, Claude Code, Source Map, 原始碼洩漏, Harness Engineering, Query Loop, Agent, npm, Anthropic, AI Coding, 架構分析"
     />
-    <title>Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！</title>
+    <title>Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！ | XD3an Blog</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <link href="../css/styles.css" rel="stylesheet" />
@@ -63,8 +63,11 @@
         font-size: 16px;
         margin-bottom: 12px;
         padding-bottom: 8px;
-        border-bottom: 2px solid #0d6efd;
+        border-bottom: 2px solid #ff6b35;
         color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       .toc-content { max-height: calc(60vh - 60px); overflow-y: auto; }
       .floating-toc ul { list-style: none; padding: 0; margin: 0; }
@@ -98,10 +101,13 @@
     <meta property="og:url" content="https://XD3an.github.io/post/claude-code-leakage-20260607.html" />
     <meta property="og:site_name" content="XD3an Blog" />
     <meta property="og:locale" content="zh_TW" />
+    <meta property="og:image" content="https://XD3an.github.io/assets/img/claude-code-source-map/claude-code-leakage-bg.png" />
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！ | XD3an Blog" />
     <meta name="twitter:description" content="2026 年 3 月 31 日，51.2 萬行 TypeScript 意外流出，揭開 Claude Code 核心架構。" />
+    <meta name="twitter:image" content="https://XD3an.github.io/assets/img/claude-code-source-map/claude-code-leakage-bg.png" />
+    <meta name="twitter:creator" content="@d3an_x" />
     <!-- Canonical -->
     <link rel="canonical" href="https://XD3an.github.io/post/claude-code-leakage-20260607.html" />
     <!-- JSON-LD -->
@@ -154,7 +160,7 @@
     </div>
 
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -865,32 +871,208 @@
             <!-- ==================== 參考來源 ==================== -->
             <h2 id="references" style="margin-top: 2.5em; font-size: 1.5em;">參考來源</h2>
             <hr />
-
-            <ul>
-              <li><a href="https://x.com/Fried_rice/status/2038894956459290963" target="_blank">Chaofan Shou 推文（洩漏第一手發現）</a></li>
-              <li><a href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" target="_blank">VentureBeat - Claude Code's source code appears to have leaked（含 Anthropic 官方聲明）</a></li>
-              <li><a href="https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/" target="_blank">Alex Kim - Claude Code Source Leak（Undercover Mode、ANTI_DISTILLATION_CC 等細節）</a></li>
-              <li><a href="https://www.infoq.com/news/2026/04/claude-code-source-leak/" target="_blank">InfoQ - Claude Code Source Leak</a></li>
-              <li><a href="https://kuber.studio/blog/AI/Claude-Code's-Entire-Source-Code-Got-Leaked-via-a-Sourcemap-in-npm,-Let's-Talk-About-it" target="_blank">Kuber Studio - 技術深度分析</a></li>
-              <li><a href="https://claudefa.st/blog/guide/mechanics/claude-code-source-leak" target="_blank">Claude Fast - 全面整理</a></li>
-              <li><a href="https://www.sabrina.dev/p/claude-code-source-leak-analysis" target="_blank">Sabrina.dev - 2025 年 2 月第一次洩漏深度分析</a></li>
-              <li><a href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank">Fortune - Claude Mythos / Capybara 洩漏獨家報導</a></li>
-              <li><a href="https://www.oreilly.com/radar/agent-harness-engineering/" target="_blank">O'Reilly - Anatomy of an Agent Harness（Harness Engineering 原始論文）</a></li>
-              <li><a href="https://huggingface.co/blog/agent-glossary" target="_blank">HuggingFace - Agent Glossary</a></li>
-              <li><a href="https://arxiv.org/abs/2604.14228" target="_blank">arxiv 相關論文</a></li>
-              <li><a href="https://github.com/ultraworkers/claw-code" target="_blank">github/ultraworkers/claw-code</a></li>
-              <li><a href="https://github.com/sanbuphy/learn-coding-agent" target="_blank">github/sanbuphy/learn-coding-agent</a></li>
-              <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-52882" target="_blank">NVD - CVE-2025-52882（WebSocket 未授權連線）</a></li>
-              <li><a href="https://securitylabs.datadoghq.com/articles/claude-mcp-cve-2025-52882/" target="_blank">Datadog Security Labs - CVE-2025-52882 分析</a></li>
-              <li><a href="https://www.bilibili.com/video/BV1q997BmEyo/" target="_blank">BiliBili - Claude Code 泄露源码分析，10分钟速通核心架构</a></li>
-              <li><a href="https://b23.tv/YV8jpLT" target="_blank">BiliBili - Claude Code 源码分析与复刻实现</a></li>
-              <li><a href="https://b23.tv/LkWPDLa" target="_blank">BiliBili - claude code 源码解析</a></li>
-              <li><a href="https://www.bilibili.com/video/BV1U8d8BzEUK/?p=2" target="_blank">BiliBili - 51万行源码真相，ClaudeCode架构深度解读</a></li>
-              <li><a href="https://www.techzine.eu/news/applications/140017/details-leak-on-anthropics-step-change-mythos-model/" target="_blank">Techzine Global - Anthropic's step-change Mythos model leak</a></li>
-              <li><a href="https://the-decoder.com/anthropic-leak-reveals-new-model-claude-mythos-with-dramatically-higher-scores-on-tests-than-any-previous-model/" target="_blank">The Decoder - Anthropic leak reveals Claude Mythos</a></li>
-              <li><a href="https://claudemythosai.io/blog/claude-mythos-leak-explained/" target="_blank">Claude Mythos 專題站 - 時間軸重建</a></li>
-              <li><a href="https://wavespeed.ai/blog/posts/what-is-claude-mythos/" target="_blank">WaveSpeedAI - What is Claude Mythos</a></li>
-            </ul>
+            <ol class="ref-list">
+              <li class="ref-item">
+                <a class="ref-title" href="https://x.com/Fried_rice/status/2038894956459290963" target="_blank" rel="noopener noreferrer">Chaofan Shou 推文（洩漏第一手發現）</a>
+                <div class="ref-meta">
+                  <span class="ref-author">Chaofan Shou</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">X (Twitter)</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://x.com/Fried_rice/status/2038894956459290963" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" target="_blank" rel="noopener noreferrer">Claude Code's source code appears to have leaked — here's what we know</a>
+                <div class="ref-meta">
+                  <span class="ref-source">VentureBeat</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/" target="_blank" rel="noopener noreferrer">Claude Code Source Leak（Undercover Mode、ANTI_DISTILLATION_CC 等細節）</a>
+                <div class="ref-meta">
+                  <span class="ref-author">Alex Kim</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">alex000kim.com</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2026-03</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.infoq.com/news/2026/04/claude-code-source-leak/" target="_blank" rel="noopener noreferrer">Claude Code Source Leak</a>
+                <div class="ref-meta">
+                  <span class="ref-source">InfoQ</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2026-04</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.infoq.com/news/2026/04/claude-code-source-leak/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://kuber.studio/blog/AI/Claude-Code's-Entire-Source-Code-Got-Leaked-via-a-Sourcemap-in-npm,-Let's-Talk-About-it" target="_blank" rel="noopener noreferrer">Claude Code's Entire Source Code Got Leaked via a Sourcemap in npm — 技術深度分析</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Kuber Studio</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://kuber.studio/blog/AI/Claude-Code's-Entire-Source-Code-Got-Leaked-via-a-Sourcemap-in-npm,-Let's-Talk-About-it" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://claudefa.st/blog/guide/mechanics/claude-code-source-leak" target="_blank" rel="noopener noreferrer">Claude Code Source Leak — 全面整理</a>
+                <div class="ref-meta">
+                  <span class="ref-source">claudefa.st</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://claudefa.st/blog/guide/mechanics/claude-code-source-leak" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.sabrina.dev/p/claude-code-source-leak-analysis" target="_blank" rel="noopener noreferrer">Claude Code Source Leak Analysis — 2025 年 2 月第一次洩漏深度分析</a>
+                <div class="ref-meta">
+                  <span class="ref-source">sabrina.dev</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2025-02</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.sabrina.dev/p/claude-code-source-leak-analysis" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" rel="noopener noreferrer">Claude Mythos / Capybara 洩漏獨家報導</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Fortune</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2026-03</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.oreilly.com/radar/agent-harness-engineering/" target="_blank" rel="noopener noreferrer">Anatomy of an Agent Harness</a>
+                <div class="ref-meta">
+                  <span class="ref-source">O'Reilly</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.oreilly.com/radar/agent-harness-engineering/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://huggingface.co/blog/agent-glossary" target="_blank" rel="noopener noreferrer">Agent Glossary</a>
+                <div class="ref-meta">
+                  <span class="ref-source">HuggingFace</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://huggingface.co/blog/agent-glossary" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://arxiv.org/abs/2604.14228" target="_blank" rel="noopener noreferrer">arxiv 相關論文 (2604.14228)</a>
+                <div class="ref-meta">
+                  <span class="ref-source">arXiv</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://arxiv.org/abs/2604.14228" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/ultraworkers/claw-code" target="_blank" rel="noopener noreferrer">claw-code</a>
+                <div class="ref-meta">
+                  <span class="ref-author">ultraworkers</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/ultraworkers/claw-code" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/sanbuphy/learn-coding-agent" target="_blank" rel="noopener noreferrer">learn-coding-agent</a>
+                <div class="ref-meta">
+                  <span class="ref-author">sanbuphy</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/sanbuphy/learn-coding-agent" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://nvd.nist.gov/vuln/detail/CVE-2025-52882" target="_blank" rel="noopener noreferrer">NVD - CVE-2025-52882（WebSocket 未授權連線）</a>
+                <div class="ref-meta">
+                  <span class="ref-source">NVD</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://nvd.nist.gov/vuln/detail/CVE-2025-52882" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://securitylabs.datadoghq.com/articles/claude-mcp-cve-2025-52882/" target="_blank" rel="noopener noreferrer">CVE-2025-52882 分析</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Datadog Security Labs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://securitylabs.datadoghq.com/articles/claude-mcp-cve-2025-52882/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.bilibili.com/video/BV1q997BmEyo/" target="_blank" rel="noopener noreferrer">Claude Code 泄露源码分析，10分钟速通核心架构</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.bilibili.com/video/BV1q997BmEyo/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://b23.tv/YV8jpLT" target="_blank" rel="noopener noreferrer">Claude Code 源码分析与复刻实现</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://b23.tv/YV8jpLT" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://b23.tv/LkWPDLa" target="_blank" rel="noopener noreferrer">claude code 源码解析</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://b23.tv/LkWPDLa" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.bilibili.com/video/BV1U8d8BzEUK/?p=2" target="_blank" rel="noopener noreferrer">51万行源码真相，ClaudeCode架构深度解读</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.bilibili.com/video/BV1U8d8BzEUK/?p=2" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.techzine.eu/news/applications/140017/details-leak-on-anthropics-step-change-mythos-model/" target="_blank" rel="noopener noreferrer">Details leak on Anthropic's step-change Mythos model</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Techzine Global</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.techzine.eu/news/applications/140017/details-leak-on-anthropics-step-change-mythos-model/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://the-decoder.com/anthropic-leak-reveals-new-model-claude-mythos-with-dramatically-higher-scores-on-tests-than-any-previous-model/" target="_blank" rel="noopener noreferrer">Anthropic leak reveals new model Claude Mythos</a>
+                <div class="ref-meta">
+                  <span class="ref-source">The Decoder</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://the-decoder.com/anthropic-leak-reveals-new-model-claude-mythos-with-dramatically-higher-scores-on-tests-than-any-previous-model/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://claudemythosai.io/blog/claude-mythos-leak-explained/" target="_blank" rel="noopener noreferrer">Claude Mythos Leak Explained — 時間軸重建</a>
+                <div class="ref-meta">
+                  <span class="ref-source">claudemythosai.io</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://claudemythosai.io/blog/claude-mythos-leak-explained/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://wavespeed.ai/blog/posts/what-is-claude-mythos/" target="_blank" rel="noopener noreferrer">What is Claude Mythos</a>
+                <div class="ref-meta">
+                  <span class="ref-source">WaveSpeedAI</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://wavespeed.ai/blog/posts/what-is-claude-mythos/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+            </ol>
 
           </div>
         </div>
@@ -979,8 +1161,12 @@
       });
       document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = e.clientX - dragOffset.x + "px";
-          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
           tocElement.style.right = "auto";
         }
       });
@@ -988,6 +1174,39 @@
         if (isDragging) { isDragging = false; tocElement.style.cursor = "grab"; }
       });
       tocElement.style.cursor = "grab";
+    </script>
+
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
     </script>
   </body>
 </html>

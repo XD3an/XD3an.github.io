@@ -16,7 +16,7 @@
       name="keywords"
       content="XD3an, github.io, All-In-One, Claude Code, AI Coding Agent, MCP, 自動化程式開發, CLI 工具, Anthropic"
     />
-    <title>Claude Code 贏麻了：躺平也能寫程式</title>
+    <title>Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
     <script
       src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
@@ -77,7 +77,7 @@
         font-size: 16px;
         margin-bottom: 12px;
         padding-bottom: 8px;
-        border-bottom: 2px solid #0d6efd;
+        border-bottom: 2px solid #ff6b35;
         color: #212529;
         display: flex;
         justify-content: space-between;
@@ -200,8 +200,12 @@
     />
     <meta property="og:site_name" content="XD3an Blog" />
     <meta property="og:locale" content="zh_TW" />
+    <meta
+      property="og:image"
+      content="https://XD3an.github.io/assets/img/claude-code-guide/claude-code-guide-background.png"
+    />
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
       content="Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog"
@@ -210,6 +214,11 @@
       name="twitter:description"
       content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
     />
+    <meta
+      name="twitter:image"
+      content="https://XD3an.github.io/assets/img/claude-code-guide/claude-code-guide-background.png"
+    />
+    <meta name="twitter:creator" content="@d3an_x" />
     <!-- Canonical URL -->
     <link
       rel="canonical"
@@ -256,7 +265,7 @@
     </div>
 
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
@@ -298,7 +307,7 @@
     <header
       class="masthead"
       style="
-        background-image: url('../assets/img/claude-code-guide/claude-code-guide-background.png');
+        background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/claude-code-guide/claude-code-guide-background.png');
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -321,6 +330,98 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <!-- Article Content Starts Here -->
+
+            <!-- 後續更新通知 -->
+            <div style="background: #fff8e1; border-left: 4px solid #f57c00; border-radius: 0 0.5em 0.5em 0; padding: 1.25em 1.5em; margin-bottom: 2.5em;">
+              <p style="margin: 0 0 0.6em 0; font-weight: 700; font-size: 1.05em;">
+                <i class="fas fa-clock-rotate-left" style="color: #f57c00; margin-right: 0.4em;"></i>後續版本更新補充（供參考）
+              </p>
+              <p style="margin: 0 0 0.8em 0; font-size: 0.92em; color: #555;">
+                本文撰寫於 Claude Code <strong>v1.0.50</strong> 前後，以下為後續重要版本更新整理，持續追蹤至 2026 年 7 月。完整 changelog 可參考
+                <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank">官方 CHANGELOG</a>。
+              </p>
+              <details>
+                <summary style="cursor: pointer; color: #e65100; font-weight: 600; font-size: 0.95em; user-select: none;">展開查看版本更新摘要</summary>
+                <div style="margin-top: 1em; font-size: 0.88em; line-height: 1.7; color: #333;">
+
+                  <p style="margin: 0.4em 0;"><strong>v1.0.51</strong>（正式版 GA）— 支援 Opus 4 和 Sonnet 4；自動壓縮閾值從 60% 提升至 80%</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.58</strong> — PDF 支援；MCP 伺服器健康狀態可視化</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.59</strong> — 工具確認回調；Hooks 權限決策改進；Max 用戶可使用付費 Opus 模型</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v1.0.60 ★</strong> — <strong>自訂 Subagents</strong>（<code>/agents</code>），可建立專門任務的子代理</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v1.0.69 ★</strong> — <strong>Opus 4.5 模型</strong>，74.5% 軟體工程準確度；多檔案重構能力</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.70</strong> — 大型上下文訊息渲染優化；Windows 檔案搜尋修復；<strong>可自訂狀態列</strong>（<code>/statusline</code>）</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.71</strong> — UI 和可訪問性改進、視覺精煉</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.72</strong> — <code>/permissions</code> 命令，維護工具執行控制</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v1.0.73 ★</strong> — Alpine Linux（musl）支援；<strong>多配置 MCP</strong>（<code>-mcp-config file1.json file2.json</code>）；更智慧的安全驗證；Bash 改進</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.77</strong> — Bash 工具改進和穩定性</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v1.0.80 ★</strong> — <strong>Output Styles</strong>（Explanatory / Learning）；Opus Plan Mode；內建 ripgrep；<kbd>Ctrl+B</kbd> 背景執行；Windows 原生修復</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.81</strong> — 修復 v1.0.45 應用程式啟動凍結問題</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.84</strong> — Bash 工具進度訊息（基於最後 5 行輸出）；MCP 伺服器配置支援變數擴展；Shell 快照從 <code>/tmp</code> 移至 <code>~/.claude</code></p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.85</strong> — WSL 中 IDE 擴充路徑處理改進；提示輸入 undo 改為 <kbd>Ctrl+_</kbd></p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.88</strong> — Stop Hooks 修復；自訂斜線命令命名空間恢復</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.90</strong> — <code>/export</code> 匯出對話；<kbd>Ctrl+Z</kbd> 改為暫停 Claude Code（<code>fg</code> 恢復）</p>
+                  <p style="margin: 0.4em 0;"><strong>v1.0.94–v1.0.126</strong> — 持續改進和錯誤修復</p>
+
+                  <hr style="margin: 0.8em 0; border-color: #f0d090;">
+
+                  <p style="margin: 0.3em 0; font-weight: 700; color: #1565c0;">v2.0.x 系列（2025 年 9 月起）</p>
+
+                  <p style="margin: 0.4em 0;"><strong style="color: #1565c0;">v2.0.0</strong>（2025 年 9 月 29 日，重大架構改版）</p>
+                  <ul style="margin: 0.3em 0 0.6em 1.5em; padding: 0;">
+                    <li><strong>Checkpoints</strong> — 自動保存程式碼狀態，<code>/rewind</code> 可即時回滾（按兩次 Esc 或 <code>/rewind</code>）</li>
+                    <li><strong>原生 VS Code 擴充（Beta）</strong> — 專用側邊欄、即時內嵌 diff 檢視</li>
+                    <li><strong>終端介面 v2.0</strong> — 可搜尋提示歷史（<kbd>Ctrl+R</kbd>）</li>
+                    <li>Claude Sonnet 4.5 成為預設模型；Subagents 委派；Hooks 自動觸發；Background Tasks</li>
+                  </ul>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.1–v2.0.4</strong> — 錯誤修復和穩定性改進</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.5</strong> — IDE 修復 IME Enter/Tab 非預期提交；登入畫面新增「Open in Terminal」；OAuth 修復；SDK 新增 <code>isReplay</code></p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.8–v2.0.11</strong> — Bedrock 模型更新；拖放支援檔案和資料夾；主題改進</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.12 ★</strong>（Plugin 系統）— <strong>Plugin Marketplace</strong>：<code>/plugin install</code>、<code>/plugin enable/disable</code>、<code>/plugin marketplace</code>、Repository 級配置</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.13–v2.0.27</strong> — 持續改進和新功能整合</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.28–v2.0.30 ★</strong> — 生產就緒性改進；安全策略強化；macOS 設定修復；企業整合可靠性</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.31</strong> — 修復 <code>/compact</code>；<strong>Plan Subagent</strong>（專用規劃子代理）；子代理動態模型選擇</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.32–v2.0.36</strong> — Azure AI Foundry 整合；PermissionRequest hook；Web 背景任務（<code>&</code> 前綴）</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.37–v2.0.41</strong> — 透過 plugins 共享和安裝 output styles</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.42–v2.0.50</strong> — 持續改進</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.51 ★</strong>（2025 年 11 月）— Claude Opus 4.5 模型支援；更新使用限制；Plan Mode 精確度改進；<strong>Desktop 應用程式</strong></p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.52–v2.0.57</strong> — 模型選擇改進；終端輸出清理；MCP 健康狀態可見性</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.58 ★</strong> — <strong>Pro 用戶可使用 Opus 4.5</strong>；PDF 處理改進</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.59</strong> — 工具確認改進；企業安全性增強</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.60 ★</strong>（2025 年 12 月）— <strong>Background Agents</strong>；Named Sessions（<code>/rename</code> / <code>/resume &lt;n&gt;</code>）；<code>/stats</code> 使用統計；Memory Rules（<code>.claude/rules/</code>）</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.61–v2.0.64</strong> — 即時自動壓縮；效能改進；上下文視窗資訊加入狀態列</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.0.65 ★</strong> — <strong>Prompt Suggestions</strong>（Tab 接受，Enter 提交）；Thinking Mode（Opus 4.5 預設啟用）；<code>/permissions</code> 支援搜尋；<kbd>Alt+P</kbd> 快速切換模型</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.67–v2.0.68</strong> — <code>CLAUDE_CODE_SHELL</code> 環境變數；Bedrock Base URL 支援；檔案建議設定</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.69</strong> — <strong>MCP 工具通配符</strong>（<code>mcp__server__*</code>）；自動更新切換（每個 marketplace 獨立）；上下文視窗百分比 <code>current_usage</code></p>
+                  <p style="margin: 0.4em 0;"><strong>v2.0.70</strong> — 即時自動壓縮效能；VS Code 次要側邊欄（1.97+）；Windows 管理設定；Plan 反饋；Proxy DNS 修復；Fuzzy Matching 改進</p>
+
+                  <hr style="margin: 0.8em 0; border-color: #f0d090;">
+
+                  <p style="margin: 0.3em 0; font-weight: 700; color: #2e7d32;">v2.1.x 系列（2026 年 3 月起）</p>
+
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.83–85 ★</strong>（Auto Mode）— <strong>Auto Mode 進入研究預覽</strong>：分類器自動處理權限確認，安全操作直接執行，危險操作才攔截；Desktop app 支援 Computer Use；Web 支援 PR 自動修復；Windows 原生 PowerShell 工具</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.86–91 ★</strong>（Computer Use）— <strong>Computer Use 進入 CLI 研究預覽</strong>：Claude 可直接開原生 app、點擊 UI、驗證視覺結果；<code>/powerup</code> 互動教學；MCP 單工具結果上限可調至 500K</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.92–101 ★</strong>（Ultraplan）— <strong>Ultraplan 早期預覽</strong>：在雲端實際規劃，可在網頁編輯器審閱與留言，再返回本地執行；<strong>Monitor 工具</strong>：背景事件串流；<code>/loop</code> 無需指定間隔；<code>/team-onboarding</code>、<code>/autofix-pr</code> 新命令</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.105–113 ★</strong>（Opus 4.7）— <strong>Claude Opus 4.7</strong> 成為 Max/Team Premium 預設；新 <strong>xhigh</strong> effort 等級（<code>/effort</code> 滑桿）；<strong>Routines</strong>（雲端排程/事件觸發代理）；手機推送通知；<code>/usage</code> 顯示限額詳情；CLI 改用原生 binary</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.114–119 ★</strong>（Ultrareview）— <strong><code>/ultrareview</code> 公開研究預覽</strong>：多 bug 捕捉代理雲端執行後回傳 CLI；Session recap；自訂主題（<code>/theme</code>）；Claude Code on the web 重新設計</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.120–126</strong> — <strong>Windows 不再需要 Git Bash</strong>，改用 PowerShell；<code>claude ultrareview</code> 支援 CI；<code>claude project purge</code>；<code>/resume</code> 可貼 PR URL</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.128–136 ★</strong>（Plugin 擴展）— <strong>Plugin 可從 .zip 和 URL 載入</strong>（<code>--plugin-url</code>）；<code>worktree.baseRef</code>；Auto mode hard deny 規則；Hooks 可讀取 effort 等級</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.139–142 ★</strong>（Agent View）— <strong><code>claude agents</code></strong>：一屏總覽所有 session 狀態；<code>/goal</code> 持續執行至條件成立；Fast mode 支援 Opus 4.7；Rewind 新增「Summarize up to here」</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.143–149 ★</strong> — <strong>Auto mode 開放 Pro 方案</strong>，支援 Sonnet 4.6；<code>/usage</code> 拆解限額消耗來源；新 <code>/code-review</code> 命令；背景 session 可在 <code>/resume</code> pin 住</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.150–157 ★</strong>（Opus 4.8）— <strong>Claude Opus 4.8</strong> 成為 Max/Team Premium/Enterprise/API 新預設，預設 high effort；<strong>Dynamic workflows</strong>：一次指揮數十至數百個 subagent；security-guidance plugin；Fast mode 支援 Opus 4.8</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.158–165 ★</strong> — Auto mode 擴展至 <strong>Bedrock、Google Cloud Agent Platform、Microsoft Foundry</strong>（Opus 4.7/4.8）；accept-edits 模式可執行碼寫入前詢問；<code>/plugin list</code>；企業版本範圍設定</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.166–176 ★</strong> — <strong><code>/cd</code></strong> session 中途切換工作目錄（不中斷 prompt cache）；<strong>Subagents 可再生 subagents</strong>（最深 5 層）；<code>--safe-mode</code>；<code>fallbackModel</code> 最多 3 級備援</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.178–183 ★</strong>（Artifacts）— <strong>Artifacts 進入 Claude Code</strong>：session 結果轉為 claude.ai 即時共享頁面，隨 session 自動更新（Team/Enterprise beta）；Deny/ask 規則支援工具參數匹配；<code>/config key=value</code> 直接設定</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.185–193 ★</strong> — <strong><code>claude mcp login</code> / <code>claude mcp logout</code></strong> 從 shell 驗證 MCP server；Shell mode 即時回應（免二次提問）；<code>/rewind</code> 可恢復 <code>/clear</code> 之前對話；背景 subagents 權限提示浮到主 session</p>
+                  <p style="margin: 0.4em 0; background: #fff3e0; padding: 0.4em 0.6em; border-radius: 4px;"><strong style="color: #c62828;">v2.1.197 ★★</strong> — <strong>Claude Sonnet 5 成為 Claude Code 預設模型</strong>；原生 1M token 上下文視窗；促銷價 $2/$10 per MTok（至 2026/08/31）</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.19x 以後（截至 2026 年 7 月）</strong> — 預設權限模式由「default」改名為 <strong>Manual</strong>；AskUserQuestion idle timeout 設定；org 預設模型；可點擊檔案附件；<code>claude project purge --dry-run</code>；Opus 4.7/4.8 已發布，Sonnet 4/Opus 4 舊版退役；<strong>Claude Platform on AWS 正式上線</strong></p>
+
+                  <p style="margin: 0.6em 0 0 0; color: #777; font-size: 0.9em;">更多後續更新請持續追蹤 <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" style="color: #e65100;">官方 CHANGELOG</a> 與 <a href="https://code.claude.com/docs/en/whats-new" target="_blank" style="color: #e65100;">What's New</a>。</p>
+
+                </div>
+              </details>
+            </div>
+            <!-- /後續更新通知 -->
+
             <p style="font-size: 1.1em; margin-bottom: 2em">
               <a href="https://www.anthropic.com/claude-code" target="_blank"
                 >Claude Code</a
@@ -1197,73 +1298,96 @@ claude --version</code></pre>
               參考來源
             </h2>
             <hr />
-            <ul>
-              <li>
-                <a href="https://www.anthropic.com/claude-code" target="_blank"
-                  >Claude Code 官方網站</a
-                >
+            <ol class="ref-list">
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener noreferrer">Claude Code 官方網站</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.anthropic.com/claude-code" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a
-                  href="https://docs.anthropic.com/en/docs/claude-code/overview"
-                  target="_blank"
-                  >Claude Code 官方文件</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener noreferrer">Claude Code 官方文件</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a
-                  href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code"
-                  target="_blank"
-                  >Anthropic 團隊如何使用 Claude Code</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code" target="_blank" rel="noopener noreferrer">Anthropic 團隊如何使用 Claude Code</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://www.anthropic.com/learn" target="_blank"
-                  >Anthropic Learn</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.anthropic.com/learn" target="_blank" rel="noopener noreferrer">Anthropic Learn</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.anthropic.com/learn" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://youtu.be/gv0WHhKelSE" target="_blank"
-                  >Claude Code 官方教學影片</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://youtu.be/gv0WHhKelSE" target="_blank" rel="noopener noreferrer">Claude Code 官方教學影片</a>
+                <div class="ref-meta">
+                  <span class="ref-source">YouTube</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://youtu.be/gv0WHhKelSE" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a
-                  href="https://youtube.com/playlist?list=PLf2m23nhTg1P5BsOHUOXyQz5RhfUSSVUi"
-                  target="_blank"
-                  >Claude Code 教學影片播放清單</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://youtube.com/playlist?list=PLf2m23nhTg1P5BsOHUOXyQz5RhfUSSVUi" target="_blank" rel="noopener noreferrer">Claude Code 教學影片播放清單</a>
+                <div class="ref-meta">
+                  <span class="ref-source">YouTube</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://youtube.com/playlist?list=PLf2m23nhTg1P5BsOHUOXyQz5RhfUSSVUi" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://youtu.be/e5O8A5pcVgg" target="_blank"
-                  >Claude Code 功能介紹影片</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://youtu.be/e5O8A5pcVgg" target="_blank" rel="noopener noreferrer">Claude Code 功能介紹影片</a>
+                <div class="ref-meta">
+                  <span class="ref-source">YouTube</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://youtu.be/e5O8A5pcVgg" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://b23.tv/0muLyXg" target="_blank"
-                  >用神器 Claude Code！打造贴身 AI
-                  秘书团【小白教程】-哔哩哔哩</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://b23.tv/0muLyXg" target="_blank" rel="noopener noreferrer">用神器 Claude Code！打造贴身 AI 秘书团【小白教程】</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://b23.tv/0muLyXg" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://b23.tv/LSByZFH" target="_blank"
-                  >Claude Code 初识：已经在用 Cursor 的我，为何还要用 CC
-                  🤔-哔哩哔哩</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://b23.tv/LSByZFH" target="_blank" rel="noopener noreferrer">Claude Code 初识：已经在用 Cursor 的我，为何还要用 CC</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Bilibili</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://b23.tv/LSByZFH" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a
-                  href="https://docs.ctok.ai/claude-code-commands-guide.html"
-                  target="_blank"
-                  >Claude Code 指令指南（ctok.ai）</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://docs.ctok.ai/claude-code-commands-guide.html" target="_blank" rel="noopener noreferrer">Claude Code 指令指南</a>
+                <div class="ref-meta">
+                  <span class="ref-source">ctok.ai</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://docs.ctok.ai/claude-code-commands-guide.html" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://cc.deeptoai.com/docs" target="_blank"
-                  >Claude Code 中文文檔（deeptoai）</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://cc.deeptoai.com/docs" target="_blank" rel="noopener noreferrer">Claude Code 中文文檔</a>
+                <div class="ref-meta">
+                  <span class="ref-source">deeptoai</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://cc.deeptoai.com/docs" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-            </ul>
+            </ol>
 
             <!-- Article Content Ends Here -->
           </div>
@@ -1385,8 +1509,12 @@ claude --version</code></pre>
 
       document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = e.clientX - dragOffset.x + "px";
-          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
           tocElement.style.right = "auto"; // 取消right定位
         }
       });
@@ -1400,6 +1528,39 @@ claude --version</code></pre>
 
       // 設置初始游標樣式
       tocElement.style.cursor = "grab";
+    </script>
+
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
     </script>
   </body>
 </html>

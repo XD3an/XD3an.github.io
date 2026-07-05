@@ -16,17 +16,39 @@
     <meta property="og:title" content="從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog" />
     <meta property="og:description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
     <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part1/MD-background_adobe.jpg" />
-    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
     <meta property="article:published_time" content="2024-09-10T00:00:00Z" />
     <meta property="article:author" content="XD3an" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://xd3an.github.io/post/MD-part1.html" />
-    <meta property="twitter:title" content="從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog" />
-    <meta property="twitter:description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
-    <meta property="twitter:image" content="https://xd3an.github.io/assets/img/MD-part1/MD-background_adobe.jpg" />
-    <meta property="twitter:creator" content="@d3an_x" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://xd3an.github.io/post/MD-part1.html" />
+    <meta name="twitter:title" content="從刮痕開始的惡意程式開發 - Part 1: Overview | XD3an Blog" />
+    <meta name="twitter:description" content="從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。" />
+    <meta name="twitter:image" content="https://xd3an.github.io/assets/img/MD-part1/MD-background_adobe.jpg" />
+    <meta name="twitter:creator" content="@d3an_x" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://xd3an.github.io/post/MD-part1.html" />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "從刮痕開始的惡意程式開發 - Part 1: Overview",
+        "description": "從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2024-09-10",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://xd3an.github.io/post/MD-part1.html"
+        }
+      }
+    </script>
 
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -61,6 +83,27 @@
       .floating-toc:hover {
         opacity: 1;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #ff6b35;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+
+      .toc-content.collapsed {
+        display: none;
       }
 
       .floating-toc ul {
@@ -167,7 +210,7 @@
 
     <!-- Magic -->
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
 
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -188,7 +231,7 @@
     </nav>
 
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url('../assets/img/MD-part1/MD-background_adobe.jpg')">
+    <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/MD-part1/MD-background_adobe.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -372,14 +415,26 @@
 
                     <div>
                         <h2 id="references">References</h2>
-                        <hr>
-                        <div>
-                            <ul>
-                                <li><a href="https://hackforums.net/showthread.php?tid=6243986">https://hackforums.net/showthread.php?tid=6243986</a></li>
-                                <li><a href="https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表">https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表</a></li>
-                                <li>奇幻熊在網路釣魚：為何網際網路如此脆弱？駭客如何利用人性竊取機密，以及我們如何更安全</li>
-                            </ul>
-                        </div>
+                        <hr />
+                        <ol class="ref-list">
+                          <li class="ref-item">
+                            <a class="ref-title" href="https://hackforums.net/showthread.php?tid=6243986" target="_blank" rel="noopener noreferrer">HackForums Thread #6243986</a>
+                            <div class="ref-meta">
+                              <span class="ref-source">HackForums</span>
+                            </div>
+                          </li>
+                          <li class="ref-item">
+                            <a class="ref-title" href="https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表" target="_blank" rel="noopener noreferrer">知名病毒及蠕蟲的歷史年表</a>
+                            <div class="ref-meta">
+                              <span class="ref-source">Wikipedia</span>
+                              <span class="ref-dot">·</span>
+                              <a class="ref-url" href="https://zh.wikipedia.org/zh-tw/知名病毒及蠕蟲的歷史年表" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                            </div>
+                          </li>
+                          <li class="ref-item">
+                            <span class="ref-title">奇幻熊在網路釣魚：為何網際網路如此脆弱？駭客如何利用人性竊取機密，以及我們如何更安全</span>
+                          </li>
+                        </ol>
                     </div>
 
                     <!-- go to part2 -->
@@ -497,8 +552,12 @@
 
       document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = e.clientX - dragOffset.x + "px";
-          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
           tocElement.style.right = "auto"; // 取消right定位
         }
       });
@@ -514,5 +573,37 @@
       tocElement.style.cursor = "grab";
     </script>
 
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
+    </script>
 </body>
 </html>

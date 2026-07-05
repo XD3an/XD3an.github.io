@@ -15,18 +15,40 @@
         <meta property="og:url" content="https://xd3an.github.io/post/MD-part3.html" />
         <meta property="og:title" content="從刮痕開始的惡意程式開發 - Part 3: Process Injection | XD3an Blog" />
         <meta property="og:description" content="從刮痕開始的惡意程式開發系列教學第三部分：Process Injection。深入介紹程式碼注入技術，包括 DLL Injection、Process Hollowing 等進階技術的原理與實作。" />
-        <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part3/MD-background_adobe.jpg" />
-        <meta property="og:site_name" content="XD3an's All-In-One" />
+        <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part3/MD-part3-background.jpg" />
+        <meta property="og:site_name" content="XD3an Blog" />
+        <meta property="og:locale" content="zh_TW" />
         <meta property="article:published_time" content="2024-09-18T00:00:00Z" />
         <meta property="article:author" content="XD3an" />
 
         <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://xd3an.github.io/post/MD-part3.html" />
-        <meta property="twitter:title" content="從刮痕開始的惡意程式開發 - Part 3: Process Injection | XD3an Blog" />
-        <meta property="twitter:description" content="從刮痕開始的惡意程式開發系列教學第三部分：Process Injection。深入介紹程式碼注入技術，包括 DLL Injection、Process Hollowing 等進階技術的原理與實作。" />
-        <meta property="twitter:image" content="https://xd3an.github.io/assets/img/MD-part3/MD-background_adobe.jpg" />
-        <meta property="twitter:creator" content="@d3an_x" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://xd3an.github.io/post/MD-part3.html" />
+        <meta name="twitter:title" content="從刮痕開始的惡意程式開發 - Part 3: Process Injection | XD3an Blog" />
+        <meta name="twitter:description" content="從刮痕開始的惡意程式開發系列教學第三部分：Process Injection。深入介紹程式碼注入技術，包括 DLL Injection、Process Hollowing 等進階技術的原理與實作。" />
+        <meta name="twitter:image" content="https://xd3an.github.io/assets/img/MD-part3/MD-part3-background.jpg" />
+        <meta name="twitter:creator" content="@d3an_x" />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://xd3an.github.io/post/MD-part3.html" />
+        <!-- JSON-LD 結構化資料 -->
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "從刮痕開始的惡意程式開發 - Part 3: Process Injection",
+            "description": "從刮痕開始的惡意程式開發系列教學第三部分：Process Injection。深入介紹程式碼注入技術，包括 DLL Injection、Process Hollowing 等進階技術的原理與實作。",
+            "author": {
+              "@type": "Person",
+              "name": "XD3an"
+            },
+            "datePublished": "2024-09-18",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://xd3an.github.io/post/MD-part3.html"
+            }
+          }
+        </script>
 
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -60,6 +82,27 @@
           .floating-toc:hover {
             opacity: 1;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+          }
+
+          .toc-header {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ff6b35;
+            color: #212529;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .toc-content {
+            max-height: calc(60vh - 60px);
+            overflow-y: auto;
+          }
+
+          .toc-content.collapsed {
+            display: none;
           }
 
           .floating-toc ul {
@@ -166,7 +209,7 @@
 
         <!-- Magic -->
         <canvas id="magic-canvas"></canvas>
-        <script src="/js/magic.js"></script>
+        <script src="../js/magic.js"></script>
 
 
         <!-- Navigation-->
@@ -188,7 +231,7 @@
         </nav>
 
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('../assets/img/MD-part3/MD-part3-background.jpg')">
+        <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/MD-part3/MD-part3-background.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -514,19 +557,95 @@
 
                         <div>
                             <h2 id="references">References</h2>
-                            <hr>
-                            <ul>
-                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">Raymond Chen How does Task Manager categorize processes as App, Backgroun…</a></li>
-                                <li><a href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager">wikiHow How to Change Process Priorities in Windows Task Manager: 10…</a></li>
-                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753">Raymond Chen When you set a 100% CPU program to real-time priority, you g…</a></li>
-                                <li><a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers">Karl-Bridge-Microsoft Process Handles and Identifiers - Win32 apps</a></li>
-                                <li><a href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606">Raymond Chen How does Task Manager categorize processes as App, Backgroun…</a></li>
-                                <li><a href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list">GrantMeStrength Windows API index - Win32 apps</a></li>
-                                <li><a href="https://malapi.io/">MalAPI.io</a></li>
-                                <li><a href="https://attack.mitre.org/techniques/T1055/#ProcedureExamples">Process Injection, Technique T1055 - Enterprise | MITRE ATT&…</a></li>
-                                <li><a href="https://whiteknightlabs.com/2024/02/09/a-technical-deep-dive-comparing-anti-cheat-bypass-and-edr-bypass/">Mark Lester Dampios A Technical Deep Dive: Comparing Anti-Cheat Bypass and EDR B…</a></li>
-                                <li><a href="https://www.crow.rip/crows-nest/mal/dev/inject">Process Injection | Crow's Nest</a></li>
-                            </ul>
+                            <hr />
+                            <ol class="ref-list">
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606" target="_blank" rel="noopener noreferrer">How does Task Manager categorize processes as App, Background Process, or Windows Process?</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">Raymond Chen</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">Microsoft DevBlogs</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-date">2017-12</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://devblogs.microsoft.com/oldnewthing/20171219-00/?p=97606" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager" target="_blank" rel="noopener noreferrer">How to Change Process Priorities in Windows Task Manager</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">wikiHow</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://www.wikihow.com/Change-Process-Priorities-in-Windows-Task-Manager" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753" target="_blank" rel="noopener noreferrer">When you set a 100% CPU program to real-time priority, you get a nice 0% CPU program</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">Raymond Chen</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">Microsoft DevBlogs</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-date">2010-06</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://devblogs.microsoft.com/oldnewthing/20100610-00/?p=13753" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers" target="_blank" rel="noopener noreferrer">Process Handles and Identifiers - Win32 apps</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">Karl-Bridge-Microsoft</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">Microsoft Learn</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-handles-and-identifiers" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" target="_blank" rel="noopener noreferrer">Windows API index - Win32 apps</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Microsoft Learn</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://malapi.io/" target="_blank" rel="noopener noreferrer">MalAPI.io</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">MalAPI.io</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://malapi.io/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://attack.mitre.org/techniques/T1055/#ProcedureExamples" target="_blank" rel="noopener noreferrer">Process Injection, Technique T1055 - Enterprise | MITRE ATT&amp;CK</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">MITRE ATT&amp;CK</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://attack.mitre.org/techniques/T1055/#ProcedureExamples" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://whiteknightlabs.com/2024/02/09/a-technical-deep-dive-comparing-anti-cheat-bypass-and-edr-bypass/" target="_blank" rel="noopener noreferrer">A Technical Deep Dive: Comparing Anti-Cheat Bypass and EDR Bypass</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">Mark Lester Dampios</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">White Knight Labs</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-date">2024-02</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://whiteknightlabs.com/2024/02/09/a-technical-deep-dive-comparing-anti-cheat-bypass-and-edr-bypass/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://www.crow.rip/crows-nest/mal/dev/inject" target="_blank" rel="noopener noreferrer">Process Injection | Crow's Nest</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Crow's Nest</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://www.crow.rip/crows-nest/mal/dev/inject" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                            </ol>
                         </div>
 
                         <!-- go to part4 -->
@@ -635,8 +754,12 @@
 
           document.addEventListener("mousemove", function (e) {
             if (isDragging) {
-              tocElement.style.left = e.clientX - dragOffset.x + "px";
-              tocElement.style.top = e.clientY - dragOffset.y + "px";
+              var newLeft = e.clientX - dragOffset.x;
+              var newTop = e.clientY - dragOffset.y;
+              newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+              newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+              tocElement.style.left = newLeft + "px";
+              tocElement.style.top = newTop + "px";
               tocElement.style.right = "auto";
             }
           });
@@ -651,5 +774,37 @@
           tocElement.style.cursor = "grab";
         </script>
 
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
+    </script>
     </body>
 </html>

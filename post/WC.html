@@ -16,7 +16,7 @@
       name="keywords"
       content="XD3an, github.io, All-In-One, Browser Automation, Playwright, Selenium, NoDriver, 反爬蟲, 偽裝, 優化"
     />
-    <title>Browser Automation 技術比較與偽裝優化</title>
+    <title>Browser Automation 技術比較與偽裝優化 | XD3an Blog</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
     <script
       src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
@@ -67,6 +67,27 @@
       .floating-toc:hover {
         opacity: 1;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #ff6b35;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+
+      .toc-content.collapsed {
+        display: none;
       }
 
       .floating-toc ul {
@@ -159,32 +180,33 @@
     />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://xd3an.github.io/post/WC.html" />
-    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
     <meta
       property="og:image"
-      content="https://xd3an.github.io/assets/img/WC/WC-background.jpg"
+      content="https://xd3an.github.io/assets/img/WC/background.png"
     />
     <meta property="article:published_time" content="2025-08-24T00:00:00Z" />
     <meta property="article:author" content="XD3an" />
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
-      property="twitter:url"
+      name="twitter:url"
       content="https://xd3an.github.io/post/WC.html"
     />
     <meta
-      property="twitter:title"
+      name="twitter:title"
       content="Browser Automation 技術比較與偽裝優化 | XD3an Blog"
     />
     <meta
-      property="twitter:description"
+      name="twitter:description"
       content="Browser Automation（瀏覽器自動化）技術比較、Playwright、Selenium、NoDriver、反爬蟲偽裝、效能優化、AI agent 實戰分享。"
     />
     <meta
-      property="twitter:image"
-      content="https://xd3an.github.io/assets/img/WC/WC-background.jpg"
+      name="twitter:image"
+      content="https://xd3an.github.io/assets/img/WC/background.png"
     />
-    <meta property="twitter:creator" content="@d3an_x" />
+    <meta name="twitter:creator" content="@d3an_x" />
     <!-- Canonical URL -->
     <link rel="canonical" href="https://xd3an.github.io/post/WC.html" />
     <!-- JSON-LD 結構化資料 -->
@@ -237,7 +259,7 @@
     </div>
 
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
@@ -279,7 +301,7 @@
     <header
       class="masthead"
       style="
-        background-image: url('../assets/img/WC/background.png');
+        background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/WC/background.png');
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -558,53 +580,64 @@
                 IO。兩者可混合使用，依需求選擇最佳方案。
               </div>
             </aside>
-            <h3 id="references" style="margin-top: 2em; font-size: 1.25em">
-              🔗 參考連結
-            </h3>
-            <ul style="margin-bottom: 2em">
-              <li>
-                📚
-                <a
-                  href="https://stackoverflow.max-everyday.com/2024/09/selenium-undetected-chromedriver-nodriver/"
-                  target="_blank"
-                  >Selenium vs NoDriver vs undetected_chromedriver 比較 - Max
-                  的分享</a
-                >
+            <h3 id="references" style="margin-top: 2em; font-size: 1.25em">參考來源</h3>
+            <hr />
+            <ol class="ref-list">
+              <li class="ref-item">
+                <a class="ref-title" href="https://stackoverflow.max-everyday.com/2024/09/selenium-undetected-chromedriver-nodriver/" target="_blank" rel="noopener noreferrer">Selenium vs NoDriver vs undetected_chromedriver 比較</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Max 的分享</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2024-09</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://stackoverflow.max-everyday.com/2024/09/selenium-undetected-chromedriver-nodriver/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                📚
-                <a
-                  href="https://www.zenrows.com/blog/playwright-vs-selenium"
-                  target="_blank"
-                  >Selenium vs Playwright 2024 比較 - ZenRows</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.zenrows.com/blog/playwright-vs-selenium" target="_blank" rel="noopener noreferrer">Selenium vs Playwright 2024 比較</a>
+                <div class="ref-meta">
+                  <span class="ref-source">ZenRows</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.zenrows.com/blog/playwright-vs-selenium" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                📚
-                <a
-                  href="https://www.firecrawl.dev/blog/browser-automation-tools-comparison-2025"
-                  target="_blank"
-                  >三大框架對比：Playwright vs Puppeteer vs Selenium -
-                  FireCrawl</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.firecrawl.dev/blog/browser-automation-tools-comparison-2025" target="_blank" rel="noopener noreferrer">三大框架對比：Playwright vs Puppeteer vs Selenium</a>
+                <div class="ref-meta">
+                  <span class="ref-source">FireCrawl</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.firecrawl.dev/blog/browser-automation-tools-comparison-2025" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                📚
-                <a
-                  href="https://www.browserstack.com/guide/playwright-vs-selenium"
-                  target="_blank"
-                  >Playwright vs Selenium 選擇指南 - BrowserStack</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.browserstack.com/guide/playwright-vs-selenium" target="_blank" rel="noopener noreferrer">Playwright vs Selenium 選擇指南</a>
+                <div class="ref-meta">
+                  <span class="ref-source">BrowserStack</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.browserstack.com/guide/playwright-vs-selenium" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                📚
-                <a
-                  href="https://www.zenrows.com/blog/undetected-chromedriver-vs-selenium-stealth"
-                  target="_blank"
-                  >undetected-chromedriver vs Selenium Stealth – ZenRows</a
-                >
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.zenrows.com/blog/undetected-chromedriver-vs-selenium-stealth" target="_blank" rel="noopener noreferrer">undetected-chromedriver vs Selenium Stealth</a>
+                <div class="ref-meta">
+                  <span class="ref-source">ZenRows</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.zenrows.com/blog/undetected-chromedriver-vs-selenium-stealth" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-            </ul>
+              <li class="ref-item">
+                <a class="ref-title" href="https://browser-use.com/posts/playwright-to-cdp" target="_blank" rel="noopener noreferrer">Leaving Playwright for CDP: Why browser-use switched to lower-level browser control</a>
+                <div class="ref-meta">
+                  <span class="ref-author">browser-use team</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">browser-use Blog</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-date">2025-08</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://browser-use.com/posts/playwright-to-cdp" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+            </ol>
             <p>
               在 August 20 2025 時，browser-use
               團隊發表了文章，說明了他們為何選擇從 Playwright 轉向
@@ -1064,8 +1097,12 @@ Object.defineProperty(window, 'isRobot', { get: () => false });
 
       document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = e.clientX - dragOffset.x + "px";
-          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
           tocElement.style.right = "auto";
         }
       });
@@ -1078,6 +1115,39 @@ Object.defineProperty(window, 'isRobot', { get: () => false });
       });
 
       tocElement.style.cursor = "grab";
+    </script>
+
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
     </script>
   </body>
 </html>

@@ -15,18 +15,40 @@
         <meta property="og:url" content="https://xd3an.github.io/post/MD-part2.html" />
         <meta property="og:title" content="從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog" />
         <meta property="og:description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基礎程式編寫及系統呼叫。" />
-        <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-background_adobe.jpg" />
-        <meta property="og:site_name" content="XD3an's All-In-One" />
+        <meta property="og:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-part2-background.jpg" />
+        <meta property="og:site_name" content="XD3an Blog" />
+        <meta property="og:locale" content="zh_TW" />
         <meta property="article:published_time" content="2024-09-10T00:00:00Z" />
         <meta property="article:author" content="XD3an" />
 
         <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://xd3an.github.io/post/MD-part2.html" />
-        <meta property="twitter:title" content="從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog" />
-        <meta property="twitter:description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基礎程式編寫及系統呼叫。" />
-        <meta property="twitter:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-background_adobe.jpg" />
-        <meta property="twitter:creator" content="@d3an_x" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://xd3an.github.io/post/MD-part2.html" />
+        <meta name="twitter:title" content="從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro | XD3an Blog" />
+        <meta name="twitter:description" content="從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基礎程式編寫及系統呼叫。" />
+        <meta name="twitter:image" content="https://xd3an.github.io/assets/img/MD-part2/MD-part2-background.jpg" />
+        <meta name="twitter:creator" content="@d3an_x" />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://xd3an.github.io/post/MD-part2.html" />
+        <!-- JSON-LD 結構化資料 -->
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": "從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro",
+            "description": "從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基础程式編寫及系統呼叫。",
+            "author": {
+              "@type": "Person",
+              "name": "XD3an"
+            },
+            "datePublished": "2024-09-10",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://xd3an.github.io/post/MD-part2.html"
+            }
+          }
+        </script>
 
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -61,6 +83,27 @@
           .floating-toc:hover {
             opacity: 1;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+          }
+
+          .toc-header {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ff6b35;
+            color: #212529;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .toc-content {
+            max-height: calc(60vh - 60px);
+            overflow-y: auto;
+          }
+
+          .toc-content.collapsed {
+            display: none;
           }
 
           .floating-toc ul {
@@ -166,7 +209,7 @@
 
         <!-- Magic -->
         <canvas id="magic-canvas"></canvas>
-        <script src="/js/magic.js"></script>
+        <script src="../js/magic.js"></script>
 
 
         <!-- Navigation-->
@@ -188,7 +231,7 @@
         </nav>
 
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('../assets/img/MD-part2/MD-part2-background.jpg')">
+        <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/MD-part2/MD-part2-background.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -545,38 +588,85 @@
 
                         <div>
                             <h2 id="references">References</h2>
-                            <hr>
-                            <div>
-                                <ul>
-                                    <li>
-                                        <a href="https://0xpat.github.io/">0xPat blog 0xPat blog – Red/purple teamer</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.youtube.com/playlist?list=PL_z_ep2nxC57sHAlCcvvaYRrpdMIQXri1">crow Malware Development</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.ired.team/">What is ired.team notes? | Red Team Notes</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0">https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3">Stack Overflow 0x cc vs 0x cd 03 (int 3)</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://zh.m.wikipedia.org/zh-tw/X86-64">x86-64 - 維基百科，自由的百科全書</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://bible.malcore.io/readme/the-beginning/introduction-to-malware#command-and-control">Malcore - So You Want to Write Malware?</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://github.com/LordNoteworthy/al-khaser">al-khaser</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://anti-debug.checkpoint.com/"> Anti-Debug Tricks</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <hr />
+                            <ol class="ref-list">
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://0xpat.github.io/" target="_blank" rel="noopener noreferrer">0xPat blog – Red/purple teamer</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">0xPat Blog</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://0xpat.github.io/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://www.youtube.com/playlist?list=PL_z_ep2nxC57sHAlCcvvaYRrpdMIQXri1" target="_blank" rel="noopener noreferrer">crow Malware Development</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">crow</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">YouTube</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://www.youtube.com/playlist?list=PL_z_ep2nxC57sHAlCcvvaYRrpdMIQXri1" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://www.ired.team/" target="_blank" rel="noopener noreferrer">What is ired.team notes? | Red Team Notes</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">ired.team</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://www.ired.team/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0" target="_blank" rel="noopener noreferrer">Bilibili Channel 157504840</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Bilibili</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://space.bilibili.com/157504840/?spm_id_from=333.999.0.0" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3" target="_blank" rel="noopener noreferrer">0x cc vs 0x cd 03 (int 3)</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Stack Overflow</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://stackoverflow.com/questions/58148368/0x-cc-vs-0x-cd-03-int-3" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://zh.m.wikipedia.org/zh-tw/X86-64" target="_blank" rel="noopener noreferrer">x86-64 - 維基百科，自由的百科全書</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Wikipedia</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://zh.m.wikipedia.org/zh-tw/X86-64" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://bible.malcore.io/readme/the-beginning/introduction-to-malware#command-and-control" target="_blank" rel="noopener noreferrer">So You Want to Write Malware?</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">Malcore</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://bible.malcore.io/readme/the-beginning/introduction-to-malware#command-and-control" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://github.com/LordNoteworthy/al-khaser" target="_blank" rel="noopener noreferrer">al-khaser</a>
+                                <div class="ref-meta">
+                                  <span class="ref-author">LordNoteworthy</span>
+                                  <span class="ref-dot">·</span>
+                                  <span class="ref-source">GitHub</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://github.com/LordNoteworthy/al-khaser" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                              <li class="ref-item">
+                                <a class="ref-title" href="https://anti-debug.checkpoint.com/" target="_blank" rel="noopener noreferrer">Anti-Debug Tricks</a>
+                                <div class="ref-meta">
+                                  <span class="ref-source">checkpoint.com</span>
+                                  <span class="ref-dot">·</span>
+                                  <a class="ref-url" href="https://anti-debug.checkpoint.com/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                                </div>
+                              </li>
+                            </ol>
                         </div>
 
                         <!-- go to part 3: -->
@@ -692,8 +782,12 @@
 
           document.addEventListener("mousemove", function (e) {
             if (isDragging) {
-              tocElement.style.left = e.clientX - dragOffset.x + "px";
-              tocElement.style.top = e.clientY - dragOffset.y + "px";
+              var newLeft = e.clientX - dragOffset.x;
+              var newTop = e.clientY - dragOffset.y;
+              newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+              newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+              tocElement.style.left = newLeft + "px";
+              tocElement.style.top = newTop + "px";
               tocElement.style.right = "auto";
             }
           });
@@ -708,5 +802,37 @@
           tocElement.style.cursor = "grab";
         </script>
 
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
+    </script>
     </body>
 </html>

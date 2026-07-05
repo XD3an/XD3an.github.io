@@ -51,6 +51,27 @@
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       }
 
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #4a7fc1;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+
+      .toc-content.collapsed {
+        display: none;
+      }
+
       .floating-toc ul {
         list-style: none;
         padding: 0;
@@ -177,57 +198,6 @@
         background-color: #f8f9fa;
       }
 
-      /* Lightbox */
-      .lb-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.85);
-        z-index: 9999;
-        cursor: zoom-out;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .lb-overlay.active {
-        display: flex;
-      }
-
-      .lb-overlay img {
-        max-width: 90vw;
-        max-height: 90vh;
-        border-radius: 6px;
-        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-        object-fit: contain;
-        cursor: zoom-out;
-      }
-
-      .lb-close {
-        position: fixed;
-        top: 20px;
-        right: 28px;
-        color: #fff;
-        font-size: 2rem;
-        line-height: 1;
-        cursor: pointer;
-        opacity: 0.8;
-        transition: opacity 0.2s;
-        user-select: none;
-      }
-
-      .lb-close:hover {
-        opacity: 1;
-      }
-
-      .diagram-img {
-        cursor: zoom-in;
-        transition: opacity 0.15s;
-      }
-
-      .diagram-img:hover {
-        opacity: 0.85;
-      }
-
       /* 內文標題字重 */
       article h2,
       article h3 {
@@ -285,24 +255,33 @@
       property="og:url"
       content="https://xd3an.github.io/post/system-architecture-20260621.html"
     />
-    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta
+      property="og:image"
+      content="https://xd3an.github.io/assets/img/system-architecture-20260621/system-architecture.png"
+    />
     <meta property="article:published_time" content="2026-06-21T00:00:00Z" />
     <meta property="article:author" content="XD3an" />
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
-      property="twitter:url"
+      name="twitter:url"
       content="https://xd3an.github.io/post/system-architecture-20260621.html"
     />
     <meta
-      property="twitter:title"
+      name="twitter:title"
       content="Vibe Coding 的盡頭是一堆爛架構 | XD3an Blog"
     />
     <meta
-      property="twitter:description"
+      name="twitter:description"
       content="從一台機器到千萬用戶，中間發生了什麼：談談系統架構究竟在設計什麼。"
     />
-    <meta property="twitter:creator" content="@d3an_x" />
+    <meta
+      name="twitter:image"
+      content="https://xd3an.github.io/assets/img/system-architecture-20260621/system-architecture.png"
+    />
+    <meta name="twitter:creator" content="@d3an_x" />
     <!-- Canonical URL -->
     <link
       rel="canonical"
@@ -359,7 +338,7 @@
     </div>
 
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="../index.html">XD3an's All-In-One</a>
@@ -464,7 +443,7 @@
                 <p>基礎的單機架構，一個應用伺服器一個資料庫。</p>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-0.png" alt="單機架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-0.png" alt="單機架構" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>如果使用者變多了，導致應用與資料庫之間常常競爭搶資源？</p>
@@ -482,7 +461,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-1.png" alt="多機架構 - 拆分應用與資料庫" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-1.png" alt="多機架構 - 拆分應用與資料庫" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>如果使用者再變更多了，導致應用與資料庫無法負荷如此大量的查詢呢？</p>
@@ -508,7 +487,7 @@
                 <p>常見工具：<strong>Nginx</strong>、<strong>HAProxy</strong>（Layer 7）</p>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-2.png" alt="水平擴展 - 負載平衡" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-2.png" alt="水平擴展 - 負載平衡" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>水平擴展讓應用層可支撐更多並發，但大量請求最終仍會打到同一個資料庫，資料庫的讀取壓力成為新的系統瓶頸。</p>
@@ -534,7 +513,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-3.png" alt="引入本地與分布式緩存" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-3.png" alt="引入本地與分布式緩存" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>緩存雖然大幅降低了資料庫壓力，但寫入操作仍然全數打向單一資料庫，讀寫混雜使資料庫成為下一個瓶頸。</p>
@@ -553,7 +532,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-4.png" alt="資料庫讀寫分離" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-4.png" alt="資料庫讀寫分離" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>隨著業務增加，不同業務之間存取量差距大，且彼此競爭資料庫資源，相互影響效能。</p>
@@ -570,7 +549,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-5.png" alt="資料庫按業務分庫" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-5.png" alt="資料庫按業務分庫" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>隨著用戶數量與地理分布越來越廣，靜態資源（圖片、CSS、JS、影片等）每次都需從源站伺服器取得，導致：</p>
@@ -595,7 +574,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-6.png" alt="內容傳遞網路 CDN" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-6.png" alt="內容傳遞網路 CDN" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>靜態資源的延遲與安全問題解決了，但隨著流量持續增長，應用伺服器直接面對所有動態請求，單一入口缺乏統一的流量管控與協定處理能力。</p>
@@ -616,7 +595,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-7.png" alt="反向代理" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-7.png" alt="反向代理" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>隨著業務持續擴張，需要解決的查詢場景越來越複雜，傳統關聯式資料庫已無法負荷，例如：模糊查詢、全文搜尋、多維統計分析等問題。</p>
@@ -634,7 +613,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-8.png" alt="NoSQL / 搜尋引擎" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-8.png" alt="NoSQL / 搜尋引擎" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>隨著功能持續迭代，所有業務邏輯都集中在同一個單體應用（Monolith）中，導致：</p>
@@ -658,7 +637,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-9.png" alt="分布式架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-9.png" alt="分布式架構" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>各服務拆分成獨立 Cluster 後，服務之間需要互相呼叫，但直接使用 HTTP 存在以下問題：</p>
@@ -690,7 +669,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-10.png" alt="RPC 與服務註冊發現" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-10.png" alt="RPC 與服務註冊發現" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>服務間直接透過 RPC 同步呼叫，當呼叫鏈過長或下游服務處理緩慢時，會造成：</p>
@@ -714,7 +693,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-11.png" alt="消息佇列" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-11.png" alt="消息佇列" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>隨著服務數量持續增加，部署與維運面臨嚴峻挑戰：</p>
@@ -739,7 +718,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-12.png" alt="微服務架構" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-12.png" alt="微服務架構" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>微服務數量龐大，每個服務都需要獨立管理運行環境，導致：</p>
@@ -779,7 +758,7 @@
                 </ul>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-13.png" alt="容器化 Docker + Kubernetes" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-13.png" alt="容器化 Docker + Kubernetes" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
             <p>容器數量龐大，手動管理調度已不可行：</p>
@@ -797,8 +776,9 @@
             <div class="section-row">
               <div class="section-desc">
                 <p>將整個系統部署至雲端，透過雲端提供的基礎設施與服務，解決容器調度、自動擴縮容、硬體維護等問題。</p>
-                <table>
-              <thead>
+                <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+              <thead class="table-light">
                 <tr>
                   <th>層級</th>
                   <th>全名</th>
@@ -823,6 +803,7 @@
                 </tr>
               </tbody>
             </table>
+            </div>
             <p><strong>雲端帶來的優勢：</strong></p>
             <ul>
               <li style="margin-bottom: 0.4em">硬體資源按需申請，非尖峰時期自動釋放，大幅降低成本</li>
@@ -832,7 +813,7 @@
             <p>常見雲端平台：<strong>AWS</strong>、<strong>GCP</strong>、<strong>Azure</strong> 等</p>
               </div>
               <div class="diagram-wrap">
-                <img src="../assets/img/system-architecture-20260621/diagram-14.png" alt="雲端平台 Cloud Platform" class="img-fluid mb-2 diagram-img" style="border-radius: 8px; max-width: 100%" />
+                <img src="../assets/img/system-architecture-20260621/diagram-14.png" alt="雲端平台 Cloud Platform" class="img-fluid mb-2" style="border-radius: 8px; max-width: 100%" />
               </div>
             </div>
 
@@ -993,30 +974,66 @@
               <strong>參考來源</strong>
             </h2>
             <hr />
-
-            <ul>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer - GitHub</a>
+            <ol class="ref-list">
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener noreferrer">System Design Primer</a>
+                <div class="ref-meta">
+                  <span class="ref-author">donnemartin</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://blog.bytebytego.com/" target="_blank">ByteByteGo Newsletter</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://blog.bytebytego.com/" target="_blank" rel="noopener noreferrer">ByteByteGo Newsletter</a>
+                <div class="ref-meta">
+                  <span class="ref-source">ByteByteGo</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://blog.bytebytego.com/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://www.infoq.cn/topic/architecture" target="_blank">InfoQ 架構專欄</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.infoq.cn/topic/architecture" target="_blank" rel="noopener noreferrer">InfoQ 架構專欄</a>
+                <div class="ref-meta">
+                  <span class="ref-source">InfoQ China</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.infoq.cn/topic/architecture" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://aws.amazon.com/architecture/" target="_blank">AWS 架構白皮書</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://aws.amazon.com/architecture/" target="_blank" rel="noopener noreferrer">AWS 架構白皮書</a>
+                <div class="ref-meta">
+                  <span class="ref-source">AWS</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://aws.amazon.com/architecture/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://docs.nginx.com/" target="_blank">Nginx 官方文檔</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://docs.nginx.com/" target="_blank" rel="noopener noreferrer">Nginx 官方文檔</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Nginx Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://docs.nginx.com/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li style="margin-bottom: 0.5em">
-                <a href="https://kubernetes.io/docs/" target="_blank">Kubernetes 官方文檔</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer">Kubernetes 官方文檔</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Kubernetes Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-              <li>
-                <a href="https://www.elastic.co/guide/" target="_blank">ElasticSearch 官方文檔</a>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.elastic.co/guide/" target="_blank" rel="noopener noreferrer">ElasticSearch 官方文檔</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Elastic Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.elastic.co/guide/" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
               </li>
-            </ul>
+            </ol>
 
           </div>
         </div>
@@ -1030,7 +1047,15 @@
           <div class="col-md-10 col-lg-8 col-xl-7">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="https://github.com/XD3an" target="_blank">
+                <a href="https://twitter.com/d3an_x">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/XD3an">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -1038,33 +1063,96 @@
                 </a>
               </li>
             </ul>
-            <div class="small text-center text-muted fst-italic">Copyright &copy; XD3an 2026</div>
           </div>
         </div>
       </div>
     </footer>
 
+    <!-- 目錄功能JavaScript -->
     <script>
-      // TOC active state on scroll
-      const tocLinks = document.querySelectorAll('.floating-toc a');
-      const sections = document.querySelectorAll('h2[id], h3[id]');
+      // 滾動時高亮當前章節
+      function updateActiveSection() {
+        const sections = [
+          "overview", "architecture-evolution", "single-machine", "multi-machine",
+          "horizontal-scaling", "cache", "read-write-split", "vertical-sharding",
+          "cdn", "reverse-proxy", "nosql", "distributed", "rpc", "message-queue",
+          "microservices", "containerization", "cloud", "design-principles",
+          "design-steps", "conclusion", "references"
+        ];
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              tocLinks.forEach((link) => link.classList.remove('active'));
-              const activeLink = document.querySelector(
-                `.floating-toc a[href="#${entry.target.id}"]`
-              );
-              if (activeLink) activeLink.classList.add('active');
-            }
+        let currentSection = "";
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const element = document.getElementById(sections[i]);
+          if (element && element.offsetTop <= scrollTop + 100) {
+            currentSection = sections[i];
+            break;
+          }
+        }
+
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      function scrollToSection(targetId) {
+        const targetElement = document.getElementById(targetId.substring(1));
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 20;
+          window.scrollTo({ top: offsetTop, behavior: "smooth" });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("scroll", updateActiveSection);
+
+        const tocLinks = document.querySelectorAll(".floating-toc a");
+        tocLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            scrollToSection(this.getAttribute("href"));
           });
-        },
-        { rootMargin: '-10% 0px -80% 0px' }
-      );
+        });
 
-      sections.forEach((section) => observer.observe(section));
+        updateActiveSection();
+      });
+
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+      const tocElement = document.getElementById("floatingToc");
+
+      tocElement.addEventListener("mousedown", function (e) {
+        isDragging = true;
+        dragOffset.x = e.clientX - tocElement.offsetLeft;
+        dragOffset.y = e.clientY - tocElement.offsetTop;
+        tocElement.style.cursor = "grabbing";
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isDragging) {
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
+          tocElement.style.right = "auto";
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        if (isDragging) {
+          isDragging = false;
+          tocElement.style.cursor = "grab";
+        }
+      });
+
+      tocElement.style.cursor = "grab";
     </script>
 
     <!-- Lightbox -->
@@ -1073,29 +1161,31 @@
       <img id="lbImg" src="" alt="" />
     </div>
     <script>
-      const overlay = document.getElementById('lbOverlay');
-      const lbImg  = document.getElementById('lbImg');
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
 
-      document.querySelectorAll('.diagram-img').forEach((img) => {
-        img.addEventListener('click', () => {
-          lbImg.src = img.src;
-          lbImg.alt = img.alt;
-          overlay.classList.add('active');
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
         });
-      });
 
-      function closeLb() {
-        overlay.classList.remove('active');
-        lbImg.src = '';
-      }
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
 
-      document.getElementById('lbClose').addEventListener('click', closeLb);
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeLb();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLb();
-      });
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
     </script>
   </body>
 </html>

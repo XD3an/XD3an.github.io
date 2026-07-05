@@ -37,31 +37,53 @@
     />
     <meta
       property="og:image"
-      content="https://xd3an.github.io/assets/img/MD-part4/MD-background_adobe.jpg"
+      content="https://xd3an.github.io/assets/img/MD-part4/MD-part4-background.jpg"
     />
-    <meta property="og:site_name" content="XD3an's All-In-One" />
+    <meta property="og:site_name" content="XD3an Blog" />
+    <meta property="og:locale" content="zh_TW" />
     <meta property="article:published_time" content="2024-09-29T00:00:00Z" />
     <meta property="article:author" content="XD3an" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
-      property="twitter:url"
+      name="twitter:url"
       content="https://xd3an.github.io/post/MD-part4.html"
     />
     <meta
-      property="twitter:title"
+      name="twitter:title"
       content="從刮痕開始的惡意程式開發 - Part 4: Hooking Techniques | XD3an Blog"
     />
     <meta
-      property="twitter:description"
+      name="twitter:description"
       content="從刮痕開始的惡意程式開發系列教學第四部分：Hooking Techniques。探討 API Hooking、DLL Hijacking、IAT Hooking 等進階 Hook 技術，了解如何攔截系統調用。"
     />
     <meta
-      property="twitter:image"
-      content="https://xd3an.github.io/assets/img/MD-part4/MD-background_adobe.jpg"
+      name="twitter:image"
+      content="https://xd3an.github.io/assets/img/MD-part4/MD-part4-background.jpg"
     />
-    <meta property="twitter:creator" content="@d3an_x" />
+    <meta name="twitter:creator" content="@d3an_x" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://xd3an.github.io/post/MD-part4.html" />
+    <!-- JSON-LD 結構化資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "從刮痕開始的惡意程式開發 - Part 4: Hooking Techniques",
+        "description": "從刮痕開始的惡意程式開發系列教學第四部分：Hooking Techniques。探討 API Hooking、DLL Hijacking、IAT Hooking 等進階 Hook 技術，了解如何攔截系統調用。",
+        "author": {
+          "@type": "Person",
+          "name": "XD3an"
+        },
+        "datePublished": "2024-09-29",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://xd3an.github.io/post/MD-part4.html"
+        }
+      }
+    </script>
 
     <!-- Font Awesome icons (free version)-->
     <script
@@ -98,6 +120,27 @@
       .floating-toc:hover {
         opacity: 1;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .toc-header {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #ff6b35;
+        color: #212529;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toc-content {
+        max-height: calc(60vh - 60px);
+        overflow-y: auto;
+      }
+
+      .toc-content.collapsed {
+        display: none;
       }
 
       .floating-toc ul {
@@ -202,7 +245,7 @@
 
     <!-- Magic -->
     <canvas id="magic-canvas"></canvas>
-    <script src="/js/magic.js"></script>
+    <script src="../js/magic.js"></script>
 
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -248,7 +291,10 @@
     <header
       class="masthead"
       style="
-        background-image: url('../assets/img/MD-part4/MD-part4-background.jpg');
+        background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../assets/img/MD-part4/MD-part4-background.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
       "
     >
       <div class="container position-relative px-4 px-lg-5">
@@ -679,44 +725,72 @@
             <div>
               <h2 id="references">References</h2>
               <hr />
-              <ul>
-                <li>
-                  <a href="https://bbs.kanxue.com/thread-269261.htm"
-                    >XiunoBBS 4.0 [原创]Windows
-                    Hook技术的简单介绍，干就完了！-编程技术-看雪-安全社区|安全招聘|kanxue.com</a
-                  >
+              <ol class="ref-list">
+                <li class="ref-item">
+                  <a class="ref-title" href="https://bbs.kanxue.com/thread-269261.htm" target="_blank" rel="noopener noreferrer">[原创]Windows Hook技术的简单介绍，干就完了！</a>
+                  <div class="ref-meta">
+                    <span class="ref-source">看雪安全</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://bbs.kanxue.com/thread-269261.htm" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a
-                    href="https://s.itho.me/ccms_slides/2024/5/24/82199f76-195a-45bf-87d5-af9cafc30cf4.pdf"
-                    >s.itho.me</a
-                  >
+                <li class="ref-item">
+                  <a class="ref-title" href="https://s.itho.me/ccms_slides/2024/5/24/82199f76-195a-45bf-87d5-af9cafc30cf4.pdf" target="_blank" rel="noopener noreferrer">iThome CCMS Slides (2024-05)</a>
+                  <div class="ref-meta">
+                    <span class="ref-source">iThome</span>
+                    <span class="ref-dot">·</span>
+                    <span class="ref-date">2024-05</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://s.itho.me/ccms_slides/2024/5/24/82199f76-195a-45bf-87d5-af9cafc30cf4.pdf" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a
-                    href="https://blog.securehat.co.uk/process-injection/manually-implementing-inline-function-hooking"
-                    >Manually Implementing Inline Function Hooking |
-                    Securehat</a
-                  >
+                <li class="ref-item">
+                  <a class="ref-title" href="https://blog.securehat.co.uk/process-injection/manually-implementing-inline-function-hooking" target="_blank" rel="noopener noreferrer">Manually Implementing Inline Function Hooking</a>
+                  <div class="ref-meta">
+                    <span class="ref-source">Securehat</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://blog.securehat.co.uk/process-injection/manually-implementing-inline-function-hooking" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a
-                    href="https://learn.microsoft.com/en-us/windows/win32/winmsg/hooks"
-                    >Karl-Bridge-Microsoft Hooks - Win32 apps</a
-                  >
+                <li class="ref-item">
+                  <a class="ref-title" href="https://learn.microsoft.com/en-us/windows/win32/winmsg/hooks" target="_blank" rel="noopener noreferrer">Hooks - Win32 apps</a>
+                  <div class="ref-meta">
+                    <span class="ref-author">Karl-Bridge-Microsoft</span>
+                    <span class="ref-dot">·</span>
+                    <span class="ref-source">Microsoft Learn</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://learn.microsoft.com/en-us/windows/win32/winmsg/hooks" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a href="https://github.com/microsoft/Detours">Detours</a>
+                <li class="ref-item">
+                  <a class="ref-title" href="https://github.com/microsoft/Detours" target="_blank" rel="noopener noreferrer">Detours</a>
+                  <div class="ref-meta">
+                    <span class="ref-author">microsoft</span>
+                    <span class="ref-dot">·</span>
+                    <span class="ref-source">GitHub</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://github.com/microsoft/Detours" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a href="https://github.com/EasyHook/EasyHook">EasyHook</a>
+                <li class="ref-item">
+                  <a class="ref-title" href="https://github.com/EasyHook/EasyHook" target="_blank" rel="noopener noreferrer">EasyHook</a>
+                  <div class="ref-meta">
+                    <span class="ref-author">EasyHook</span>
+                    <span class="ref-dot">·</span>
+                    <span class="ref-source">GitHub</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://github.com/EasyHook/EasyHook" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-                <li>
-                  <a href="https://www.youtube.com/watch?v=jvh5v9Rd9HE"
-                    >隨意觀看 小心魔鉤</a
-                  >
+                <li class="ref-item">
+                  <a class="ref-title" href="https://www.youtube.com/watch?v=jvh5v9Rd9HE" target="_blank" rel="noopener noreferrer">隨意觀看 小心魔鉤</a>
+                  <div class="ref-meta">
+                    <span class="ref-source">YouTube</span>
+                    <span class="ref-dot">·</span>
+                    <a class="ref-url" href="https://www.youtube.com/watch?v=jvh5v9Rd9HE" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                  </div>
                 </li>
-              </ul>
+              </ol>
             </div>
           </div>
         </div>
@@ -819,8 +893,12 @@
 
       document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-          tocElement.style.left = e.clientX - dragOffset.x + "px";
-          tocElement.style.top = e.clientY - dragOffset.y + "px";
+          var newLeft = e.clientX - dragOffset.x;
+          var newTop = e.clientY - dragOffset.y;
+          newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - tocElement.offsetWidth));
+          newTop = Math.max(0, Math.min(newTop, window.innerHeight - tocElement.offsetHeight));
+          tocElement.style.left = newLeft + "px";
+          tocElement.style.top = newTop + "px";
           tocElement.style.right = "auto";
         }
       });
@@ -835,5 +913,37 @@
       tocElement.style.cursor = "grab";
     </script>
 
+    <!-- Lightbox -->
+    <div class="lb-overlay" id="lbOverlay">
+      <span class="lb-close" id="lbClose">&times;</span>
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lbOverlay');
+        var lbImg = document.getElementById('lbImg');
+
+        document.querySelectorAll('article img').forEach(function (img) {
+          img.addEventListener('click', function () {
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            overlay.classList.add('active');
+          });
+        });
+
+        function closeLb() {
+          overlay.classList.remove('active');
+          lbImg.src = '';
+        }
+
+        document.getElementById('lbClose').addEventListener('click', closeLb);
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) closeLb();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeLb();
+        });
+      })();
+    </script>
   </body>
 </html>
