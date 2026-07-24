@@ -1819,66 +1819,184 @@ claude --version</code></pre>
             </h3>
 
             <p>
-              這是近期備受看好的 AI coding 開發工作流，以
-              <strong>Amazon</strong> 的
-              <strong>Kiro IDE</strong> 為例，流程分為三步：
+              Spec 驅動開發的核心概念是：先把「需求、設計、任務」寫成結構化文件（spec），每個階段都要經過人工確認過關，才讓
+              Claude Code
+              依照這份定案的 spec 實作，而不是讓它邊猜邊寫、寫到一半才發現理解錯需求。目前這<strong>不是
+              Claude Code 官方原生功能</strong>，而是社群發展出來的工作流模式，各家工具在指令與檔案細節上略有不同，但通用流程大同小異。
             </p>
 
-            <ol>
-              <li>
-                <strong>Requirements（需求規格）</strong>
-                <p>
-                  用自然語言寫清楚「功能要達到什麼」、「使用者情境」、「成功驗收標準」。
-                </p>
-                <blockquote class="blockquote">
-                  例如：使用者輸入 email，系統必須驗證格式，若錯誤需提示訊息。
-                </blockquote>
-              </li>
-              <li>
-                <strong>Design（設計規格）</strong>
-                <p>定義系統架構、資料流、API 介面、數據結構。</p>
-                <ul>
-                  <li>UI 元件：Email 輸入框</li>
-                  <li>
-                    驗證函式：<code>validate_email(email: str) -> bool</code>
-                  </li>
-                  <li>錯誤提示元件：ErrorBanner</li>
-                </ul>
-              </li>
-              <li>
-                <strong>Tasks（實作任務）</strong>
-                <p>把設計切分成小的可交付任務。</p>
-                <ul>
-                  <li>Task 1: 建立 <code>validate_email</code> 函式</li>
-                  <li>Task 2: 建立 UI 元件 EmailInput</li>
-                  <li>Task 3: 整合驗證與錯誤提示</li>
-                </ul>
-              </li>
-            </ol>
+            <p>
+              不管用哪一套工具，典型流程都可以抽象成三個階段，每個階段都會產出一份實體文件，並且要<strong>人工確認過關才能進入下一階段</strong>：
+            </p>
 
-            <p><strong>其價值在於：</strong></p>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th style="width: 15%">階段</th>
+                    <th style="width: 20%">產出文件</th>
+                    <th style="width: 65%">內容</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Requirements</strong><br />需求規格</td>
+                    <td><code>requirements.md</code></td>
+                    <td>
+                      用使用者故事（user story）＋
+                      <strong>EARS 語法</strong>（Easy Approach to
+                      Requirements Syntax）寫出可驗證的驗收條件，格式通常是
+                      <code>WHEN [條件/事件] THE SYSTEM SHALL [預期行為]</code>，避免需求描述模糊
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Design</strong><br />設計規格</td>
+                    <td><code>design.md / plan.md</code></td>
+                    <td>
+                      系統架構、循序圖、API 規格、資料模型、技術選型理由，把「要做什麼」轉換成「怎麼做」
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tasks</strong><br />實作任務</td>
+                    <td><code>tasks.md</code></td>
+                    <td>
+                      把設計拆成一個個可獨立追蹤、可驗收的小任務，每個任務都要能對應回上一階段的設計項目
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>用同一個 email 驗證功能為例，Requirements 階段實際會寫成：</p>
+
+            <pre><code class="language-markdown"># requirements.md
+
+## User Story
+作為使用者，我希望輸入 email 時系統能立即驗證格式，
+這樣我才不會在送出表單後才發現打錯。
+
+## Acceptance Criteria (EARS)
+- WHEN 使用者在 email 欄位輸入內容並失焦，
+  THE SYSTEM SHALL 驗證是否符合 email 格式規則
+- WHEN 驗證失敗，
+  THE SYSTEM SHALL 顯示錯誤提示訊息，且不得清空使用者已輸入的內容
+- WHEN 驗證成功，
+  THE SYSTEM SHALL 移除錯誤提示並允許表單繼續送出</code></pre>
+
+            <p>Design 階段把上面的驗收條件轉換成具體技術設計：</p>
             <ul>
+              <li>UI 元件：Email 輸入框 ＋ <code>ErrorBanner</code> 錯誤提示元件</li>
               <li>
-                <strong>可追蹤性（Traceability）</strong> -
-                每行程式碼都能追溯回需求
+                驗證函式簽名：<code>validate_email(email: str) -> bool</code>
               </li>
-              <li>
-                <strong>協作性（Collaboration）</strong> - 團隊成員可先討論
-                Spec，而不是直接討論 AI 生成的程式碼
-              </li>
-              <li><strong>品質（Quality）</strong> - 減少 AI 產生的隱性錯誤</li>
-              <li>
-                <strong>一致性（Consistency）</strong> - 多代理開發可共用
-                Spec，降低上下文遺失問題
-              </li>
+              <li>觸發時機：<code>onBlur</code> 事件而非即時輸入時驗證，避免輸入到一半就跳錯誤</li>
+            </ul>
+
+            <p>Tasks 階段再把設計拆成可獨立驗收的任務：</p>
+            <ul>
+              <li>Task 1：實作 <code>validate_email</code> 函式，並補上單元測試</li>
+              <li>Task 2：建立 <code>EmailInput</code> UI 元件</li>
+              <li>Task 3：串接 <code>onBlur</code> 事件、<code>ErrorBanner</code> 與驗證函式</li>
             </ul>
 
             <p>
-              參考實現：<a
-                href="https://github.com/gotalab/claude-code-spec"
-                target="_blank"
+              了解通用流程後，接著看實際工具怎麼把它做出來。目前比較常見的有
+              <strong>Amazon Kiro IDE</strong>（原生 IDE 內建支援）、社群工具
+              <strong>gotalab/cc-sdd</strong>（把 Kiro
+              的 spec 格式搬進 Claude Code）、以及
+              <strong>GitHub 官方的 spec-kit</strong>。
+            </p>
+
+            <p><strong>在 Claude Code 中實際使用（gotalab/cc-sdd）</strong></p>
+            <p>
+              以
+              <a href="https://github.com/gotalab/claude-code-spec" target="_blank"
                 >gotalab/cc-sdd</a
               >
+              為例，安裝後會加入一組 <code>/kiro-*</code>
+              斜線命令（命名沿用 Kiro 的 spec 格式），並把產出的 spec
+              文件統一存放在專案的 <code>.kiro/</code> 目錄下：
+            </p>
+            <pre><code class="language-bash">/kiro-spec-init            # 初始化一個新的 spec
+/kiro-spec-requirements    # 產出 requirements.md
+/kiro-spec-design          # 產出 design.md
+/kiro-spec-tasks           # 產出 tasks.md
+/kiro-impl                 # 依 tasks.md 逐一實作，並可自動 code review</code></pre>
+
+            <p>
+              另外還有 GitHub 官方推出的
+              <a href="https://github.com/github/spec-kit" target="_blank"
+                >spec-kit</a
+              >，理念相同但指令名稱與檔案結構不太一樣，容易讓人搞混「有沒有
+              design.md／plan.md」，對照如下：
+            </p>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th style="width: 20%">階段（同上表對應）</th>
+                    <th style="width: 25%">spec-kit 指令</th>
+                    <th style="width: 55%">產出檔案</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>（專案層級，非單一 spec）</td>
+                    <td><code>/speckit.constitution</code></td>
+                    <td>
+                      <code>.specify/memory/constitution.md</code>
+                      ——整個專案共用、不可違反的開發原則，只需要建立一次
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>≈ Requirements</td>
+                    <td><code>/speckit.specify</code></td>
+                    <td>
+                      <code>specs/&lt;編號-功能名&gt;/spec.md</code>
+                      ——功能的使用者故事與驗收條件，模糊之處會標成
+                      <code>[NEEDS CLARIFICATION]</code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>≈ Design</td>
+                    <td><code>/speckit.plan</code></td>
+                    <td>
+                      <strong>有 <code>plan.md</code></strong
+                      >，同一個資料夾下還會一併產出
+                      <code>data-model.md</code>（資料模型）、
+                      <code>contracts/</code>（API 規格）、
+                      <code>research.md</code>（技術選型調查）、
+                      <code>quickstart.md</code>（驗證步驟）
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>≈ Tasks</td>
+                    <td><code>/speckit.tasks</code></td>
+                    <td>
+                      同一資料夾下的 <code>tasks.md</code>
+                      ——任務清單，可平行處理的任務會標上
+                      <code>[P]</code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>（實作執行）</td>
+                    <td><code>/speckit.implement</code></td>
+                    <td>依 <code>tasks.md</code> 逐一寫程式碼</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              也就是說 spec-kit 沒有名為 <code>design.md</code>
+              的檔案，對應到「設計規格」這一步的正式產出是
+              <code>plan.md</code>（外加幾份輔助文件）；另外還有
+              <code>/speckit.clarify</code>、<code>/speckit.analyze</code>
+              可以在動工前先揪出 spec 裡的模糊或矛盾之處。所有單一功能的產出都放在
+              <code>specs/&lt;編號-功能名&gt;/</code>
+              目錄下，只有 constitution 是放在
+              <code>.specify/memory/</code> 這個跨功能共用的位置。
             </p>
 
             <h2 id="vibe-coding" style="margin-top: 2.5em; font-size: 1.5em">
@@ -2538,6 +2656,22 @@ cd ../project-feature-a && claude</code></pre>
                   <span class="ref-source">GitHub</span>
                   <span class="ref-dot">·</span>
                   <a class="ref-url" href="https://github.com/gotalab/claude-code-spec" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">github/spec-kit - Spec 驅動開發工具組</a>
+                <div class="ref-meta">
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://kiro.dev/docs/specs/feature-specs/" target="_blank" rel="noopener noreferrer">Kiro - Feature specs 文件</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Kiro.dev</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://kiro.dev/docs/specs/feature-specs/" target="_blank" rel="noopener noreferrer">Available ↗</a>
                 </div>
               </li>
               <li class="ref-item">
