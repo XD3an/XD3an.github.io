@@ -9,12 +9,12 @@
     <meta name="XD3an" content="All-In-One" />
     <meta
       name="description"
-      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP、Agent Skills、Plugin、Auto Memory、Auto Mode 等功能詳解，並收錄團隊工作流實戰、Vibe Coding、提示詞工程與多子代理協作技巧。"
     />
     <meta name="author" content="XD3an" />
     <meta
       name="keywords"
-      content="XD3an, github.io, All-In-One, Claude Code, AI Coding Agent, MCP, 自動化程式開發, CLI 工具, Anthropic"
+      content="XD3an, github.io, All-In-One, Claude Code, AI Coding Agent, MCP, Agent Skills, Plugin, Auto Memory, Vibe Coding, Prompt Engineering, 多子代理協作, 自動化程式開發, CLI 工具, Anthropic"
     />
     <title>Claude Code 贏麻了：躺平也能寫程式 | XD3an Blog</title>
     <link rel="icon" type="image/x-icon" href="../assets/deer_icon.png" />
@@ -183,6 +183,34 @@
       .floating-toc::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
       }
+
+      /* 表格樣式 */
+      .table-responsive {
+        margin: 2em 0;
+      }
+
+      .table {
+        font-size: 14px;
+      }
+
+      .table th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+      }
+
+      .table td {
+        vertical-align: top;
+      }
+
+      .table ul {
+        margin: 0;
+        padding-left: 1.2em;
+      }
+
+      .table li {
+        margin-bottom: 0.3em;
+      }
     </style>
     <!-- Open Graph / Facebook -->
     <meta
@@ -191,7 +219,7 @@
     />
     <meta
       property="og:description"
-      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP、Agent Skills、Plugin、Auto Memory、Auto Mode 等功能詳解，並收錄團隊工作流實戰、Vibe Coding、提示詞工程與多子代理協作技巧。"
     />
     <meta property="og:type" content="article" />
     <meta
@@ -212,7 +240,7 @@
     />
     <meta
       name="twitter:description"
-      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。"
+      content="Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP、Agent Skills、Plugin、Auto Memory、Auto Mode 等功能詳解，並收錄團隊工作流實戰、Vibe Coding、提示詞工程與多子代理協作技巧。"
     />
     <meta
       name="twitter:image"
@@ -230,12 +258,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Claude Code 贏麻了：躺平也能寫程式",
-        "description": "Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP 工具管理、Hooks、記憶模式等功能詳解。",
+        "description": "Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP、Agent Skills、Plugin、Auto Memory、Auto Mode 等功能詳解，並收錄團隊工作流實戰、Vibe Coding、提示詞工程與多子代理協作技巧。",
         "author": {
           "@type": "Person",
           "name": "XD3an"
         },
         "datePublished": "2025-08-31",
+        "dateModified": "2026-07-24",
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://XD3an.github.io/post/claude-code-guide.html"
@@ -254,11 +283,29 @@
           <li><a href="#basic-commands" class="toc-h3">基礎指令</a></li>
           <li><a href="#configuration" class="toc-h3">配置管理</a></li>
           <li><a href="#mcp-tools" class="toc-h3">工具管理（MCP）</a></li>
+          <li><a href="#skills" class="toc-h3">技能管理（Agent Skills）</a></li>
+          <li><a href="#plugins" class="toc-h3">外掛系統（Plugin）</a></li>
+          <li><a href="#auto-memory" class="toc-h3">自動記憶（Auto Memory）</a></li>
+          <li><a href="#auto-mode" class="toc-h3">自動模式（Auto Mode）</a></li>
+          <li><a href="#computer-use" class="toc-h3">電腦操作（Computer Use）</a></li>
+          <li><a href="#output-styles" class="toc-h3">輸出風格與思考強度</a></li>
           <li><a href="#advanced-usage" class="toc-h3">進階操作</a></li>
           <li><a href="#troubleshooting" class="toc-h3">常見問題</a></li>
           <li><a href="#best-practices" class="toc-h2">最佳實踐</a></li>
           <li><a href="#initialization" class="toc-h3">初始化配置</a></li>
           <li><a href="#tips-tricks" class="toc-h3">小技巧</a></li>
+                    <li><a href="#team-workflow" class="toc-h2">團隊工作流實戰</a></li>
+          <li><a href="#general-workflow" class="toc-h3">一般工作流</a></li>
+          <li><a href="#quick-workflow" class="toc-h3">快速使用流</a></li>
+          <li><a href="#tdd-workflow" class="toc-h3">測試驅動開發</a></li>
+          <li><a href="#ui-workflow" class="toc-h3">UI 工作流</a></li>
+          <li><a href="#git-workflow" class="toc-h3">Git 操作流</a></li>
+          <li><a href="#spec-driven" class="toc-h3">Spec 驅動開發</a></li>
+          <li><a href="#vibe-coding" class="toc-h2">Vibe Coding 新趨勢</a></li>
+          <li><a href="#prompt-engineering" class="toc-h2">提示詞工程</a></li>
+          <li><a href="#multi-agent" class="toc-h2">多子代理協作</a></li>
+          <li><a href="#tools-resources" class="toc-h2">工具資源</a></li>
+          <li><a href="#claude-action" class="toc-h2">Claude Code in Action</a></li>
           <li><a href="#references" class="toc-h2">參考來源</a></li>
         </ul>
       </div>
@@ -396,8 +443,11 @@
 
                   <hr style="margin: 0.8em 0; border-color: #f0d090;">
 
-                  <p style="margin: 0.3em 0; font-weight: 700; color: #2e7d32;">v2.1.x 系列（2026 年 3 月起）</p>
+                  <p style="margin: 0.3em 0; font-weight: 700; color: #2e7d32;">v2.1.x 系列（2026 年 1 月起）</p>
 
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.0 ★</strong>（2026 年 1 月 7 日）— <strong>Agent Skills</strong> 支援熱重載（hot-reload）與 forked context；延續 2025 年 10 月中旬推出的 Agent Skills（<code>SKILL.md</code> 檔案定義），並於 2025 年 12 月開源為 Agent Skills 標準格式，Plugin 內建的 skill 以 <code>/plugin-name:skill-name</code> 命名空間載入</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.32 ★</strong>（2026 年 2 月）— <strong>Auto Memory</strong> 首次推出：Claude 會在工作過程中自動記錄與回憶記憶，無需手動維護</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.59</strong>（2026 年 2 月）— Auto Memory 補上 <code>/memory</code> 指令與 <code>MEMORY.md</code> 索引檔，記憶檔存放於 <code>~/.claude/projects/&lt;project&gt;/memory/</code>，啟動時僅載入索引前 200 行</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.83–85 ★</strong>（Auto Mode）— <strong>Auto Mode 進入研究預覽</strong>：分類器自動處理權限確認，安全操作直接執行，危險操作才攔截；Desktop app 支援 Computer Use；Web 支援 PR 自動修復；Windows 原生 PowerShell 工具</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.86–91 ★</strong>（Computer Use）— <strong>Computer Use 進入 CLI 研究預覽</strong>：Claude 可直接開原生 app、點擊 UI、驗證視覺結果；<code>/powerup</code> 互動教學；MCP 單工具結果上限可調至 500K</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.92–101 ★</strong>（Ultraplan）— <strong>Ultraplan 早期預覽</strong>：在雲端實際規劃，可在網頁編輯器審閱與留言，再返回本地執行；<strong>Monitor 工具</strong>：背景事件串流；<code>/loop</code> 無需指定間隔；<code>/team-onboarding</code>、<code>/autofix-pr</code> 新命令</p>
@@ -405,15 +455,20 @@
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.114–119 ★</strong>（Ultrareview）— <strong><code>/ultrareview</code> 公開研究預覽</strong>：多 bug 捕捉代理雲端執行後回傳 CLI；Session recap；自訂主題（<code>/theme</code>）；Claude Code on the web 重新設計</p>
                   <p style="margin: 0.4em 0;"><strong>v2.1.120–126</strong> — <strong>Windows 不再需要 Git Bash</strong>，改用 PowerShell；<code>claude ultrareview</code> 支援 CI；<code>claude project purge</code>；<code>/resume</code> 可貼 PR URL</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.128–136 ★</strong>（Plugin 擴展）— <strong>Plugin 可從 .zip 和 URL 載入</strong>（<code>--plugin-url</code>）；<code>worktree.baseRef</code>；Auto mode hard deny 規則；Hooks 可讀取 effort 等級</p>
-                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.139–142 ★</strong>（Agent View）— <strong><code>claude agents</code></strong>：一屏總覽所有 session 狀態；<code>/goal</code> 持續執行至條件成立；Fast mode 支援 Opus 4.7；Rewind 新增「Summarize up to here」</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.139–142 ★</strong>（Agent View）— <strong><code>claude agents</code></strong>：一屏總覽所有 session 狀態；<code>/goal</code> 持續執行至條件成立；Fast mode 支援 Opus 4.7；Rewind 新增「Summarize up to here」；<code>TodoWrite</code> 逐步轉換為 Task 系列工具（<code>TaskCreate</code> / <code>TaskUpdate</code> / <code>TaskList</code>）</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.143–149 ★</strong> — <strong>Auto mode 開放 Pro 方案</strong>，支援 Sonnet 4.6；<code>/usage</code> 拆解限額消耗來源；新 <code>/code-review</code> 命令；背景 session 可在 <code>/resume</code> pin 住</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.150–157 ★</strong>（Opus 4.8）— <strong>Claude Opus 4.8</strong> 成為 Max/Team Premium/Enterprise/API 新預設，預設 high effort；<strong>Dynamic workflows</strong>：一次指揮數十至數百個 subagent；security-guidance plugin；Fast mode 支援 Opus 4.8</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.158–165 ★</strong> — Auto mode 擴展至 <strong>Bedrock、Google Cloud Agent Platform、Microsoft Foundry</strong>（Opus 4.7/4.8）；accept-edits 模式可執行碼寫入前詢問；<code>/plugin list</code>；企業版本範圍設定</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.166–176 ★</strong> — <strong><code>/cd</code></strong> session 中途切換工作目錄（不中斷 prompt cache）；<strong>Subagents 可再生 subagents</strong>（最深 5 層）；<code>--safe-mode</code>；<code>fallbackModel</code> 最多 3 級備援</p>
                   <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.178–183 ★</strong>（Artifacts）— <strong>Artifacts 進入 Claude Code</strong>：session 結果轉為 claude.ai 即時共享頁面，隨 session 自動更新（Team/Enterprise beta）；Deny/ask 規則支援工具參數匹配；<code>/config key=value</code> 直接設定</p>
-                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.185–193 ★</strong> — <strong><code>claude mcp login</code> / <code>claude mcp logout</code></strong> 從 shell 驗證 MCP server；Shell mode 即時回應（免二次提問）；<code>/rewind</code> 可恢復 <code>/clear</code> 之前對話；背景 subagents 權限提示浮到主 session</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.185–193 ★</strong> — Shell mode 即時回應（免二次提問）；<code>/rewind</code> 可恢復 <code>/clear</code> 之前對話；背景 subagents 權限提示浮到主 session</p>
                   <p style="margin: 0.4em 0; background: #fff3e0; padding: 0.4em 0.6em; border-radius: 4px;"><strong style="color: #c62828;">v2.1.197 ★★</strong> — <strong>Claude Sonnet 5 成為 Claude Code 預設模型</strong>；原生 1M token 上下文視窗；促銷價 $2/$10 per MTok（至 2026/08/31）</p>
-                  <p style="margin: 0.4em 0;"><strong>v2.1.19x 以後（截至 2026 年 7 月）</strong> — 預設權限模式由「default」改名為 <strong>Manual</strong>；AskUserQuestion idle timeout 設定；org 預設模型；可點擊檔案附件；<code>claude project purge --dry-run</code>；Opus 4.7/4.8 已發布，Sonnet 4/Opus 4 舊版退役；<strong>Claude Platform on AWS 正式上線</strong></p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.19x</strong> — 預設權限模式由「default」改名為 <strong>Manual</strong>；AskUserQuestion idle timeout 設定；org 預設模型；可點擊檔案附件；<code>claude project purge --dry-run</code>；Opus 4.7/4.8 已發布，Sonnet 4/Opus 4 舊版退役；<strong>Claude Platform on AWS 正式上線</strong></p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.198 ★</strong>（2026 年 7 月 1 日）— <strong>Claude in Chrome 正式版（GA）</strong>：支援檔案附件、剪貼簿、截圖存檔；<strong>Background Subagents 預設開啟</strong>，子代理預設背景執行並提供完成通知</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.202</strong>（2026 年 7 月 6 日）— Dynamic Workflows 執行規模設定與追蹤</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.205 前後</strong> — <code>/doctor</code> 指令：環境設定診斷與自動修復</p>
+                  <p style="margin: 0.4em 0;"><strong style="color: #c62828;">v2.1.206 ★</strong>（2026 年 7 月 9 日）— <strong><code>claude mcp login</code> / <code>claude mcp logout</code></strong> 從 shell 直接驗證 MCP server，免開啟 <code>/mcp</code> 選單</p>
+                  <p style="margin: 0.4em 0;"><strong>v2.1.208 以後（截至 2026 年 7 月）</strong> — Screen Reader 模式（<code>CLAUDE_AX_SCREEN_READER=1</code>），純文字無障礙渲染</p>
 
                   <p style="margin: 0.6em 0 0 0; color: #777; font-size: 0.9em;">更多後續更新請持續追蹤 <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" style="color: #e65100;">官方 CHANGELOG</a> 與 <a href="https://code.claude.com/docs/en/whats-new" target="_blank" style="color: #e65100;">What's New</a>。</p>
 
@@ -596,6 +651,14 @@ git diff | claude "explain this change"</code></pre>
             </ol>
 
             <p>
+              較新版本也可以直接在互動模式輸入
+              <code>/config key=value</code> 快速設定，等同於上面的
+              <code>claude config set</code>；實際持久化的設定則存放在
+              <code>~/.claude/settings.json</code>（全域）或
+              <code>.claude/settings.json</code>（專案）中，兩種方式最後改的是同一份設定檔。
+            </p>
+
+            <p>
               更多配置管理可以參考：<a
                 href="https://docs.anthropic.com/en/docs/claude-code/settings"
                 target="_blank"
@@ -706,6 +769,170 @@ git diff | claude "explain this change"</code></pre>
               >
             </p>
 
+            <h3 id="skills" style="margin-top: 2em; font-size: 1.25em">
+              技能管理（Agent Skills）
+            </h3>
+
+            <p>
+              Agent Skills 用 <code>SKILL.md</code>
+              檔案封裝特定任務的知識與步驟（例如程式碼審查流程、文件寫作規範），Claude
+              在符合觸發條件時會自動載入對應技能，不需要每次重新說明一遍。
+            </p>
+            <ul>
+              <li>
+                每個 skill 是一個資料夾，內含 <code>SKILL.md</code>，可再搭配
+                <code>scripts/</code>、<code>references/</code> 子目錄放輔助檔案
+              </li>
+              <li>
+                可放在專案層級 <code>.claude/skills/</code>（團隊共用）或使用者層級
+                <code>~/.claude/skills/</code>（全域可用）
+              </li>
+              <li>
+                包在 Plugin 裡發布時，會以
+                <code>/plugin名稱:skill名稱</code> 命名空間載入，避免同名衝突
+              </li>
+              <li>2025 年 12 月起，Agent Skills 格式已開源，其他工具也能採用同一套規範</li>
+            </ul>
+
+            <pre><code class="language-bash">/skill名稱   # 直接輸入 skill 名稱作為斜線命令即可觸發對應技能</code></pre>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/skills"
+                target="_blank"
+                >Anthropic Agent Skills - Anthropic</a
+              >
+            </p>
+
+            <h3 id="plugins" style="margin-top: 2em; font-size: 1.25em">
+              外掛系統（Plugin）
+            </h3>
+
+            <p>
+              Plugin 把 Slash Commands、Subagents、MCP 伺服器與 Hooks
+              打包成單一安裝單位，方便整組功能一次安裝、啟用或分享給團隊，不用再逐一設定。
+            </p>
+            <ul>
+              <li>透過 Marketplace 安裝、管理已發布的 Plugin 集合</li>
+              <li>也能直接從 <code>.zip</code> 檔或 URL 載入自訂 Plugin</li>
+              <li>
+                Plugin 內的 Slash Command／Skill
+                會加上命名空間前綴（如 <code>/plugin名稱:指令名稱</code>），避免與其他來源衝突
+              </li>
+            </ul>
+
+            <pre><code class="language-bash">/plugin marketplace add &lt;repo&gt;   # 新增一個 marketplace 來源
+/plugin install &lt;plugin-name&gt;      # 安裝指定 Plugin
+/plugin enable &lt;plugin-name&gt;       # 啟用
+/plugin disable &lt;plugin-name&gt;      # 停用
+/plugin list                        # 列出已安裝 Plugin</code></pre>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/plugins"
+                target="_blank"
+                >Anthropic Plugins - Anthropic</a
+              >
+            </p>
+
+            <h3 id="auto-memory" style="margin-top: 2em; font-size: 1.25em">
+              自動記憶（Auto Memory）
+            </h3>
+
+            <p>
+              除了手動維護 <code>CLAUDE.md</code>，Claude Code
+              也會在工作過程中主動把使用者偏好、過往回饋、專案脈絡等資訊寫成獨立的記憶檔，供未來的對話自動載入，不必每次重講一次背景。
+            </p>
+            <ul>
+              <li>
+                記憶檔存放在
+                <code>~/.claude/projects/&lt;project&gt;/memory/</code>，每個主題各自成一個
+                Markdown 檔案
+              </li>
+              <li>
+                <code>MEMORY.md</code>
+                作為索引檔，啟動時只會載入索引本身（前 200
+                行），避免佔用過多上下文
+              </li>
+              <li>常見記憶類型：user（使用者背景）、feedback（過往回饋/糾正）、project（專案進度與決策）、reference（外部系統連結）</li>
+            </ul>
+
+            <pre><code class="language-bash">/memory   # 開啟並編輯目前的記憶檔案</code></pre>
+
+            <p>
+              更多可以參考：<a
+                href="https://code.claude.com/docs/en/memory"
+                target="_blank"
+                >Claude Code Memory - Anthropic</a
+              >
+            </p>
+
+            <h3 id="auto-mode" style="margin-top: 2em; font-size: 1.25em">
+              自動模式（Auto Mode）
+            </h3>
+
+            <p>
+              Auto Mode 會用分類器自動判斷每個操作的風險：安全的操作（例如讀檔、跑測試）直接執行，不再逐次跳出確認視窗；真正危險的操作（例如刪除檔案、推送到遠端）才會攔截詢問。目的是減少不必要的權限打斷，同時保留對高風險動作的把關。
+            </p>
+            <ul>
+              <li>比 <code>--dangerously-skip-permissions</code> 更安全，因為危險操作仍會被攔截</li>
+              <li>可以搭配 hard deny 規則，強制封鎖特定指令或路徑，即使在 Auto Mode 下也不會執行</li>
+              <li>目前已擴展到 Bedrock、Google Cloud Agent Platform、Microsoft Foundry 等平台</li>
+            </ul>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/iam"
+                target="_blank"
+                >Anthropic Claude Code permissions - Anthropic</a
+              >
+            </p>
+
+            <h3 id="computer-use" style="margin-top: 2em; font-size: 1.25em">
+              電腦操作（Computer Use）
+            </h3>
+
+            <p>
+              Computer Use 讓 Claude Code
+              可以直接操作原生應用程式：開啟視窗、點擊按鈕、輸入文字，並且用視覺方式驗證操作結果是否符合預期，而不只是操作終端機或程式碼。適合用在需要實際跑一遍
+              UI 流程才能確認的場景（例如驗證表單、比對畫面還原度）。
+            </p>
+            <ul>
+              <li>Desktop app 與 CLI 皆已支援（CLI 版為研究預覽）</li>
+              <li>可搭配 <code>/powerup</code> 互動教學快速上手</li>
+              <li>Claude in Chrome 瀏覽器擴充功能可視為 Computer Use 在瀏覽器情境下的延伸</li>
+            </ul>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/computer-use"
+                target="_blank"
+                >Anthropic Computer use - Anthropic</a
+              >
+            </p>
+
+            <h3 id="output-styles" style="margin-top: 2em; font-size: 1.25em">
+              輸出風格與思考強度（Output Styles / Effort）
+            </h3>
+
+            <p>
+              Output Styles
+              可以切換回應的呈現方式（例如一般模式、Explanatory 模式會額外解釋設計決策、Learning
+              模式會邊做邊留練習點給你動手），適合教學或想深入理解程式碼決策時使用；<code>/effort</code>
+              則是調整 Claude 思考的強度（一路到 xhigh），任務越複雜可以拉越高，但也會花費更多
+              token 與時間。
+            </p>
+            <pre><code class="language-bash">/output-style          # 切換輸出風格
+/effort                # 調整 thinking effort 等級</code></pre>
+
+            <p>
+              更多可以參考：<a
+                href="https://docs.anthropic.com/en/docs/claude-code/output-styles"
+                target="_blank"
+                >Anthropic Output styles - Anthropic</a
+              >
+            </p>
+
             <h3 id="advanced-usage" style="margin-top: 2em; font-size: 1.25em">
               進階操作
             </h3>
@@ -791,11 +1018,13 @@ git diff | claude "explain this change"</code></pre>
               </li>
             </ol>
 
-            <p><strong>回撤操作</strong></p>
+            <p><strong>回撤操作（Checkpoints / rewind）</strong></p>
             <p>
-              有時會希望 Claude Code 回撤此前的操作，除了可以使用
-              <code>esc</code> 或是直接告訴 Claude Code 以外，還可以參考下面
-              ccundo 來進行回撤。
+              Claude Code 現在會自動保存程式碼與對話的 Checkpoint，按兩次
+              <code>esc</code> 或直接輸入 <code>/rewind</code>
+              即可跳出回溯選單，選擇要恢復到哪個時間點，可以只回滾程式碼、只回滾對話，或兩者一起復原；也能選擇「Summarize
+              up to here」把之前的內容濃縮成摘要再繼續。除了內建功能，也可以參考下面
+              ccundo 這個第三方工具來輔助回撤。
             </p>
             <ul>
               <li>
@@ -920,19 +1149,19 @@ Based on the above changes, create a single git commit.</code></pre>
             <pre><code class="language-powershell"># test api/network connection
 claude "test connection"
 
-# check config
-claude config get api-key
-claude config get model</code></pre>
+# 環境與設定診斷（會自動檢查常見問題）
+claude doctor</code></pre>
 
             <p><strong>性能優化</strong></p>
-            <pre><code class="language-powershell"># enable cache
-claude config set cache-enabled true
-
-# set max-concurrent
-claude config set max-concurrent 3
-
-# adujst timeout
-claude config set timeout 30</code></pre>
+            <p>
+              部分效能相關設定可以透過
+              <code>~/.claude/settings.json</code> 或
+              <code>.claude/settings.json</code> 調整，例如：
+            </p>
+            <pre><code class="language-json">{
+  "autoCompactEnabled": true,
+  "askUserQuestionTimeout": "60s"
+}</code></pre>
 
             <p><strong>調試模式</strong></p>
             <pre><code class="language-powershell"># enable verbose mode
@@ -1092,7 +1321,11 @@ ANTHROPIC_BASE_URL = "..."</code></pre>
                 長流程常被「要求授權」打斷時，可用：
               </p>
               <pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre>
-              <p style="margin-bottom: 2em">可能會有安全風險，請謹慎使用。</p>
+              <p style="margin-bottom: 2em">
+                可能會有安全風險，請謹慎使用。現在也可以考慮改用前面提到的
+                <a href="#auto-mode">Auto Mode</a
+                >：一樣能減少確認打斷，但危險操作仍會被攔截，安全性更好。
+              </p>
 
               <p><strong>啟發思考模式</strong></p>
               <p style="margin-bottom: 1em">
@@ -1187,16 +1420,17 @@ claude --resume</code></pre>
               <p style="margin-bottom: 0.5em">位置：</p>
               <ul style="margin-bottom: 2em">
                 <li>
-                  User
-                  level：<code>~/.claude/commands/</code>（所有專案可用，前綴
-                  <code>/user:</code>）
+                  User level：<code>~/.claude/commands/</code>（所有專案可用）
                 </li>
                 <li>
-                  Project
-                  level：<code>./.claude/commands/</code>（僅當前專案，前綴
-                  <code>/project:</code>）
+                  Project level：<code>./.claude/commands/</code>（僅當前專案可用）
                 </li>
               </ul>
+              <p style="margin-bottom: 2em">
+                兩邊的檔案都會產生同名的 <code>/指令名稱</code>
+                斜線命令；自訂命令目前已與 Skills
+                系統整合，效果和放在
+                <code>.claude/skills/&lt;name&gt;/SKILL.md</code> 相同。</p>
 
               <p><strong>進入 Bash 模式</strong></p>
               <p style="margin-bottom: 2em">
@@ -1294,6 +1528,847 @@ claude --version</code></pre>
               用起來很爽，但荷包會哭泣。
             </p>
 
+            <h2 id="team-workflow" style="margin-top: 1.5em; font-size: 1.5em">
+              團隊工作流實戰
+            </h2>
+            <hr />
+            <p style="font-size: 1.1em; margin-bottom: 2em">
+              Anthropic 在 2025 年 7 月 24 日發布文章
+              <a
+                href="https://www.anthropic.com/news/how-anthropic-teams-use-claude-code"
+                target="_blank"
+                >How Anthropic teams use Claude Code</a
+              >
+              詳細介紹了各部門如何運用 Claude Code
+              來提升工作流程效率、自動化繁瑣任務，甚至讓非技術人員也能開發解決方案。本文將深入探討這些實戰工作流。
+            </p>
+            <p style="margin-bottom: 1.5em">
+              以下是 Anthropic 各部門如何利用 Claude Code 的實際案例：
+            </p>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th style="width: 15%">團隊</th>
+                    <th style="width: 40%">主要使用案例</th>
+                    <th style="width: 45%">團隊影響/效果</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>資料基礎設施</strong></td>
+                    <td>
+                      <ul>
+                        <li>Kubernetes 除錯診斷</li>
+                        <li>為財務團隊建立純文字工作流程</li>
+                        <li>新員工程式庫導覽</li>
+                        <li>會話結束文件更新</li>
+                        <li>多實例並行任務管理</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>無需專業知識解決基礎設施問題</li>
+                        <li>加速新人培訓</li>
+                        <li>增強支援工作流程</li>
+                        <li>實現跨團隊自助服務</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>產品開發</strong></td>
+                    <td>
+                      <ul>
+                        <li>自動接受模式快速原型開發</li>
+                        <li>核心功能同步編程</li>
+                        <li>測試生成和錯誤修復</li>
+                        <li>程式庫探索</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>更快的功能實作</li>
+                        <li>提升開發速度</li>
+                        <li>透過自動測試提升程式碼品質</li>
+                        <li>更好的程式庫探索</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>資安工程</strong></td>
+                    <td>
+                      <ul>
+                        <li>複雜基礎設施除錯</li>
+                        <li>程式碼審查和分析</li>
+                        <li>文件整合和操作手冊</li>
+                        <li>測試驅動開發工作流程</li>
+                        <li>情境切換和專案導入</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>減少事件解決時間（10-15 分鐘 →5 分鐘）</li>
+                        <li>改善安全審查週期</li>
+                        <li>增強跨功能貢獻</li>
+                        <li>更好的文件工作流程</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>推理系統</strong></td>
+                    <td>
+                      <ul>
+                        <li>程式庫理解和新人培訓</li>
+                        <li>單元測試生成與邊界案例涵蓋</li>
+                        <li>機器學習概念解釋</li>
+                        <li>跨語言程式碼翻譯</li>
+                        <li>指令回憶和 Kubernetes 管理</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>加速 ML 概念學習（減少 80%研究時間）</li>
+                        <li>更快的程式庫導覽</li>
+                        <li>全面的測試覆蓋</li>
+                        <li>消除語言障礙</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>資料科學與 ML 工程</strong></td>
+                    <td>
+                      <ul>
+                        <li>建立 JavaScript/TypeScript 儀表板應用</li>
+                        <li>處理重複性重構任務</li>
+                        <li>建立持久性分析工具</li>
+                        <li>零依賴性任務委派</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>實現 2-4 倍時間節省</li>
+                        <li>在不熟悉語言中建立複雜應用</li>
+                        <li>從一次性轉向持久性工具</li>
+                        <li>直接改善模型洞察</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>成長行銷</strong></td>
+                    <td>
+                      <ul>
+                        <li>Google Ads 創意自動生成</li>
+                        <li>Figma 外掛大量創意製作</li>
+                        <li>Meta Ads MCP 伺服器用於廣告活動分析</li>
+                        <li>使用記憶系統的進階提示工程</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>重複性任務大幅節省時間</li>
+                        <li>創意輸出增加 10 倍</li>
+                        <li>像更大的團隊一樣運作</li>
+                        <li>戰略焦點轉移</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3
+              id="general-workflow"
+              style="margin-top: 2em; font-size: 1.25em"
+            >
+              一般工作流
+            </h3>
+
+            <p><strong>適用多類型問題的標準流程</strong></p>
+
+            <ol>
+              <li>
+                <strong>探索</strong>：
+                <ul>
+                  <li>讓 Claude Code 閱讀相關檔案、圖片或 URL</li>
+                  <li>
+                    <strong>提示</strong>：此階段不要讓 Claude Code 寫程式碼
+                  </li>
+                  <li>
+                    可利用<strong>子代理</strong>幫助查細節、調查問題，保留更多上下文
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>規劃</strong>：
+                <ul>
+                  <li>要求 Claude Code 制定解決方案計劃</li>
+                  <li>
+                    使用關鍵字控制思考深度： <code>think</code> <
+                    <code>think hard</code> < <code>think harder</code> <
+                    <code>ultrathink</code>
+                  </li>
+                  <li>
+                    結果合理時，可讓 Claude Code 建立文檔或 GitHub issue 記錄
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>編碼</strong>：
+                <ul>
+                  <li>請 Claude Code 實現程式碼，並在過程中檢查合理性</li>
+                </ul>
+              </li>
+              <li>
+                <strong>提交</strong>：
+                <ul>
+                  <li>提交 PR，並可更新 README、changelog</li>
+                </ul>
+              </li>
+            </ol>
+
+            <div class="alert alert-warning" role="alert">
+              <strong>⚠️ 重要提醒</strong><br />
+              第 1-2 步至關重要，否則 Claude 可能直接跳到寫代碼！
+            </div>
+
+            <h3 id="quick-workflow" style="margin-top: 2em; font-size: 1.25em">
+              快速使用流
+            </h3>
+
+            <p><strong>適用於快速修復 lint、生成樣板程式碼</strong></p>
+
+            <pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre>
+
+            <div class="alert alert-danger" role="alert">
+              <strong>⚠️ 安全警告</strong><br />
+              可能造成資料丟失 / 系統損壞 /
+              資料洩露（提示注入攻擊）。<strong>建議</strong>在<strong>無網路容器</strong>中使用，例如
+              Docker。
+            </div>
+
+            <h3 id="tdd-workflow" style="margin-top: 2em; font-size: 1.25em">
+              測試驅動開發（TDD）
+            </h3>
+
+            <p><strong>適用於單元 / 集成 / 端到端測試可驗證的功能</strong></p>
+
+            <ol>
+              <li>
+                <strong>寫測試</strong>：
+                <ul>
+                  <li>要求 Claude Code 根據預期輸入/輸出編寫測試</li>
+                  <li>強調「不要寫功能程式碼」</li>
+                </ul>
+              </li>
+              <li>
+                <strong>驗證測試失敗</strong>：
+                <ul>
+                  <li>明確要求先執行測試，確認失敗</li>
+                </ul>
+              </li>
+              <li><strong>提交測試</strong></li>
+              <li>
+                <strong>編寫與迭代</strong>：
+                <ul>
+                  <li>要求 Claude 編寫實現程式碼，且「不要修改測試」</li>
+                  <li>多輪迭代直到測試通過</li>
+                  <li>也可用子代理檢查是否<strong>過擬合測試</strong></li>
+                </ul>
+              </li>
+              <li><strong>最後提交最終程式碼</strong></li>
+            </ol>
+
+            <h3 id="ui-workflow" style="margin-top: 2em; font-size: 1.25em">
+              UI 工作流
+            </h3>
+
+            <p><strong>適用於設計 / UI 驗證</strong></p>
+
+            <ol>
+              <li>提供 Claude Code 圖片或 UI 設計圖</li>
+              <li>Claude Code 根據設計實現程式碼，輸出結果並截圖</li>
+              <li>對比 → 修改 → 截圖 → 再迭代</li>
+              <li>滿意後提交</li>
+            </ol>
+
+            <h3 id="git-workflow" style="margin-top: 2em; font-size: 1.25em">
+              Git 操作流
+            </h3>
+
+            <p><strong>可處理多數 git 操作：</strong></p>
+
+            <ul>
+              <li><strong>查歷史</strong>：版本差異、作者、設計原因</li>
+              <li><strong>提交訊息</strong>：自動生成，包含完整上下文</li>
+              <li>
+                <strong>複雜操作</strong>：回滾、rebase 衝突解決、補丁移植
+              </li>
+            </ul>
+
+            <p><strong>還可代理 GitHub 交互：</strong></p>
+            <ul>
+              <li>建立 PR（支援「pr」簡寫）</li>
+              <li>一鍵修正 PR 上的簡單 review 意見</li>
+              <li>修復 build 錯誤或 linter 警告</li>
+              <li>批次處理 open issues（分類、整理）</li>
+            </ul>
+
+            <h3 id="spec-driven" style="margin-top: 2em; font-size: 1.25em">
+              Spec 驅動開發（Spec-driven development）
+            </h3>
+
+            <p>
+              這是近期備受看好的 AI coding 開發工作流，以
+              <strong>Amazon</strong> 的
+              <strong>Kiro IDE</strong> 為例，流程分為三步：
+            </p>
+
+            <ol>
+              <li>
+                <strong>Requirements（需求規格）</strong>
+                <p>
+                  用自然語言寫清楚「功能要達到什麼」、「使用者情境」、「成功驗收標準」。
+                </p>
+                <blockquote class="blockquote">
+                  例如：使用者輸入 email，系統必須驗證格式，若錯誤需提示訊息。
+                </blockquote>
+              </li>
+              <li>
+                <strong>Design（設計規格）</strong>
+                <p>定義系統架構、資料流、API 介面、數據結構。</p>
+                <ul>
+                  <li>UI 元件：Email 輸入框</li>
+                  <li>
+                    驗證函式：<code>validate_email(email: str) -> bool</code>
+                  </li>
+                  <li>錯誤提示元件：ErrorBanner</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Tasks（實作任務）</strong>
+                <p>把設計切分成小的可交付任務。</p>
+                <ul>
+                  <li>Task 1: 建立 <code>validate_email</code> 函式</li>
+                  <li>Task 2: 建立 UI 元件 EmailInput</li>
+                  <li>Task 3: 整合驗證與錯誤提示</li>
+                </ul>
+              </li>
+            </ol>
+
+            <p><strong>其價值在於：</strong></p>
+            <ul>
+              <li>
+                <strong>可追蹤性（Traceability）</strong> -
+                每行程式碼都能追溯回需求
+              </li>
+              <li>
+                <strong>協作性（Collaboration）</strong> - 團隊成員可先討論
+                Spec，而不是直接討論 AI 生成的程式碼
+              </li>
+              <li><strong>品質（Quality）</strong> - 減少 AI 產生的隱性錯誤</li>
+              <li>
+                <strong>一致性（Consistency）</strong> - 多代理開發可共用
+                Spec，降低上下文遺失問題
+              </li>
+            </ul>
+
+            <p>
+              參考實現：<a
+                href="https://github.com/gotalab/claude-code-spec"
+                target="_blank"
+                >gotalab/cc-sdd</a
+              >
+            </p>
+
+            <h2 id="vibe-coding" style="margin-top: 2.5em; font-size: 1.5em">
+              Vibe Coding 新趨勢
+            </h2>
+            <hr />
+
+            <p>
+              由 <strong>Andrej Karpathy</strong> 在
+              <strong>2025 年 2 月</strong>於他的推文中首次提出 Vibe Coding，<a
+                href="https://x.com/karpathy/status/1886192184808149383"
+                target="_blank"
+                >：「There's a new kind of coding I call 'vibe coding', where
+                you fully give in to the vibes, embrace exponentials, and forget
+                that the code even exists」</a
+              >
+            </p>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/andrej-karpathy-x-vibe-coding.png"
+                alt="Andrej Karpathy Vibe Coding Tweet"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">Andrej Karpathy 推文截圖</span>
+            </div>
+
+            <p>
+              是一種 AI
+              輔助的編程方式，開發者用自然語言描述需求，由大型語言模型（LLM）生成程式碼，不需審閱原始碼，只透過執行結果和互動來驗證與改進，重心從「寫程式」轉為「引導
+              AI、測試和反饋」。同時也被視為低程式碼（low-code）與無程式碼（no-code）技術上的演進。從
+              2010 年代的 4GL、模型驅動開發，到 2021 年的 AI 編程助手（例如
+              GitHub Copilot），再加上 2022 年 ChatGPT 的出現，到了 2025
+              年形成一個新興主流趨勢。
+            </p>
+
+            <p><strong>隨後有以下幾個現象</strong></p>
+
+            <ul>
+              <li>
+                多家媒體與專家重視這一概念，例如
+                <strong>Ars Technica</strong>、<strong>The Observer</strong
+                >、<strong>Times of India</strong> 都於 2025
+                年早期報導，探討其潛力與風險。
+              </li>
+              <li>
+                <strong>Y Combinator</strong> 表示，2025 冬季批次中有
+                <strong>25% 的新創公司</strong>幾乎完全依賴 AI
+                生成程式碼（codebase nearly 95% AI-generated）。
+              </li>
+              <li>
+                <strong>Garry Tan（Y Combinator CEO）</strong> 認為 vibe coding
+                可能讓小團隊完成過往需 50–100 人才能做的工作量，顯著提高效率。
+              </li>
+              <li>
+                <strong>Tom's Guide</strong> 與
+                <strong>Financial Times</strong>
+                等也指出，這種方式為非程式開發者提供了創造工具的可能性，但也引發專業程式設計師對程式品質與安全性的疑慮。
+              </li>
+            </ul>
+
+            <p>
+              <strong
+                >除此之外，值得注意的是，不僅只有 Vibe Coding，近期就連 Hacker
+                也開始 Vibe Hacking！？</strong
+              >
+            </p>
+
+            <p>
+              由 iThome 報導
+              <a href="https://www.ithome.com.tw/news/170951" target="_blank"
+                >iThome - 不只 Vibe Coding，駭客正把 Claude Code 用於 Vibe
+                Hacking</a
+              >，有人將 Claude Code 作為 AI
+              代理整合至攻擊鏈，不再只是建議，而是實際執行整個攻擊流程。其<strong>受害範圍</strong>至少影響
+              17 個組織，涵蓋政府、醫療、緊急應變、宗教等領域，勒索金額超過 50
+              萬美元。
+            </p>
+
+            <p><strong>主要有以下幾個操作</strong></p>
+
+            <ul>
+              <li>
+                在 Kali Linux 上使用 Claude Code 作為統合平台，從 OSINT
+                探查、VPN 掃描、憑證竊取到網路滲透與橫向移動，Claude Code
+                決定入侵策略、選擇洩露資料類型、撰寫具心理操控效果的勒索話術，並規劃財務評估與勒索手段。
+              </li>
+              <li>
+                使用 <code>CLAUDE.md</code> 設定 TTP（Tactics, Techniques,
+                Procedures），Claude Code 可依此批次化操作數千 VPN
+                端點，並開發混淆隧道與自製 TCP
+                代理，加入字符串加密、反除錯與檔名偽裝（如偽裝為
+                MSBuild.exe、devenv.exe、cl.exe）。
+              </li>
+              <li>
+                Claude Code
+                甚至分析受害者的財務狀況，以估算可承受的勒索金額，並自動生成強烈視覺警示的
+                HTML 勒索頁面，嵌入開機流程，使受害者無法逃避。
+              </li>
+            </ul>
+
+            <p><strong>其他濫用案例：</strong></p>
+
+            <ol>
+              <li>
+                北韓透過 Claude Code
+                偽造專業履歷與形象，甚至在面試與工作中自動產出程式碼與英文溝通內容，進入美國大型科技公司，違反國際制裁；Anthropic
+                已封鎖帳號並通報主管機關。
+              </li>
+              <li>
+                一名英國駭客（編號 GTG-5004）利用 Claude Code
+                開發、銷售具加密、反分析功能的勒索軟體，每套售價約 400–1,200
+                美元。若無 AI 幫助，開發者根本無法完成這類惡意軟體的實作。
+              </li>
+            </ol>
+
+            <p>
+              相關調查報告可以看 Anthropic 發表的這篇文章
+              <a
+                href="https://www.anthropic.com/news/detecting-countering-misuse-aug-2025"
+                target="_blank"
+                >AnthropicAI Detecting and countering misuse of AI: August
+                2025</a
+              >
+            </p>
+
+            <h2
+              id="prompt-engineering"
+              style="margin-top: 2.5em; font-size: 1.5em"
+            >
+              提示詞工程（Prompt Engineering）
+            </h2>
+            <hr />
+
+            <p>
+              與 Claude Code 互動，勢必要更好的讓它知道該做的是甚麼，因此 Prompt
+              的設計相當重要。
+            </p>
+
+            <p>
+              關於 Prompt 的設計可以參考
+              <a
+                href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+                target="_blank"
+                >Anthropic Prompt engineering overview - Anthropic</a
+              >，或是 <strong>Code w/ Claude</strong> 演講的分享
+              <a
+                href="https://youtu.be/ysPbXH0LpIE?si=FHE0TTKb6zSxDNr9"
+                target="_blank"
+                >Anthropic Prompting 101 | Code w/ Claude</a
+              >。
+            </p>
+
+            <h3 style="margin-top: 1.5em; font-size: 1.25em">
+              Prompt Structure
+            </h3>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/prompt-structure.png"
+                alt="Prompt Structure"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">基本提示詞結構</span>
+            </div>
+
+            <ol>
+              <li>
+                <strong>角色定位與任務描述（1–2 句）</strong>
+                <p>明確設定 AI 的身份與目標，用簡短語句交代核心任務。</p>
+              </li>
+              <li>
+                <strong>動態與檢索資訊</strong>
+                <p>
+                  提供即時或個人化的資料（例如使用者偏好、地點、上下文），作為回應的依據。
+                </p>
+              </li>
+              <li>
+                <strong>詳細任務指令</strong>
+                <p>清楚列出執行步驟與規則，確保 AI 按指定流程處理。</p>
+              </li>
+              <li>
+                <strong>範例 / n-shot（選填）</strong>
+                <p>以示例引導模型，展示輸入與輸出的對應方式。</p>
+              </li>
+              <li>
+                <strong>關鍵指令重申</strong>
+                <p>在長提示的結尾再次強調最重要的規則，避免模型偏離。</p>
+              </li>
+            </ol>
+
+            <p>
+              若要處理更複雜的任務時，也可以參考以下結構，擴展更多上下文，使得它可以更好理解上下文資訊
+            </p>
+
+            <div style="text-align: center">
+              <img
+                src="../assets/img/claude-code-workflow/prompt-structure-plus.png"
+                alt="Advanced Prompt Structure"
+                class="img-fluid mb-3"
+              />
+              <span class="caption text-muted">進階提示詞結構</span>
+            </div>
+
+            <ul>
+              <li>
+                <strong>任務脈絡（Task Context）</strong>
+                <p>用 1–3 句交代角色、目標、受眾與成功定義。</p>
+                <p>例如：「你是 ⋯；目標是 ⋯；成功 = ⋯。」</p>
+              </li>
+              <li>
+                <strong>語氣設定（Tone & Style）</strong>
+                <p>明確指定語氣、風格、嚴謹度與讀者假設。</p>
+                <p>例如：「專業但親切；避免行話；面向新手 PM。」</p>
+              </li>
+              <li>
+                <strong>參考資料（Background Docs & Media）</strong>
+                <p>列出可用的靜態素材與其用途/優先序；標示缺漏時的退場策略。</p>
+                <p>例如：「主參考 A，次參考 B；若缺 A，依 B→C 順序補。」</p>
+              </li>
+              <li>
+                <strong>作業規則（Instructions & Constraints）</strong>
+                <p>
+                  以「必須／不得／可以」三層條款描述步驟、判準、邊界與超時/錯誤處理。
+                </p>
+                <p>例如：「必須：對齊產品定義；不得：暴露內部推理。」</p>
+              </li>
+              <li>
+                <strong>範例（Examples / N-shot）</strong>
+                <p>提供 1–3 組高品質對照範例；標註為「示意，非抄寫」。</p>
+                <p>例如：範例覆蓋常見變體與邊界情形。</p>
+              </li>
+              <li>
+                <strong>對話歷史（Conversation History）</strong>
+                <p>只保留與本輪決策必需的片段，並以要點化摘要注入。</p>
+                <p>例如：「先前已確定：KPI=CTR；時區=Asia/Taipei。」</p>
+              </li>
+              <li>
+                <strong>本輪請求（Current Turn Request）</strong>
+                <p>用可驗收的單句工作說明 + 交付時限/範圍。</p>
+                <p>例如：「請在 600 字內產出方案比較表與建議。」</p>
+              </li>
+              <li>
+                <strong>思考引導（Reasoning Hints）</strong>
+                <p>引導「先思後寫」，但<strong>避免要求輸出長推理</strong>。</p>
+                <p>例如：「先列關鍵假設再給結論；僅輸出結論與依據摘要。」</p>
+              </li>
+              <li>
+                <strong>輸出格式（Output Formatting / Schema）</strong>
+                <p>
+                  指定結構、欄位、順序與單位；必要時給 JSON schema 或 Markdown
+                  骨架。
+                </p>
+                <p>例如：「輸出：# 概覽 → 表格 → 建議 → 風險。」</p>
+              </li>
+              <li>
+                <strong>預填回應（Assistant Prefill）</strong>
+                <p>（供支援的供應商使用）預置回應開頭以定調或鎖定格式。</p>
+              </li>
+            </ul>
+
+            <p>
+              Claude Code 本身的 System Prompt 可以參考
+              <a
+                href="https://minusx.ai/blog/decoding-claude-code/#appendi"
+                target="_blank"
+                >vivek What makes Claude Code so damn good (and how to recreate
+                that…)</a
+              >
+              中 Appendix 的部分。這篇文章是在<strong
+                >解構 Claude Code 為什麼好用</strong
+              >，並整理出可以借鏡的 AI 系統設計原則。
+            </p>
+
+            <h2 id="multi-agent" style="margin-top: 2.5em; font-size: 1.5em">
+              多子代理協作
+            </h2>
+            <hr />
+
+            <p>使用多個 agent 協作可以實現更複雜的任務處理：</p>
+
+            <p><strong>流程範例：</strong></p>
+            <ol>
+              <li>agent A：負責寫代碼</li>
+              <li>
+                agent
+                B：清空上下文（<code>/clear</code>）或在另一終端啟動，負責審查或測試代碼
+              </li>
+              <li>agent C：重新讀取代碼與審查意見，根據反饋修改代碼</li>
+            </ol>
+
+            <p><strong>分工開發</strong></p>
+            <ul>
+              <li>建立 3–4 個 git clone，分別放在不同資料夾</li>
+              <li>在不同終端標籤頁打開每個資料夾</li>
+              <li>在各資料夾啟動一個 Claude，分配不同任務</li>
+              <li>輪流檢查進度、批準/拒絕權限請求</li>
+            </ul>
+
+            <p><strong>Git Worktree 應用</strong></p>
+            <pre><code class="language-bash">git worktree add ../project-feature-a feature-a
+cd ../project-feature-a && claude</code></pre>
+
+            <p><strong>無頭模式自動化</strong></p>
+            <pre><code class="language-bash">claude -p "migrate foo.py from React to Vue. When you are done, return OK or FAIL." \
+  --allowedTools Edit Bash(git commit:*)</code></pre>
+
+            <h2
+              id="tools-resources"
+              style="margin-top: 2.5em; font-size: 1.5em"
+            >
+              工具資源
+            </h2>
+            <hr />
+
+            <p><strong>工具資源集</strong></p>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/hesreallyhim/awesome-claude-code"
+                  target="_blank"
+                  >awesome-claude-code</a
+                >
+                - Claude Code 相關資源大全
+              </li>
+              <li>
+                <a
+                  href="https://github.com/davila7/claude-code-templates"
+                  target="_blank"
+                  >claude-code-templates</a
+                >
+                - Claude Code 模板集
+              </li>
+            </ul>
+
+            <p><strong>一般工具</strong></p>
+            <ul>
+              <li>
+                <a href="https://github.com/RonitSachdev/ccundo" target="_blank"
+                  >ccundo</a
+                >
+                - Claude Code 撤銷操作工具
+              </li>
+              <li>
+                <a href="https://github.com/ryoppippi/ccusage" target="_blank"
+                  >ccusage</a
+                >
+                - Claude Code 使用情況統計
+              </li>
+              <li>
+                <a href="https://github.com/slopus/happy" target="_blank"
+                  >happy</a
+                >
+                /
+                <a
+                  href="https://github.com/JessyTsui/Claude-Code-Remote"
+                  target="_blank"
+                  >Claude-Code-Remote</a
+                >
+                - 遠端協作工具
+              </li>
+              <li>
+                <a
+                  href="https://github.com/musistudio/claude-code-router"
+                  target="_blank"
+                  >claude-code-router</a
+                >
+                - Claude Code 路由管理
+              </li>
+            </ul>
+
+            <p><strong>工作流與多代理協作</strong></p>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/feiskyer/claude-code-settings"
+                  target="_blank"
+                  >claude-code-settings</a
+                >
+                - Claude Code 設定配置
+              </li>
+              <li>
+                <a
+                  href="https://github.com/contains-studio/agents"
+                  target="_blank"
+                  >agents</a
+                >
+                - 代理協作框架
+              </li>
+              <li>
+                <a
+                  href="https://github.com/SuperClaude-Org/SuperClaude_Framework"
+                  target="_blank"
+                  >SuperClaude_Framework</a
+                >
+                - SuperClaude 框架
+              </li>
+              <li>
+                <a
+                  href="https://github.com/eyaltoledano/claude-task-master"
+                  target="_blank"
+                  >claude-task-master</a
+                >
+                - 任務管理工具
+              </li>
+              <li>
+                <a href="https://github.com/ruvnet/claude-flow" target="_blank"
+                  >claude-flow</a
+                >
+                - 工作流管理
+              </li>
+              <li>
+                <a
+                  href="https://github.com/smtg-ai/claude-squad"
+                  target="_blank"
+                  >claude-squad</a
+                >
+                - 多代理協作平台
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Pimzino/claude-code-spec-workflow"
+                  target="_blank"
+                  >claude-code-spec-workflow</a
+                >
+                - Spec 驅動開發工作流
+              </li>
+            </ul>
+
+            <p><strong>交互界面與 IDE 整合</strong></p>
+            <ul>
+              <li>
+                <a href="https://github.com/getAsterisk/gooey" target="_blank"
+                  >gooey</a
+                >
+                - GUI 界面工具
+              </li>
+              <li>
+                <a
+                  href="https://github.com/coder/claudecode.nvim"
+                  target="_blank"
+                  >claudecode.nvim</a
+                >
+                - Neovim 整合外掛
+              </li>
+            </ul>
+
+            <h2 id="claude-action" style="margin-top: 2.5em; font-size: 1.5em">
+              Claude Code in Action
+            </h2>
+            <hr />
+
+            <p>
+              除此之外，Claude Code 還可以幫助開發者整合 Github Action
+              工作流，只需在任何 PR 或 issue 中簡單地提及
+              <strong><code>@claude</code></strong
+              >，Claude 就能：
+            </p>
+
+            <ul>
+              <li>
+                <strong>自動分析程式碼</strong
+                >：審查差異、檢查潛在問題並提出優化建議。
+              </li>
+              <li>
+                <strong>建立與更新 PR</strong>：根據需求自動生成新的 Pull
+                Request，或更新既有的修改。
+              </li>
+              <li>
+                <strong>實作新功能</strong
+                >：將自然語言需求轉化為實際程式碼，直接推送到分支。
+              </li>
+              <li>
+                <strong>修復錯誤與漏洞</strong>：快速定位問題並提交修正程式碼。
+              </li>
+            </ul>
+
+            <p>
+              使得開發團隊能在 GitHub 中，使用 Claude Code
+              支援，大幅提升協作與開發效率。
+            </p>
+
+            <p>
+              更多資訊可參考：<a
+                href="https://anthropic.skilljar.com/claude-code-in-action"
+                target="_blank"
+                >Claude Code in Action</a
+              >
+            </p>
+
             <h2 id="references" style="margin-top: 1.5em; font-size: 1.5em">
               參考來源
             </h2>
@@ -1387,6 +2462,244 @@ claude --version</code></pre>
                   <a class="ref-url" href="https://cc.deeptoai.com/docs" target="_blank" rel="noopener noreferrer">Available ↗</a>
                 </div>
               </li>
+            <li class="ref-item">
+                <a class="ref-title" href="https://docs.anthropic.com/zh-TW/docs/claude-code/sub-agents" target="_blank" rel="noopener noreferrer">sub-agents - Anthropic</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://docs.anthropic.com/zh-TW/docs/claude-code/sub-agents" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener noreferrer">Prompt engineering overview</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic Docs</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener noreferrer">Claude Code in Action</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic (Skilljar)</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://youtu.be/ysPbXH0LpIE?si=FHE0TTKb6zSxDNr9" target="_blank" rel="noopener noreferrer">Prompting 101 | Code w/ Claude</a>
+                <div class="ref-meta">
+                  <span class="ref-source">YouTube</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://youtu.be/ysPbXH0LpIE?si=FHE0TTKb6zSxDNr9" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener noreferrer">Andrej Karpathy - Vibe Coding 推文</a>
+                <div class="ref-meta">
+                  <span class="ref-author">Andrej Karpathy</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">X (Twitter)</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://x.com/karpathy/status/1886192184808149383" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://minusx.ai/blog/decoding-claude-code/#appendi" target="_blank" rel="noopener noreferrer">What makes Claude Code so damn good (and how to recreate that…)</a>
+                <div class="ref-meta">
+                  <span class="ref-author">vivek</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">minusx.ai</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://minusx.ai/blog/decoding-claude-code/#appendi" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.anthropic.com/news/detecting-countering-misuse-aug-2025" target="_blank" rel="noopener noreferrer">Detecting and countering misuse of AI: August 2025</a>
+                <div class="ref-meta">
+                  <span class="ref-source">Anthropic</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.anthropic.com/news/detecting-countering-misuse-aug-2025" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://www.ithome.com.tw/news/170951" target="_blank" rel="noopener noreferrer">不只 Vibe Coding，駭客正把 Claude Code 用於 Vibe Hacking</a>
+                <div class="ref-meta">
+                  <span class="ref-source">iThome</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://www.ithome.com.tw/news/170951" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/gotalab/claude-code-spec" target="_blank" rel="noopener noreferrer">gotalab/cc-sdd - Spec 驅動開發工作流</a>
+                <div class="ref-meta">
+                  <span class="ref-author">gotalab</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/gotalab/claude-code-spec" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener noreferrer">awesome-claude-code - Claude Code 相關資源大全</a>
+                <div class="ref-meta">
+                  <span class="ref-author">hesreallyhim</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/davila7/claude-code-templates" target="_blank" rel="noopener noreferrer">claude-code-templates - Claude Code 模板集</a>
+                <div class="ref-meta">
+                  <span class="ref-author">davila7</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/davila7/claude-code-templates" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/RonitSachdev/ccundo" target="_blank" rel="noopener noreferrer">ccundo - Claude Code 撤銷操作工具</a>
+                <div class="ref-meta">
+                  <span class="ref-author">RonitSachdev</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/RonitSachdev/ccundo" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/ryoppippi/ccusage" target="_blank" rel="noopener noreferrer">ccusage - Claude Code 使用情況統計</a>
+                <div class="ref-meta">
+                  <span class="ref-author">ryoppippi</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/ryoppippi/ccusage" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/musistudio/claude-code-router" target="_blank" rel="noopener noreferrer">claude-code-router - Claude Code 路由管理</a>
+                <div class="ref-meta">
+                  <span class="ref-author">musistudio</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/musistudio/claude-code-router" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/feiskyer/claude-code-settings" target="_blank" rel="noopener noreferrer">claude-code-settings - Claude Code 設定配置</a>
+                <div class="ref-meta">
+                  <span class="ref-author">feiskyer</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/feiskyer/claude-code-settings" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/contains-studio/agents" target="_blank" rel="noopener noreferrer">agents - 代理協作框架</a>
+                <div class="ref-meta">
+                  <span class="ref-author">contains-studio</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/contains-studio/agents" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/SuperClaude-Org/SuperClaude_Framework" target="_blank" rel="noopener noreferrer">SuperClaude_Framework - SuperClaude 框架</a>
+                <div class="ref-meta">
+                  <span class="ref-author">SuperClaude-Org</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/SuperClaude-Org/SuperClaude_Framework" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/eyaltoledano/claude-task-master" target="_blank" rel="noopener noreferrer">claude-task-master - 任務管理工具</a>
+                <div class="ref-meta">
+                  <span class="ref-author">eyaltoledano</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/eyaltoledano/claude-task-master" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/ruvnet/claude-flow" target="_blank" rel="noopener noreferrer">claude-flow - 工作流管理</a>
+                <div class="ref-meta">
+                  <span class="ref-author">ruvnet</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/ruvnet/claude-flow" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/smtg-ai/claude-squad" target="_blank" rel="noopener noreferrer">claude-squad - 多代理協作平台</a>
+                <div class="ref-meta">
+                  <span class="ref-author">smtg-ai</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/smtg-ai/claude-squad" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/Pimzino/claude-code-spec-workflow" target="_blank" rel="noopener noreferrer">claude-code-spec-workflow - Spec 驅動開發工作流</a>
+                <div class="ref-meta">
+                  <span class="ref-author">Pimzino</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/Pimzino/claude-code-spec-workflow" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/slopus/happy" target="_blank" rel="noopener noreferrer">happy - 遠端協作工具</a>
+                <div class="ref-meta">
+                  <span class="ref-author">slopus</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/slopus/happy" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/JessyTsui/Claude-Code-Remote" target="_blank" rel="noopener noreferrer">Claude-Code-Remote - 遠端協作工具</a>
+                <div class="ref-meta">
+                  <span class="ref-author">JessyTsui</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/JessyTsui/Claude-Code-Remote" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/getAsterisk/gooey" target="_blank" rel="noopener noreferrer">gooey - GUI 界面工具</a>
+                <div class="ref-meta">
+                  <span class="ref-author">getAsterisk</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/getAsterisk/gooey" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
+              <li class="ref-item">
+                <a class="ref-title" href="https://github.com/coder/claudecode.nvim" target="_blank" rel="noopener noreferrer">claudecode.nvim - Neovim 整合外掛</a>
+                <div class="ref-meta">
+                  <span class="ref-author">coder</span>
+                  <span class="ref-dot">·</span>
+                  <span class="ref-source">GitHub</span>
+                  <span class="ref-dot">·</span>
+                  <a class="ref-url" href="https://github.com/coder/claudecode.nvim" target="_blank" rel="noopener noreferrer">Available ↗</a>
+                </div>
+              </li>
             </ol>
 
             <!-- Article Content Ends Here -->
@@ -1432,11 +2745,29 @@ claude --version</code></pre>
           "basic-commands",
           "configuration",
           "mcp-tools",
+          "skills",
+          "plugins",
+          "auto-memory",
+          "auto-mode",
+          "computer-use",
+          "output-styles",
           "advanced-usage",
           "troubleshooting",
           "best-practices",
           "initialization",
           "tips-tricks",
+          "team-workflow",
+          "general-workflow",
+          "quick-workflow",
+          "tdd-workflow",
+          "ui-workflow",
+          "git-workflow",
+          "spec-driven",
+          "vibe-coding",
+          "prompt-engineering",
+          "multi-agent",
+          "tools-resources",
+          "claude-action",
           "references",
         ];
 
