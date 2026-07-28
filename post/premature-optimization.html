@@ -57,7 +57,7 @@
         font-size: 16px;
         margin-bottom: 12px;
         padding-bottom: 8px;
-        border-bottom: 2px solid #4a7fc1;
+        border-bottom: 2px solid #ff6b35;
         color: #212529;
         display: flex;
         justify-content: space-between;
@@ -96,12 +96,12 @@
 
       .floating-toc a:hover {
         background-color: #f8f9fa;
-        color: #4a7fc1;
+        color: #ff6b35;
         transform: translateX(2px);
       }
 
       .floating-toc a.active {
-        background-color: #4a7fc1;
+        background-color: #ff6b35;
         color: white;
         font-weight: 500;
       }
@@ -153,7 +153,7 @@
       }
 
       blockquote {
-        border-left: 4px solid #4a7fc1;
+        border-left: 4px solid #ff6b35;
         padding: 0.75em 1.25em;
         margin: 1.5em 0;
         background: #fff8f5;
@@ -163,8 +163,8 @@
       }
 
       .callout-box {
-        background: #f0f8ff;
-        border-left: 4px solid #0d6efd;
+        background: #fff8f2;
+        border-left: 4px solid #ff6b35;
         padding: 0.85em 1.25em;
         margin: 1em 0;
         border-radius: 0 6px 6px 0;
@@ -174,6 +174,37 @@
         font-size: 0.9em;
         color: #6c757d;
         margin-top: 0.5em;
+      }
+
+      /* 標題與圖片：與其他文章一致 */
+      article h2,
+      article h3 {
+        font-weight: bold;
+      }
+      article h3 {
+        margin-bottom: 0.5em;
+      }
+      article .img-fluid {
+        max-width: 70%;
+      }
+
+      /* 內文連結：加上底線與強調色，讓讀者一眼看出可以點 */
+      article p a,
+      article li a,
+      article aside a,
+      article .caption a {
+        color: #ff6b35;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-thickness: 1px;
+        font-weight: 500;
+      }
+      article p a:hover,
+      article li a:hover,
+      article aside a:hover,
+      article .caption a:hover {
+        color: #d9531e;
+        text-decoration-thickness: 2px;
       }
     </style>
     <!-- Open Graph / Facebook -->
@@ -465,7 +496,7 @@
 
             <!-- Section 1: Importance -->
             <h2 id="importance" style="margin-top: 2em; font-size: 1.5em">
-              <strong>The importance of thinking about performance</strong>
+              思考效能的重要性（The Importance of Thinking About Performance）
             </h2>
             <hr />
 
@@ -551,7 +582,7 @@
 
             <!-- Section 2: Estimation -->
             <h2 id="estimation" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Estimation 效能估算</strong>
+              效能估算（Estimation）
             </h2>
             <hr />
 
@@ -673,7 +704,7 @@
 
             <!-- Section 3: Measurement -->
             <h2 id="measurement" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Measurement 測量</strong>
+              測量（Measurement）
             </h2>
             <hr />
 
@@ -759,7 +790,7 @@
               id="api-considerations"
               style="margin-top: 2em; font-size: 1.5em"
             >
-              <strong>API 設計考量 (API considerations)</strong>
+              API 設計考量（API Considerations）
             </h2>
             <hr />
 
@@ -775,8 +806,8 @@
 
             <aside
               style="
-                background: #f8f9fa;
-                border-left: 4px solid #4a7fc1;
+                background: #fff8f2;
+                border-left: 4px solid #ff6b35;
                 padding: 1em;
                 margin: 1.5em 0;
                 border-radius: 0 6px 6px 0;
@@ -873,7 +904,7 @@
 
             <!-- Section 5: Algorithmic improvements -->
             <h2 id="algorithmic" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Algorithmic improvements 演算法改進</strong>
+              演算法改進（Algorithmic Improvements）
             </h2>
             <hr />
 
@@ -894,7 +925,7 @@
 
             <!-- Section 6: Better memory representation -->
             <h2 id="memory" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Better memory representation 更好的記憶體表示</strong>
+              更好的記憶體表示（Better Memory Representation）
             </h2>
             <hr />
 
@@ -1003,7 +1034,7 @@
 
             <!-- Section 7: Reduce allocations -->
             <h2 id="allocations" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Reduce allocations 減少記憶體分配</strong>
+              減少記憶體分配（Reduce Allocations）
             </h2>
             <hr />
 
@@ -1098,7 +1129,7 @@
 
             <!-- Section 8: Avoid unnecessary work -->
             <h2 id="unnecessary-work" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Avoid unnecessary work 避免不必要的工作</strong>
+              避免不必要的工作（Avoid Unnecessary Work）
             </h2>
             <hr />
 
@@ -1194,7 +1225,7 @@
 
             <!-- Section 9: Code size considerations -->
             <h2 id="code-size" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Code size considerations 程式碼大小考量</strong>
+              程式碼大小考量（Code Size Considerations）
             </h2>
             <hr />
 
@@ -1244,7 +1275,7 @@
 
             <!-- Section 10: Parallelization -->
             <h2 id="parallelization" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Parallelization and synchronization 平行化與同步</strong>
+              平行化與同步（Parallelization and Synchronization）
             </h2>
             <hr />
             <p>
@@ -1340,7 +1371,7 @@
 
             <!-- Section 11: Protocol Buffer -->
             <h2 id="protobuf" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Protocol Buffer advice</strong>
+              Protocol Buffer 建議（Protocol Buffer Advice）
             </h2>
             <hr />
             <p>
@@ -1371,7 +1402,7 @@
 
             <!-- Section 12: Bulk operations -->
             <h2 id="bulk-ops" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Bulk operations 批量操作</strong>
+              批量操作（Bulk Operations）
             </h2>
             <hr />
             <p>
@@ -1445,7 +1476,7 @@
 
             <!-- Section 13: Real cases -->
             <h2 id="real-cases" style="margin-top: 2em; font-size: 1.5em">
-              <strong>CLs that demonstrate multiple techniques 實際案例</strong>
+              實際案例（CLs that Demonstrate Multiple Techniques）
             </h2>
             <hr />
             <p>
@@ -1547,7 +1578,7 @@
 
             <!-- Section 14: C++ Specific -->
             <h2 id="cpp-specific" style="margin-top: 2em; font-size: 1.5em">
-              <strong>*C++-Specific advice</strong>
+              C++ 特定建議（C++-Specific Advice）
             </h2>
             <hr />
             <p>這邊談論了 C++ 的具體建議。</p>
@@ -1562,12 +1593,12 @@
 
             <!-- Section 15: Conclusion -->
             <h2 id="conclusion" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Conclusion 結論</strong>
+              結論（Conclusion）
             </h2>
             <hr />
 
             <h3 style="margin-top: 1.25em; font-size: 1.15em">
-              How to Find the Critical 3%
+              如何找出關鍵的 3%（How to Find the Critical 3%）
             </h3>
             <p>
               找到關鍵 3% 的方法只有一個：<strong
@@ -1598,8 +1629,7 @@
             </ol>
 
             <h3 style="margin-top: 1.5em; font-size: 1.15em">
-              Back to the Original Question: Is Premature Optimization Really
-              That Bad?
+              回到最初的問題：過早優化真的有那麼糟嗎？（Is Premature Optimization Really That Bad?）
             </h3>
             <p>
               Knuth
@@ -1618,7 +1648,7 @@
 
             <!-- Section 16: Further reading -->
             <h2 id="further-reading" style="margin-top: 2em; font-size: 1.5em">
-              <strong>Further reading 延伸閱讀</strong>
+              延伸閱讀（Further Reading）
             </h2>
             <hr />
             <ul>

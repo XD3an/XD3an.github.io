@@ -36,6 +36,23 @@
         font-weight: bold;
       }
 
+      /* 內文連結：加上底線與強調色，讓讀者一眼看出可以點 */
+      article p a,
+      article li a,
+      article .caption a {
+        color: #6c5ce7;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-thickness: 1px;
+        font-weight: 500;
+      }
+      article p a:hover,
+      article li a:hover,
+      article .caption a:hover {
+        color: #4834d4;
+        text-decoration-thickness: 2px;
+      }
+
       article h3 {
         margin-bottom: 0.5em;
       }
@@ -111,7 +128,7 @@
     </style>
 
     <meta property="og:title" content="從手寫程式碼到自動化代理：走進 AI 輔助開發的未來 | XD3an Blog" />
-    <meta property="og:description" content="從機器語言到自然語言，再到自動化代理——一次補齊現代開發全貌。" />
+    <meta property="og:description" content="從機器語言到自然語言，再到自動化代理，一次把現代開發的樣貌補齊。" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://XD3an.github.io/post/how-dev-with-ai-20260711.html" />
     <meta property="og:site_name" content="XD3an Blog" />
@@ -119,7 +136,7 @@
     <meta property="og:image" content="https://XD3an.github.io/assets/img/how-dev-with-ai-20260711/overview.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="從手寫程式碼到自動化代理：走進 AI 輔助開發的未來 | XD3an Blog" />
-    <meta name="twitter:description" content="從機器語言到自然語言，再到自動化代理——一次補齊現代開發全貌。" />
+    <meta name="twitter:description" content="從機器語言到自然語言，再到自動化代理，一次把現代開發的樣貌補齊。" />
     <meta name="twitter:image" content="https://XD3an.github.io/assets/img/how-dev-with-ai-20260711/overview.png" />
     <meta name="twitter:creator" content="@d3an_x" />
     <link rel="canonical" href="https://XD3an.github.io/post/how-dev-with-ai-20260711.html" />
@@ -128,7 +145,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "從手寫程式碼到自動化代理：走進 AI 輔助開發的未來",
-      "description": "從機器語言到自然語言，再到自動化代理——一次補齊現代開發全貌。",
+      "description": "從機器語言到自然語言，再到自動化代理，一次把現代開發的樣貌補齊。",
       "author": { "@type": "Person", "name": "XD3an" },
       "datePublished": "2026-07-11",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://XD3an.github.io/post/how-dev-with-ai-20260711.html" }
@@ -212,7 +229,7 @@
 
             <!-- 引言 -->
             <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 2em;">
-              電腦科學領域歷經多年的發展，從過去的打孔卡到現今的 AI，短短不到百年的時間就歷經了多次的典範轉移。過去寫程式做系統開發，要對電路線路與物理技術非常嫻熟；而到現在 AI 的出現，每個人都可以利用簡單的自然語言就能與 AI 一同協作打造各式各樣的應用…
+              電腦科學發展到現在其實還不到一百年，卻已經從打孔卡一路走到了 AI，中間換過好幾次玩法。以前想寫程式、做系統開發，你得對電路怎麼接、硬體怎麼跑很有概念；現在有了 AI，幾乎任何人都能用日常講話的方式跟它一起把應用做出來。這篇想把這條路從頭到尾聊一遍，也順便把一個現代開發者該有的知識地圖補齊。
             </p>
 
             <!-- ─────────────────────────────────────── -->
@@ -227,15 +244,15 @@
             <h3 id="stage1" style="margin-top: 1.5em; font-size: 1.2em">第一階段：1940年代（機器語言 Machine Language）</h3>
 
             <ul>
-              <li><strong>時代背景</strong>：二戰前後，最早的電腦（例如 ENIAC）誕生。ENIAC（Electronic Numerical Integrator and Computer，電子數值積分計算機）是世界上第一台可程式化的通用電子數位計算機，於 1943–1945 年間由 John Mauchly 與 J. Presper Eckert 在賓州大學打造，最初用於計算美軍的彈道射擊表。它擁有約 1.8 萬顆真空管、重達 30 噸，速度比人工計算快上千倍，但當時沒有程式語言，「編程」必須靠實體插線與撥動開關來完成。</li>
+              <li><strong>時代背景</strong>：二戰前後，最早的電腦（例如 ENIAC）誕生。ENIAC（Electronic Numerical Integrator and Computer，電子數值積分計算機）是世界上第一台可程式化的通用電子數位計算機，於 1943–1945 年間由 John Mauchly 與 J. Presper Eckert 在賓州大學打造，最初用於計算美軍的彈道射擊表。它有大約 1.8 萬顆真空管、重達 30 噸，算起來比人手快上千倍。不過那時候還沒有程式語言，所謂的寫程式，其實是靠實體插線和撥動開關來完成的。</li>
               <li><strong>溝通媒介</strong>：二進位代碼（<code>0</code> 與 <code>1</code>）、打孔卡片、實體線路插拔。</li>
-              <li><strong>開發者的狀態</strong>：當時的「工程師」更像是在做物理操作，直接在硬體層面撥動開關，把電訊號送進真空管裡。</li>
+              <li><strong>開發者的狀態</strong>：那時候的工程師，與其說在寫程式，不如說是在做物理操作，直接在硬體上撥開關，把電訊號送進真空管裡。</li>
               <li><strong>技術限制</strong>：換一台不同型號的電腦，同一套運算邏輯就必須重新打孔、重新接線。</li>
             </ul>
 
             <div style="text-align: center">
-              <img src="../assets/img/how-dev-with-ai-20260711/eniac-1945.png" alt="Betty Snyder 與 Glen Beck 於 1945 年在彈道研究實驗室透過插線與撥動開關「編程」ENIAC" class="img-fluid mb-3" />
-              <span class="caption text-muted">Betty Snyder 與 Glen Beck 於 1945 年在彈道研究實驗室透過插線與撥動開關「編程」ENIAC，是機器語言時代最具代表性的歷史影像。src: <a href="https://en.wikipedia.org/wiki/ENIAC" target="_blank">Wikipedia—ENIAC</a></span>
+              <img src="../assets/img/how-dev-with-ai-20260711/eniac-1945.png" alt="Betty Snyder 與 Glen Beck 於 1945 年在彈道研究實驗室透過插線與撥動開關為 ENIAC 編程" class="img-fluid mb-3" />
+              <span class="caption text-muted">Betty Snyder 與 Glen Beck 於 1945 年在彈道研究實驗室，靠插線和撥開關為 ENIAC 編程，這大概是機器語言時代最有代表性的一張照片了。src: <a href="https://en.wikipedia.org/wiki/ENIAC" target="_blank">Wikipedia, ENIAC</a></span>
             </div>
 
             <!-- Stage 2 -->
@@ -265,12 +282,12 @@
             <ul>
               <li><strong>1950年代中期（科學與商業運算）</strong>：FORTRAN（1957）和 COBOL（1959）誕生，人類第一次能用類似數學公式與基礎英文句型的語法來寫程式。</li>
               <li><strong>1970年代（系統級抽象）</strong>：C 語言（1972）出現，成為現代軟體工業的基石，幾乎所有後來的作業系統都基於此。</li>
-              <li><strong>1990年代（物件與網際網路）</strong>：Java（1995）、Python、C++ 普及，人類開始用「物件導向」來模擬真實世界的架構。</li>
+              <li><strong>1990年代（物件與網際網路）</strong>：Java（1995）、Python、C++ 普及，大家開始用物件導向的方式，把真實世界的東西模擬進程式裡。</li>
             </ul>
             <ul>
               <li><strong>溝通媒介</strong>：極度嚴謹的英文語法、迴圈（<code>for</code>, <code>while</code>）、條件判斷（<code>if/else</code>）。</li>
-              <li>發展出了<strong>編譯器（Compiler）與直譯器（Interpreter）</strong>，實現了真正的「硬體解耦」，工程師終於不用管底層 CPU 長怎樣。</li>
-              <li><strong>技術限制</strong>：語法容錯率為零。倘若少一個分號、縮排錯誤，程式就會直接崩潰。</li>
+              <li>編譯器（Compiler）和直譯器（Interpreter）也是在這時候出現的，程式碼終於跟硬體脫鉤，工程師不用再管底層 CPU 長什麼樣子。</li>
+              <li><strong>技術限制</strong>：語法幾乎沒有容錯空間，少一個分號、縮排錯一格，程式就直接掛給你看。</li>
             </ul>
 
             <div style="text-align: center">
@@ -284,8 +301,8 @@
             <ul>
               <li><strong>時代背景</strong>：以 ChatGPT（2022年底發布）為標誌性起點，大語言模型（LLM）突破了理解人類語境的門檻。</li>
               <li><strong>溝通媒介</strong>：人類的日常自然語言（甚至包含錯字與語病）＋ 提示詞（Prompt）。</li>
-              <li>迎來了 <strong>AI 大型語言模型</strong>。開發者從「寫執行步驟的人（How to do）」變成了「定義目標與意圖的人（What I want）」。只需下達指令，AI 就能將自然語言「轉譯」成 Python 或 C 語言，再交由傳統編譯器轉為機器碼。</li>
-              <li><strong>技術特徵</strong>：程式開發的門檻被極限壓縮。軟體工程的核心能力從「默寫語法」轉變為「精確的系統思考」與「溝通表達能力（Prompt Engineering）」。</li>
+              <li>這時候輪到 <strong>AI 大型語言模型</strong>上場。開發者的角色從寫執行步驟的人（How to do）變成講清楚自己要什麼的人（What I want）。你下個指令，AI 就能把自然語言轉成 Python 或 C，再丟給傳統編譯器變成機器碼。</li>
+              <li><strong>技術特徵</strong>：寫程式的門檻被壓得很低。真正吃重的能力，也從背得出語法，變成能不能想清楚整個系統、能不能把需求講明白（也就是所謂的 Prompt Engineering）。</li>
             </ul>
 
             <div style="text-align: center">
@@ -297,7 +314,45 @@
             <h2 id="tech-stack" style="margin-top: 2em; font-size: 1.5em">現代開發技術棧</h2>
             <hr />
 
-            <p>開發應用與系統的工作流程，已經從單純寫程式變成與 AI 協作寫程式。接下來看看現代開發可以使用哪些技術棧：</p>
+            <p>開發應用與系統的流程，已經從一個人埋頭寫程式，變成跟 AI 一起寫程式。動手之前，先花點時間把整張技術地圖攤開來看會比較有方向。</p>
+
+            <p>所謂的技術棧（Tech Stack），其實就是你拿來蓋一個網站或應用的一整套工具組合。講白一點，大致可以分成四塊：</p>
+            <ul>
+              <li>
+                <strong>前端（Frontend）</strong>：使用者看得到、摸得到的那一層。
+                <ul>
+                  <li><strong><a href="https://react.dev/" target="_blank">React</a> / <a href="https://nextjs.org/" target="_blank">Next.js</a></strong>：負責畫介面的函式庫，加上一套全端框架。</li>
+                  <li><strong><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></strong>：補上型別檢查，讓你少踩很多低級錯誤。</li>
+                  <li><strong><a href="https://tailwindcss.com/" target="_blank">Tailwind CSS</a></strong>：實用工具優先的樣式框架，排版排得又快又順手。</li>
+                </ul>
+              </li>
+              <li>
+                <strong>後端（Backend）</strong>：藏在畫面背後、真正在幹活的那一層。
+                <ul>
+                  <li><strong><a href="https://nodejs.org/" target="_blank">Node.js</a> / <a href="https://expressjs.com/" target="_blank">Express</a></strong>：最順手的 JavaScript 執行環境與伺服器框架。</li>
+                  <li><strong><a href="https://www.python.org/" target="_blank">Python</a> / <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a></strong>：高效能的 API 框架，很適合要接 AI 的場景。</li>
+                  <li><strong><a href="https://go.dev/" target="_blank">Go</a></strong>：勝在高併發，執行速度也快。</li>
+                </ul>
+              </li>
+              <li>
+                <strong>資料庫（Database）</strong>：東西總得存下來。
+                <ul>
+                  <li><strong><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a></strong>：功能很全能的關聯式資料庫。</li>
+                  <li><strong><a href="https://www.mongodb.com/" target="_blank">MongoDB</a></strong>：走彈性 schema 路線的 NoSQL 文件型資料庫。</li>
+                  <li><strong><a href="https://redis.io/" target="_blank">Redis</a></strong>：常拿來當高速快取或訊息佇列。</li>
+                </ul>
+              </li>
+              <li>
+                <strong>部署與維運（Deployment / DevOps）</strong>：怎麼把東西穩穩地送上線。
+                <ul>
+                  <li><strong><a href="https://www.docker.com/" target="_blank">Docker</a></strong>：把環境包成一致的容器，到哪跑都一樣。</li>
+                  <li><strong><a href="https://vercel.com/" target="_blank">Vercel</a> / <a href="https://www.cloudflare.com/" target="_blank">Cloudflare</a></strong>：現代前端與無伺服器（Serverless）託管平台，部署很省事。</li>
+                  <li><strong><a href="https://kubernetes.io/" target="_blank">Kubernetes</a></strong>：規模一大、要管一堆微服務時，靠它做容器自動化部署。</li>
+                </ul>
+                <p style="font-size: 0.9em; color: #6c757d; margin-top: 0.5em;">補充：這些技術的權威資源，通常就是它們的官方網站與官方文件，上面連的都是各自的官網。原始碼可到對應的 GitHub 專案查看，例如 <a href="https://github.com/facebook/react" target="_blank">facebook/react</a>、<a href="https://github.com/vercel/next.js" target="_blank">vercel/next.js</a>、<a href="https://github.com/microsoft/TypeScript" target="_blank">microsoft/TypeScript</a>、<a href="https://github.com/kubernetes/kubernetes" target="_blank">kubernetes/kubernetes</a> 等。</p>
+              </li>
+            </ul>
+            <p>下面就一塊一塊往下拆，聊聊各自現在比較主流的選擇。</p>
 
             <h3 id="frontend" style="margin-top: 1.5em; font-size: 1.2em">前端</h3>
             <p>現在新專案大部分都會從 Meta framework 開始，比較少人會想自己從零組合造輪子。</p>
@@ -341,44 +396,44 @@
               <li>需要精細控制基礎設施，或已有既有雲端資源則考慮 <strong>AWS/GCP/Azure</strong> 或自管 <strong>Docker + VPS</strong>，學習曲線最陡但彈性最大。</li>
             </ul>
 
-            <p><strong>技術棧參考資源（補底層理解）：</strong></p>
+            <p><strong>技術棧參考資源：</strong></p>
 
             <p><strong>Python</strong></p>
             <ul>
-              <li><a href="https://pythonbook.cc/chapters/cpython" target="_blank">為你自己讀 CPython 原始碼</a>——理解直譯器運作，對 AI 效能工程蠻有幫助的</li>
-              <li><a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" target="_blank">Fluent Python（第二版）</a>——被公認是「寫出道地、高效 Python」的黃金標準，深入資料模型、裝飾器、上下文管理器這些語言內部機制，不只是教語法，是教你「Python 為什麼這樣設計」</li>
-              <li><a href="https://realpython.com/tutorials/advanced/" target="_blank">Real Python 進階教學專區</a>——涵蓋並行處理（concurrency）、元編程（metaprogramming）、效能優化、CPython 內部運作、C 擴充套件，內容扎實、免費，是 Real Python 官方整理的進階學習路徑</li>
-              <li>Raymond Hettinger 的 PyCon 演講——他是 Python 核心開發者之一，也是社群公認最會講技術的人，像是「Transforming Code into Beautiful, Idiomatic Python」這類演講，YouTube 上都找得到完整版，看完會對「什麼是 Pythonic」有全新理解</li>
-              <li><a href="https://docs.python.org/3/whatsnew/index.html" target="_blank">Python 官方文件的 What's New</a>——每個新版本發布時官方寫的完整說明，養成習慣讀這個，會發現很多你天天用卻不知道存在的新特性，也是了解語言演進方向最直接的管道</li>
-              <li><a href="https://realpython.com/async-io-python/" target="_blank">Real Python：Async IO 完整教學</a>——Python 的非同步程式設計是最容易學了語法但用不好的一塊，這篇把 <code>asyncio</code> 的概念和實務講得很完整，對接 FastAPI 這類非同步框架會有幫助</li>
+              <li><a href="https://pythonbook.cc/chapters/cpython" target="_blank">為你自己讀 CPython 原始碼</a>：理解直譯器運作，對 AI 效能工程蠻有幫助的</li>
+              <li><a href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" target="_blank">Fluent Python（第二版）</a>：想寫出道地又有效率的 Python，這本大概是公認的標竿。它會帶你深入資料模型、裝飾器、上下文管理器這些語言內部機制，重點不在語法，而在告訴你 Python 為什麼要這樣設計</li>
+              <li><a href="https://realpython.com/tutorials/advanced/" target="_blank">Real Python 進階教學專區</a>：涵蓋並行處理（concurrency）、元編程（metaprogramming）、效能優化、CPython 內部運作、C 擴充套件，內容扎實、免費，是 Real Python 官方整理的進階學習路徑</li>
+              <li>Raymond Hettinger 的 PyCon 演講：他是 Python 核心開發者之一，也是社群裡公認最會講技術的人。像 Transforming Code into Beautiful, Idiomatic Python 這場，YouTube 上都找得到完整版，看完你對什麼叫 Pythonic 會有完全不一樣的體會</li>
+              <li><a href="https://docs.python.org/3/whatsnew/index.html" target="_blank">Python 官方文件的 What's New</a>：每個新版本發布時官方寫的完整說明，養成習慣讀這個，會發現很多你天天用卻不知道存在的新特性，也是了解語言演進方向最直接的管道</li>
+              <li><a href="https://realpython.com/async-io-python/" target="_blank">Real Python：Async IO 完整教學</a>：Python 的非同步程式設計是最容易學了語法但用不好的一塊，這篇把 <code>asyncio</code> 的概念和實務講得很完整，對接 FastAPI 這類非同步框架會有幫助</li>
             </ul>
 
             <p><strong>TypeScript</strong></p>
             <ul>
-              <li><a href="https://jkchao.github.io/typescript-book-chinese/" target="_blank">深入理解 TypeScript（中文）</a>——進階向，值得讀</li>
-              <li><a href="https://www.totaltypescript.com/books/total-typescript-essentials" target="_blank">Total TypeScript Essentials</a>——Matt Pocock 整理的精華</li>
-              <li><a href="https://bun.com/" target="_blank">Bun Runtime</a>——現代 TypeScript 執行環境，2025 年 12 月被 Anthropic 收購，現在是 Claude Code 底層基礎設施之一，維持開源、MIT 授權</li>
+              <li><a href="https://jkchao.github.io/typescript-book-chinese/" target="_blank">深入理解 TypeScript（中文）</a>：進階向，值得讀</li>
+              <li><a href="https://www.totaltypescript.com/books/total-typescript-essentials" target="_blank">Total TypeScript Essentials</a>：Matt Pocock 整理的精華</li>
+              <li><a href="https://bun.com/" target="_blank">Bun Runtime</a>：現代 TypeScript 執行環境，2025 年 12 月被 Anthropic 收購，現在是 Claude Code 底層基礎設施之一，維持開源、MIT 授權</li>
             </ul>
 
             <p><strong>React 生態 / Next.js</strong></p>
             <ul>
-              <li><a href="https://react.dev/learn" target="_blank">React 官方文件 Quick Start</a>——React 19 的起點</li>
-              <li><a href="https://nextjs.org/learn/dashboard-app" target="_blank">Next.js 官方 Learn 課程</a>——免費互動課程，帶你從零建一個財務儀表板，涵蓋路由、資料抓取、串流、身份驗證，官方團隊寫的，算是最權威的起點</li>
-              <li><a href="https://nextjs.org/docs/app" target="_blank">Next.js App Router 官方文件</a>——查細節功能會用到，2026 年 Pages Router 已進入維護模式，直接學 App Router 就好</li>
-              <li><a href="https://www.electronjs.org/" target="_blank">Electron</a>——跨平台桌面應用（工具類產品常用）</li>
-              <li><a href="https://capacitorjs.com/" target="_blank">Capacitor by Ionic</a>——Web 打包成原生 App，通常會比從零學 Flutter/Dart 快一些上線（這點是合理推論，沒查到 2026 年的具體數據佐證）</li>
+              <li><a href="https://react.dev/learn" target="_blank">React 官方文件 Quick Start</a>：React 19 的起點</li>
+              <li><a href="https://nextjs.org/learn/dashboard-app" target="_blank">Next.js 官方 Learn 課程</a>：免費互動課程，帶你從零建一個財務儀表板，涵蓋路由、資料抓取、串流、身份驗證，官方團隊寫的，算是最權威的起點</li>
+              <li><a href="https://nextjs.org/docs/app" target="_blank">Next.js App Router 官方文件</a>：查細節功能會用到，2026 年 Pages Router 已進入維護模式，直接學 App Router 就好</li>
+              <li><a href="https://www.electronjs.org/" target="_blank">Electron</a>：跨平台桌面應用（工具類產品常用）</li>
+              <li><a href="https://capacitorjs.com/" target="_blank">Capacitor by Ionic</a>：Web 打包成原生 App，通常會比從零學 Flutter/Dart 快一些上線（這點是合理推論，沒查到 2026 年的具體數據佐證）</li>
             </ul>
 
             <p><strong>後端 / AI 應用開發</strong></p>
             <ul>
-              <li><a href="https://fastapi.tiangolo.com/learn/" target="_blank">FastAPI 官方 Learn 文件</a>——官方形容這是一本書、一門課，也是官方推薦的學習路徑，從基礎到進階都涵蓋，品質公認很高</li>
-              <li><a href="https://docs.langchain.com/oss/python/learn" target="_blank">LangChain 官方 Learn 文件</a>——官方教學、概念說明與 RAG/agent 範例，是目前最新版本（LangChain v1.x）的權威參考，這塊工具鏈變動快，建議直接看官方文件而非教學文章，比較不會學到過時寫法</li>
+              <li><a href="https://fastapi.tiangolo.com/learn/" target="_blank">FastAPI 官方 Learn 文件</a>：官方形容這是一本書、一門課，也是官方推薦的學習路徑，從基礎到進階都涵蓋，品質公認很高</li>
+              <li><a href="https://docs.langchain.com/oss/python/learn" target="_blank">LangChain 官方 Learn 文件</a>：官方教學、概念說明與 RAG/agent 範例，是目前最新版本（LangChain v1.x）的權威參考，這塊工具鏈變動快，建議直接看官方文件而非教學文章，比較不會學到過時寫法</li>
             </ul>
 
             <p><strong>跨平台 App</strong></p>
             <ul>
-              <li><a href="https://docs.expo.dev/" target="_blank">React Native + Expo</a>——Expo 官方文件，2026 年官方推薦的 React Native 起手式</li>
-              <li><a href="https://docs.flutter.dev/" target="_blank">Flutter</a>——Flutter 官方文件</li>
+              <li><a href="https://docs.expo.dev/" target="_blank">React Native + Expo</a>：Expo 官方文件，2026 年官方推薦的 React Native 起手式</li>
+              <li><a href="https://docs.flutter.dev/" target="_blank">Flutter</a>：Flutter 官方文件</li>
             </ul>
 
             <!-- ─────────────────────────────────────── -->
@@ -390,18 +445,18 @@
             <h3 id="dsa" style="margin-top: 1.5em; font-size: 1.2em">資料結構與演算法基礎</h3>
             <p>它決定的是<strong>你寫出來的程式碼會不會在資料量變大時垮掉</strong>。</p>
             <ul>
-              <li><strong>常見資料結構</strong>：陣列、雜湊表（hash table）、鏈結串列、樹（尤其是二元搜尋樹）、圖（graph）——不用背到能手刻紅黑樹，但要知道每種結構的查找、插入、刪除的時間複雜度大概是多少，以及什麼情境該用哪種。</li>
+              <li><strong>常見資料結構</strong>：陣列、雜湊表（hash table）、鏈結串列、樹（尤其是二元搜尋樹）、圖（graph）。你不用背到能手刻紅黑樹，但要知道每種結構查找、插入、刪除大概要花多少時間，以及什麼情境該用哪一種。</li>
               <li><strong>時間複雜度（Big O）</strong>：能看懂 O(1)、O(log n)、O(n)、O(n log n)、O(n²) 的差異，並在寫程式時大致判斷自己寫的迴圈屬於哪一種，是資深與初階工程師最明顯的分水嶺之一。</li>
               <li><strong>排序與搜尋演算法</strong>：不用手刻，但要理解為什麼資料庫索引用 B-tree、為什麼二分搜尋比線性搜尋快這麼多。</li>
-              <li><strong>實務上的用法</strong>：多數時候你不是在「發明演算法」，而是在判斷「這裡用 Set 還是 Array 比較快」「這個 N+1 query 問題怎麼用雜湊表解掉」——把知識用在效能除錯與程式碼審查上。</li>
+              <li><strong>實務上的用法</strong>：多數時候你不是在發明演算法，而是在判斷這裡用 Set 還是 Array 比較快、這個 N+1 query 該怎麼用雜湊表解掉。真正的價值，是把這些知識用在效能除錯和程式碼審查上。</li>
             </ul>
             <p>進一步閱讀：<a href="https://neetcode.io/" target="_blank">NeetCode</a>、<a href="https://www.bigocheatsheet.com/" target="_blank">Big O Cheat Sheet</a></p>
 
             <h3 id="web-security" style="margin-top: 1.5em; font-size: 1.2em">安全基礎</h3>
-            <p>安全不是「資安團隊的事」，而是每個開發者寫程式時就該有的預設意識。</p>
+            <p>安全這件事，不是丟給資安團隊就沒你的事，而是每個開發者在寫程式的當下就該放在心上的預設意識。</p>
             <ul>
               <li><strong>OWASP Top 10</strong>：目前業界公認最該優先了解的清單，涵蓋 SQL Injection、XSS、CSRF、權限控管失效等常見漏洞類型。</li>
-              <li><strong>認證與授權（Authentication vs Authorization）</strong>：搞清楚「你是誰」跟「你能做什麼」是兩件事；熟悉 OAuth 2.0、JWT 的基本運作原理。</li>
+              <li><strong>認證與授權（Authentication vs Authorization）</strong>：先分清楚你是誰、跟你能做什麼，這是兩回事；OAuth 2.0、JWT 的基本運作原理要熟。</li>
               <li><strong>密鑰與敏感資訊管理</strong>：API key、資料庫密碼絕對不能寫死進程式碼或進 Git 歷史，環境變數、密鑰管理服務是基本配備。</li>
               <li><strong>輸入驗證</strong>：任何使用者輸入都要假設是惡意的，先驗證再處理。</li>
               <li><strong>HTTPS/TLS</strong>：所有正式環境都該強制 HTTPS，知道憑證是怎麼運作的。</li>
@@ -410,7 +465,7 @@
 
             <h3 id="db-api" style="margin-top: 1.5em; font-size: 1.2em">資料庫與 API 設計</h3>
             <ul>
-              <li><strong>SQL 基礎</strong>：即使你的專案用 ORM，還是要看得懂並手寫基本的 SQL——SELECT、JOIN、GROUP BY、子查詢，這是除錯效能問題時繞不開的能力。</li>
+              <li><strong>SQL 基礎</strong>：就算專案用了 ORM，你還是得看得懂、也寫得出基本的 SQL，像 SELECT、JOIN、GROUP BY、子查詢這些，都是除錯效能問題時繞不開的東西。</li>
               <li><strong>資料庫設計</strong>：正規化的基本概念、什麼時候該反正規化換效能、索引怎麼加才有效。</li>
               <li><strong>關聯式 vs 非關聯式資料庫</strong>：PostgreSQL/MySQL 適合結構化、需要交易一致性的資料；MongoDB、Redis 這類適合彈性 schema 或高速快取的場景。</li>
               <li><strong>API 設計原則</strong>：REST 目前仍是約 85% 組織採用的主流，理解 HTTP 方法語意（GET/POST/PUT/DELETE）、狀態碼該怎麼用、版本控制怎麼做；GraphQL 則適合前端需要彈性查詢欄位的場景。</li>
@@ -423,7 +478,7 @@
               <li><strong>水平擴展 vs 垂直擴展</strong>：垂直擴展是加大單台機器規格，水平擴展是加更多台機器分攤流量。</li>
               <li><strong>負載平衡</strong>：多台伺服器之間怎麼分流量，基本概念要懂。</li>
               <li><strong>可觀測性（Observability）</strong>：日誌（logging）、指標（metrics）、追蹤（tracing）三支柱，系統出問題時能不能快速定位到根因，取決於這塊有沒有做好。</li>
-              <li><strong>CAP 定理與取捨思維</strong>：「一致性、可用性、分區容錯性三者不可能同時完美」這個基本取捨概念，對選資料庫、選架構會有幫助。</li>
+              <li><strong>CAP 定理與取捨思維</strong>：一致性、可用性、分區容錯性這三者沒辦法同時做到完美，這個取捨的概念放在心裡，選資料庫、選架構時會有幫助。</li>
             </ul>
             <p>進一步閱讀：<a href="https://use-the-index-luke.com/" target="_blank">Use The Index, Luke</a>、<a href="https://restfulapi.net/" target="_blank">REST API Tutorial</a>、<a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer</a></p>
 
@@ -465,7 +520,7 @@
               <li><strong>CLI 慣例五要素</strong>：參數（arguments）、串流（streams）、環境變數（environment variables）、返回碼（return codes）、信號（signals）。</li>
               <li><strong>參數與旗標</strong>：<code>$1</code>~<code>$9</code> 存取個別參數；<code>$@</code> 存取全部參數；旗標慣例為 <code>-x</code> 單字母或 <code>--xxx</code> 長名稱，可合併寫（如 <code>ls -la</code>）。</li>
               <li><strong>Globbing 通配符</strong>：<code>*</code>（任意字元）、<code>?</code>（單一字元）、<code>{}</code>（多重展開）；zsh 支援 <code>**</code> 遞迴匹配。</li>
-              <li><strong>串流機制</strong>：每個程式都有 <code>stdin</code>/<code>stdout</code>/<code>stderr</code> 三條標準流；管道中的多個程式是「同時」啟動並並行執行。</li>
+              <li><strong>串流機制</strong>：每個程式都有 <code>stdin</code>/<code>stdout</code>/<code>stderr</code> 三條標準流；管道裡串起來的多個程式，其實是同時啟動、一起跑的。</li>
               <li><strong>環境變數</strong>：賦值語法 <code>foo=bar</code>（等號兩側不可有空格）；用 <code>export</code> 讓變數傳遞給子行程。</li>
               <li><strong>返回碼</strong>：程式結束時回傳 0（成功）或非 0（失敗）；<code>&&</code>（前者成功才執行）、<code>||</code>（前者失敗才執行）。</li>
               <li><strong>信號（Signals）</strong>：<code>Ctrl-C</code> 實際上是 Shell 送出 <code>SIGINT</code> 訊號中斷正在執行的行程。</li>
@@ -477,10 +532,10 @@
             <ul>
               <li><strong>IDE vs 終端工作流</strong>：IDE（如 VS Code）易上手、AI 整合較完整；終端工作流（tmux + Vim + zsh）輕量、在無 GUI 環境也能用。建議兩者都熟悉，至少精通一種。</li>
               <li>
-                <strong>Vim 的哲學</strong>：Vim 的介面本身就是一套「程式語言」，按鍵是可組合的命令，追求思考與操作同步的效率。
+                <strong>Vim 的哲學</strong>：Vim 的操作介面本身就像一套小型語言，每個按鍵都是可以組合的命令，目標是讓你想到什麼、手就能同步做到。
                 <ul>
                   <li><strong>模態編輯（Modal Editing）</strong>：Normal、Insert、Replace、Visual、Command-line 五種模式；<code>&lt;ESC&gt;</code> 隨時回到 Normal 模式。</li>
-                  <li><strong>「動詞＋名詞」語法</strong>：移動指令（<code>w</code> 下一個字、<code>0</code>/<code>$</code> 行首行尾）可與編輯指令（<code>d</code> 刪除、<code>c</code> 修改、<code>y</code> 複製）組合，並可加上數量與修飾詞（如 <code>ci(</code> 修改括號內文字）。</li>
+                  <li><strong>動詞加名詞的語法</strong>：移動指令（<code>w</code> 下一個字、<code>0</code>/<code>$</code> 行首行尾）可與編輯指令（<code>d</code> 刪除、<code>c</code> 修改、<code>y</code> 複製）組合，並可加上數量與修飾詞（如 <code>ci(</code> 修改括號內文字）。</li>
                   <li><strong>Vim 無所不在</strong>：VS Code（VSCodeVim 外掛）、Zsh、甚至 Claude Code 都內建 Vim 模式支援。</li>
                 </ul>
               </li>
@@ -493,8 +548,8 @@
 
             <ul>
               <li><strong>Print Debugging 與 Logging</strong>：加入輸出定位問題是最基本的手段；更進階是用日誌框架（INFO/DEBUG/WARN/ERROR 等嚴重級別、支援結構化資料）。</li>
-              <li><strong>除錯器（Debuggers）</strong>：適合「不確定要印什麼」或「很難重現」的情境。泛用型有 <code>gdb</code>、<code>lldb</code>，語言專用型有 Python 的 <code>pdb</code>。</li>
-              <li><strong>Record-Replay 除錯</strong>：<code>rr</code> 工具能記錄一次執行過程並「確定性地」重播，還能用 <code>reverse-continue</code>、<code>reverse-step</code> 等指令逆向除錯。</li>
+              <li><strong>除錯器（Debuggers）</strong>：適合那種你不確定要印什麼、或問題很難重現的情境。泛用型有 <code>gdb</code>、<code>lldb</code>，語言專用型像 Python 的 <code>pdb</code>。</li>
+              <li><strong>Record-Replay 除錯</strong>：<code>rr</code> 能把一次執行完整錄下來，再一模一樣地重播，甚至可以用 <code>reverse-continue</code>、<code>reverse-step</code> 往回倒著除錯。</li>
               <li><strong>系統呼叫追蹤</strong>：<code>strace</code>（Linux）/<code>dtruss</code>（macOS）可觀察程式發出的每個系統呼叫；<code>bpftrace</code>（基於 eBPF）可在核心層做低開銷的追蹤。</li>
               <li><strong>網路除錯</strong>：<code>tcpdump</code>/Wireshark 抓封包分析；HTTPS 加密流量可用 <code>mitmproxy</code> 或瀏覽器開發者工具的 Network 分頁。</li>
               <li><strong>效能量測</strong>：<code>time</code> 指令拆解出 Real（壁鐘時間）、User（使用者程式碼 CPU 時間）、Sys（核心程式碼 CPU 時間）三種時間，可判斷程式是卡在運算還是卡在等待。</li>
@@ -516,7 +571,7 @@
             </ul>
 
             <p><strong>資料模型</strong></p>
-            <p>Git 與其他版本控制系統（如 SVN）最大的不同，在於它把檔案與目錄的變化歷史，模型化成一系列的「快照（Snapshot）」：每一個快照就是某個時間點、整個頂層目錄樹的完整狀態。</p>
+            <p>Git 跟其他版本控制系統（像 SVN）最大的差別，在於它把檔案和目錄的變化歷史，看成一連串的快照（Snapshot）：每一個快照，就是某個時間點整棵頂層目錄樹的完整狀態。</p>
 
             <pre><code class="language-javascript">// 1. 檔案 (blob)：就是一堆單純的位元組 (byte)，本身不記錄檔名，只有內容
 type blob = array&lt;byte&gt;
@@ -559,7 +614,7 @@ references = map&lt;string, string&gt;</code></pre>
             </div>
             <div style="text-align: center">
               <img src="../assets/img/how-dev-with-ai-20260711/git-commit1.png" alt="Git commit" class="img-fluid mb-3" />
-              <span class="caption text-muted"><strong>commit（快照）</strong>：記錄父 commit、作者、訊息，以及指向這次快照對應的頂層 tree；commit 本身不可變，「修改」歷史其實是建立新的 commit。src: <a href="https://xosh.org/explain-git-in-simple-words/" target="_blank">xosh.org</a></span>
+              <span class="caption text-muted"><strong>commit（快照）</strong>：記錄父 commit、作者、訊息，以及指向這次快照對應的頂層 tree；commit 本身不可變，所謂改歷史，其實是在建立新的 commit。src: <a href="https://xosh.org/explain-git-in-simple-words/" target="_blank">xosh.org</a></span>
             </div>
             <div style="text-align: center">
               <img src="../assets/img/how-dev-with-ai-20260711/git-hash.png" alt="Git hash / SHA-1" class="img-fluid mb-3" />
@@ -581,7 +636,7 @@ references = map&lt;string, string&gt;</code></pre>
             <ul>
               <li><strong>References（參照）</strong>：人類記不住 SHA-1 雜湊值，所以 Git 用 References 來指向特定的 commit。最常見的 Reference 就是分支（例如 <code>main</code>）。分支指標是可變的，當你在該分支新增 commit 時，指標會自動往前推移。</li>
               <li><strong>HEAD</strong>：代表你目前所在的位置（通常指向某個分支，如 <code>HEAD -&gt; main</code>）。</li>
-              <li><strong>Detached HEAD（分離的 HEAD 狀態）</strong>：如果你直接 <code>checkout</code> 到某個特定的 commit 雜湊值，<code>HEAD</code> 就會脫離分支，直接指向該 commit。在這種狀態下做的任何新提交，如果沒有建立新分支把它接住，切換回其他分支後這些新提交就會變成「孤兒」，最終被 Git 回收。</li>
+              <li><strong>Detached HEAD（分離的 HEAD 狀態）</strong>：如果你直接 <code>checkout</code> 到某個特定的 commit 雜湊值，<code>HEAD</code> 就會脫離分支，直接指向該 commit。在這種狀態下做的任何新提交，如果沒有建立新分支把它接住，切換回其他分支後，這些新提交就變成沒人指向的孤兒，最後會被 Git 回收掉。</li>
             </ul>
             <div style="text-align: center">
               <img src="../assets/img/how-dev-with-ai-20260711/git-branch2.png" alt="Git HEAD branch2" class="img-fluid mb-3" />
@@ -591,7 +646,7 @@ references = map&lt;string, string&gt;</code></pre>
             <p><strong>儲存庫三個區域</strong></p>
             <ol>
               <li><strong>工作目錄（Working Directory）</strong>：你目前真正在編輯的實體檔案。</li>
-              <li><strong>暫存區（Staging Area / Index）</strong>：讓你能選擇「這次要提交哪些修改」，可以把現況拆成多個獨立、乾淨的 commit。</li>
+              <li><strong>暫存區（Staging Area / Index）</strong>：讓你自己挑這次到底要提交哪些修改，可以把手上的變動拆成好幾個乾淨、獨立的 commit。</li>
               <li><strong>儲存庫歷史（Repository / History）</strong>：已經被 commit 記錄下來的不可變快照。</li>
             </ol>
             <div style="text-align: center">
@@ -611,7 +666,7 @@ references = map&lt;string, string&gt;</code></pre>
             <!-- Packaging -->
             <h3 id="packaging" style="margin-top: 1.5em; font-size: 1.2em">6. 程式碼打包與發布（Packaging and Shipping Code）</h3>
 
-            <p>寫完程式碼只是第一步，如何讓別人的電腦（或伺服器）也能順利執行你的程式，才是「打包與發布」要解決的核心問題。</p>
+            <p>程式碼寫完只是第一步。怎麼讓別人的電腦、或是伺服器也能順順利利跑起來你的程式，才是打包與發布真正要解決的問題。</p>
 
             <ul>
               <li>
@@ -657,13 +712,13 @@ references = map&lt;string, string&gt;</code></pre>
             <p><strong>運作原理</strong></p>
             <p>不要把 Agent 當成魔法，底層邏輯其實非常清晰：</p>
             <ol>
-              <li><strong>LLM 的本質</strong>：大語言模型本質上依然只是在做「給定輸入字串 → 預測輸出字串」的機率分佈取樣。</li>
-              <li><strong>Harness</strong>：Agent 的核心其實是一個介於「使用者」與「LLM」之間的控制程式（Harness）。</li>
+              <li><strong>LLM 的本質</strong>：說到底，大語言模型做的還是同一件事：給它一段輸入字串，它去預測接下來該輸出什麼，靠的是機率分佈取樣。</li>
+              <li><strong>Harness</strong>：Agent 的核心，其實是一個夾在你和 LLM 中間的控制程式（Harness）。</li>
               <li>
                 <strong>回饋迴圈（Feedback Loop）</strong>：
                 <ul>
                   <li>Harness 會把你的提示詞、對話歷史、以及目前工作區的狀態組合成一大包字串送給 LLM。</li>
-                  <li>LLM 回傳的字串中可能包含「呼叫特定工具的指令」（例如：讀取檔案 A 或執行指令 B）。</li>
+                  <li>LLM 回傳的字串裡，可能夾帶著呼叫某個工具的指令（例如：讀取檔案 A、或執行指令 B）。</li>
                   <li>Harness 攔截到這個指令後，真正在你的電腦上執行它，並把執行結果當作新的輸入再次送給 LLM。</li>
                   <li>每次工具呼叫，都會重新觸發一次 LLM 的推理，直到任務完成。</li>
                 </ul>
@@ -684,8 +739,8 @@ references = map&lt;string, string&gt;</code></pre>
             <ul>
               <li><strong>可重用的 Prompt / 模板</strong>：把複雜、常用的提示詞（如你個人的 Code Style 規範）存成模板重複使用。</li>
               <li><strong>並行多代理（Parallel Agents）與 <code>git worktree</code></strong>：當任務龐大時，可同時開啟多個 Agent 處理不同任務；搭配 Git 的 <code>worktree</code> 功能，讓不同的 Agent 在獨立的目錄下操作同一個儲存庫的不同分支，互不干擾。</li>
-              <li><strong>MCP（Model Context Protocol）</strong>：一個革命性的開放協議，標準化了「AI 模型如何連接外部工具與資料源」的方式。例如你可以安裝一個 Notion 的 MCP 伺服器，你的 IDE 裡的 Agent 就能直接讀寫你的 Notion 筆記。</li>
-              <li><strong>上下文管理（Context Management）</strong>：LLM 的上下文窗口（Context Window）是有限制的，且塞入過多無用資訊會導致 AI「幻覺」。實用策略：適時「清空上下文」、善用「回滾對話」、以及「上下文壓縮」。</li>
+              <li><strong>MCP（Model Context Protocol）</strong>：一套開放協議，把 AI 模型要怎麼接上外部工具和資料源這件事標準化了。舉個例子，你裝一個 Notion 的 MCP 伺服器，IDE 裡的 Agent 就能直接讀寫你的 Notion 筆記。</li>
+              <li><strong>上下文管理（Context Management）</strong>：LLM 的上下文窗口（Context Window）是有上限的，塞太多沒用的東西反而會讓它開始亂編。幾個實用做法：該清空上下文時就清、善用回滾對話、需要的話做上下文壓縮。</li>
             </ul>
 
             <p>進一步閱讀：<a href="https://www.mihaileric.com/The-Emperor-Has-No-Clothes/" target="_blank">200 行程式碼理解 Agent 核心概念</a></p>
@@ -700,9 +755,9 @@ references = map&lt;string, string&gt;</code></pre>
                 <strong>格式化（Formatting）</strong>：處理表面語法的一致性（單引號還是雙引號、大括號要不要換行、import 的順序等）。
                 <ul>
                   <li><strong>高度可配置</strong>：如前端常用的 <code>Prettier</code>，允許你微調各種排版細節。</li>
-                  <li><strong>獨裁且不可配置</strong>：如 Python 的 <code>Black</code> 或 Go 的 <code>gofmt</code>，故意限制配置選項，徹底消滅「單車棚效應（Bikeshedding）」。</li>
+                  <li><strong>獨裁且不可配置</strong>：像 Python 的 <code>Black</code> 或 Go 的 <code>gofmt</code>，故意不給你什麼選項調，就是要省掉大家為了排版細節吵不完的單車棚效應（Bikeshedding）。</li>
                 </ul>
-                實務最佳解：設定編輯器「存檔時自動格式化（Format on save）」，並在專案根目錄放置 <code>.editorconfig</code>。
+                實務上最省事的做法：把編輯器設成存檔時自動格式化（Format on save），再在專案根目錄放一個 <code>.editorconfig</code>。
               </li>
               <li>
                 <strong>靜態檢查（Linting）</strong>：比格式化更深入，負責分析程式碼並找出反模式、潛在 Bug 或未使用的變數。進階工具 <code>semgrep</code> 是基於抽象語法樹（AST）的搜尋工具，讓你即使跨越不同的程式語言，也能自訂檢查規則。
@@ -723,15 +778,15 @@ references = map&lt;string, string&gt;</code></pre>
                 <li><strong>TDD（測試驅動開發）</strong>：先寫好測試（此時測試會失敗），再寫實作程式碼讓測試通過。</li>
                 <li><strong>回歸測試</strong>：當你修好一個 Bug 後，一定要寫一個對應的測試，確保未來這個 Bug 永遠不會再出現。</li>
                 <li><strong>屬性測試（Property-based Testing）</strong>：定義屬性，由工具（如 Python 的 <code>Hypothesis</code>）自動生成大量隨機且極端的輸入來轟炸你的程式，找出你想都沒想過的邊界情況。</li>
-                <li><strong>測試覆蓋率</strong>：這是「輔助指標」，切忌盲目追求 100% 覆蓋率，因為「執行過這行程式」不代表「驗證了這行邏輯的正確性」。</li>
+                <li><strong>測試覆蓋率</strong>：它頂多是個輔助指標，別盲目追求 100%。因為這行程式有被執行到，不代表它的邏輯真的被驗證過。</li>
               </ul>
             </div>
 
             <ul>
-              <li><strong>Pre-commit Hooks</strong>：讓你在每次輸入 <code>git commit</code> 時，自動觸發格式化、Linting，甚至跑部分測試，確保那些「髒亂、不符合規範」的程式碼連進入 Git 儲存庫的資格都沒有。</li>
+              <li><strong>Pre-commit Hooks</strong>：每次你 <code>git commit</code> 時自動幫你跑格式化、Linting，甚至跑一部分測試，讓那些髒亂、不符規範的程式碼，連進 Git 儲存庫的資格都沒有。</li>
               <li><strong>持續集成（CI）</strong>：利用如 GitHub Actions 等工具，在每次 <code>push</code>、發起 <code>Pull Request</code> 或定期排程時，在雲端伺服器自動執行格式化檢查、Linting、測試與型別檢查。CD（持續部署）進一步延伸 CI，當測試全數通過並合併到主分支後，自動建置並部署到正式環境。</li>
               <li><strong>命令運行器（Command Runner）</strong>：現代專案的指令常常又臭又長。我們可以使用像 <strong><code>just</code></strong>（現代版的 <code>make</code>）這樣的工具，把複雜的指令包裝成簡短好記的別名（如 <code>just lint</code> 或 <code>just test</code>）。</li>
-              <li><strong>正則表達式（Regular Expressions）</strong>：一種用來「匹配字串集合」的強大模式語言，在程式碼品質控管中無所不在。</li>
+              <li><strong>正則表達式（Regular Expressions）</strong>：一種專門用來比對字串樣式的語言，在程式碼品質控管裡到處都用得到。</li>
             </ul>
 
             <!-- Beyond Code -->
@@ -739,16 +794,16 @@ references = map&lt;string, string&gt;</code></pre>
 
             <p>軟體開發本質上是一場跨越時間與空間的溝通。你寫下的程式碼、註解、README 與 Commit Message，都是在與其他人（未來的同事、接手的維護者、半年後的自己）進行單向溝通。</p>
 
-            <p><strong>單向溝通的核心原則</strong>：永遠專注於傳達「為什麼（Why）」，而不是「做了什麼（What）」。（因為「做了什麼」，看程式碼本身就知道了。）</p>
+            <p><strong>單向溝通的核心原則</strong>：永遠把重點放在為什麼（Why），而不是做了什麼（What）。做了什麼，看程式碼本身就知道了，不用你多說。</p>
 
             <p><strong>值得寫的注釋類型：</strong></p>
             <ul>
               <li><strong>具體可執行的 TODO</strong>：要註明為何延後、何時需要處理。</li>
               <li><strong>外部參考連結</strong>：演算法的出處、依循的商業規格或 RFC 網址；務必盡量使用永久連結（Permalink）。</li>
-              <li><strong>正確性論證</strong>：當一段程式碼的邏輯「非顯而易見」時，解釋它為什麼是對的。</li>
-              <li><strong>踩坑記錄（Gotchas）</strong>：如果你花了超過 30 分鐘除錯才找出一個「非直覺」的解法，一定要記下來，拯救未來的讀者。</li>
+              <li><strong>正確性論證</strong>：當一段程式碼的邏輯不是一眼就看得懂時，說明它為什麼是對的。</li>
+              <li><strong>踩坑記錄（Gotchas）</strong>：如果你花了超過 30 分鐘除錯，才找出一個不太直覺的解法，一定要記下來，救救未來的讀者（很可能就是你自己）。</li>
               <li><strong>魔法數字 / 常數的理由</strong>：為什麼這裡要乘以 <code>1.05</code>？為什麼重試次數是 <code>3</code>？</li>
-              <li><strong>「為什麼不這樣做」的說明</strong>：記錄曾經嘗試過但失敗的死胡同，避免日後有人「熱心」地把你現在的正確做法又「修正」回錯誤的版本。</li>
+              <li><strong>為什麼不這樣做的說明</strong>：把你試過但走不通的死路記下來，免得哪天有人一片好心，又把你現在的正確做法改回錯的版本。</li>
             </ul>
 
             <p><strong>README 撰寫原則（漏斗式結構）：</strong></p>
@@ -761,9 +816,9 @@ references = map&lt;string, string&gt;</code></pre>
 
             <p><strong>Commit Message 的藝術：</strong></p>
             <ul>
-              <li><strong>複雜變更的結構</strong>：建議採用「問題 → 解決方案 → 影響與取捨」的結構來撰寫。</li>
+              <li><strong>複雜變更的結構</strong>：建議照著問題、解決方案、影響與取捨這個順序來寫。</li>
               <li><strong>導入規範</strong>：強烈建議採用 <a href="https://www.conventionalcommits.org/en/v1.0.0/" target="_blank">Conventional Commits</a>（如 <code>feat:</code>, <code>fix:</code>, <code>docs:</code> 等前綴），讓機器與人類都能一眼看懂改動性質。</li>
-              <li><strong>與 LLM 協作的技巧</strong>：如果請 LLM 代寫 Commit Message，千萬不要單純只把 diff 丟給它，這樣只會得到「新增了三行程式碼」這種廢話。最好在「原本協助你開發該功能的同一個對話 Session」中請它寫，並明確要求它聚焦「Why」。</li>
+              <li><strong>與 LLM 協作的技巧</strong>：如果要請 LLM 幫你寫 Commit Message，千萬別只把 diff 丟過去，那你只會拿到像是新增了三行程式碼這種等於沒說的廢話。最好在剛剛陪你一起開發這個功能的同一個對話裡請它寫，並且明講：重點放在 Why。</li>
             </ul>
 
             <p><strong>貢獻與開源協作：</strong></p>
@@ -776,9 +831,9 @@ references = map&lt;string, string&gt;</code></pre>
 
             <p><strong>Code Review 文化：</strong></p>
             <ul>
-              <li><strong>對事不對人</strong>：說「這段函式邏輯不太清楚」，而不是說「你寫得很亂」。</li>
-              <li><strong>提問大於命令</strong>：用「我們這裡是不是可以考慮用 Map？」代替「把這裡改成 Map」。邀請討論能降低防備心。</li>
-              <li><strong>區分層級</strong>：清楚標示哪些是「必須修改的 Blocker」，哪些只是「個人偏好的 Nits（吹毛求疵）」。</li>
+              <li><strong>對事不對人</strong>：說這段函式的邏輯不太清楚，而不是說你寫得很亂。</li>
+              <li><strong>提問大於命令</strong>：與其直接說把這裡改成 Map，不如問一句：這裡是不是可以考慮用 Map？一句提問就能把對方的防備心降下來。</li>
+              <li><strong>區分層級</strong>：清楚標出哪些是一定要改的 Blocker，哪些只是你個人偏好的 Nits（吹毛求疵）。</li>
               <li><strong>不要吝嗇讚美</strong>：看到寫得漂亮的程式碼，明確地給予肯定。</li>
             </ul>
 
@@ -789,7 +844,7 @@ references = map&lt;string, string&gt;</code></pre>
             <ol class="ref-list">
               <li class="ref-item">
                 <a class="ref-title" href="https://en.wikipedia.org/wiki/ENIAC" target="_blank" rel="noopener noreferrer">ENIAC 與 Betty Snyder / Glen Beck 照片</a>
-                <div class="ref-meta"><span class="ref-source">Wikipedia—ENIAC</span><span class="ref-dot">·</span><a class="ref-url" href="https://en.wikipedia.org/wiki/ENIAC" target="_blank" rel="noopener noreferrer">Available ↗</a></div>
+                <div class="ref-meta"><span class="ref-source">Wikipedia, ENIAC</span><span class="ref-dot">·</span><a class="ref-url" href="https://en.wikipedia.org/wiki/ENIAC" target="_blank" rel="noopener noreferrer">Available ↗</a></div>
               </li>
               <li class="ref-item">
                 <a class="ref-title" href="https://www.britannica.com/biography/John-von-Neumann" target="_blank" rel="noopener noreferrer">J. Robert Oppenheimer 與 John von Neumann 合照</a>

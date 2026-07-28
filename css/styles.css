@@ -11496,3 +11496,27 @@ article table {
   .ref-item { padding-left: 1.8em; }
   .ref-meta  { gap: 0.1em 0.35em; }
 }
+
+/* ================================
+   Article reading spacing
+   讓所有文章的內文不那麼擠，行距與段落間距拉開一點
+   ================================ */
+
+article p,
+article li {
+  line-height: 1.72;
+}
+
+article p {
+  margin-bottom: 0.85em;
+}
+
+article li {
+  margin-bottom: 0.3em;
+}
+
+/* 巢狀清單與上一項之間留一點空隙 */
+article li > ul,
+article li > ol {
+  margin-top: 0.3em;
+}
