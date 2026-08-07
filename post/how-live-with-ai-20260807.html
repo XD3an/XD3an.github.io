@@ -209,7 +209,7 @@
           <li><a href="#world-model" class="toc-h3">世界模型（World Model）</a></li>
           <li><a href="#embodied" class="toc-h3">從螢幕走到現實：自駕與具身智慧</a></li>
           <li><a href="#agi-timeline" class="toc-h3">AGI 時間表：從 2027 到十年後</a></li>
-          <li><a href="#whats-next" class="toc-h2">我們還剩下甚麼？</a></li>
+          <li><a href="#whats-next" class="toc-h2">下一個會是甚麼？</a></li>
           <li><a href="#references" class="toc-h2">參考來源</a></li>
         </ul>
       </div>
@@ -617,7 +617,7 @@ $$
 
 <div class="math-display">
 $$
-M_{ij} = \begin{cases} 0 & j \le i \\ -\infty & j > i \end{cases}
+M_{ij} = \begin{cases} 0 &amp; j \le i \\ -\infty &amp; j &gt; i \end{cases}
 $$
 </div>
 
@@ -697,11 +697,11 @@ $$
 
 <div class="math-display">
 $$
-L = -\sum_{t=1}^{T} \log P(x_t \mid x_{<t}; \theta)
+L = -\sum_{t=1}^{T} \log P(x_t \mid x_{&lt;t}; \theta)
 $$
 </div>
 
-<p>$x_{<t}$ 是前面所有的 token，模型要讓真實出現的那個 $x_t$ 機率越高越好。BERT 的克漏字只是把總和的範圍換掉，改成只算被遮住的那些位置 $M$：</p>
+<p>$x_{&lt;t}$ 是前面所有的 token，模型要讓真實出現的那個 $x_t$ 機率越高越好。BERT 的克漏字只是把總和的範圍換掉，改成只算被遮住的那些位置 $M$：</p>
 
 <div class="math-display">
 $$
@@ -1206,7 +1206,7 @@ $$
   <span class="caption text-muted">Dario Amodei 與 Demis Hassabis，src: <a href="https://companies.caixin.com/2026-01-21/102406396.html" target="_blank" rel="noopener">https://companies.caixin.com/2026-01-21/102406396.html</a></span>
 </div>
 
-<h2 id="whats-next" style="margin-top: 2em; font-size: 1.5em">我們還剩下甚麼？</h2>
+<h2 id="whats-next" style="margin-top: 2em; font-size: 1.5em">下一個會是甚麼？</h2>
 
 <hr />
 
@@ -1227,6 +1227,10 @@ $$
   <li><strong>驗證結果：</strong>一個任務適不適合交給 AI，取決於驗證便不便宜。反過來看就是，愈能把「什麼叫做對」定義清楚的人，愈指揮得動 AI，而寫不出驗收標準的人，會覺得 AI 做出來的東西永遠差一點，卻講不出差在哪裡。這也是為什麼寫程式是目前 agent 做得最好的領域，因為編譯器跟測試會直接告訴它對不對。</li>
   <li><strong>承擔後果：</strong>這一項跟前兩項不太一樣，它不是還沒交出去，是交不出去。責任要交給誰，那個誰得有東西可以賠：名聲、執照、飯磗。模型一樣都沒有，所以不管中間有多少步是它做的，署名的還是你。這逗出一個以前不存在的處境，你要對一個不是自己親手做的東西負全責，於是上一項就不只是效率問題了，每一份沒驗過就送出去的產出，賭的是你自己的名字。組織裡的版本更難看：當每個人的產出都有一部分是生成的，第四部那個「用幻覺補洞」的下一步就是沒有人記得那一段是誰寫的。七十年交出去的都是方法，沒有一次交出去的是責任。</li>
 </ul>
+
+<p>這三件事都跟工具無關，而不是學工具。工具的半衰期大概一年甚至更短，但七十年來那條交接的線沒有變過，看懂的人下一個工具出來不用重學。</p>
+
+<p>我們花了七十年一層層把控制權交出去，下一個會是什麼？</p>
 
 <h2 id="references" style="margin-top: 2em; font-size: 1.5em">參考來源</h2>
 
