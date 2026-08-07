@@ -44,7 +44,21 @@
         border-radius: 0.5em;
         background: #f8f9fa;
         padding: 1em;
+        overflow-x: auto;   /* 程式碼過長時區塊內自行捲動，不撐破頁面 */
       }
+
+      /* 防止手機上的水平溢位：超長網址／連結自動斷行 */
+      article .caption,
+      article .caption a,
+      article p a,
+      article li a {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      /* 保險：任何元素都不得超出視窗寬度，避免右側出現空白 */
+      html, body { overflow-x: hidden; }
+      article img, article pre, article table { max-width: 100%; }
 
       article .img-fluid {
         max-width: 70%;
