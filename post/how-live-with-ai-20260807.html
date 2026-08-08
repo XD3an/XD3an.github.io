@@ -28,15 +28,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
 
-    <!-- MathJax — ONLY if the post contains LaTeX ($…$ / $$…$$); otherwise delete this block. -->
-    <script>
-      window.MathJax = {
-        tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
-        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
-
     <style>
       article pre {
         margin-left: 1.5em;
@@ -165,7 +156,7 @@
     </style>
 
     <meta property="og:title" content="AI 是下一場工業革命，而且正在發生 | XD3an Blog" />
-    <meta property="og:description" content="七十年人工智慧史，一場正在發生的工業革命——作為人類，我們還剩下什麼？" />
+    <meta property="og:description" content="七十年人工智慧史，一場正在發生的工業革命，作為人類，我們還剩下什麼？" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://XD3an.github.io/post/how-live-with-ai-20260807.html" />
     <meta property="og:site_name" content="XD3an Blog" />
@@ -173,7 +164,7 @@
     <meta property="og:image" content="https://XD3an.github.io/assets/img/how-live-with-ai-20260807/image-8.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AI 是下一場工業革命，而且正在發生 | XD3an Blog" />
-    <meta name="twitter:description" content="七十年人工智慧史，一場正在發生的工業革命——作為人類，我們還剩下什麼？" />
+    <meta name="twitter:description" content="七十年人工智慧史，一場正在發生的工業革命，作為人類，我們還剩下什麼？" />
     <meta name="twitter:image" content="https://XD3an.github.io/assets/img/how-live-with-ai-20260807/image-8.png" />
     <meta name="twitter:creator" content="@d3an_x" />
     <link rel="canonical" href="https://XD3an.github.io/post/how-live-with-ai-20260807.html" />
@@ -182,7 +173,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "AI 是下一場工業革命，而且正在發生",
-      "description": "七十年人工智慧史，一場正在發生的工業革命——作為人類，我們還剩下什麼？",
+      "description": "七十年人工智慧史，一場正在發生的工業革命，作為人類，我們還剩下什麼？",
       "author": { "@type": "Person", "name": "XD3an" },
       "datePublished": "2026-08-07",
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://XD3an.github.io/post/how-live-with-ai-20260807.html" }
@@ -254,7 +245,7 @@
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="post-heading">
               <h1>AI 是下一場工業革命，而且正在發生</h1>
-              <h4 class="subheading">七十年人工智慧史——作為人類我們還剩下什麼？</h4>
+              <h4 class="subheading">七十年人工智慧史，作為人類我們還剩下什麼？</h4>
               <span class="meta">By XD3an</span>
             </div>
           </div>
@@ -491,7 +482,7 @@ $$
 $$
 </div>
 
-<p>每一層的梯度都仰賴後面一層算出來的梯度往前傳，一路傳到第一層。這在數學上跟前面統計學習講的梯度下降是同一件事，差別只在於函數疊了很多層，所以需要一套有效率的方式把梯度一路算回去，而不是每個參數各自獨立算一次。</p>
+<p>式子裡 $\frac{\partial L}{\partial W^{(l)}}$ 是損失 $L$ 對第 $l$ 層權重 $W^{(l)}$ 的梯度（也就是我們最後要拿去更新的東西），它等於「損失對這一層輸出 $h^{(l)}$ 的梯度」乘上「這一層輸出對自己權重的梯度」，這就是連鎖律。關鍵在於 $\frac{\partial L}{\partial h^{(l)}}$ 這一項可以由後面一層的結果推回來，所以每一層的梯度都仰賴後面一層算出來的梯度往前傳，一路傳到第一層。這在數學上跟前面統計學習講的梯度下降是同一件事，差別只在於函數疊了很多層，所以需要一套有效率的方式把梯度一路算回去，而不是每個參數各自獨立算一次。</p>
 
 <p>這套機制其實 1986 年就有了，但沉寂了將近三十年。原因不是想法不對，是三個條件當時都還沒到位：夠大的標註資料集、夠強的算力、還有讓深層網路訓練得動的演算法細節（例如 ReLU、初始化方式）。少了任何一個，深度網路不是訓練不動，就是訓練得動但沒有比淺層模型好。</p>
 
@@ -611,7 +602,15 @@ $$
 
 <p>很多文章講到這裡就說效果更好，但機制才是重點。</p>
 
-<p>attention 這個動作本身只有一行：</p>
+<p>先把符號講清楚再看式子。attention 一次處理一排 token，假設有 $n$ 個。它做的事，是把每個 token 目前的向量表示，改寫成「參考過其他 token 之後」的新表示。整個運算靠三組向量：$Q$、$K$、$V$。它們都是同一排輸入 $X$（每個 token 一個向量疊起來的矩陣）分別乘上三個權重矩陣投影出來的，也就是 $Q = XW_Q$、$K = XW_K$、$V = XW_V$，其中 $W_Q$、$W_K$、$W_V$ 是訓練出來的參數。三者維度一樣，差別在扮演的角色。用「查資料」來類比最好懂：</p>
+
+<ul>
+  <li><strong>Query（查詢，$Q$）：</strong>這個 token 想找什麼。</li>
+  <li><strong>Key（鍵，$K$）：</strong>每個 token 拿來被比對的標籤，宣告自己代表什麼。</li>
+  <li><strong>Value（值，$V$）：</strong>一旦被選中，實際要交出去的內容。</li>
+</ul>
+
+<p>一個 token 拿自己的 Query 去跟所有 token 的 Key 逐一比對，算出該分給誰多少注意力，再照這個權重把大家的 Value 加權加總，就得到它的新表示。寫成一行就是：</p>
 
 <div class="math-display">
 $$
@@ -619,15 +618,25 @@ $$
 $$
 </div>
 
-<p>其中 $Q = XW_Q$、$K = XW_K$、$V = XW_V$，都是把同一份輸入 $X$ 用三組不同的權重投影出來的。拆開看做了三件事：</p>
+<p>式子裡 $QK^{\top}$ 是把 $Q$ 跟 $K$ 的轉置相乘、$d_k$ 是每個 Query／Key 向量的維度、$\operatorname{softmax}$ 是把一排分數轉成加起來為 1 的機率分布的函數。拆開看做了三件事：</p>
 
 <ul>
-  <li>$QK^{\top}$ 算出一個 $n \times n$ 的矩陣，每一個 token 對每一個 token 都算一次相似度。<strong>context window 為什麼貴，答案就在這裡：成本是</strong> $O(n^2)$<strong>，不是</strong> $O(n)$<strong>。</strong></li>
-  <li>除以 $\sqrt{d_k}$ 是因為內積的變異數會隨著維度長大，不縮放的話 softmax 會飽和、梯度趨近於零。</li>
+  <li>$QK^{\top}$ 算出一個 $n \times n$ 的矩陣，每一個 token 對每一個 token 都算一次相似度（內積越大代表越相關）。</li>
+  <li>除以 $\sqrt{d_k}$ 是因為內積的變異數會隨著維度 $d_k$ 長大，不縮放的話 softmax 會飽和、梯度趨近於零。</li>
   <li>softmax 之後每一列加起來是 1，那就是「這個 token 該分多少注意力給其他 token」的權重，再拿去對 $V$ 加權求和。</li>
 </ul>
 
-<p>decoder-only 的模型（GPT 那條路）只是多加一個遮罩，在 softmax 之前把分數改成：</p>
+<p>原論文其實不只算一次。它把 $Q$、$K$、$V$ 沿維度切成 $h$ 組（原文 $h = 8$，每組維度 $d_k = d_v = d_{\text{model}} / h = 64$，$d_{\text{model}}$ 是每個 token 向量的總維度），每組各自獨立做一次上面的 attention，得到 $\text{head}_i$，再把 $h$ 組結果接起來、乘上一個輸出權重 $W^O$ 投影回原維度，這叫多頭注意力（multi-head attention）：</p>
+
+<div class="math-display">
+$$
+\text{MultiHead}(Q, K, V) = \operatorname{Concat}(\text{head}_1, \dots, \text{head}_h)\,W^O, \qquad \text{head}_i = \text{Attention}(QW_i^Q,\, KW_i^K,\, VW_i^V)
+$$
+</div>
+
+<p>其中 $\operatorname{Concat}$ 是把幾組向量接成一條，$W_i^Q$、$W_i^K$、$W_i^V$ 是第 $i$ 組專用的投影矩陣。好處是每一組可以各自去看不同面向（語法、指代、距離……），而因為每組維度縮小了，總計算量跟只做一次全維度的 attention 差不多。</p>
+
+<p>decoder-only 的模型（GPT 那條路）只是在這個基礎上多加一個遮罩：在 softmax 之前，把分數矩陣 $\dfrac{QK^{\top}}{\sqrt{d_k}}$ 再加上一個遮罩矩陣 $M$（$i$ 是發出 Query 的 token 位置、$j$ 是被看的 token 位置）：</p>
 
 <div class="math-display">
 $$
@@ -635,7 +644,7 @@ M_{ij} = \begin{cases} 0 &amp; j \le i \\ -\infty &amp; j &gt; i \end{cases}
 $$
 </div>
 
-<p>未來位置的權重就被壓成 0。後面會講到 BERT 看得到左右文、GPT 只看得到左邊，差別就是這一行加不加。</p>
+<p>意思是只允許看自己（$j = i$）跟前面（$j &lt; i$）的 token；未來位置（$j &gt; i$）被加上 $-\infty$，經過 softmax 之後那格權重就變成 0。後面會講到 BERT 看得到左右文、GPT 只看得到左邊，差別就是這個遮罩加不加。</p>
 
 <p>而它真正的貢獻不在效果。RNN 必須一個字一個字算，因為第 n 步要等第 n-1 步的結果，這在數學上就不可能平行。Transformer 讓所有位置同時計算，於是它能吃下一整座 GPU 叢集。原論文的 Table 1 把這件事講得很清楚：self-attention 每一層的計算量是 $O(n^2 d)$，RNN 是 $O(n d^2)$，序列長度 $n$ 比維度 $d$ 短的時候前者其實還比較便宜，要等 $n$ 長到超過 $d$ 才反過來。但真正關鍵的是另一欄，<strong>需要串行執行的步驟從</strong> $O(n)$ <strong>降到</strong> $O(1)$。省不省要看句子多長，能攤開來算才是它真正改變的事。</p>
 
@@ -704,10 +713,10 @@ $$
 
 <ul>
   <li>BERT 用的是克漏字：把句子裡的字遮掉一部分，讓模型猜。</li>
-  <li>GPT 用的是接龍：給前面的字，猜下一個字。兩種都不需要任何人工標註，於是整個網際網路瞬間變成訓練資料。</li>
+  <li>GPT 用的是接龍：給前面的字，猜下一個字。</li>
 </ul>
-
-<p>這裡值得把式子寫出來，因為它就是第一部那條交叉熵，一個字都沒變。GPT 的接龍寫成損失函數是：</p>
+<p>兩種都不需要任何人工標註，於是整個網際網路瞬間變成訓練資料。</p>
+<p>這裡值得把式子寫出來，因為它就是第一部那條交叉熵，一個字都沒變。把一段文字切成 $T$ 個 token，依序記作 $x_1, x_2, \dots, x_T$，GPT 的接龍（預測下一個字）寫成損失函數是：</p>
 
 <div class="math-display">
 $$
@@ -715,13 +724,19 @@ L = -\sum_{t=1}^{T} \log P(x_t \mid x_{&lt;t}; \theta)
 $$
 </div>
 
-<p>$x_{&lt;t}$ 是前面所有的 token，模型要讓真實出現的那個 $x_t$ 機率越高越好。BERT 的克漏字只是把總和的範圍換掉，改成只算被遮住的那些位置 $M$：</p>
+<p>逐項拆開：$x_t$ 是第 $t$ 個 token；$x_{&lt;t}$ 代表它前面所有的 token，也就是 $x_1$ 到 $x_{t-1}$；$\theta$ 是模型參數；$P(x_t \mid x_{&lt;t}; \theta)$ 是模型只看過前文的情況下，預測第 $t$ 個位置剛好是真實 token $x_t$ 的機率。取 $\log$ 再加負號、對每個位置 $t$ 從 1 到 $T$ 加總，整個式子的意思就是「讓每一步真正出現的那個字，機率越高越好」。GPT 只看得到左邊，用的正是上一節那個因果遮罩。</p>
+
+<p>BERT 的克漏字（masked language modeling）只是把加總的範圍換掉。它先隨機挑出輸入裡大約 15% 的 token 做破壞（原論文的比例是：其中 80% 換成特殊符號 [MASK]、10% 換成隨機 token、10% 保持不動），把破壞後的整段序列記作 $\tilde{x}$，並用 $M$ 表示這些被挑中的位置所成的集合。模型要還原這些位置上原本的 token：</p>
 
 <div class="math-display">
 $$
-L_{\text{MLM}} = -\sum_{t \in M} \log P(x_t \mid x_{\setminus M}; \theta)
+L_{\text{MLM}} = -\sum_{t \in M} \log P(x_t \mid \tilde{x}; \theta)
 $$
 </div>
+
+<p>逐項拆開：$t \in M$ 表示只對「被破壞的那些位置」算損失，其餘位置不算；$\tilde{x}$ 是整段加了遮罩之後的輸入（連 [MASK] 佔位符也算在內），$P(x_t \mid \tilde{x}; \theta)$ 是模型拿整段 $\tilde{x}$ 去預測第 $t$ 個位置原本那個 token $x_t$ 的機率。</p>
+
+<p>注意條件是<strong>整段輸入、左右都看得到</strong>。這就是 BERT 跟 GPT 最根本的差別：BERT 雙向（條件在整段輸入 $\tilde{x}$ 上），GPT 單向（只看左邊 $x_{&lt;t}$）。</p>
 
 <p>所以自監督其實不是一種新的學習範式，它就是監督式學習，只是標籤 $y$ 不用人寫，直接從資料裡挖出來：接龍的標籤是下一個字，克漏字的標籤是被遮掉的字。第一部那三個步驟（算損失、算梯度、往反方向更新）在這裡原封不動，$x$、$\theta$、$L$ 的維度變大而已。真正變的只有一件事，標註成本歸零，於是資料量可以放大好幾個數量級。</p>
 
@@ -769,7 +784,7 @@ L(N) \approx \left(\frac{N_c}{N}\right)^{\alpha_N}, \qquad \alpha_N \approx 0.07
 $$
 </div>
 
-<p>$N$ 是參數量，這件事本身就很反直覺。效能居然可以外推預測。於是「再花十倍的錢會得到多好的模型」變成一個可以先算出來的問題，這才是各家敢一次砸幾億美元下去訓練的前提。</p>
+<p>逐項拆開：$L(N)$ 是模型的測試損失（越小代表預測越準）；$N$ 是模型的參數量；$N_c$ 是一個從實驗資料擬合出來的常數，可以理解成參照用的規模基準；指數 $\alpha_N \approx 0.076$ 是這條冪次律的斜率，也是 Kaplan 等人在大量實驗上量出來的數字。白話說，參數量 $N$ 每放大十倍，損失就大約掉到原本的 $10^{-0.076} \approx 0.84$ 倍。這件事本身就很反直覺，效能居然可以外推預測。於是「再花十倍的錢會得到多好的模型」變成一個可以先算出來的問題，這才是各家敢一次砸幾億美元下去訓練的前提。</p>
 
 <p>真正被廣泛接受的就是這一條：規模上去，損失會以可預測的方式下降。</p>
 
@@ -1690,7 +1705,7 @@ $$
     <!-- Lightbox：點圖放大（.lb-overlay 樣式已在 css/styles.css） -->
     <div class="lb-overlay" id="lbOverlay">
       <span class="lb-close" id="lbClose">&times;</span>
-      <img id="lbImg" src="" alt="" />
+      <img id="lbImg" alt="" />
     </div>
     <script>
       (function () {
@@ -1699,7 +1714,7 @@ $$
         document.querySelectorAll('article img').forEach(function (img) {
           img.addEventListener('click', function () { lbImg.src = img.src; lbImg.alt = img.alt; overlay.classList.add('active'); });
         });
-        function closeLb() { overlay.classList.remove('active'); lbImg.src = ''; }
+        function closeLb() { overlay.classList.remove('active'); lbImg.removeAttribute('src'); }
         document.getElementById('lbClose').addEventListener('click', closeLb);
         overlay.addEventListener('click', function (e) { if (e.target === overlay) closeLb(); });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLb(); });
