@@ -186,7 +186,7 @@
     <div class="floating-toc" id="floatingToc">
       <div class="toc-content" id="tocContent">
         <ul>
-          <li><a href="#rule-era" class="toc-h2">人寫規則的年代（1950–2000）</a></li>
+          <li><a href="#rule-era" class="toc-h2">人寫規則的年代（1950–2000 年代）</a></li>
           <li><a href="#symbolic-ai" class="toc-h3">符號主義與兩次 AI 寒冬</a></li>
           <li><a href="#statistical-learning" class="toc-h3">統計學習 - 不寫規則，改寫特徵</a></li>
           <li><a href="#machine-learns" class="toc-h2">機器開始自己學（2012–2016）</a></li>
@@ -259,7 +259,7 @@
           <div class="col-md-10 col-lg-8 col-xl-7">
             <p><strong>「幫我安排下週去東京七天，機票旅館訂好，行程排一排。」</strong></p>
 
-<p>這件事不難，大概花一點時間就可以完成。但如果是 1980 年代的專家系統要完成這件事情，你可能得把它拆成一堆條件寫死：</p>
+<p>這件事不難，大概花一點時間就可以完成。但如果是 1980 年代的系統要完成這件事情，你可能得把它拆成一堆條件：</p>
 
 <pre><code>IF  飛行時數 &gt;= 6           THEN  可訂商務艙
 IF  城市分級 = A            THEN  住宿上限 = 6000
@@ -267,37 +267,52 @@ IF  城市分級 = B            THEN  住宿上限 = 3000
 IF  總金額 &gt; 50000           THEN  需副總簽核
 IF  航空公司 NOT IN 簽約清單  THEN  拒絕</code></pre>
 
-<p>問題並不在於寫這幾條，而在於永遠不會停在這裡。淡旺季要加一條、匯率變動要改一條、新開航線要加一條、某個國家的勞動法規改了又要加一條。專家系統死掉的原因不只是規則太多，還有規則之間的交互作用增加得比規則本身快。</p>
+<p>問題並不在於寫這幾條，而在於永遠不會停在這裡，會有各種例外事件需要考慮到。淡旺季要加一條、匯率變動要改一條、新開航線要加一條、某個國家的勞動法規改了又要加一條。這種系統死掉的原因不只是規則太多，還有規則之間的交互作用增加得比規則本身快。</p>
 
-<p>但就算你真的把規則寫完了，它還是做不到你要的事。因為專家系統不會「訂」，它只會「審」。它沒有手，不會連到訂位系統去刷你的卡。你得先自己把行程排好、把機票旅館查好、把金額填進表單，它才回你一句「符合政策」。</p>
+<p>但就算你真的把規則寫完了，它還是做不到你要的事。因為它並沒有手，通常沒有任何外部系統可以操作。</p>
 
-<p>而且規則裡，沒有任何一條能回答「下週」是哪七天、這個季節的東京值不值得去、或是機票賣完了該退而求其次選哪一天。這些不是漏寫的規則，是數不完的例外。</p>
+<p>舊方法不只是笨，而是連問題的形狀都對不上。而現在，這個任務已經慢慢有現成的 AI 代理人（agent）可以完成，雖然目前還跑不太穩。</p>
 
-<p>舊方法不只是笨，是連問題的形狀都對不上。而現在，這個任務已經慢慢有現成的 AI 代理人（agent）可以完成，雖然目前還跑不太穩。</p>
-
-<p><strong>這人工智慧發展中間的七十年可以用一句話串起來：人類一路把「怎麼做」交出去，只留下「要什麼」。</strong></p>
-
-<ul>
-  <li><strong>判斷邏輯 -</strong> 以前人要把每一條規則寫死；統計學習之後，人只給資料跟目標，規則由模型自己歸納。</li>
-  <li><strong>看什麼 -</strong> 以前人要設計「什麼叫狗狗」「什麼叫貓貓」；深度學習之後，人只給圖跟標籤，特徵由網路自己長出來。</li>
-  <li><strong>怎樣算好 -</strong> 以前人要寫出標準答案；RLHF 之後，人只要說這個比那個好，標準由模型自己擬合成一個獎勵函數。</li>
-  <li><strong>怎麼想 -</strong> 以前人要用提示詞一步步教模型推理；2025 年之後的推理模型，思考過程是直接訓練出來的。</li>
-  <li><strong>先做哪一步 -</strong> 以前人要寫「先查機票、再查旅館、最後排景點」；現在人只給目標跟工具，順序由 agent 自己決定。</li>
-</ul>
-
-<p>而這五件事交出去的結果，就是我們現在生活裡那些習以為常的東西：相簿自己認得出誰是誰、客服對話框後面接的是模型、寫程式的人有一半時間在看補完建議、查資料從關鍵字變成問一句話。這些應用看起來各自獨立，但把它們放回時間軸上，會發現它們是同一條線上的不同段落。</p>
+<p>我們現在生活裡那些習以為常的東西：相簿自己認得出誰是誰、客服對話框後面接的是模型、寫程式的人有一半時間在看補完建議、查資料從關鍵字變成問一句話。這些應用看起來各自獨立，但把它們放回時間軸上，會發現它們是同一條線上的不同段落。</p>
 
 <p>所以接下來就從這條線的起點講起，那個人類還相信可以把智慧一條一條寫下來的年代。</p>
 
-<h2 id="rule-era" style="margin-top: 2em; font-size: 1.5em">人寫規則的年代（1950–2000）</h2>
+<h2 id="rule-era" style="margin-top: 2em; font-size: 1.5em">人寫規則的年代（1950–2000 年代）</h2>
 
 <hr />
 
 <h3 id="symbolic-ai" style="margin-top: 1.5em; font-size: 1.2em">符號主義與兩次 AI 寒冬</h3>
 
-<p>早期的主流做法叫符號主義：把知識表示成一個個符號，再用邏輯規則去操作那些符號，推論的過程就是符號的搬動。這很符合直覺，因為人自己講道理的時候，看起來也是這樣。</p>
+<p>早期的主流做法叫符號主義：把知識表示成一個個符號，再用邏輯規則去操作那些符號，推論的過程就是符號的搬動。這跟人類在進行邏輯思考的過程是一致的。</p>
 
-<p>1950 年，A. M. Turing 寫下 <a href="https://courses.cs.umbc.edu/471/papers/turing.pdf" target="_blank" rel="noopener">COMPUTING MACHINERY AND INTELLIGENCE</a>，開頭第一句是 <em>I propose to consider the question, "Can machines think?"</em>。但接著他沒有去定義什麼叫思考，而是把這個問題整個換掉，換成一場模仿遊戲：一位裁判隔著打字機分別跟一個人和一台機器對話，如果他分不出哪個是機器，那機器就算通過。</p>
+<p>這個想法不是從電腦時代才開始的。</p>
+
+<p>早在十七世紀，Gottfried Leibniz 就想過一套「<strong>通用表意文字</strong>」（characteristica universalis），把所有概念拆解成基本符號，再用一套精確的演算規則去組合它們，讓爭論可以像算數一樣直接算出答案，而不用吵架。Leibniz 最著名的名言之一是：未來哲學家們如果發生爭執，不再需要面紅耳赤地辯論，只需坐下來說：<strong>「讓我們來計算一下吧！」（Calculemus!）</strong></p>
+
+<div style="text-align:center;">
+  <img src="../assets/img/how-live-with-ai-20260807/leibniz.webp" alt="Gottfried Wilhelm Leibniz, 1695" class="img-fluid mb-3" />
+  <span class="caption text-muted">Gottfried Wilhelm Leibniz, 1695，src: <a href="https://www.worldhistory.org/Gottfried_Wilhelm_Leibniz/" target="_blank" rel="noopener">https://www.worldhistory.org/Gottfried_Wilhelm_Leibniz/</a></span>
+</div>
+
+<p>十九世紀，George Boole 把邏輯本身變成一套代數，用符號和運算子去表示「與」、「或」、「非」，讓推理第一次可以像數學一樣被計算，這就是後來布林邏輯（Boolean logic），同時也是所有數位電路的地基。</p>
+
+<p>二十世紀初，Bertrand Russell 和 Alfred North Whitehead 寫出《數學原理》（Principia Mathematica，1910–1913），企圖把整個數學都用一套形式化的符號系統推導出來，證明每一條數學真理都能從幾條公理、透過機械式的符號操作一步步導出。</p>
+
+<div style="text-align:center;">
+  <img src="../assets/img/how-live-with-ai-20260807/russell-principia.png" alt="Bertrand Russell 與 Alfred North Whitehead" class="img-fluid mb-3" />
+  <span class="caption text-muted">src: <a href="https://www.storyofmathematics.com/20th_russell.html/" target="_blank" rel="noopener">https://www.storyofmathematics.com/20th_russell.html/</a></span>
+</div>
+
+<p>這個企圖後來被 Kurt Gödel 用不完備定理證明是做不到的。任何夠強大的形式系統，都存在系統內無法證明的真命題。但《數學原理》這種「用符號和規則機械式推導出所有真理」的野心，直接埋下了後來符號主義 AI 的世界觀：只要符號夠完整、規則夠精確，推理本身就可以被自動化。</p>
+
+<div style="text-align:center;">
+  <img src="../assets/img/how-live-with-ai-20260807/godel.jpeg" alt="Kurt Gödel" class="img-fluid mb-3" />
+  <span class="caption text-muted">src: <a href="https://zh-yue.wikipedia.org/wiki/Kurt_G%C3%B6del" target="_blank" rel="noopener">https://zh-yue.wikipedia.org/wiki/Kurt_Gödel</a></span>
+</div>
+
+<p>到了 1950 年，Turing 接過這條線，但他問的不是符號系統能不能證明數學，而是把整個問題換了個角度：機器能不能思考。</p>
+
+<p>1950 年，A. M. Turing 寫下 <a href="https://courses.cs.umbc.edu/471/papers/turing.pdf" target="_blank" rel="noopener">COMPUTING MACHINERY AND INTELLIGENCE</a>，開頭第一句是 <em>I propose to consider the question, "Can machines think?"</em>。但他沒有去定義什麼叫思考，而是把這個問題整個換掉，換成一場模仿遊戲：一位裁判隔著打字機分別跟一個人和一台機器對話，如果他分不出哪個是機器，那機器就算通過。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image.png" alt="COMPUTING MACHINERY AND INTELLIGENCE" class="img-fluid mb-3" />
@@ -310,34 +325,34 @@ IF  航空公司 NOT IN 簽約清單  THEN  拒絕</code></pre>
 
 <blockquote class="blockquote"><em>“The study is to proceed on the basis of the conjecture that every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it.”</em></blockquote>
 
-<p>這就是整個領域的創立假設：智慧可以被寫下來。而接下來這七十年，某種程度上就是在測試與實踐這句話。</p>
+<p>這就是整個領域的創立假設：智慧可以被寫下來，而接下來這七十年，某種程度上就是在測試與實踐這句話。</p>
 
 <p>申請書上也發明了一個新詞：Artificial Intelligence。</p>
 
 <p>實際情況是，那個夏天也沒達成什麼共識。他們列出的那幾項問題，一項也沒解掉。真正留下來的只有 Newell 跟 Simon 帶去的 Logic Theorist，一個能證明<em>《數學原理》（Principia Mathematica）</em>裡定理的程式。</p>
 
-<p>其中 <em>“We think that a significant advance can be made in one or more of these problems if a carefully selected group of scientists work on it together for a summer."</em>，後來被引用了七十年，每一次都像是當笑話引的。</p>
+<p>其中 <em>“We think that a significant advance can be made in one or more of these problems if a carefully selected group of scientists work on it together for a summer."</em>，後來被引用了七十年。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-1.png" alt="1956 年達特茅斯會議（Dartmouth Summer Research Project on Artificial Intelligence）" class="img-fluid mb-3" />
   <span class="caption text-muted">1956 年達特茅斯會議（Dartmouth Summer Research Project on Artificial Intelligence）， src: <a href="https://medium.com/@forest765/the-long-dream-of-thinking-machines-a-history-of-artificial-intelligence-70b3f6930227" target="_blank" rel="noopener">https://medium.com/@forest765/the-long-dream-of-thinking-machines-a-history-of-artificial-intelligence-70b3f6930227</a></span>
 </div>
 
-<p>1957 年，Frank Rosenblatt 在康乃爾做出<a href="https://doi.org/10.1037/h0042519" target="_blank" rel="noopener">感知機</a>（Rosenblatt, 1958），第一個真的從資料裡學東西的模型。隔年七月，紐約時報報導，說這是一台電子計算機的胚胎，海軍預期它將來能走路、說話、看見、書寫、自我複製，並且意識到自己的存在。它實際上能做的只是分辨幾種簡單圖形。</p>
+<p>1957 年，Frank Rosenblatt 在康乃爾做出<a href="https://doi.org/10.1037/h0042519" target="_blank" rel="noopener">感知機</a>（Rosenblatt, 1958），第一個真的從資料裡學東西的模型。隔年七月，紐約時報報導，說這是一台電子計算機的胚胎，海軍預期它將來能走路、說話、看見、書寫、自我複製，並且意識到自己的存在。但它實際上能做的只是分辨幾種簡單圖形。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-2.png" alt="Rosenblatt 做出感知機" class="img-fluid mb-3" />
   <span class="caption text-muted">Rosenblatt 做出感知機，src: <a href="https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon" target="_blank" rel="noopener">https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon</a></span>
 </div>
 
-<p>1969 年，當年連署達特茅斯申請書的 Minsky，跟 Papert 一起出了<a href="https://mitpress.mit.edu/9780262534772/perceptrons/" target="_blank" rel="noopener">《Perceptrons: An Introduction to Computational Geometry》</a>（感知機：計算幾何學導論；Minsky 與 Papert, 1969），證明單層感知機連 XOR 都算不出來。這本書寫得很漂亮，證明也沒錯，而它把一個正在熱頭上的領域按進水裡。神經網路的經費幾乎斷了。兩年後，Rosenblatt 在四十三歲生日那天出海，帆船意外身亡。</p>
+<p>1969 年，當年連署達特茅斯申請書的 Minsky，跟 Papert 一起出了<a href="https://mitpress.mit.edu/9780262534772/perceptrons/" target="_blank" rel="noopener">《Perceptrons: An Introduction to Computational Geometry》</a>（感知機：計算幾何學導論；Minsky 與 Papert, 1969），證明單層感知機連 XOR 都算不出來。它把一個正在熱頭上的領域按進水裡，神經網路的經費幾乎斷了。兩年後，Rosenblatt 在四十三歲生日那天出海，帆船意外身亡。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-3.png" alt="Minsky，跟 Papert 與 Perceptrons: An Introduction to Computational Geometry" class="img-fluid mb-3" />
   <span class="caption text-muted">Minsky，跟 Papert 與 Perceptrons: An Introduction to Computational Geometry ，src: <a href="https://medium.com/data-science/towards-geometric-deep-learning-ii-the-perceptron-affair-fafa61b5c40a" target="_blank" rel="noopener">https://medium.com/data-science/towards-geometric-deep-learning-ii-the-perceptron-affair-fafa61b5c40a</a></span>
 </div>
 
-<p>1973 年，英國政府委託的 <a href="http://www.chilton-computing.org.uk/inf/literature/reports/lighthill_report/contents.htm" target="_blank" rel="noopener">Lighthill 報告</a>（Lighthill, 1973）公布，結論是 AI 研究在實驗室裡看起來很好，一放到真實世界就不行。BBC 為這份報告辦了一場電視辯論，讓 Lighthill 跟幾位 AI 研究者同台對質。辯論結束之後，英國除了兩三所學校，經費全斷。</p>
+<p>1973 年，英國政府委託的 <a href="http://www.chilton-computing.org.uk/inf/literature/reports/lighthill_report/contents.htm" target="_blank" rel="noopener">Lighthill 報告</a>（Lighthill, 1973）公布，結論是 AI 研究在實驗室裡看起來很好，一放到真實世界就不行。BBC 為這份報告辦了一場電視辯論，讓 Lighthill 跟幾位 AI 研究者同台對質。辯論結束之後，英國除了兩三所學校，經費幾乎全斷了。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-4.png" alt="Lighthill Report - Artificial Intelligence: a paper symposium (1973)" class="img-fluid mb-3" />
@@ -348,15 +363,13 @@ IF  航空公司 NOT IN 簽約清單  THEN  拒絕</code></pre>
 
 <p>1980 年代，AI 靠另一條路重新活了過來：專家系統。</p>
 
-<p>做法是把某個領域的專家請來，把他腦子裡的判斷一條一條問出來，寫成 IF-THEN 規則，再交給推論引擎去跑。史丹佛 Edward Shortliffe 做的 MYCIN（Shortliffe, 1976）能診斷血液感染並開出抗生素處方，在一次評估裡表現不輸專科醫師；它引進的 certainty factor（把「我有八成把握」寫進推論裡）是後來所有不確定性推理的雛形。卡內基梅隆 John McDermott 在 1978 年寫的 XCON（原名 R1；McDermott, 1982）幫 DEC 配電腦組態，據說一年替公司省下數千萬美元。</p>
-
-<p>這些系統的本質就是規則庫，只是規則寫得夠多、夠細，多到看起來像懂。回頭看開頭那五條差旅規則，XCON 最後長到一萬多條，而且每一條都可能跟另外幾條打架，光是讓它跟上 DEC 的產品線變動就要養一組人。</p>
+<p>做法是把某個領域的專家請來，把他腦子裡的判斷一條一條問出來，寫成 IF-THEN 規則，再交給推論引擎去跑。史丹佛 Edward Shortliffe 做的 MYCIN（Shortliffe, 1976）能診斷血液感染並開出抗生素處方，在一次評估裡表現不輸專科醫師；它引進的 certainty factor 是後來所有不確定性推理的雛形。卡內基梅隆 John McDermott 在 1978 年寫的 XCON（原名 R1；McDermott, 1982）幫 DEC 配電腦組態，據說一年替公司省下數千萬美元。</p>
 
 <p>到了 1987 年，專跑 Lisp 的硬體市場垮掉，第二次寒冬開始，一直到 1993 年。那幾年裡，研究者寫經費申請時會避開 AI 這個詞，改寫成資訊科學或機器學習。</p>
 
-<p>這段歷史的重點不是年份，是失敗的原因。兩次寒冬其實都失敗在同一件事上，人類的知識沒辦法用手動的方式擴充。規則寫得愈多，彼此衝突愈多，維護成本則是指數上升的。</p>
+<p>這段歷史的重點不是年份，是失敗的原因。兩次寒冬其實都失敗在同一件事上，人類的知識沒辦法用手動的方式擴充。一旦規則寫得愈多，彼此衝突也會愈多，維護成本則會呈現指數上升的。</p>
 
-<p>Rich Sutton 後來在 <a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html" target="_blank" rel="noopener">The Bitter Lesson</a>（Sutton, 2019）裡把這件事講成一條通則：靠算力的通用方法，最後總是贏過靠人類知識堆出來的巧妙設計。他的建議很簡單，別再想著把人類已經知道的事情寫進系統裡，去找那些能隨著算力一起長大的方法，例如搜尋跟學習。這篇只有一頁，是整篇文章的思想錨點，值得自己讀一次。</p>
+<p>Rich Sutton 後來在 <a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html" target="_blank" rel="noopener">The Bitter Lesson</a>（Sutton, 2019）裡把這件事講成一條通則：<em>The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin… We have to learn the bitter lesson that building in how we think we think does not work in the long run.</em></p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-5.png" alt="Richard Sutton" class="img-fluid mb-3" />
@@ -370,7 +383,7 @@ IF  航空公司 NOT IN 簽約清單  THEN  拒絕</code></pre>
 
 <h3 id="statistical-learning" style="margin-top: 1.5em; font-size: 1.2em">統計學習 - 不寫規則，改寫特徵</h3>
 
-<p>1990 年代主流玩法漸漸轉向統計方法。以前是人把判斷邏輯寫出來，現在是人準備資料跟目標，邏輯由模型自己歸納。</p>
+<p>1990 年代主流玩法漸漸轉向統計方法。以前是人把判斷邏輯寫出來，現在是人準備資料跟目標，邏輯則由模型自己歸納。</p>
 
 <p>最有名的例子是垃圾信過濾。早期靠關鍵字規則擋，但對方把「免費」寫成「免 費」就破功了，規則永遠追不完。改用統計方法之後，人不再列關鍵字，只要標好哪些是垃圾信、哪些不是，哪些詞有鑑別度由模型自己算。</p>
 
@@ -482,9 +495,9 @@ $$
 $$
 </div>
 
-<p>式子裡 $\frac{\partial L}{\partial W^{(l)}}$ 是損失 $L$ 對第 $l$ 層權重 $W^{(l)}$ 的梯度（也就是我們最後要拿去更新的東西），它等於「損失對這一層輸出 $h^{(l)}$ 的梯度」乘上「這一層輸出對自己權重的梯度」，這就是連鎖律。關鍵在於 $\frac{\partial L}{\partial h^{(l)}}$ 這一項可以由後面一層的結果推回來，所以每一層的梯度都仰賴後面一層算出來的梯度往前傳，一路傳到第一層。這在數學上跟前面統計學習講的梯度下降是同一件事，差別只在於函數疊了很多層，所以需要一套有效率的方式把梯度一路算回去，而不是每個參數各自獨立算一次。</p>
+<p>式子裡 $\frac{\partial L}{\partial W^{(l)}}$ 是損失 $L$ 對第 $l$ 層權重 $W^{(l)}$ 的梯度，等於損失對這一層輸出 $h^{(l)}$ 的梯度、乘上這一層輸出對自己權重的梯度，這就是連鎖律；其中 $\frac{\partial L}{\partial h^{(l)}}$ 可以由後面一層的結果推回來。所以每一層的梯度都仰賴後面一層算出來的梯度往前傳，一路傳到第一層。這在數學上跟前面統計學習講的梯度下降是同一件事，差別只在於函數疊了很多層，所以需要一套有效率的方式把梯度一路算回去，而不是每個參數各自獨立算一次。</p>
 
-<p>這套機制其實 1986 年就有了，但沉寂了將近三十年。原因不是想法不對，是三個條件當時都還沒到位：夠大的標註資料集、夠強的算力、還有讓深層網路訓練得動的演算法細節（例如 ReLU、初始化方式）。少了任何一個，深度網路不是訓練不動，就是訓練得動但沒有比淺層模型好。</p>
+<p>這套機制其實 1986 年就有了，但沉寂了將近三十年。原因不是想法不對，是三個條件當時都還沒到位：夠大的標註資料集、夠強的算力、還有讓深層網路訓練得動的演算法細節等。少了任何一個，深度網路不是訓練不動，就是訓練得動但沒有比淺層模型好。</p>
 
 <h3 id="imagenet-alexnet" style="margin-top: 1.5em; font-size: 1.2em">ImageNet 與 AlexNet - 深度學習的重生與崛起</h3>
 
@@ -600,9 +613,9 @@ $$
   <span class="caption text-muted">Transformer Architecture ，src: <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">https://arxiv.org/abs/1706.03762</a></span>
 </div>
 
-<p>很多文章講到這裡就說效果更好，但機制才是重點。</p>
+<p>很多人講到這裡就說效果更好，但實際上其中的機制才是重點。</p>
 
-<p>先把符號講清楚再看式子。attention 一次處理一排 token，假設有 $n$ 個。它做的事，是把每個 token 目前的向量表示，改寫成「參考過其他 token 之後」的新表示。整個運算靠三組向量：$Q$、$K$、$V$。它們都是同一排輸入 $X$（每個 token 一個向量疊起來的矩陣）分別乘上三個權重矩陣投影出來的，也就是 $Q = XW_Q$、$K = XW_K$、$V = XW_V$，其中 $W_Q$、$W_K$、$W_V$ 是訓練出來的參數。三者維度一樣，差別在扮演的角色。用「查資料」來類比最好懂：</p>
+<p>先把符號講清楚再看式子。attention 一次處理一排 token（假設 $n$ 個），要做的事，是把每個 token 目前的向量表示，改寫成「參考過其他 token 之後」的新表示。整個運算靠三組向量 $Q$、$K$、$V$，它們都是同一排輸入 $X$（每個 token 一個向量疊起來的矩陣）分別乘上三個權重矩陣投影出來的（$Q = XW_Q$、$K = XW_K$、$V = XW_V$，其中 $W_Q$、$W_K$、$W_V$ 是訓練出來的參數），三者維度一樣，差別在扮演的角色。用「查資料」來類比最好懂：</p>
 
 <ul>
   <li><strong>Query（查詢，$Q$）：</strong>這個 token 想找什麼。</li>
@@ -622,11 +635,11 @@ $$
 
 <ul>
   <li>$QK^{\top}$ 算出一個 $n \times n$ 的矩陣，每一個 token 對每一個 token 都算一次相似度（內積越大代表越相關）。</li>
-  <li>除以 $\sqrt{d_k}$ 是因為內積的變異數會隨著維度 $d_k$ 長大，不縮放的話 softmax 會飽和、梯度趨近於零。</li>
+  <li>除以 $\sqrt{d_k}$ 是因為內積的變異數會隨著維度長大，不縮放的話 softmax 會飽和、梯度趨近於零。</li>
   <li>softmax 之後每一列加起來是 1，那就是「這個 token 該分多少注意力給其他 token」的權重，再拿去對 $V$ 加權求和。</li>
 </ul>
 
-<p>原論文其實不只算一次。它把 $Q$、$K$、$V$ 沿維度切成 $h$ 組（原文 $h = 8$，每組維度 $d_k = d_v = d_{\text{model}} / h = 64$，$d_{\text{model}}$ 是每個 token 向量的總維度），每組各自獨立做一次上面的 attention，得到 $\text{head}_i$，再把 $h$ 組結果接起來、乘上一個輸出權重 $W^O$ 投影回原維度，這叫多頭注意力（multi-head attention）：</p>
+<p>原論文其實不只算一次。它把 $Q$、$K$、$V$ 沿維度切成 $h$ 組（原文 $h = 8$，每組維度 $d_k = d_v = d_{\text{model}} / h = 64$，$d_{\text{model}}$ 是每個 token 向量的總維度），每組各自獨立做一次上面的 attention 得到 $\text{head}_i$，再把 $h$ 組結果接起來、乘上一個輸出權重 $W^O$ 投影回原維度，這叫多頭注意力（multi-head attention）：</p>
 
 <div class="math-display">
 $$
@@ -646,7 +659,7 @@ $$
 
 <p>意思是只允許看自己（$j = i$）跟前面（$j &lt; i$）的 token；未來位置（$j &gt; i$）被加上 $-\infty$，經過 softmax 之後那格權重就變成 0。後面會講到 BERT 看得到左右文、GPT 只看得到左邊，差別就是這個遮罩加不加。</p>
 
-<p>而它真正的貢獻不在效果。RNN 必須一個字一個字算，因為第 n 步要等第 n-1 步的結果，這在數學上就不可能平行。Transformer 讓所有位置同時計算，於是它能吃下一整座 GPU 叢集。原論文的 Table 1 把這件事講得很清楚：self-attention 每一層的計算量是 $O(n^2 d)$，RNN 是 $O(n d^2)$，序列長度 $n$ 比維度 $d$ 短的時候前者其實還比較便宜，要等 $n$ 長到超過 $d$ 才反過來。但真正關鍵的是另一欄，<strong>需要串行執行的步驟從</strong> $O(n)$ <strong>降到</strong> $O(1)$。省不省要看句子多長，能攤開來算才是它真正改變的事。</p>
+<p>而它真正的貢獻不在效果。過去 RNN 必須一個字一個字算，因為第 n 步要等第 n-1 步的結果，這在數學上就不可能平行。Transformer 讓所有位置同時計算，於是它能吃下一整座 GPU 叢集。原論文的 Table 1 把這件事講得很清楚：self-attention 每一層的計算量是 $O(n^2 d)$，RNN 是 $O(n d^2)$，序列長度 $n$ 比維度 $d$ 短的時候前者其實還比較便宜，要等 $n$ 長到超過 $d$ 才反過來。但真正關鍵的是另一欄，<strong>需要串行執行的步驟從</strong> $O(n)$ <strong>降到</strong> $O(1)$。省不省要看句子多長，能攤開來算才是它真正改變的事。</p>
 
 <p>可平行化才是它真正的貢獻，沒有這一點，後面所有的 scaling 魔法都不會發生。</p>
 
@@ -724,9 +737,9 @@ L = -\sum_{t=1}^{T} \log P(x_t \mid x_{&lt;t}; \theta)
 $$
 </div>
 
-<p>逐項拆開：$x_t$ 是第 $t$ 個 token；$x_{&lt;t}$ 代表它前面所有的 token，也就是 $x_1$ 到 $x_{t-1}$；$\theta$ 是模型參數；$P(x_t \mid x_{&lt;t}; \theta)$ 是模型只看過前文的情況下，預測第 $t$ 個位置剛好是真實 token $x_t$ 的機率。取 $\log$ 再加負號、對每個位置 $t$ 從 1 到 $T$ 加總，整個式子的意思就是「讓每一步真正出現的那個字，機率越高越好」。GPT 只看得到左邊，用的正是上一節那個因果遮罩。</p>
+<p>逐項拆開：$x_t$ 是第 $t$ 個 token；$x_{&lt;t}$ 代表它前面所有的 token，也就是 $x_1$ 到 $x_{t-1}$；$\theta$ 是模型參數；$P(x_t \mid x_{&lt;t}; \theta)$ 是模型只看過前文時、預測第 $t$ 個位置剛好是真實 token $x_t$ 的機率。取 log 再加負號、對每個位置從 1 加總到 $T$，整個式子就是讓每一步真正出現的那個字機率越高越好。GPT 只看得到左邊，用的正是上一節那個因果遮罩。</p>
 
-<p>BERT 的克漏字（masked language modeling）只是把加總的範圍換掉。它先隨機挑出輸入裡大約 15% 的 token 做破壞（原論文的比例是：其中 80% 換成特殊符號 [MASK]、10% 換成隨機 token、10% 保持不動），把破壞後的整段序列記作 $\tilde{x}$，並用 $M$ 表示這些被挑中的位置所成的集合。模型要還原這些位置上原本的 token：</p>
+<p>BERT 的克漏字（masked language modeling）只是把加總的範圍換掉。它先隨機把輸入裡大約 15% 的 token 換成特殊符號 [MASK]，用 $M$ 表示這些被遮住的位置所成的集合，模型只需要還原這些位置：</p>
 
 <div class="math-display">
 $$
@@ -784,7 +797,7 @@ L(N) \approx \left(\frac{N_c}{N}\right)^{\alpha_N}, \qquad \alpha_N \approx 0.07
 $$
 </div>
 
-<p>逐項拆開：$L(N)$ 是模型的測試損失（越小代表預測越準）；$N$ 是模型的參數量；$N_c$ 是一個從實驗資料擬合出來的常數，可以理解成參照用的規模基準；指數 $\alpha_N \approx 0.076$ 是這條冪次律的斜率，也是 Kaplan 等人在大量實驗上量出來的數字。白話說，參數量 $N$ 每放大十倍，損失就大約掉到原本的 $10^{-0.076} \approx 0.84$ 倍。這件事本身就很反直覺，效能居然可以外推預測。於是「再花十倍的錢會得到多好的模型」變成一個可以先算出來的問題，這才是各家敢一次砸幾億美元下去訓練的前提。</p>
+<p>$N$ 是參數量；$N_c$ 是一個從實驗資料擬合出來的常數，可以理解成參照用的規模基準；指數 $\alpha_N \approx 0.076$ 是這條冪次律的斜率，也是 Kaplan 等人在大量實驗上量出來的數字；$L(N)$ 則是模型的測試損失（越小代表預測越準）。白話說，參數量 $N$ 每放大十倍，損失就大約掉到原本的 $10^{-0.076} \approx 0.84$ 倍。這件事本身就很反直覺，效能居然可以外推預測。於是「再花十倍的錢會得到多好的模型」變成一個可以先算出來的問題，這才是各家敢一次砸幾億美元下去訓練的前提。</p>
 
 <p>真正被廣泛接受的就是這一條：規模上去，損失會以可預測的方式下降。</p>
 
@@ -1045,23 +1058,30 @@ $$
   <li><strong>狀態的存放</strong>：哪些東西留在 context 裡、哪些寫到檔案或資料庫、下一輪再撈回來。</li>
 </ul>
 
-<p>值得強調的是，agent 的表現有很大一部分不是模型貢獻的，是這一層貢獻的。同一個模型接上不同的 harness，能力差距可以大到不像同一個模型。Lilian Weng 在 <a href="https://lilianweng.github.io/posts/2026-07-04-harness/" target="_blank" rel="noopener">Harness Engineering for Self-Improvement</a>（2026）裡綜合了約 35 篇論文，結論也是這樣：把「模型能力」跟「系統能力」切開之後會發現，設計好一個 harness 帶來的提升，可以不輸換一個更強的基礎模型。</p>
+<p>要注意的是，agent 的表現有很大一部分不是模型貢獻的，是工程所貢獻的。同一個模型接上不同的 harness，能力差距可以大到不像同一個模型。</p>
 
 <h4 id="loop-engineering" style="margin-top: 1.3em; font-size: 1.1em">Loop Engineering</h4>
 
 <p>工具有了、環境有了，下一個問題是誰來按下一步。<a href="https://addyo.substack.com/p/loop-engineering" target="_blank" rel="noopener">Addy Osmani（2026）</a>給的答案很直接：把自己從「那個下 prompt 的人」的位置上換掉，改成去設計一套會自己下 prompt 的系統。</p>
 
-<p>從一次生成，變成「行動、觀察、推理、再來一次」的循環。但真正要設計的不是循環本身，而是<strong>什麼時候該停，以及做錯了怎麼回頭</strong>。</p>
+<p>從一次生成，到變成「行動、觀察、推理、再來一次」的循環。但真正要設計的不是循環本身，而是什麼時候該停，以及做錯了怎麼回頭。</p>
 
-<p>停止條件至少要有四種，而且缺一不可：任務完成（而且要能被判定，不是模型自己說完成了就算）、確定失敗、超出預算（token 或金錢）、超過步數上限。少了後面兩個，一個卡住的 agent 可以整夜燒錢。</p>
+<p>停止條件至少要有四種，而且缺一不可：</p>
 
-<p>復原則要先能驗證，而驗證的成本差很多。跑測試、對照 schema、檢查回傳碼，這些便宜又客觀；「這個行程排得好不好」就只能找另一個模型來評，貴而且不一定準。<strong>一個任務適不適合交給 agent，很大程度取決於它的驗證便不便宜</strong>。這也是為什麼寫程式是目前 agent 做得最好的領域，因為編譯器跟測試會直接告訴它對不對。</p>
+<ul>
+  <li>任務完成（而且要能被判定，不是模型自己說完成了就算）</li>
+  <li>確定失敗</li>
+  <li>超出預算（token 或金錢）</li>
+  <li>超過步數上限</li>
+</ul>
 
-<p>驗證失敗之後的處理也有層次：原地重試、換個做法重試、退回上一步、整份計畫重新規劃、交還給人。多數失控的 agent 都只實作了第一種。具體的模式在後面 Agent 那節講。</p>
+<p>復原則要先能驗證，而驗證的成本差很多。跑測試、對照 schema、檢查回傳碼，這些便宜又客觀，但是某些主觀問題，就只能找另一個模型來評。一個任務適不適合交給 agent，很大程度取決於它的驗證便不便宜。這也是為什麼寫程式是目前 agent 做得最好的領域之一，因為編譯器跟測試會直接告訴它對不對。</p>
+
+<p>驗證失敗之後的處理也有層次：原地重試、換個做法重試、退回上一步、整份計畫重新規劃、交還給人。</p>
 
 <h4 id="graph-engineering" style="margin-top: 1.3em; font-size: 1.1em">Graph Engineering</h4>
 
-<p>最外面一層，也是五個裡面最新的一個。名字出自 <a href="https://www.langchain.com/blog/3-years-of-graph-engineering-with-langgraph" target="_blank" rel="noopener">LangChain（2026）</a>的三年回顧，而那篇自己就強調這不是新發明，只是同一套做法終於有了名字。看這一層的時候值得把這件事放在心上：它還沒定型，業界對「該不該做 multi-agent」到現在都還沒有共識。</p>
+<p>最外面一層，也是五個裡面最新的一個。名字出自 <a href="https://www.langchain.com/blog/3-years-of-graph-engineering-with-langgraph" target="_blank" rel="noopener">LangChain（2026）</a>的三年回顧，而那篇自己就強調這不是新發明，只是同一套做法終於有了名字。</p>
 
 <p>把多個 agent 迴圈接成一張圖。節點是專職 agent，邊是工作交接，再加上平行分支、驗證者、共享狀態、停止條件。</p>
 
@@ -1116,13 +1136,13 @@ P(\text{success}) = \left[\,1-(1-p)^{k}\,\right]^{n}
 $$
 </div>
 
-<p>同樣是 $p=0.95$、$n=20$，只要每步能重試一次，成功率就從 36% 拉到 $(1-0.05^2)^{20} \approx 95\%$。這就是為什麼後面講的對策全部圍繞在驗證跟重試，而不是換一個更聰明的模型。<strong>能不能驗證，比單步準確率重要得多。</strong></p>
+<p>同樣是 $p=0.95$、$n=20$，只要每步能重試一次，成功率就從 36% 拉到 $(1-0.05^2)^{20} \approx 95\%$。這就是為什麼後面講的對策全部圍繞在驗證跟重試，而不是換一個更聰明的模型。所以實務上，能不能驗證比單步準確率重要得多。</p>
 
 <p><strong>二、卡在迴圈裡：</strong>驗證失敗之後模型不換策略，只是換個講法再試一次。API 呼叫穩定增加、token 持續在燒，但任務進度是零。</p>
 
 <p><strong>三、context 塞爆：</strong>工具結果全部留在上下文裡，跑到一半就滿了，然後模型開始忘記最早的指令。而且不只是塞不下，上下文愈長每一輪也愈慢、愈貴，成本會同時找上來。</p>
 
-<p><strong>四、用幻覺補洞，這是最危險的一種：</strong>工具回傳錯誤沒有被處理，模型自己編一個看起來合理的答案填上去。查不到某個景點的公休日，它就直接寫「週一正常營業」然後排進去。輸出看起來完全正常，你不去查根本不會發現。</p>
+<p><strong>四、用幻覺補洞：</strong>工具回傳錯誤沒有被處理，模型自己編一個看起來合理的答案填上去。查不到某個景點的公休日，它就直接寫「週一正常營業」然後排進去。輸出看起來完全正常，你不去查根本不會發現。</p>
 
 <p><strong>五、假設分歧（多 agent）：</strong>兩個 agent 對同一件事抱著不同假設，然後各自往下推。</p>
 
@@ -1136,7 +1156,7 @@ $$
 
 <hr />
 
-<p>先想一個畫面。</p>
+<p>我們來試想一個畫面。</p>
 
 <p>某個平日早上，你交代一句就出門：這週的事情你排一下。載你的車沒有駕駛座，路上其他車也一樣。你在車上收到的不是一份行程建議，是一份已經訂好、付過款、跟家人的行事曆對過的行程。你去看診，醫生調出來的影像判讀是模型做的，而那份病歷從頭到尾沒有離開這個國家的機房。傍晚你回到家，倉庫裡的機械手臂還在動，它今天第一次碰到一種沒見過的箱型，自己試了幾次就處理掉了，沒有人幫它改程式。而幫你排行程的那個 agent，記得你上一次為什麼取消了那趟旅行。</p>
 
@@ -1155,35 +1175,27 @@ $$
 
 <p>出路目前有三條，都還沒有定論。合成資料最直接，但用模型生出來的資料去訓練模型，很容易把既有的偏誤放大成一個迴圈。自我對弈在規則明確的領域已經證明可行，AlphaGo Zero 就是靠它把人類棋譜整個拿掉，問題是大部分真實任務沒有那麼乾淨的勝負判定。第三條是從環境互動裡學，讓 agent 自己去試、自己拿回饋。</p>
 
+<p>算力這件事，過去不是問題，是因為過去根本沒人需要那麼多算力。2012 年 AlexNet 用兩張 GPU 訓練出橫掃 ImageNet 的模型，第一次讓業界看清楚，GPU 那種平行運算架構拿來訓練神經網路遠勝傳統 CPU，從此 GPU 從遊戲硬體變成 AI 訓練的標準配備。2017 年 Transformer 出現後，模型規模跟著 Scaling Laws 一路往上衝，算力需求從「一台機器能不能跑」變成「幾萬張 GPU 能不能連起來一起跑」，Google 也在同一時期自研 TPU，之後 Amazon、Microsoft、Meta 都跟進自研晶片，因為省下的電費遠划算過直接跟 NVIDIA 買現成的。</p>
+
+<p>到了 2020 年代中期，算力需求已經大到不是「買更多晶片」能解決的問題了。訓練一個前沿模型動輒需要數萬張高階晶片同時運作數個月，一座主流資料中心的用電量已經逼近一座中型城市，這也是這幾年科技巨頭直接投資核電、簽長期購電協議的原因——算力的門檻，第一次從「買不買得起晶片」變成「有沒有電可以用」。</p>
+
 <p>算力這一項則是瓶頸換了位置。前幾年缺的是晶片，現在缺的是電力、土地，以及電網併聯的時程。一座大型資料中心真正在等的常常不是機櫃，是變壓器的交期跟併聯許可，而這兩樣東西不是多付錢就能加速的。算力不再只是採購問題，而是基礎建設問題，這也是下一節那件事會發生的原因之一。</p>
 
-<p>而走進機房裡面，同一個約束又換了一種形式出現：銅。</p>
-
-<p>單櫃功率這幾年的成長很誇張。GB200 NVL72 這一級是一百多 kW，規劃中的下一代是六百 kW 等級，是一般傳統機櫃的幾十倍。功率等於電壓乘電流，電壓不動的話，功率翻幾十倍就是電流翻幾十倍，而導體要多粗完全由電流決定。到某個點，銅排的重量、成本跟佔的體積會比晶片先撞牆。</p>
-
-<p>解法是把電壓拉高。2025 年之後業界開始往 800V 直流配電走，同樣的功率，電壓拉高一個級距電流就掉一個級距，銅可以少掉將近一半。順帶也砍掉幾層轉換：傳統路徑是中壓交流降到 415V 交流、進機櫃整流成直流、再降到 54V，每一層都吃掉幾個百分點；800V 直流則是用固態變壓器直接從中壓交流轉成直流送進機櫃。這套東西的技術來源其實是電動車，800V 平台的碳化礟元件跟電路拓樸幾乎可以直接搬過來。</p>
-
-<p>資料在機房裡移動撞到的是同一堵牆。電訊號在銅線上的可靠距離會隨速率下降，到每通道 200Gb/s 這一級，被動銅纜大概只剩一公尺上下，剛好夠一個機櫃內部，跨機櫃就非走光不可。傳統做法是把光模組插在交換器面板上，電訊號要先在電路板上跑一段、經過重定時晶片才進光模組，而這一段本身很耗電。一座十萬顆 GPU 等級的叢集，光模組加起來就是好幾 MW，等於有一整塊電費是花在把訊號從晶片搬到面板上。</p>
-
-<p>共同封裝光學（co-packaged optics）做的是把光引擎搬進交換晶片的封裝裡，電訊號只走幾公分就轉成光。NVIDIA 在 2025 年發表的 Quantum-X 與 Spectrum-X Photonics 是第一批走向量產的產品，官方數字是光互連這一層的能耗效率約 3.5 倍，而且雷射數量大幅減少，故障率跟著降下來；Broadcom 的 Tomahawk 系列走的是同一條路。</p>
-
-<p>這兩件事的形狀其實一樣。搬電跟搬資料過去都靠銅，而銅在這個尺度上同時撞到物理上限，於是一邊把電壓拉高、一邊把訊號換成光。這一層永遠不會出現在模型的發表上，但它卻是未來 AI 發展的重要關鍵。</p>
+<p>而走進機房裡面，同一個約束又換了一種形式出現：銅。這幾年單櫃功率成長到只靠銅排幾乎撐不住的地步，導體要多粗是電流決定的，電流又是功率除以電壓算出來的，功率翻幾十倍，銅排的重量、成本跟體積會先撞牆。業界的解法跟電力系統的邏輯一樣：把電壓拉高，同樣功率下電流變小，銅可以少掉將近一半；資料在機房內部移動也撞到類似的物理極限，訊號在銅線上能撐的距離隨速率下降，跨機櫃幾乎只能走光，於是這幾年開始把光引擎直接封裝進交換晶片，讓訊號少走幾公分電路板。這一層永遠不會出現在模型的發表會上，卻是撐住整個 AI 發展的底層工程。</p>
 
 <h3 id="sovereign-ai" style="margin-top: 1.5em; font-size: 1.2em">主權 AI（Sovereign AI）</h3>
 
-<p>當算力變成基礎建設，它就會變成國家的事。</p>
+<p>當算力變成基礎建設，AI 就會變成國家的事。</p>
 
 <p>2025 到 2026 年間，歐盟、波斯灣國家、印度，以及一整排受監管的產業，開始要求 AI 系統的三樣東西都留在一個明確的邊界裡面：資料、模型權重，以及跑它們的算力。法規是這件事的硬約束，GDPR、中國的 PIPL、印度的 DPDP、日本的 APPI，每一部都對跨境傳輸設了實質限制。</p>
 
 <p>具體的樣子是各國都開始養自己的基礎模型：法國的 Mistral、阿聯的 G42 Falcon、沙烏地的 HUMAIN、新加坡的 SEA-LION、印度的 BharatGen、日本的 LLM-jp。錢也跟上來了，2026 年全球主權 AI 投資預估超過一千億美元，而 2022 年這個數字幾乎是零。日本承諾到 2030 年投入十兆日圓；印度從五百多個提案裡選出十二個本土基礎模型，配套的國家算力目前約三萬四千張 GPU，目標是 2026 年底達到十萬張。雲端業者也在配合切割，AWS 的歐洲主權雲 2026 年 1 月啟用，是一家在德國註冊、人員與營運都獨立於其他區域的實體。</p>
 
-<p>值得講清楚的是，這條路要的從來不是最強的模型。這些國家級模型幾乎都落後前沿一到兩代，短期內也追不上。它們要解的是另外兩個問題。</p>
+<p>不過要理清楚的是，這條路要的從來不是最強的模型，實際上這些國家級模型幾乎都落後 SOTA 前沿一到兩代，短期內也追不上。它們的出現是要解決另外兩個問題。</p>
 
-<p>一個是本土化。前沿模型的訓練語料絕大多數是英文，而模型對一個地方的法規、判例、醫療給付規則、公文格式，甚至方言跟慣用語的掌握，跟這些東西在網路語料裡的佔比直接相關。這不是靠翻譯補得回來的，因為缺的不是語言，是那個社會實際怎麼運作的細節。新加坡的 SEA-LION 針對東南亞多語、印度的 BharatGen 針對那二十幾種官方語言，做的都是同一件事：把自己的語料變成訓練資料，而不是等別人順便訓練到。</p>
+<p>一個是本土化，前沿模型的訓練語料絕大多數是英文，而模型對一個地方的法規、判例、醫療給付規則、公文格式，甚至方言跟慣用語的掌握，跟這些東西在網路語料裡的佔比直接相關。這不是靠翻譯補得回來的，因為缺的不是語言，是那個社會實際怎麼運作的細節。新加坡的 SEA-LION 針對東南亞多語、印度的 BharatGen 針對那二十幾種官方語言，做的都是同一件事：把自己的語料變成訓練資料，而不是等別人順便訓練到。</p>
 
-<p>另一個是安全。當醫療紀錄、稅務資料、國防相關的文件要進模型，「這些 token 會流到哪一國的機房」就變成一個必須有答案的問題，而不是採購條款裡的一行字。法規把這件事寫死了，模型權重跟推論算力也就只能跟著留在境內。再往下一層是韌性：一個把行政、醫療、教育都接上外部 API 的國家，等於把這些服務的可用性交給一家外國公司的商業決策，漲價、改條款、因地緣政治中斷服務，每一種都不是假想。</p>
-
-<p>所以主權 AI 的合理判準不是「有沒有做出很強的模型」，而是「在自己的語言跟自己的法規底下，這套系統能不能被信任，以及出事的時候能不能自己關掉、自己修好」。</p>
+<p>另一個是安全，當醫療紀錄、稅務資料、國防相關的文件要進模型，「這些 token 會流到哪一國的機房」就變成一個必須有答案的問題，而不是採購條款裡的一行字。法規把這件事寫死了，模型權重跟推論算力也就只能跟著留在境內。再往下一層是韌性：一個把行政、醫療、教育都接上外部 API 的國家，等於把這些服務的可用性交給一家外國公司的商業決策，漲價、改條款、因地緣政治中斷服務，每一種都不是假想。</p>
 
 <h3 id="world-model" style="margin-top: 1.5em; font-size: 1.2em">世界模型（World Model）</h3>
 
@@ -1198,16 +1210,16 @@ $$
 
 <h3 id="embodied" style="margin-top: 1.5em; font-size: 1.2em">從螢幕走到現實：自駕與具身智慧</h3>
 
-<p>前面講的所有東西都發生在螢幕裡。同一套邏輯往實體世界推，就是自駕跟機器人，而實體世界會多收兩筆費用：錯了不能重來，而且資料沒辦法從網路上抓。</p>
+<p>前面講的所有東西都發生在螢幕裡。同一套邏輯往實體世界推，就是自駕跟機器人，而實體世界會多兩個實務問題，錯了不能重來，而且資料通常沒辦法從網路上直接抓到。</p>
 
-<p>自駕是目前最成熟的一塊。Waymo 在 2026 年把服務範圍擴到十一個城市、超過一千四百平方英里，每週約五十萬趟付費行程；2025 年全年一千五百萬趟，累計超過兩千萬趟，並計畫在 2026 年進入二十多個城市，包括東京與倫。</p>
+<p>自駕是目前最成熟的一塊。Waymo 在 2026 年把服務範圍擴到十一個城市、超過一千四百平方英里，每週約五十萬趟付費行程；2025 年全年一千五百萬趟，累計超過兩千萬趟，並計畫在 2026 年進入二十多個城市，包括東京與倫敦。它已經不是示範，是在營運。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-2.jpeg" alt="圖片" class="img-fluid mb-3" />
   <span class="caption text-muted">src: <a href="https://technews.tw/2025/08/14/waymo-los-angeles-ai/" target="_blank" rel="noopener">https://technews.tw/2025/08/14/waymo-los-angeles-ai/</a></span>
 </div>
 
-<p>人形機器人的熱度更高，但證據薄很多。2026 年常被稱作具身智慧的量產元年，不過目前拿得出來的成果，絕大多數集中在工業與物流這類場景明確、動作重複的窄任務上，還未進入我們的日常生活當中。</p>
+<p>人形機器人的熱度更高，但證據薄很多。2026 年常被稱作具身智慧的量產元年，不過目前拿得出來的成果，絕大多數集中在工業與物流這類場景明確、動作重複的窄任務上。說它在驗證階段是準確的，說它已經進入日常還太早。</p>
 
 <div style="text-align:center;">
   <img src="../assets/img/how-live-with-ai-20260807/image-3.jpeg" alt="Figure AI robot" class="img-fluid mb-3" />
@@ -1252,9 +1264,9 @@ $$
 <p>答案就在剛剛那三件事裡。它們不只是「還沒被交出去」，而是現在你手上只剩這三件，所以值得分開來講怎麼練。</p>
 
 <ul>
-  <li><strong>問對問題：</strong>模型只會回答，它不會問，也不會告訴你這個問題到底值不值得問。而當執行成本掉到接近零，瓶頸就整個移到問題本身：以前想到一個好問題要花三個月驗證，現在三小時就有答案，於是你一年問了幾個對的問題，幾乎直接決定你產出多少。問題不會從模型裡長出來，只會從現場長出來，所以要讓自己一直待在會撞到真問題的地方，接觸真的使用者、真的資料、真的失敗。</li>
+  <li><strong>問對問題：</strong>以前想到一個好問題要花三個月驗證，現在三小時就有答案，於是你一年問了幾個對的問題，幾乎直接決定你產出多少。問題不會從模型裡長出來，只會從現場長出來，所以要讓自己一直待在會撞到真問題的地方，接觸真的使用者、真的資料、真的失敗。</li>
   <li><strong>驗證結果：</strong>一個任務適不適合交給 AI，取決於驗證便不便宜。反過來看就是，愈能把「什麼叫做對」定義清楚的人，愈指揮得動 AI，而寫不出驗收標準的人，會覺得 AI 做出來的東西永遠差一點，卻講不出差在哪裡。這也是為什麼寫程式是目前 agent 做得最好的領域，因為編譯器跟測試會直接告訴它對不對。</li>
-  <li><strong>承擔後果：</strong>這一項跟前兩項不太一樣，它不是還沒交出去，是交不出去。責任要交給誰，那個誰得有東西可以賠：名聲、執照、飯碗。模型一樣都沒有，所以不管中間有多少步是它做的，署名的還是你。你要對一個不是自己親手做的東西負全責，每一份沒驗過就送出去的產出，賭的是你自己的名字。過去交出去的都是怎麼做的方法，沒有一次交出去的是責任。</li>
+  <li><strong>承擔後果：</strong>這一項跟前兩項不太一樣，它不是還沒交出去，是交不出去。責任要交給誰，那個誰得有東西可以賠：名聲、執照、飯碗。模型一樣都沒有，所以不管中間有多少步是它做的，署名的還是你。這逗出一個以前不存在的處境，你要對一個不是自己親手做的東西負全責，於是上一項就不只是效率問題了，每一份沒驗過就送出去的產出，賭的是你自己的名字。組織裡的版本更難看：當每個人的產出都有一部分是生成的，第四部那個「用幻覺補洞」的下一步就是沒有人記得那一段是誰寫的。七十年交出去的都是方法，沒有一次交出去的是責任。</li>
 </ul>
 
 <h2 id="references" style="margin-top: 2em; font-size: 1.5em">參考來源</h2>
