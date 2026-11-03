@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>XD3an Blog</title>
+    <link>https://xd3an.github.io/</link>
+    <description>XD3an 的技術部落格：AI 輔助開發、軟體架構、資安研究</description>
+    <language>zh-TW</language>
+    <item>
+      <title>AI 是下一場工業革命，而且正在發生</title>
+      <link>https://xd3an.github.io/post/how-live-with-ai-20260807.html</link>
+      <guid>https://xd3an.github.io/post/how-live-with-ai-20260807.html</guid>
+      <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+      <description>從 1950 年代的符號主義、專家系統，一路到深度學習、Transformer、大型語言模型與 AI 代理，用一條主線讀懂人工智慧七十年：人類如何一步步把「怎麼做」交給機器，以及在這場正在發生的工業革命裡，作為人類我們還剩下什麼。</description>
+    </item>
+    <item>
+      <title>從手寫程式碼到自動化代理：走進 AI 輔助開發的未來</title>
+      <link>https://xd3an.github.io/post/how-dev-with-ai-20260711.html</link>
+      <guid>https://xd3an.github.io/post/how-dev-with-ai-20260711.html</guid>
+      <pubDate>Sat, 11 Jul 2026 00:00:00 +0000</pubDate>
+      <description>從手寫程式碼到自動化代理，走進 AI 輔助開發的未來：一文補齊程式語言演變史、現代技術棧、Git 底層原理、代理式編程與程式碼品質全貌。</description>
+    </item>
+    <item>
+      <title>Vibe Coding 的盡頭是一堆爛架構</title>
+      <link>https://xd3an.github.io/post/system-architecture-20260621.html</link>
+      <guid>https://xd3an.github.io/post/system-architecture-20260621.html</guid>
+      <pubDate>Sun, 21 Jun 2026 00:00:00 +0000</pubDate>
+      <description>Vibe Coding 的盡頭是一堆爛架構？從單機到千萬用戶，系統架構如何一步步演進：負載平衡、快取、資料庫讀寫分離、CDN、微服務、容器化到雲端平台。</description>
+    </item>
+    <item>
+      <title>Claude Code 一個 Source Map 引發的狂歡：Claude Code 原始碼意外開源！</title>
+      <link>https://xd3an.github.io/post/claude-code-leakage-20260607.html</link>
+      <guid>https://xd3an.github.io/post/claude-code-leakage-20260607.html</guid>
+      <pubDate>Sun, 07 Jun 2026 00:00:00 +0000</pubDate>
+      <description>2026 年 3 月 31 日，Claude Code v2.1.88 因 npm source map 未清除，意外洩漏 51.2 萬行 TypeScript 原始碼，揭開 Harness Engineering、Query 循環、五層壓縮管線等核心架構設計。</description>
+    </item>
+    <item>
+      <title>過早優化到底對不對？Jeff Dean、Sanjay Ghemawat 告訴你真正該在意的 3%！</title>
+      <link>https://xd3an.github.io/post/premature-optimization.html</link>
+      <guid>https://xd3an.github.io/post/premature-optimization.html</guid>
+      <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
+      <description>過早的優化（Premature Optimization）真的是萬惡之源嗎？Jeff Dean 和 Sanjay Ghemawat 帶你重新認識效能優化：Estimation、Measurement、API設計、記憶體優化等系統性方法。</description>
+    </item>
+    <item>
+      <title>Claude Code 贏麻了：躺平也能寫程式</title>
+      <link>https://xd3an.github.io/post/claude-code-guide.html</link>
+      <guid>https://xd3an.github.io/post/claude-code-guide.html</guid>
+      <pubDate>Sun, 31 Aug 2025 00:00:00 +0000</pubDate>
+      <description>Claude Code 贏麻了：躺平也能寫程式，從基礎安裝到進階配置，包含 MCP、Agent Skills、Plugin、Auto Memory、Auto Mode 等功能詳解，並收錄團隊工作流實戰、Vibe Coding、提示詞工程與多子代理協作技巧。</description>
+    </item>
+    <item>
+      <title>Browser Automation 技術比較與偽裝優化</title>
+      <link>https://xd3an.github.io/post/WC.html</link>
+      <guid>https://xd3an.github.io/post/WC.html</guid>
+      <pubDate>Sun, 24 Aug 2025 00:00:00 +0000</pubDate>
+      <description>Browser Automation（瀏覽器自動化）技術比較、Playwright、Selenium、NoDriver、反爬蟲偽裝、效能優化、AI agent 實戰分享。</description>
+    </item>
+    <item>
+      <title>從刮痕開始的惡意程式開發 - Part 4: Hooking Techniques</title>
+      <link>https://xd3an.github.io/post/MD-part4.html</link>
+      <guid>https://xd3an.github.io/post/MD-part4.html</guid>
+      <pubDate>Sun, 29 Sep 2024 00:00:00 +0000</pubDate>
+      <description>從刮痕開始的惡意程式開發系列教學第四部分：Hooking Techniques。探討 API Hooking、DLL Hijacking、IAT Hooking 等進階 Hook 技術，了解如何遞快系統調用。</description>
+    </item>
+    <item>
+      <title>從刮痕開始的惡意程式開發 - Part 3: Process Injection</title>
+      <link>https://xd3an.github.io/post/MD-part3.html</link>
+      <guid>https://xd3an.github.io/post/MD-part3.html</guid>
+      <pubDate>Wed, 18 Sep 2024 00:00:00 +0000</pubDate>
+      <description>從刮痕開始的惡意程式開發系列教學第三部分：Process Injection。深入介紹程式碼注入技術，包括 DLL Injection、Process Hollowing 等進階技術的原理與實作。</description>
+    </item>
+    <item>
+      <title>從刮痕開始的惡意程式開發 - Part 2: Malware Dev Intro</title>
+      <link>https://xd3an.github.io/post/MD-part2.html</link>
+      <guid>https://xd3an.github.io/post/MD-part2.html</guid>
+      <pubDate>Tue, 10 Sep 2024 00:00:00 +0000</pubDate>
+      <description>從刮痕開始的惡意程式開發系列教學第二部分：Malware Dev Intro。將開始正式進入惡意程式開發的實作節段，了解基础程式編寫及系統呼叫。</description>
+    </item>
+    <item>
+      <title>從刮痕開始的惡意程式開發 - Part 1: Overview</title>
+      <link>https://xd3an.github.io/post/MD-part1.html</link>
+      <guid>https://xd3an.github.io/post/MD-part1.html</guid>
+      <pubDate>Tue, 10 Sep 2024 00:00:00 +0000</pubDate>
+      <description>從刮痕開始的惡意程式開發系列教學第一部分：Overview。深入探討惡意程式開發的基本概念、發展歷程與技術概觀，為資訊安全研究奠定基礎。</description>
+    </item>
+  </channel>
+</rss>

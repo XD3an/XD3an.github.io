@@ -244,6 +244,9 @@ assets/img/
 <hr>
 ```
 
+### 4. 更新 sitemap 和 RSS
+在 repo 根目錄執行 `python tools/gen_sitemap.py`，會重新產生 `sitemap.xml` 和 `feed.xml`，再一起 commit。
+
 ## 注意事項
 
 ### 內容指導原則
