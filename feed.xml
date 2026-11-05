@@ -6,6 +6,13 @@
     <description>XD3an 的技術部落格：AI 輔助開發、軟體架構、資安研究</description>
     <language>zh-TW</language>
     <item>
+      <title>扒譜不用耳朵了：鋼琴自動轉錄（AMT）背後的聲音魔法</title>
+      <link>https://xd3an.github.io/post/amt-piano-transcription-20261105.html</link>
+      <guid>https://xd3an.github.io/post/amt-piano-transcription-20261105.html</guid>
+      <pubDate>Thu, 05 Nov 2026 00:00:00 +0000</pubDate>
+      <description>從取樣、STFT、Mel、CQT 頻譜，到鋼琴的泛音與 NMF，再到 Onsets and Frames、Kong、Transkun 等深度學習模型，拆解鋼琴自動轉錄（AMT）怎麼把錄音變成 MIDI，每一段都附可以直接執行的 Python。</description>
+    </item>
+    <item>
       <title>AI 是下一場工業革命，而且正在發生</title>
       <link>https://xd3an.github.io/post/how-live-with-ai-20260807.html</link>
       <guid>https://xd3an.github.io/post/how-live-with-ai-20260807.html</guid>

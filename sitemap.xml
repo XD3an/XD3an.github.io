@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://xd3an.github.io/</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-05T14:33:44+08:00</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
@@ -11,58 +11,63 @@
     <priority>0.50</priority>
   </url>
   <url>
+    <loc>https://xd3an.github.io/post/amt-piano-transcription-20261105.html</loc>
+    <lastmod>2026-11-05T14:33:44+08:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://xd3an.github.io/post/claude-code-guide.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/claude-code-leakage-20260607.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/how-dev-with-ai-20260711.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/how-live-with-ai-20260807.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/MD-part1.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/MD-part2.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/MD-part3.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/MD-part4.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/premature-optimization.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/system-architecture-20260621.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://xd3an.github.io/post/WC.html</loc>
-    <lastmod>2026-11-03T15:01:24+00:00</lastmod>
+    <lastmod>2026-11-03T23:02:59+08:00</lastmod>
     <priority>0.80</priority>
   </url>
 </urlset>
