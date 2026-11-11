@@ -127,16 +127,16 @@
     <meta property="og:title" content="會寫 Python 就夠了嗎？一行語法背後的 CPython 底層秘密 | XD3an Blog" />
     <meta property="og:description" content="一篇 Python 筆記：基本語法、常用套件、實務寫法，再拆開 CPython 看 bytecode、物件、GC 和 GIL 怎麼運作。" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://XD3an.github.io/post/python-internals-20261114.html" />
+    <meta property="og:url" content="https://XD3an.github.io/post/python-internals-20261111.html" />
     <meta property="og:site_name" content="XD3an Blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:image" content="https://XD3an.github.io/assets/img/python-internals-20261114/overview.png" />
+    <meta property="og:image" content="https://XD3an.github.io/assets/img/python-internals-20261111/overview.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="會寫 Python 就夠了嗎？一行語法背後的 CPython 底層秘密 | XD3an Blog" />
     <meta name="twitter:description" content="一篇 Python 筆記：基本語法、常用套件、實務寫法，再拆開 CPython 看 bytecode、物件、GC 和 GIL 怎麼運作。" />
-    <meta name="twitter:image" content="https://XD3an.github.io/assets/img/python-internals-20261114/overview.png" />
+    <meta name="twitter:image" content="https://XD3an.github.io/assets/img/python-internals-20261111/overview.png" />
     <meta name="twitter:creator" content="@d3an_x" />
-    <link rel="canonical" href="https://XD3an.github.io/post/python-internals-20261114.html" />
+    <link rel="canonical" href="https://XD3an.github.io/post/python-internals-20261111.html" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -144,8 +144,8 @@
       "headline": "會寫 Python 就夠了嗎？一行語法背後的 CPython 底層秘密",
       "description": "一篇 Python 筆記：基本語法、常用套件、實務寫法，再拆開 CPython 看 bytecode、物件、GC 和 GIL 怎麼運作。",
       "author": { "@type": "Person", "name": "XD3an" },
-      "datePublished": "2026-11-14",
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://XD3an.github.io/post/python-internals-20261114.html" }
+      "datePublished": "2026-11-11",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://XD3an.github.io/post/python-internals-20261111.html" }
     }
     </script>
   </head>
@@ -212,7 +212,7 @@
       </div>
     </nav>
 
-    <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('../assets/img/python-internals-20261114/overview.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+    <header class="masthead" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('../assets/img/python-internals-20261111/overview.png'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
       <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
@@ -242,7 +242,7 @@
 <p>所以比較精確的說法是：Python 會先編譯成虛擬機指令，再直譯那些指令。聽起來很學術，但後面很多「為什麼會這樣」都會繞回這裡，像是 local 變數為什麼比 global 快、3.11 為什麼突然快了一截、多執行緒跑運算為什麼沒變快。</p>
 
 <div style="text-align: center;">
-  <img src="../assets/img/python-internals-20261114/overview.png" alt="CPython 執行流程：原始碼經過 Tokenizer、PEG Parser、Compiler 變成 bytecode，再由 ceval loop 執行" class="img-fluid mb-3" />
+  <img src="../assets/img/python-internals-20261111/overview.png" alt="CPython 執行流程：原始碼經過 Tokenizer、PEG Parser、Compiler 變成 bytecode，再由 ceval loop 執行" class="img-fluid mb-3" />
   <span class="caption text-muted">一行 Python 程式碼從原始碼到被執行的路徑，下排是執行時一直在背後運作的四個機制。</span>
 </div>
 
@@ -635,7 +635,7 @@ while True:
 <p><code>ob_type</code> 指向的型別物件（<code>PyTypeObject</code>）裡有一整排函式指標，負責怎麼相加（<code>nb_add</code>）、怎麼取屬性（<code>tp_getattro</code>）、怎麼算雜湊（<code>tp_hash</code>）、怎麼釋放（<code>tp_dealloc</code>）等等。直譯器跑 <code>a + b</code> 的時候，就是去看 a 的型別，呼叫它的加法函式指標。你在類別裡寫了 <code>__add__</code>，CPython 就會把對應的 slot 接到你寫的方法上。</p>
 
 <div style="text-align: center;">
-  <img src="../assets/img/python-internals-20261114/object-layout.png" alt="list 物件在記憶體中的結構：名稱指向 PyListObject，ob_item 指向指標陣列，指標再指向 int 與 str 物件" class="img-fluid mb-3" />
+  <img src="../assets/img/python-internals-20261111/object-layout.png" alt="list 物件在記憶體中的結構：名稱指向 PyListObject，ob_item 指向指標陣列，指標再指向 int 與 str 物件" class="img-fluid mb-3" />
   <span class="caption text-muted">list 裡存的是指向物件的指標，不是值本身。每個物件開頭都是 ob_refcnt 和 ob_type。</span>
 </div>
 
