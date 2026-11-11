@@ -121,6 +121,7 @@
       .tldr { background: #f7f6ff; border: 1px solid #e6e3fb; border-radius: 0.6em; padding: 1.1em 1.3em; margin: 0 0 2.2em; }
       .tldr-label { font-weight: 700; letter-spacing: 0.08em; color: #6c5ce7; font-size: 0.8em; margin: 0 0 0.5em; }
       .ref-cat { margin: 1.4em 0 0.4em; }
+      article .img-fluid { max-width: 100%; cursor: zoom-in; }
       article :not(pre) > code { background: #f1f0fb; padding: 0.1em 0.35em; border-radius: 0.3em; font-size: 0.9em; }
     </style>
 
@@ -610,6 +611,12 @@ RETURN_VALUE</code></pre>
 <p>再舉一個例子。3.12 之後 list、dict、set 推導式會直接內聯（inline）在所在的函式裡（PEP 709），不會再偷偷建一個隱藏的函式物件，所以推導式比以前快了一點。</p>
 <p>至於 <code>.pyc</code>，被 import 的模組編譯完會存到 <code>__pycache__/模組名.cpython-312.pyc</code>。檔頭有 16 bytes，前 4 bytes 是 magic number，代表 bytecode 的版本，不同 Python 版本互不相容。後面是一組 flags，再來是原始檔的修改時間和大小，或是 PEP 552 定義的原始碼雜湊。下次 import 時原始檔沒變，就直接載入 bytecode，跳過前面三步。順帶一提，直接執行的那支主程式不會被寫成 .pyc。</p>
 
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/pyc-header.png" alt="pyc 檔案結構：magic number、flags、mtime 與 size，後面接 marshal 過的 code object" class="img-fluid mb-3" />
+  <span class="caption text-muted">前 16 bytes 的檔頭決定這份快取還能不能用。</span>
+</div>
+
+
 <h3 id="int-ceval" style="margin-top: 1.5em; font-size: 1.2em">直譯器迴圈與 Specializing Adaptive Interpreter</h3>
 <p>bytecode 最後交給 <code>Python/ceval.c</code> 裡的求值迴圈執行。概念上，它就是一個很大的 switch：</p>
 <pre><code class="language-python"># 虛擬碼：CPython 的 eval loop 概念上長這樣（實際是 C）
@@ -621,8 +628,20 @@ while True:
         case RETURN_VALUE: return stack.pop()
         ...</code></pre>
 <p>CPython 是堆疊式虛擬機（stack-based VM），指令從值堆疊（value stack）上拿運算元，算完再把結果推回去。每呼叫一次函式就有一個 frame，裡面放著這次呼叫的 local 變數、值堆疊，還有目前跑到哪一條指令。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/stack-vm.png" alt="c = a + b 的四條 bytecode 執行時 value stack 的變化，以及 frame.locals 的索引" class="img-fluid mb-3" />
+  <span class="caption text-muted">四條指令跑完，值堆疊從空的又回到空的，結果留在 locals[2]。</span>
+</div>
+
 <p>3.11 是一個很大的轉折。官方說平均比 3.10 快了大約 25%，主要來自 Faster CPython 計畫的幾項改動。</p>
 <p>最核心的是 Specializing Adaptive Interpreter（PEP 659）。一條指令被執行幾次之後，直譯器會依照它實際碰到的型別，把它換成特化版本。例如 <code>BINARY_OP</code> 每次都是兩個 int 相加，就換成 <code>BINARY_OP_ADD_INT</code>，省掉一般化的型別判斷。<code>LOAD_ATTR</code> 如果一直碰到同樣形狀的物件，就換成直接從固定位置讀屬性的版本。哪天猜錯了，再退回一般版本。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/specialization.png" alt="BINARY_OP 依照實際型別特化成 BINARY_OP_ADD_INT 或 BINARY_OP_ADD_FLOAT，猜錯時退回一般版本" class="img-fluid mb-3" />
+  <span class="caption text-muted">特化是一直在進行的：猜對就走快速路徑，猜錯就退回來重新觀察。</span>
+</div>
+
 <p>其他幾項也都很有感。frame 改成配置在每條執行緒專屬的一塊連續記憶體上，只有在 traceback 或 <code>sys._getframe()</code> 真的要用時，才會做出完整的 frame 物件。Python 函式呼叫 Python 函式，也不再往下遞迴 C 的堆疊，直接在同一個迴圈裡處理掉，呼叫成本因此降很多。還有一個叫零成本例外（zero-cost exceptions），<code>try</code> 區塊在沒出錯時完全不跑額外指令，真的出錯才去查例外表。</p>
 <p>想看特化後的指令，可以用 <code>dis.dis(func, adaptive=True)</code>。從這裡也能推出一件事，型別穩定的程式碼會跑得比較快。同一個變數一下是 int 一下是 str，特化就會一直失敗。</p>
 
@@ -645,7 +664,19 @@ while True:
 
 <h3 id="int-containers" style="margin-top: 1.5em; font-size: 1.2em">list、dict、str 的實作</h3>
 <p>先看 list。它底層是一個 <code>PyObject*</code> 陣列，<code>ob_size</code> 記目前有幾個元素，<code>allocated</code> 記實際開了幾格。append 塞滿的時候，CPython 不會只多要一格，而是大約多開 1/8 再加一點常數（在 <code>Objects/listobject.c</code> 的 <code>list_resize</code>）。因為是按比例長大，攤銷下來 append 還是 O(1)。上面那張圖的 list 明明只有兩個元素卻開了 4 格，就是這個原因。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/list-growth.png" alt="list 連續 append 時容量的變化：4、8、16、24、32、40、52、64、76、92" class="img-fluid mb-3" />
+  <span class="caption text-muted">在 CPython 3.10 上用 sys.getsizeof 實際量出來的容量變化。</span>
+</div>
+
 <p>dict 從 3.6 開始是「緊湊雜湊表」，拆成兩個陣列。一個是很小的索引陣列，記 entry 放在哪裡。另一個是照插入順序排的 entry 陣列，存 hash、key 和 value。這樣設計比較省記憶體，因為索引陣列可以用 1 byte 的整數，遍歷的時候也自然就是插入順序，dict 會有序就是這樣來的。碰撞時用開放定址（open addressing）加擾動探測處理，裝超過大約 2/3 就擴容。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/dict-layout.png" alt="緊湊 dict 的兩個陣列：indices 存 entry 編號，entries 依插入順序存 hash、key、value" class="img-fluid mb-3" />
+  <span class="caption text-muted">indices 只記編號，真正的資料照插入順序排在 entries 裡。</span>
+</div>
+
 <p>同一個類別的實例，屬性名稱通常都一樣，所以 CPython 讓它們共用同一份 key（PEP 412 的 key-sharing dict）。3.11 之後更進一步，大部分情況下實例的屬性直接存在物件裡，連 <code>__dict__</code> 都不用真的建出來。</p>
 <p>str 的雜湊值預設會加一個隨機種子（hash randomization，演算法是 SipHash），所以每次啟動算出來都不一樣。這是為了防 hash flooding 攻擊，攻擊者如果能算準雜湊值，就能故意塞一堆會碰撞的 key，讓 dict 變得跟 list 一樣慢。需要固定的話，可以設環境變數 <code>PYTHONHASHSEED</code>。</p>
 <p>字串的儲存方式在 3.3 改成彈性表示法（PEP 393），看字串裡「最大的那個字元」決定每個字元用 1、2 還是 4 bytes。純 ASCII 一個字元 1 byte，有中文就變 2 bytes，出現 emoji 這種超出 BMP 的字元就變 4 bytes。所以兩個一樣長的字串，<code>sys.getsizeof</code> 可能差好幾倍。字串不可變，所以可以放心共用，像識別字這類短字串還會被 intern 起來重複使用。</p>
@@ -654,6 +685,12 @@ while True:
 <h3 id="int-memory" style="margin-top: 1.5em; font-size: 1.2em">記憶體配置：pymalloc</h3>
 <p>Python 程式會一直產生又丟掉大量的小物件，如果每次都向作業系統的 <code>malloc</code> 要記憶體會很慢。所以 CPython 自己做了一個專門給小物件用的配置器，叫 pymalloc。</p>
 <p>只有 512 bytes 以下的請求會走 pymalloc，更大的直接交給系統的 <code>malloc</code>。它的結構分三層：先跟系統要一大塊 arena，切成好幾個 pool，每個 pool 只負責一種大小的 block。大小一樣的物件住在一起，配置和釋放都只是從 free list 拿出來或放回去。float、tuple 這些常用型別還有自己的回收清單，物件死掉先留著，下次要同型別的物件直接拿來用。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/pymalloc.png" alt="pymalloc 的三層結構：arena 裡有多個 pool，每個 pool 只放同一種大小的 block" class="img-fluid mb-3" />
+  <span class="caption text-muted">同大小的物件住在同一個 pool，配置和釋放都只是在 free list 上拿或放。</span>
+</div>
+
 <p>這也解釋了一個常見的疑問：Python 程式明明釋放了一堆物件，從作業系統看記憶體用量卻沒降。原因是 arena 要整塊都沒有活著的物件才會還給系統，只要裡面零星還有幾個活物件，整塊就會一直被留著。</p>
 <p>後面會提到的 free-threaded 建置，則改用 mimalloc 當配置器，因為它本來就是為多執行緒設計的。</p>
 
@@ -672,6 +709,12 @@ print(sys.getrefcount(x))   # 2：x 本身一個，傳進 getrefcount 當參數�
 a, b = Node(), Node()
 a.other, b.other = b, a
 del a, b      # refcount 都還是 1，只能靠 cycle GC 回收</code></pre>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/refcount-cycle.png" alt="左：沒有循環時 refcount 歸零立刻釋放；右：A、B 互相參照，refcount 停在 1，只能等 cycle GC" class="img-fluid mb-3" />
+  <span class="caption text-muted">同樣是 del，有沒有循環參照，回收的方式完全不同。</span>
+</div>
+
 <p>這種情況交給 <code>gc</code> 模組處理。它只追蹤能裝其他物件的容器，像 list、dict、自訂類別的實例，定期找出「只被彼此參照、外面已經摸不到」的那一群，整批回收。以前它是三代的分代式（generational）設計，基於「大部分物件都活不久」的觀察，越新的物件檢查得越頻繁。3.14 改成增量式（incremental）回收，只分新、舊兩代，每次只處理一部分舊世代，目的是減少大型程式偶爾卡一下的長暫停。</p>
 <p>實務上，能靠參照計數處理掉的，就盡量不要留給 GC。如果需要「指著它但不擁有它」的關係，例如快取、觀察者、子節點指回父節點，可以用 <code>weakref</code> 把循環斷開。</p>
 
@@ -683,6 +726,12 @@ del a, b      # refcount 都還是 1，只能靠 cycle GC 回收</code></pre>
 <p>第二，有 GIL 也不代表你的程式就執行緒安全。直譯器預設每 5 毫秒（<code>sys.getswitchinterval()</code>）就可能切換執行緒，像 <code>counter += 1</code> 這種其實是好幾條 bytecode 的操作，中間一樣可能被切走，該加鎖還是要加。</p>
 <p>第三，GIL 是 CPython 的實作細節，不是 Python 語言的規定。Jython、IronPython 就沒有 GIL。</p>
 <p>那能不能把 GIL 拿掉？PEP 703 提出了一個可選的無 GIL 建置。3.13 先以實驗性質推出，執行檔通常叫 <code>python3.13t</code>，3.14 依照 PEP 779 轉成官方支援，不過還不是預設的建置。</p>
+
+<div style="text-align: center;">
+  <img src="../assets/img/python-internals-20261111/gil-timeline.png" alt="有 GIL 時三條執行緒輪流執行，free-threaded 建置下三條同時執行" class="img-fluid mb-3" />
+  <span class="caption text-muted">示意圖：有 GIL 時同一刻只有一條在跑 bytecode，等 I/O 的時候會讓出來。</span>
+</div>
+
 <p>拿掉大鎖之後，為了讓程式還是正確，它換了一整套機制。參照計數改用 biased reference counting，建立物件的那條執行緒走不需要原子操作的快速路徑，其他執行緒才用原子操作。熱門的共享物件改用延遲計數，或乾脆變成 immortal，減少大家搶著改同一個計數。list、dict 這些容器各自有自己的鎖，保證單一操作是一致的。記憶體配置器也換成了對多執行緒友善的 mimalloc。</p>
 <p>代價是單執行緒會慢一些，而且 C 擴充套件要宣告自己支援 free-threading，不然一載入，直譯器就會把 GIL 重新打開。想知道目前有沒有 GIL，可以用 <code>sys._is_gil_enabled()</code> 檢查。</p>
 <p>另一條路是子直譯器（subinterpreters）。3.12 讓每個子直譯器可以有自己的 GIL（PEP 684），3.14 在標準函式庫加了 <code>concurrent.interpreters</code>（PEP 734）。它的定位在 thread 和 process 中間，在同一個 process 裡平行執行，但彼此的物件互相隔離。</p>
