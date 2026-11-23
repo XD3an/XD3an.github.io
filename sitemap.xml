@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://xd3an.github.io/</loc>
-    <lastmod>2026-11-23T11:02:46+00:00</lastmod>
+    <lastmod>2026-11-23T11:34:19+00:00</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
@@ -61,8 +61,8 @@
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://xd3an.github.io/post/python-internals-20261123.html</loc>
-    <lastmod>2026-11-23T11:02:47+00:00</lastmod>
+    <loc>https://xd3an.github.io/post/python-internals-20261114.html</loc>
+    <lastmod>2026-11-23T11:34:21+00:00</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
