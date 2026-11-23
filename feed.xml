@@ -6,7 +6,14 @@
     <description>XD3an 的技術部落格：AI 輔助開發、軟體架構、資安研究</description>
     <language>zh-TW</language>
     <item>
-      <title>扒譜不用耳朵了：鋼琴自動轉錄（AMT）背後的聲音魔法</title>
+      <title>Python 一篇封神：從基本語法、常用套件到 CPython 底層技術</title>
+      <link>https://xd3an.github.io/post/python-internals-20261123.html</link>
+      <guid>https://xd3an.github.io/post/python-internals-20261123.html</guid>
+      <pubDate>Mon, 23 Nov 2026 00:00:00 +0000</pubDate>
+      <description>Python 完整教學：基本語法（名稱綁定、容器、函式、生成器、類別、例外）、常用套件（標準函式庫、資料科學、Web、工具鏈、資安）、實務常用方法（venv、uv、型別提示、dataclass、logging、併發選擇、效能分析），以及 CPython 底層技術：bytecode、specializing interpreter、PyObject、pymalloc、參照計數與 GC、GIL 與 free-threading、JIT。</description>
+    </item>
+    <item>
+      <title>扒譜需要絕對音感？鋼琴自動轉錄（AMT）背後的聲音魔法</title>
       <link>https://xd3an.github.io/post/amt-piano-transcription-20261105.html</link>
       <guid>https://xd3an.github.io/post/amt-piano-transcription-20261105.html</guid>
       <pubDate>Thu, 05 Nov 2026 00:00:00 +0000</pubDate>
